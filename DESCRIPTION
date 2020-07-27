@@ -1,0 +1,21 @@
+Package: cloudOS
+Title: Interact with CloudOS using R
+Version: 0.1.0
+Description: Interact with Lifebit's CloudOS platform using R.
+Author: Sangram Keshari Sahu
+Maintainer: Sangram Keshari Sahu <sangram@lifebit.ai>  
+License: 
+URL: https://github.com/lifebit-ai/cloudos-R/
+BugReports: https://github.com/lifebit-ai/cloudos-R/issues
+Depends: 
+    R (>= 3.0)
+Imports:
+    shiny,
+    rmarkdown,
+Suggests: 
+    covr,
+VignetteBuilder: knitr
+Encoding: UTF-8
+Language: en-US
+LazyData: true
+RoxygenNote: 7.0.2
