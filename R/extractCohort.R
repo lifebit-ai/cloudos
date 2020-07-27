@@ -13,7 +13,7 @@
 #'
 #' @return output
 #'
-#' @examples extractCohort(baseUrl = "https://ukb-dev.lifebit.ai", apikey = "hEHFlgtRTIcL8Rqu0gb9HKTTPWWtsfDppEF6xZf7", teamId = "5e91151f75edb766bf8fba26", pageNumber = 0, pageSize = 10)
+# @examples extractCohort(baseUrl = "https://ukb-dev.lifebit.ai", apikey = "hEHFlgtRTIcL8Rqu0gb9HKTTPWWtsfDppEF6xZf7", teamId = "5e91151f75edb766bf8fba26", pageNumber = 0, pageSize = 10)
 #'
 #' @export extractCohort
 #'
