@@ -13,7 +13,10 @@ Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
+Imports:
+    httr,
 Suggests: 
-    testthat
+    testthat,
+    lintr,
 URL: https://github.com/lifebit-ai/cloudos
 BugReports: https://github.com/lifebit-ai/cloudos/issues
