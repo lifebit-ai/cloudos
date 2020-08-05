@@ -10,6 +10,9 @@
 #' @return Ideally a dataframe.
 #'
 # @examples 
+# list_cohorts(baseurl= "https://cloudos.lifebit.ai", 
+#              auth = "Bearer ***token***",
+#              data_raw = "a string of inputs. This will be updated.")
 #'
 #' @import httr
 #' @import XML

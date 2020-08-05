@@ -11,7 +11,10 @@
 #'
 #' @return A list.
 #'
-# @examples
+# @examples 
+# list_cohorts(baseurl= "https://cloudos.lifebit.ai", 
+#              auth = "Bearer ***token***",
+#              teamid = "***teamid***")
 #'
 #' @import httr
 #' @export

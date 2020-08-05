@@ -15,9 +15,9 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Imports:
     httr,
-    XML,
+    XML
 Suggests: 
     testthat,
-    lintr,
+    lintr
 URL: https://github.com/lifebit-ai/cloudos
 BugReports: https://github.com/lifebit-ai/cloudos/issues
