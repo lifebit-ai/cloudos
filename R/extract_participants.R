@@ -5,26 +5,26 @@
 #' @param baseurl Base URL of the CloudOS server. Required
 #' @param auth  An authontication token. Example - Bearer token. Required
 #' @param apikey A API key. Required if auth not provided.
-#' @param data_raw A body for selected participants
+#' @param raw_data A JSON string for selected participants.
 #'
 #' @return Ideally a dataframe.
 #'
 # @examples 
-# list_cohorts(baseurl= "https://cloudos.lifebit.ai", 
+# extract_participants(baseurl= "https://cloudos.lifebit.ai", 
 #              auth = "Bearer ***token***",
-#              data_raw = "a string of inputs. This will be updated.")
+#              raw_data = "a JSON string for selected participants")
 #'
 #' @export
-participants_export <- function(baseurl, 
+extract_participants <- function(baseurl, 
                                 auth, 
                                 apikey,
-                                data_raw){
+                                raw_data){
   url = paste(baseurl,"api/v1/cohort/participants/export", sep="/")
   r <- httr::POST(url, 
                   httr::add_headers(.headers = c('Authorization' = auth,
                                            'accept' = '*/*',
                                            'content-type' = 'application/json')), 
-                  body = data_raw,
+                  body = raw_data,
                   encode = "json"
         )
   res <- httr::content(r)
