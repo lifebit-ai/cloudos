@@ -1,0 +1,24 @@
+Package: cloudos
+Title: R client library for CloudOS
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "First",
+           family = "Last",
+           role = c("aut", "cre"),
+           email = "first.last@example.com",
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: The 'CloudOS' client library for R makes it easy to interact with 
+    CloudOS <https://cloudos.lifebit.ai/> in the R environment for analysis.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Imports:
+    httr,
+    xml2
+Suggests: 
+    testthat,
+    lintr
+URL: https://github.com/lifebit-ai/cloudos
+BugReports: https://github.com/lifebit-ai/cloudos/issues
