@@ -14,25 +14,21 @@
 #              auth = "Bearer ***token***",
 #              data_raw = "a string of inputs. This will be updated.")
 #'
-#' @import httr
-#' @import XML
 #' @export
-
 participants_export <- function(baseurl, 
                                 auth, 
                                 apikey,
                                 data_raw){
   url = paste(baseurl,"api/v1/cohort/participants/export", sep="/")
-  r <- POST(url, 
-            add_headers(.headers = c('Authorization' = auth,
-                                     'accept' = '*/*',
-                                     'content-type' = 'application/json')), 
-            body = data_raw,
-            encode = "json"
-  )
-  res <- content(r)
-  res_xml <- xmlParse(res)
-  res_list <- xmlToList(res_xml)
-  table <- res_list[["body"]][["p"]]
+  r <- httr::POST(url, 
+                  httr::add_headers(.headers = c('Authorization' = auth,
+                                           'accept' = '*/*',
+                                           'content-type' = 'application/json')), 
+                  body = data_raw,
+                  encode = "json"
+        )
+  res <- httr::content(r)
+  res_list <- xml2::as_list(res)
+  table <- res_list$html
   return(table)
 }

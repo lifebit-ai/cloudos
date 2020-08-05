@@ -15,7 +15,7 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Imports:
     httr,
-    XML
+    xml2
 Suggests: 
     testthat,
     lintr

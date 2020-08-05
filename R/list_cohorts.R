@@ -16,9 +16,7 @@
 #              auth = "Bearer ***token***",
 #              teamid = "***teamid***")
 #'
-#' @import httr
 #' @export
-
 list_cohorts <- function(baseurl, 
                          auth, 
                          apikey,
@@ -26,10 +24,10 @@ list_cohorts <- function(baseurl,
                          page_number = 0, 
                          page_size = 10 ){
   url = paste(baseurl,"api/v1/cohort", sep="/")
-  r <- GET(url, 
-           add_headers(Authorization = auth), 
-           query = list(teamId = teamid))
-  res <- content(r)
+  r <- httr::GET(url, 
+                 httr::add_headers(Authorization = auth), 
+                 query = list(teamId = teamid))
+  res <- httr::content(r)
   cohort <- res$cohort
   return(cohort)
 }
