@@ -4,24 +4,30 @@
 \alias{list_cohorts}
 \title{Limited Cohort Data Extractor}
 \usage{
-list_cohorts(baseurl, auth, apikey, teamid, page_number = 0, page_size = 10)
+list_cohorts(baseurl, auth, teamid, page_number = 0, page_size = 10)
 }
 \arguments{
-\item{baseurl}{Base URL of the CloudOS server. Required}
+\item{baseurl}{Base URL of the CloudOS server. (Required)}
 
-\item{auth}{An authontication token. Example - Bearer token. Required}
+\item{auth}{An authentication method. (Required)
+Example - Bearer token or API key.}
 
-\item{apikey}{A API key. Required if auth not provided.}
+\item{teamid}{Team ID in CloudOS account. (Required)}
 
-\item{teamid}{Team ID in CloudOS account. Required parameter}
+\item{page_number}{Number of page. (Optional) Default - 0}
 
-\item{page_number}{Number of page. Optional. Default - 0}
-
-\item{page_size}{Number of entries in a page. Optional. Default - 10}
+\item{page_size}{Number of entries in a page. (Optional) Default - 10}
 }
 \value{
 A list.
 }
 \description{
 Extracts the data frame with limited cohort data columns.
+}
+\examples{
+\dontrun{
+list_cohorts(baseurl= "https://cloudos.lifebit.ai",
+             auth = "Bearer ***token***",
+             teamid = "***teamid***")
+}
 }

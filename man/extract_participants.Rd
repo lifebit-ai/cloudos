@@ -4,20 +4,26 @@
 \alias{extract_participants}
 \title{Extract participants}
 \usage{
-extract_participants(baseurl, auth, apikey, raw_data)
+extract_participants(baseurl, auth, raw_data)
 }
 \arguments{
-\item{baseurl}{Base URL of the CloudOS server. Required}
+\item{baseurl}{Base URL of the CloudOS server. (Required)}
 
-\item{auth}{An authontication token. Example - Bearer token. Required}
+\item{auth}{An authentication method. (Required)
+Example - Bearer token or API key.}
 
-\item{apikey}{A API key. Required if auth not provided.}
-
-\item{raw_data}{A JSON string for selected participants.}
+\item{raw_data}{A JSON string for selected participants. (Required)}
 }
 \value{
-Ideally a dataframe.
+A dataframe.
 }
 \description{
 Extracts selected participants.
+}
+\examples{
+\dontrun{
+extract_participants(baseurl= "https://cloudos.lifebit.ai",
+             auth = "Bearer ***token***",
+             raw_data = "a JSON string for selected participants")
+}
 }
