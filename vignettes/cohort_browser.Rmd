@@ -5,7 +5,7 @@ date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteEngine{knitr::knitr}
-  %\VignetteIndexEntry{Access Lifebit's cohort broswer}
+  %\VignetteIndexEntry{Access Lifebit's cohort broswer in R}
   %\usepackage[UTF-8]{inputenc}
 ---
 
@@ -42,8 +42,8 @@ my_teamid <- Sys.getenv("cloudos_teamid")
 cloudos::create_cohort(baseurl = cb_baseurl,
               auth = my_auth,
               teamid = my_teamid,
-              cohort_name = "Test cohort",
-              cohort_desc = "This cohort is for testing purpose.")
+              cohort_name = "Cohort-R",
+              cohort_desc = "This cohort is for testing purpose, created from R.")
 ```
 
 ## List Cohorts

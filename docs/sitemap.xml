@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://lifebit-ai.github.io/cloudos/index.html</loc>
+    <loc>https://lifebit-ai.github.io/cloudos//index.html</loc>
   </url>
   <url>
-    <loc>http://lifebit-ai.github.io/cloudos/reference/extract_participants.html</loc>
+    <loc>https://lifebit-ai.github.io/cloudos//reference/create_cohort.html</loc>
   </url>
   <url>
-    <loc>http://lifebit-ai.github.io/cloudos/reference/list_cohorts.html</loc>
+    <loc>https://lifebit-ai.github.io/cloudos//reference/extract_genotypic_data.html</loc>
   </url>
   <url>
-    <loc>http://lifebit-ai.github.io/cloudos/articles/cohort_browser.html</loc>
+    <loc>https://lifebit-ai.github.io/cloudos//reference/extract_participants.html</loc>
+  </url>
+  <url>
+    <loc>https://lifebit-ai.github.io/cloudos//reference/list_cohorts.html</loc>
+  </url>
+  <url>
+    <loc>https://lifebit-ai.github.io/cloudos//articles/cohort_browser.html</loc>
   </url>
 </urlset>
