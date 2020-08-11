@@ -19,7 +19,7 @@ Example - Bearer token or API key.}
 \item{page_size}{Number of entries in a page. (Optional) Default - 10}
 }
 \value{
-A list.
+A data frame with available cohorts.
 }
 \description{
 Extracts the data frame with limited cohort data columns.

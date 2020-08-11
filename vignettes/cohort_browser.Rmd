@@ -1,8 +1,12 @@
 ---
 title: "Access Lifebit's cohort broswer"
 author: "Sangram Keshari Sahu"
-date: "`r Sys.Date()`"
-output: html_document
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteEngine{knitr::knitr}
+  %\VignetteIndexEntry{Access Lifebit's cohort broswer}
+  %\usepackage[UTF-8]{inputenc}
 ---
 
 ```{r setup, include=FALSE}
@@ -34,7 +38,7 @@ new_raw_data <- '{"columns":[{"id":34,"instance":0,"array":{"type":"exact","valu
 cohorts <- cloudos::list_cohorts(baseurl = cb_baseurl,
                         auth = my_auth,
                         teamid = my_teamid)
-cohorts
+kableExtra::kable(cohorts)
 ```
 
 ## Extract participants
@@ -45,6 +49,5 @@ df <- cloudos::extract_participants(baseurl= cb_baseurl,
                       raw_data = new_raw_data)
 
 
-DT::datatable(df,
-              options = list(pageLength = 20, scrollY = "200px"))
+kableExtra::kable(df)
 ```
