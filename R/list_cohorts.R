@@ -9,7 +9,7 @@
 #' @param page_number Number of page. (Optional) Default - 0
 #' @param page_size Number of entries in a page. (Optional) Default - 10
 #'
-#' @return A list.
+#' @return A data frame with available cohorts.
 #'
 #' @examples
 #' \dontrun{
@@ -25,9 +25,32 @@ list_cohorts <- function(baseurl,
                          page_size = 10) {
   url <- paste(baseurl, "api/v1/cohort", sep = "/")
   r <- httr::GET(url,
-                 httr::add_headers(Authorization = auth),
-                 query = list(teamId = teamid))
+                 httr::add_headers("Authorization" = auth),
+                 query = list("teamId" = teamid,
+                              "pageNumber" = page_number,
+                              "pageSize" = page_size))
   res <- httr::content(r)
-  cohort <- res$cohort
-  return(cohort)
+  if(length(res) == 0){
+    message("No cohorts found. Or not able to connect with server.")
+  } else {
+    message("Total number of cohorts found - ", res$total)
+    cohorts <- res$cohort
+    # make in to a list
+    cohorts_list <- list()
+    for(n in 1:res$total){
+      dta <- data.frame(id = cohorts[[n]]$`_id`,
+                        name = cohorts[[n]]$`name`,
+                        description = cohorts[[n]]$`description`,
+                        number_of_participants = cohorts[[n]]$`numberOfParticipants`,
+                        number_of_filters = cohorts[[n]]$`numberOfFilters`,
+                        created_at = cohorts[[n]]$`createdAt`,
+                        updated_at = cohorts[[n]]$`updatedAt`)
+      cohorts_list[[n]] <- dta
+      # filter
+      # cohorts[[1]]$`filters`
+    }
+    # make in to a dataframe
+    cohorts_df = do.call(rbind, cohorts_list)
+    return(cohorts_df)
+  }
 }
