@@ -1,5 +1,5 @@
 ---
-title: "Access Lifebit's cohort broswer"
+title: "Access Lifebit's cohort broswer in R"
 author: "Sangram Keshari Sahu"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: rmarkdown::html_vignette
