@@ -17,16 +17,12 @@ if (!require(remotes)) { install.packages("remotes") }
   remotes::install_github("lifebit-ai/cloudos")
 ```
 
-## Example
+## Documentation
 
-This is a basic example.
+Online pkgdown generated doc - https://lifebit-ai.github.io/cloudos/
 
-``` r
-library(cloudos)
+All the avaiable functions - https://lifebit-ai.github.io/cloudos/reference/index.html
 
-extract_participants(baseurl= "https://cloudos.lifebit.ai", 
-              auth = "Bearer ***token***",
-              raw_data = "a JSON string for selected participants")
+A vignette with examples on - [Access Lifebit’s cohort broswer in R](https://lifebit-ai.github.io/cloudos/articles/cohort_browser.html)
 
-```
 
