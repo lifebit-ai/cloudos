@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>List cohorts — list_cohorts • cloudos</title>
+<title>Extract Genotypic Data — extract_genotypic_data • cloudos</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="List cohorts — list_cohorts" />
-<meta property="og:description" content="Extracts the data frame with limited cohort data columns." />
+<meta property="og:title" content="Extract Genotypic Data — extract_genotypic_data" />
+<meta property="og:description" content="Extract Genotypic Data with filter." />
 
 
 
@@ -123,16 +123,23 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>List cohorts</h1>
-    <small class="dont-index">Source: <a href='https://github.com/lifebit-ai/cloudos/blob/master/R/list_cohorts.R'><code>R/list_cohorts.R</code></a></small>
-    <div class="hidden name"><code>list_cohorts.Rd</code></div>
+    <h1>Extract Genotypic Data</h1>
+    <small class="dont-index">Source: <a href='https://github.com/lifebit-ai/cloudos/blob/master/R/extract_genotypic_data.R'><code>R/extract_genotypic_data.R</code></a></small>
+    <div class="hidden name"><code>extract_genotypic_data.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Extracts the data frame with limited cohort data columns.</p>
+    <p>Extract Genotypic Data with filter.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>list_cohorts</span>(<span class='no'>baseurl</span>, <span class='no'>auth</span>, <span class='no'>teamid</span>, <span class='kw'>page_number</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>page_size</span> <span class='kw'>=</span> <span class='fl'>10</span>)</pre>
+    <pre class="usage"><span class='fu'>extract_genotypic_data</span>(
+  <span class='no'>baseurl</span>,
+  <span class='no'>auth</span>,
+  <span class='no'>teamid</span>,
+  <span class='kw'>page_number</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>page_size</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+  <span class='kw'>filters</span> <span class='kw'>=</span> <span class='st'>""</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -158,15 +165,19 @@ Example - Bearer token or API key.</p></td>
       <th>page_size</th>
       <td><p>Number of entries in a page. (Optional) Default - 10</p></td>
     </tr>
+    <tr>
+      <th>filters</th>
+      <td><p>WIP - details will be added.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A data frame with available cohorts.</p>
+    <p>A dataframe.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'>list_cohorts</span>(<span class='kw'>baseurl</span><span class='kw'>=</span> <span class='st'>"https://cloudos.lifebit.ai"</span>,
+<span class='fu'>extract_genotypic_data</span>(<span class='kw'>baseurl</span><span class='kw'>=</span> <span class='st'>"https://cloudos.lifebit.ai"</span>,
              <span class='kw'>auth</span> <span class='kw'>=</span> <span class='st'>"Bearer ***token***"</span>,
              <span class='kw'>teamid</span> <span class='kw'>=</span> <span class='st'>"***teamid***"</span>)
 }</div></pre>
