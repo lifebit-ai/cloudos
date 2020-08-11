@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>List cohorts — list_cohorts • cloudos</title>
+<title>Create Cohort — create_cohort • cloudos</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="List cohorts — list_cohorts" />
-<meta property="og:description" content="Extracts the data frame with limited cohort data columns." />
+<meta property="og:title" content="Create Cohort — create_cohort" />
+<meta property="og:description" content="Creates a new Cohort" />
 
 
 
@@ -123,16 +123,16 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>List cohorts</h1>
-    <small class="dont-index">Source: <a href='https://github.com/lifebit-ai/cloudos/blob/master/R/list_cohorts.R'><code>R/list_cohorts.R</code></a></small>
-    <div class="hidden name"><code>list_cohorts.Rd</code></div>
+    <h1>Create Cohort</h1>
+    <small class="dont-index">Source: <a href='https://github.com/lifebit-ai/cloudos/blob/master/R/create_cohort.R'><code>R/create_cohort.R</code></a></small>
+    <div class="hidden name"><code>create_cohort.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Extracts the data frame with limited cohort data columns.</p>
+    <p>Creates a new Cohort</p>
     </div>
 
-    <pre class="usage"><span class='fu'>list_cohorts</span>(<span class='no'>baseurl</span>, <span class='no'>auth</span>, <span class='no'>teamid</span>, <span class='kw'>page_number</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>page_size</span> <span class='kw'>=</span> <span class='fl'>10</span>)</pre>
+    <pre class="usage"><span class='fu'>create_cohort</span>(<span class='no'>baseurl</span>, <span class='no'>auth</span>, <span class='no'>teamid</span>, <span class='no'>cohort_name</span>, <span class='no'>cohort_desc</span>, <span class='kw'>filters</span> <span class='kw'>=</span> <span class='st'>""</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -151,24 +151,30 @@ Example - Bearer token or API key.</p></td>
       <td><p>Team ID in CloudOS account. (Required)</p></td>
     </tr>
     <tr>
-      <th>page_number</th>
-      <td><p>Number of page. (Optional) Default - 0</p></td>
+      <th>cohort_name</th>
+      <td><p>New cohort name to be created. (Required)</p></td>
     </tr>
     <tr>
-      <th>page_size</th>
-      <td><p>Number of entries in a page. (Optional) Default - 10</p></td>
+      <th>cohort_desc</th>
+      <td><p>New cohort description to be created. (Required)</p></td>
+    </tr>
+    <tr>
+      <th>filters</th>
+      <td><p>WIP - details will be added.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A data frame with available cohorts.</p>
+    <p>A dataframe.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'>list_cohorts</span>(<span class='kw'>baseurl</span><span class='kw'>=</span> <span class='st'>"https://cloudos.lifebit.ai"</span>,
+<span class='fu'>create_cohort</span>(<span class='kw'>baseurl</span><span class='kw'>=</span> <span class='st'>"https://cloudos.lifebit.ai"</span>,
              <span class='kw'>auth</span> <span class='kw'>=</span> <span class='st'>"Bearer ***token***"</span>,
-             <span class='kw'>teamid</span> <span class='kw'>=</span> <span class='st'>"***teamid***"</span>)
+             <span class='kw'>teamid</span> <span class='kw'>=</span> <span class='st'>"***teamid***"</span>,
+             <span class='kw'>cohort_name</span> <span class='kw'>=</span> <span class='st'>"my cohort"</span>,
+             <span class='kw'>cohort_desc</span> <span class='kw'>=</span> <span class='st'>"my cohort description"</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

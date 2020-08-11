@@ -1,4 +1,4 @@
-#' @title Limited Cohort Data Extractor
+#' @title List cohorts
 #'
 #' @description Extracts the data frame with limited cohort data columns.
 #'
@@ -29,10 +29,11 @@ list_cohorts <- function(baseurl,
                  query = list("teamId" = teamid,
                               "pageNumber" = page_number,
                               "pageSize" = page_size))
-  res <- httr::content(r)
-  if(length(res) == 0){
+  
+  if(!r$status_code == 200){
     message("No cohorts found. Or not able to connect with server.")
   } else {
+    res <- httr::content(r)
     message("Total number of cohorts found - ", res$total)
     cohorts <- res$cohort
     # make in to a list

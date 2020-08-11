@@ -94,27 +94,49 @@
 
     
     
-<div id="export-particiants" class="section level2">
-<h2 class="hasAnchor">
-<a href="#export-particiants" class="anchor"></a>Export Particiants</h2>
-</div>
 <div id="load-the-r-client-library" class="section level2">
 <h2 class="hasAnchor">
 <a href="#load-the-r-client-library" class="anchor"></a>Load the R-client library</h2>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">cloudos</span>)
-
-<span class="no">cb_baseurl</span> <span class="kw">&lt;-</span> <span class="st">"http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com"</span>
-
-<span class="no">new_raw_data</span> <span class="kw">&lt;-</span> <span class="st">'{"columns":[{"id":34,"instance":0,"array":{"type":"exact","value":0}},{"id":31,"instance":0,"array":{"type":"exact","value":0}},{"id":52,"instance":0,"array":{"type":"exact","value":0}},{"id":5984,"instance":0,"array":{"type":"avg"}},{"id":5984,"instance":0,"array":{"type":"min"}},{"id":5984,"instance":0,"array":{"type":"max"}},{"id":20001,"instance":0,"array":{"type":"exact","value":0}}],"ids":["5f185b92bf92ed4d3be9637d","5edbdd689d700db709af0c2f","5f185b91bf92ed4d3be9587e","5f185b91bf92ed4d3be95984","5edbdd689d700db709af0c3e","5edbdd689d700db709af0c2b","5edbdd689d700db709af0c2d","5f185b93bf92ed4d3be982e9","5edbdd689d700db709af0c2a","5edbdd689d700db709af0c4d"],"type":"csv","baseURL":"http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com"}'</span></pre></body></html></div>
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">cloudos</span>)</pre></body></html></div>
+</div>
+<div id="setup-essentials" class="section level2">
+<h2 class="hasAnchor">
+<a href="#setup-essentials" class="anchor"></a>Setup essentials</h2>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">cb_baseurl</span> <span class="kw">&lt;-</span> <span class="st">"http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com"</span>
+<span class="no">my_auth</span> <span class="kw">&lt;-</span> <span class="st">"*************************"</span>
+<span class="no">my_teamid</span> <span class="kw">&lt;-</span> <span class="st">"***************************"</span></pre></body></html></div>
+</div>
+<div id="create-a-cohort" class="section level2">
+<h2 class="hasAnchor">
+<a href="#create-a-cohort" class="anchor"></a>Create a cohort</h2>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="../reference/create_cohort.html">create_cohort</a></span>(<span class="kw">baseurl</span> <span class="kw">=</span> <span class="no">cb_baseurl</span>,
+              <span class="kw">auth</span> <span class="kw">=</span> <span class="no">my_auth</span>,
+              <span class="kw">teamid</span> <span class="kw">=</span> <span class="no">my_teamid</span>,
+              <span class="kw">cohort_name</span> <span class="kw">=</span> <span class="st">"Test cohort"</span>,
+              <span class="kw">cohort_desc</span> <span class="kw">=</span> <span class="st">"This cohort is for testing purpose."</span>)</pre></body></html></div>
+<pre><code>## Cohort named Test cohort created successfully. Bellow are the details</code></pre>
+<pre><code>##                      details                              
+## phenotypeFilters     ""                                   
+## _id                  "5f32e1687ca1902e9c5ba467"           
+## name                 "Test cohort"                        
+## description          "This cohort is for testing purpose."
+## team                 "5f046bf6c132dd15fdd1a525"           
+## owner                "5f046be1c132dd15fdd1a51e"           
+## numberOfParticipants 600000                               
+## numberOfFilters      0                                    
+## createdAt            "2020-08-11T18:20:24.356Z"           
+## updatedAt            "2020-08-11T18:20:24.356Z"           
+## __v                  0</code></pre>
 </div>
 <div id="list-cohorts" class="section level2">
 <h2 class="hasAnchor">
 <a href="#list-cohorts" class="anchor"></a>List Cohorts</h2>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">cohorts</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="../reference/list_cohorts.html">list_cohorts</a></span>(<span class="kw">baseurl</span> <span class="kw">=</span> <span class="no">cb_baseurl</span>,
+<p>List available cohorts in a workspace.</p>
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">cohorts</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="../reference/list_cohorts.html">list_cohorts</a></span>(<span class="kw">baseurl</span> <span class="kw">=</span> <span class="no">cb_baseurl</span>,
                         <span class="kw">auth</span> <span class="kw">=</span> <span class="no">my_auth</span>,
                         <span class="kw">teamid</span> <span class="kw">=</span> <span class="no">my_teamid</span>)</pre></body></html></div>
-<pre><code>## Total number of cohorts found - 2</code></pre>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="kw pkg">kableExtra</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/reexports.html">kable</a></span>(<span class="no">cohorts</span>)</pre></body></html></div>
+<pre><code>## Total number of cohorts found - 5</code></pre>
+<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="kw pkg">kableExtra</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/reexports.html">kable</a></span>(<span class="no">cohorts</span>)</pre></body></html></div>
 <table class="table">
 <thead><tr>
 <th style="text-align:left;">
@@ -186,13 +208,85 @@ some random
 2020-08-11T11:18:36.703Z
 </td>
 </tr>
+<tr>
+<td style="text-align:left;">
+5f32b1227ca1902e9c5ba457
+</td>
+<td style="text-align:left;">
+test-3
+</td>
+<td style="text-align:left;">
+test-3 desc
+</td>
+<td style="text-align:right;">
+600000
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+2020-08-11T14:54:26.257Z
+</td>
+<td style="text-align:left;">
+2020-08-11T14:54:26.257Z
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5f32c2147ca1902e9c5ba45d
+</td>
+<td style="text-align:left;">
+test-R
+</td>
+<td style="text-align:left;">
+created from R lib
+</td>
+<td style="text-align:right;">
+600000
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+2020-08-11T16:06:44.205Z
+</td>
+<td style="text-align:left;">
+2020-08-11T16:06:44.205Z
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5f32e1687ca1902e9c5ba467
+</td>
+<td style="text-align:left;">
+Test cohort
+</td>
+<td style="text-align:left;">
+This cohort is for testing purpose.
+</td>
+<td style="text-align:right;">
+600000
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+2020-08-11T18:20:24.356Z
+</td>
+<td style="text-align:left;">
+2020-08-11T18:20:24.356Z
+</td>
+</tr>
 </tbody>
 </table>
 </div>
 <div id="extract-participants" class="section level2">
 <h2 class="hasAnchor">
 <a href="#extract-participants" class="anchor"></a>Extract participants</h2>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">df</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="../reference/extract_participants.html">extract_participants</a></span>(<span class="kw">baseurl</span><span class="kw">=</span> <span class="no">cb_baseurl</span>,
+<p>Create a RAW data string. This usually generates after selecting participants on UI. (more information will be added how to create this in R)</p>
+<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">new_raw_data</span> <span class="kw">&lt;-</span> <span class="st">'{"columns":[{"id":34,"instance":0,"array":{"type":"exact","value":0}},{"id":31,"instance":0,"array":{"type":"exact","value":0}},{"id":52,"instance":0,"array":{"type":"exact","value":0}},{"id":5984,"instance":0,"array":{"type":"avg"}},{"id":5984,"instance":0,"array":{"type":"min"}},{"id":5984,"instance":0,"array":{"type":"max"}},{"id":20001,"instance":0,"array":{"type":"exact","value":0}}],"ids":["5f185b92bf92ed4d3be9637d","5edbdd689d700db709af0c2f","5f185b91bf92ed4d3be9587e","5f185b91bf92ed4d3be95984","5edbdd689d700db709af0c3e","5edbdd689d700db709af0c2b","5edbdd689d700db709af0c2d","5f185b93bf92ed4d3be982e9","5edbdd689d700db709af0c2a","5edbdd689d700db709af0c4d"],"type":"csv","baseURL":"http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com"}'</span></pre></body></html></div>
+<p>Using this above raw data lets extract selected participants.</p>
+<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">df</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="../reference/extract_participants.html">extract_participants</a></span>(<span class="kw">baseurl</span><span class="kw">=</span> <span class="no">cb_baseurl</span>,
                       <span class="kw">auth</span> <span class="kw">=</span> <span class="no">my_auth</span>,
                       <span class="kw">raw_data</span> <span class="kw">=</span> <span class="no">new_raw_data</span>)
 
