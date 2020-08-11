@@ -34,7 +34,7 @@ extract_genotypic_data <- function(baseurl, auth, teamid,
                               "filters" = filters),
                   encode = "json"
   )
-  if(!r$status_code == 200){
+  if (!r$status_code == 200) {
     message("Something went wrong.")
   }else{
     res <- httr::content(r)

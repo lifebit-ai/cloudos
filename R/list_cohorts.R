@@ -29,8 +29,7 @@ list_cohorts <- function(baseurl,
                  query = list("teamId" = teamid,
                               "pageNumber" = page_number,
                               "pageSize" = page_size))
-  
-  if(!r$status_code == 200){
+  if (!r$status_code == 200) {
     message("No cohorts found. Or not able to connect with server.")
   } else {
     res <- httr::content(r)
@@ -38,7 +37,7 @@ list_cohorts <- function(baseurl,
     cohorts <- res$cohort
     # make in to a list
     cohorts_list <- list()
-    for(n in 1:res$total){
+    for (n in 1:res$total) {
       dta <- data.frame(id = cohorts[[n]]$`_id`,
                         name = cohorts[[n]]$`name`,
                         description = cohorts[[n]]$`description`,
@@ -51,7 +50,7 @@ list_cohorts <- function(baseurl,
       # cohorts[[1]]$`filters`
     }
     # make in to a dataframe
-    cohorts_df = do.call(rbind, cohorts_list)
+    cohorts_df <- do.call(rbind, cohorts_list)
     return(cohorts_df)
   }
 }

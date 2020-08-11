@@ -25,7 +25,7 @@ extract_participants <- function(baseurl, auth, raw_data) {
                   body = raw_data,
                   encode = "json"
         )
-  if(!r$status_code == 200){
+  if (!r$status_code == 200) {
     message("Something went wrong.")
   }else{
     res <- httr::content(r, as = "text")

@@ -34,7 +34,7 @@ create_cohort <- function(baseurl, auth, teamid,
                               "moreFilters" = filters),
                   encode = "json"
   )
-  if(!r$status_code == 200){
+  if (!r$status_code == 200) {
     message("Something went wrong. Not able to create a cohort")
   }else{
     message("Cohort named ", cohort_name, " created successfully. Bellow are the details")
@@ -44,5 +44,4 @@ create_cohort <- function(baseurl, auth, teamid,
     colnames(res_df) <- "details"
     return(res_df)
   }
-  
 }
