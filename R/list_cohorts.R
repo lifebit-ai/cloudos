@@ -30,7 +30,7 @@ list_cohorts <- function(base_url,
                               "pageNumber" = page_number,
                               "pageSize" = page_size))
   if (!r$status_code == 200) {
-    message("No cohorts found. Or not able to connect with server.")
+    stop("No cohorts found. Or not able to connect with server.")
   } else {
     res <- httr::content(r)
     message("Total number of cohorts found - ", res$total)

@@ -35,7 +35,7 @@ create_cohort <- function(base_url, auth, team_id,
                   encode = "json"
   )
   if (!r$status_code == 200) {
-    message("Something went wrong. Not able to create a cohort")
+    stop("Something went wrong. Not able to create a cohort")
   }else{
     message("Cohort named ", cohort_name, " created successfully. Bellow are the details")
     res <- httr::content(r)

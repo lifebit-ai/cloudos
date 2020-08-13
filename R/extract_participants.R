@@ -26,7 +26,7 @@ extract_participants <- function(base_url, auth, raw_data) {
                   encode = "json"
         )
   if (!r$status_code == 200) {
-    message("Something went wrong.")
+    stop("Something went wrong.")
   }else{
     res <- httr::content(r, as = "text")
     df <- utils::read.csv(textConnection(res))
