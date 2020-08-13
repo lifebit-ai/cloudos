@@ -2,10 +2,10 @@
 #'
 #' @description Extracts the data frame with limited cohort data columns.
 #'
-#' @param baseurl Base URL of the CloudOS server. (Required)
+#' @param base_url Base URL of the CloudOS server. (Required)
 #' @param auth  An authentication method. (Required)
 #' Example - Bearer token or API key.
-#' @param teamid Team ID in CloudOS account. (Required)
+#' @param team_id Team ID in CloudOS account. (Required)
 #' @param page_number Number of page. (Optional) Default - 0
 #' @param page_size Number of entries in a page. (Optional) Default - 10
 #'
@@ -13,20 +13,20 @@
 #'
 #' @examples
 #' \dontrun{
-#' list_cohorts(baseurl= "https://cloudos.lifebit.ai",
+#' list_cohorts(base_url= "https://cloudos.lifebit.ai",
 #'              auth = "Bearer ***token***",
-#'              teamid = "***teamid***")
+#'              team_id = "***team_id***")
 #' }
 #' @export
-list_cohorts <- function(baseurl,
+list_cohorts <- function(base_url,
                          auth,
-                         teamid,
+                         team_id,
                          page_number = 0,
                          page_size = 10) {
-  url <- paste(baseurl, "api/v1/cohort", sep = "/")
+  url <- paste(base_url, "api/v1/cohort", sep = "/")
   r <- httr::GET(url,
                  httr::add_headers("Authorization" = auth),
-                 query = list("teamId" = teamid,
+                 query = list("team_id" = team_id,
                               "pageNumber" = page_number,
                               "pageSize" = page_size))
   if (!r$status_code == 200) {

@@ -2,7 +2,7 @@
 #'
 #' @description Extracts selected participants.
 #'
-#' @param baseurl Base URL of the CloudOS server. (Required)
+#' @param base_url Base URL of the CloudOS server. (Required)
 #' @param auth  An authentication method. (Required)
 #' Example - Bearer token or API key.
 #' @param raw_data A JSON string for selected participants. (Required)
@@ -11,13 +11,13 @@
 #'
 #' @examples
 #' \dontrun{
-#' extract_participants(baseurl= "https://cloudos.lifebit.ai",
+#' extract_participants(base_url= "https://cloudos.lifebit.ai",
 #'              auth = "Bearer ***token***",
 #'              raw_data = "a JSON string for selected participants")
 #' }
 #' @export
-extract_participants <- function(baseurl, auth, raw_data) {
-  url <- paste(baseurl, "api/v1/cohort/participants/export", sep = "/")
+extract_participants <- function(base_url, auth, raw_data) {
+  url <- paste(base_url, "api/v1/cohort/participants/export", sep = "/")
   r <- httr::POST(url,
                   httr::add_headers(.headers = c("Authorization" = auth,
                                            "accept" = "*/*",
