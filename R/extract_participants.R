@@ -20,8 +20,8 @@ extract_participants <- function(base_url, auth, raw_data) {
   url <- paste(base_url, "api/v1/cohort/participants/export", sep = "/")
   r <- httr::POST(url,
                   httr::add_headers(.headers = c("Authorization" = auth,
-                                           "accept" = "*/*",
-                                      "content-type" = "application/json")),
+                                                 "accept" = "*/*",
+                                                 "content-type" = "application/json")),
                   body = raw_data,
                   encode = "json"
         )

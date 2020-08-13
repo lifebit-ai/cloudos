@@ -26,18 +26,19 @@ list_cohorts <- function(base_url,
   url <- paste(base_url, "api/v1/cohort", sep = "/")
   r <- httr::GET(url,
                  httr::add_headers("Authorization" = auth),
-                 query = list("team_id" = team_id,
+                 query = list("teamId" = team_id,
                               "pageNumber" = page_number,
                               "pageSize" = page_size))
   if (!r$status_code == 200) {
     stop("No cohorts found. Or not able to connect with server.")
   } else {
     res <- httr::content(r)
-    message("Total number of cohorts found - ", res$total)
-    cohorts <- res$cohort
+    message("Total number of cohorts found-", res$total, 
+            ". But here is 10. For more, change 'page_number' and 'page_size'")
+    cohorts <- res$cohorts
     # make in to a list
     cohorts_list <- list()
-    for (n in 1:res$total) {
+    for (n in 1:page_size) {
       dta <- data.frame(id = cohorts[[n]]$`_id`,
                         name = cohorts[[n]]$`name`,
                         description = cohorts[[n]]$`description`,
