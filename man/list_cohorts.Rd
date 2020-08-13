@@ -4,15 +4,15 @@
 \alias{list_cohorts}
 \title{List cohorts}
 \usage{
-list_cohorts(baseurl, auth, teamid, page_number = 0, page_size = 10)
+list_cohorts(base_url, auth, team_id, page_number = 0, page_size = 10)
 }
 \arguments{
-\item{baseurl}{Base URL of the CloudOS server. (Required)}
+\item{base_url}{Base URL of the CloudOS server. (Required)}
 
 \item{auth}{An authentication method. (Required)
 Example - Bearer token or API key.}
 
-\item{teamid}{Team ID in CloudOS account. (Required)}
+\item{team_id}{Team ID in CloudOS account. (Required)}
 
 \item{page_number}{Number of page. (Optional) Default - 0}
 
@@ -26,8 +26,8 @@ Extracts the data frame with limited cohort data columns.
 }
 \examples{
 \dontrun{
-list_cohorts(baseurl= "https://cloudos.lifebit.ai",
+list_cohorts(base_url= "https://cloudos.lifebit.ai",
              auth = "Bearer ***token***",
-             teamid = "***teamid***")
+             team_id = "***team_id***")
 }
 }

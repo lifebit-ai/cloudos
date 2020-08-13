@@ -132,13 +132,13 @@
     <p>Extracts the data frame with limited cohort data columns.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>list_cohorts</span>(<span class='no'>baseurl</span>, <span class='no'>auth</span>, <span class='no'>teamid</span>, <span class='kw'>page_number</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>page_size</span> <span class='kw'>=</span> <span class='fl'>10</span>)</pre>
+    <pre class="usage"><span class='fu'>list_cohorts</span>(<span class='no'>base_url</span>, <span class='no'>auth</span>, <span class='no'>team_id</span>, <span class='kw'>page_number</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>page_size</span> <span class='kw'>=</span> <span class='fl'>10</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>baseurl</th>
+      <th>base_url</th>
       <td><p>Base URL of the CloudOS server. (Required)</p></td>
     </tr>
     <tr>
@@ -147,7 +147,7 @@
 Example - Bearer token or API key.</p></td>
     </tr>
     <tr>
-      <th>teamid</th>
+      <th>team_id</th>
       <td><p>Team ID in CloudOS account. (Required)</p></td>
     </tr>
     <tr>
@@ -166,9 +166,9 @@ Example - Bearer token or API key.</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'>list_cohorts</span>(<span class='kw'>baseurl</span><span class='kw'>=</span> <span class='st'>"https://cloudos.lifebit.ai"</span>,
+<span class='fu'>list_cohorts</span>(<span class='kw'>base_url</span><span class='kw'>=</span> <span class='st'>"https://cloudos.lifebit.ai"</span>,
              <span class='kw'>auth</span> <span class='kw'>=</span> <span class='st'>"Bearer ***token***"</span>,
-             <span class='kw'>teamid</span> <span class='kw'>=</span> <span class='st'>"***teamid***"</span>)
+             <span class='kw'>team_id</span> <span class='kw'>=</span> <span class='st'>"***team_id***"</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

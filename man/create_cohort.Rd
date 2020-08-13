@@ -4,15 +4,15 @@
 \alias{create_cohort}
 \title{Create Cohort}
 \usage{
-create_cohort(baseurl, auth, teamid, cohort_name, cohort_desc, filters = "")
+create_cohort(base_url, auth, team_id, cohort_name, cohort_desc, filters = "")
 }
 \arguments{
-\item{baseurl}{Base URL of the CloudOS server. (Required)}
+\item{base_url}{Base URL of the CloudOS server. (Required)}
 
 \item{auth}{An authentication method. (Required)
 Example - Bearer token or API key.}
 
-\item{teamid}{Team ID in CloudOS account. (Required)}
+\item{team_id}{Team ID in CloudOS account. (Required)}
 
 \item{cohort_name}{New cohort name to be created. (Required)}
 
@@ -28,9 +28,9 @@ Creates a new Cohort
 }
 \examples{
 \dontrun{
-create_cohort(baseurl= "https://cloudos.lifebit.ai",
+create_cohort(base_url= "https://cloudos.lifebit.ai",
              auth = "Bearer ***token***",
-             teamid = "***teamid***",
+             team_id = "***team_id***",
              cohort_name = "my cohort",
              cohort_desc = "my cohort description")
 }

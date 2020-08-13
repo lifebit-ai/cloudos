@@ -5,21 +5,21 @@
 \title{Extract Genotypic Data}
 \usage{
 extract_genotypic_data(
-  baseurl,
+  base_url,
   auth,
-  teamid,
+  team_id,
   page_number = 0,
   page_size = 10,
   filters = ""
 )
 }
 \arguments{
-\item{baseurl}{Base URL of the CloudOS server. (Required)}
+\item{base_url}{Base URL of the CloudOS server. (Required)}
 
 \item{auth}{An authentication method. (Required)
 Example - Bearer token or API key.}
 
-\item{teamid}{Team ID in CloudOS account. (Required)}
+\item{team_id}{Team ID in CloudOS account. (Required)}
 
 \item{page_number}{Number of page. (Optional) Default - 0}
 
@@ -35,8 +35,8 @@ Extract Genotypic Data with filter.
 }
 \examples{
 \dontrun{
-extract_genotypic_data(baseurl= "https://cloudos.lifebit.ai",
+extract_genotypic_data(base_url= "https://cloudos.lifebit.ai",
              auth = "Bearer ***token***",
-             teamid = "***teamid***")
+             team_id = "***team_id***")
 }
 }
