@@ -1,9 +1,8 @@
 pandoc: 2.7.3
 pkgdown: 1.5.1
 pkgdown_sha: ~
-articles:
-  cohort_browser: cohort_browser.html
-last_built: 2020-08-13T11:53Z
+articles: []
+last_built: 2020-08-19T13:28Z
 urls:
   reference: https://lifebit-ai.github.io/cloudos//reference
   article: https://lifebit-ai.github.io/cloudos//articles

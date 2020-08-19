@@ -1,0 +1,125 @@
+pkgname <- "cloudos"
+source(file.path(R.home("share"), "R", "examples-header.R"))
+options(warn = 1)
+base::assign(".ExTimings", "cloudos-Ex.timings", pos = 'CheckExEnv')
+base::cat("name\tuser\tsystem\telapsed\n", file=base::get(".ExTimings", pos = 'CheckExEnv'))
+base::assign(".format_ptime",
+function(x) {
+  if(!is.na(x[4L])) x[1L] <- x[1L] + x[4L]
+  if(!is.na(x[5L])) x[2L] <- x[2L] + x[5L]
+  options(OutDec = '.')
+  format(x[1L:3L], digits = 7L)
+},
+pos = 'CheckExEnv')
+
+### * </HEADER>
+library('cloudos')
+
+base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+cleanEx()
+nameEx("create_cohort")
+### * create_cohort
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: create_cohort
+### Title: Create Cohort
+### Aliases: create_cohort
+
+### ** Examples
+
+## Not run: 
+##D create_cohort(base_url= "https://cloudos.lifebit.ai",
+##D              auth = "Bearer ***token***",
+##D              team_id = "***team_id***",
+##D              cohort_name = "my cohort",
+##D              cohort_desc = "my cohort description")
+## End(Not run)
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("create_cohort", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("extract_genotypic_data")
+### * extract_genotypic_data
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: extract_genotypic_data
+### Title: Extract Genotypic Data
+### Aliases: extract_genotypic_data
+
+### ** Examples
+
+## Not run: 
+##D extract_genotypic_data(base_url= "https://cloudos.lifebit.ai",
+##D              auth = "Bearer ***token***",
+##D              team_id = "***team_id***")
+## End(Not run)
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("extract_genotypic_data", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("extract_participants")
+### * extract_participants
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: extract_participants
+### Title: Extract participants
+### Aliases: extract_participants
+
+### ** Examples
+
+## Not run: 
+##D extract_participants(base_url= "https://cloudos.lifebit.ai",
+##D              auth = "Bearer ***token***",
+##D              raw_data = "a JSON string for selected participants")
+## End(Not run)
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("extract_participants", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("list_cohorts")
+### * list_cohorts
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: list_cohorts
+### Title: List cohorts
+### Aliases: list_cohorts
+
+### ** Examples
+
+## Not run: 
+##D list_cohorts(base_url= "https://cloudos.lifebit.ai",
+##D              auth = "Bearer ***token***",
+##D              team_id = "***team_id***")
+## End(Not run)
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("list_cohorts", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+### * <FOOTER>
+###
+cleanEx()
+options(digits = 7L)
+base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+grDevices::dev.off()
+###
+### Local variables: ***
+### mode: outline-minor ***
+### outline-regexp: "\\(> \\)?### [*]+" ***
+### End: ***
+quit('no')

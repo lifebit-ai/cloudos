@@ -5,13 +5,13 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>R client library for CloudOS • cloudos</title>
+<title>R Client Library for CloudOS • cloudos</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="R client library for CloudOS">
+<script src="pkgdown.js"></script><meta property="og:title" content="R Client Library for CloudOS">
 <meta property="og:description" content="The CloudOS client library for R makes it easy to interact with 
     CloudOS &lt;https://cloudos.lifebit.ai/&gt; in the R environment for analysis.">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -46,18 +46,6 @@
 </li>
 <li>
   <a href="reference/index.html">Reference</a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="articles/cohort_browser.html">Access Lifebit's cohort broswer in R</a>
-    </li>
-  </ul>
 </li>
 <li>
   <a href="news/index.html">Changelog</a>
@@ -95,12 +83,4264 @@
 <div class="sourceCode" id="cb1"><pre class="r"><span class="kw">if</span> (!<span class="fu"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="no">remotes</span>)) { <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"remotes"</span>) }
   <span class="kw pkg">remotes</span><span class="kw ns">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span>(<span class="st">"lifebit-ai/cloudos"</span>)</pre></div>
 </div>
-<div id="documentation" class="section level2">
+<div id="usage" class="section level2">
 <h2 class="hasAnchor">
-<a href="#documentation" class="anchor"></a>Documentation</h2>
-<p>Online pkgdown generated doc - <a href="https://lifebit-ai.github.io/cloudos/" class="uri">https://lifebit-ai.github.io/cloudos/</a></p>
-<p>All the avaiable functions - <a href="https://lifebit-ai.github.io/cloudos/reference/index.html" class="uri">https://lifebit-ai.github.io/cloudos/reference/index.html</a></p>
-<p>A vignette with examples on - <a href="https://lifebit-ai.github.io/cloudos/articles/cohort_browser.html">Access Lifebit’s cohort broswer in R</a></p>
+<a href="#usage" class="anchor"></a>Usage</h2>
+<div id="load-the-cloudos-r-client-library" class="section level3">
+<h3 class="hasAnchor">
+<a href="#load-the-cloudos-r-client-library" class="anchor"></a>Load the cloudos R-client library</h3>
+<div class="sourceCode" id="cb2"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">cloudos</span>)</pre></div>
+</div>
+<div id="setup-essentials" class="section level3">
+<h3 class="hasAnchor">
+<a href="#setup-essentials" class="anchor"></a>Setup essentials</h3>
+<div class="sourceCode" id="cb3"><pre class="r"><span class="no">cb_base_url</span> <span class="kw">&lt;-</span> <span class="st">"http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com"</span>
+<span class="no">my_auth</span> <span class="kw">&lt;-</span> <span class="st">"*************************"</span>
+<span class="no">my_team_id</span> <span class="kw">&lt;-</span> <span class="st">"***************************"</span></pre></div>
+</div>
+<div id="create-a-cohort" class="section level3">
+<h3 class="hasAnchor">
+<a href="#create-a-cohort" class="anchor"></a>Create a cohort</h3>
+<div class="sourceCode" id="cb4"><pre class="r"><span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/create_cohort.html">create_cohort</a></span>(<span class="kw">base_url</span> <span class="kw">=</span> <span class="no">cb_base_url</span>,
+              <span class="kw">auth</span> <span class="kw">=</span> <span class="no">my_auth</span>,
+              <span class="kw">team_id</span> <span class="kw">=</span> <span class="no">my_team_id</span>,
+              <span class="kw">cohort_name</span> <span class="kw">=</span> <span class="st">"Cohort-R"</span>,
+              <span class="kw">cohort_desc</span> <span class="kw">=</span> <span class="st">"This cohort is for testing purpose, created from R."</span>)
+<span class="co">#&gt; Cohort named Cohort-R created successfully. Bellow are the details</span>
+<span class="co">#&gt;                      details                                              </span>
+<span class="co">#&gt; phenotypeFilters     ""                                                   </span>
+<span class="co">#&gt; _id                  "5f3d271d2890e2285ef3afff"                           </span>
+<span class="co">#&gt; name                 "Cohort-R"                                           </span>
+<span class="co">#&gt; description          "This cohort is for testing purpose, created from R."</span>
+<span class="co">#&gt; team                 "5f046bf6c132dd15fdd1a525"                           </span>
+<span class="co">#&gt; owner                "5f046be1c132dd15fdd1a51e"                           </span>
+<span class="co">#&gt; numberOfParticipants 644686                                               </span>
+<span class="co">#&gt; numberOfFilters      0                                                    </span>
+<span class="co">#&gt; createdAt            "2020-08-19T13:20:29.096Z"                           </span>
+<span class="co">#&gt; updatedAt            "2020-08-19T13:20:29.096Z"                           </span>
+<span class="co">#&gt; __v                  0</span></pre></div>
+</div>
+<div id="list-cohorts" class="section level3">
+<h3 class="hasAnchor">
+<a href="#list-cohorts" class="anchor"></a>List Cohorts</h3>
+<p>List available cohorts in a workspace.</p>
+<div class="sourceCode" id="cb5"><pre class="r"><span class="no">cohorts</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/list_cohorts.html">list_cohorts</a></span>(<span class="kw">base_url</span> <span class="kw">=</span> <span class="no">cb_base_url</span>,
+                        <span class="kw">auth</span> <span class="kw">=</span> <span class="no">my_auth</span>,
+                        <span class="kw">team_id</span> <span class="kw">=</span> <span class="no">my_team_id</span>)
+<span class="co">#&gt; Total number of cohorts found-28. But here is 10. For more, change 'page_number' and 'page_size'</span>
+<span class="kw pkg">kableExtra</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/reexports.html">kable</a></span>(<span class="no">cohorts</span>)</pre></div>
+<table class="table">
+<thead><tr>
+<th style="text-align:left;">
+<p>id</p>
+</th>
+<th style="text-align:left;">
+<p>name</p>
+</th>
+<th style="text-align:left;">
+<p>description</p>
+</th>
+<th style="text-align:right;">
+<p>number_of_participants</p>
+</th>
+<th style="text-align:right;">
+<p>number_of_filters</p>
+</th>
+<th style="text-align:left;">
+<p>created_at</p>
+</th>
+<th style="text-align:left;">
+<p>updated_at</p>
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<p>5f2ab881b695de55d93024a7</p>
+</td>
+<td style="text-align:left;">
+<p>test</p>
+</td>
+<td style="text-align:left;">
+<p>test-desc</p>
+</td>
+<td style="text-align:right;">
+<p>414326</p>
+</td>
+<td style="text-align:right;">
+<p>1</p>
+</td>
+<td style="text-align:left;">
+<p>2020-08-05T13:47:45.826Z</p>
+</td>
+<td style="text-align:left;">
+<p>2020-08-14T10:48:37.284Z</p>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<p>5f327e8c1733200222dc3e8c</p>
+</td>
+<td style="text-align:left;">
+<p>test_2</p>
+</td>
+<td style="text-align:left;">
+<p>some random</p>
+</td>
+<td style="text-align:right;">
+<p>600000</p>
+</td>
+<td style="text-align:right;">
+<p>0</p>
+</td>
+<td style="text-align:left;">
+<p>2020-08-11T11:18:36.703Z</p>
+</td>
+<td style="text-align:left;">
+<p>2020-08-11T11:18:36.703Z</p>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<p>5f32c2147ca1902e9c5ba45d</p>
+</td>
+<td style="text-align:left;">
+<p>test-R</p>
+</td>
+<td style="text-align:left;">
+<p>created from R lib</p>
+</td>
+<td style="text-align:right;">
+<p>600000</p>
+</td>
+<td style="text-align:right;">
+<p>0</p>
+</td>
+<td style="text-align:left;">
+<p>2020-08-11T16:06:44.205Z</p>
+</td>
+<td style="text-align:left;">
+<p>2020-08-11T16:06:44.205Z</p>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<p>5f32e1687ca1902e9c5ba467</p>
+</td>
+<td style="text-align:left;">
+<p>Test cohort</p>
+</td>
+<td style="text-align:left;">
+<p>This cohort is for testing purpose.</p>
+</td>
+<td style="text-align:right;">
+<p>600000</p>
+</td>
+<td style="text-align:right;">
+<p>0</p>
+</td>
+<td style="text-align:left;">
+<p>2020-08-11T18:20:24.356Z</p>
+</td>
+<td style="text-align:left;">
+<p>2020-08-11T18:20:24.356Z</p>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<p>5f32f1407ca1902e9c5ba46e</p>
+</td>
+<td style="text-align:left;">
+<p>Cohort-R</p>
+</td>
+<td style="text-align:left;">
+<p>This cohort is for testing purpose, created from R.</p>
+</td>
+<td style="text-align:right;">
+<p>600000</p>
+</td>
+<td style="text-align:right;">
+<p>0</p>
+</td>
+<td style="text-align:left;">
+<p>2020-08-11T19:28:00.606Z</p>
+</td>
+<td style="text-align:left;">
+<p>2020-08-11T19:28:00.606Z</p>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<p>5f351e89cb536f664c1e0a47</p>
+</td>
+<td style="text-align:left;">
+<p>test-new</p>
+</td>
+<td style="text-align:left;">
+<p>test-new-desc</p>
+</td>
+<td style="text-align:right;">
+<p>600000</p>
+</td>
+<td style="text-align:right;">
+<p>0</p>
+</td>
+<td style="text-align:left;">
+<p>2020-08-13T11:05:45.111Z</p>
+</td>
+<td style="text-align:left;">
+<p>2020-08-13T11:05:45.111Z</p>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<p>5f351ec1305af25011d57b25</p>
+</td>
+<td style="text-align:left;">
+<p>test-new-new</p>
+</td>
+<td style="text-align:left;">
+<p>New-new</p>
+</td>
+<td style="text-align:right;">
+<p>600000</p>
+</td>
+<td style="text-align:right;">
+<p>0</p>
+</td>
+<td style="text-align:left;">
+<p>2020-08-13T11:06:41.160Z</p>
+</td>
+<td style="text-align:left;">
+<p>2020-08-13T11:06:41.160Z</p>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<p>5f351f15305af25011d57b26</p>
+</td>
+<td style="text-align:left;">
+<p>test-new-new</p>
+</td>
+<td style="text-align:left;">
+<p>New-new</p>
+</td>
+<td style="text-align:right;">
+<p>600000</p>
+</td>
+<td style="text-align:right;">
+<p>0</p>
+</td>
+<td style="text-align:left;">
+<p>2020-08-13T11:08:05.512Z</p>
+</td>
+<td style="text-align:left;">
+<p>2020-08-13T11:08:05.512Z</p>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<p>5f352103cb536f664c1e0a4a</p>
+</td>
+<td style="text-align:left;">
+<p>random test</p>
+</td>
+<td style="text-align:left;">
+<p>random descriptiom</p>
+</td>
+<td style="text-align:right;">
+<p>600000</p>
+</td>
+<td style="text-align:right;">
+<p>0</p>
+</td>
+<td style="text-align:left;">
+<p>2020-08-13T11:16:19.086Z</p>
+</td>
+<td style="text-align:left;">
+<p>2020-08-13T11:16:19.086Z</p>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<p>5f3521c5b12d49672a616b88</p>
+</td>
+<td style="text-align:left;">
+<p>Cohort-R</p>
+</td>
+<td style="text-align:left;">
+<p>This cohort is for testing purpose, created from R.</p>
+</td>
+<td style="text-align:right;">
+<p>600000</p>
+</td>
+<td style="text-align:right;">
+<p>0</p>
+</td>
+<td style="text-align:left;">
+<p>2020-08-13T11:19:33.094Z</p>
+</td>
+<td style="text-align:left;">
+<p>2020-08-13T11:19:33.094Z</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="extract-participants" class="section level3">
+<h3 class="hasAnchor">
+<a href="#extract-participants" class="anchor"></a>Extract participants</h3>
+<p>Create a RAW data string. This usually generates after selecting participants on UI. (more information will be added how to create this in R)</p>
+<div class="sourceCode" id="cb6"><pre class="r"><span class="no">new_raw_data</span> <span class="kw">&lt;-</span> <span class="st">'{"columns":[{"id":34,"instance":0,"array":{"type":"exact","value":0}},{"id":31,"instance":0,"array":{"type":"exact","value":0}},{"id":52,"instance":0,"array":{"type":"exact","value":0}},{"id":5984,"instance":0,"array":{"type":"avg"}},{"id":5984,"instance":0,"array":{"type":"min"}},{"id":5984,"instance":0,"array":{"type":"max"}},{"id":20001,"instance":0,"array":{"type":"exact","value":0}}],"ids":["5f185b92bf92ed4d3be9637d","5edbdd689d700db709af0c2f","5f185b91bf92ed4d3be9587e","5f185b91bf92ed4d3be95984","5edbdd689d700db709af0c3e","5edbdd689d700db709af0c2b","5edbdd689d700db709af0c2d","5f185b93bf92ed4d3be982e9","5edbdd689d700db709af0c2a","5edbdd689d700db709af0c4d"],"type":"csv","base_url":"http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com"}'</span></pre></div>
+<p>Using this above raw data lets extract selected participants.</p>
+<div class="sourceCode" id="cb7"><pre class="r"><span class="no">df</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/extract_participants.html">extract_participants</a></span>(<span class="kw">base_url</span><span class="kw">=</span> <span class="no">cb_base_url</span>,
+                      <span class="kw">auth</span> <span class="kw">=</span> <span class="no">my_auth</span>,
+                      <span class="kw">raw_data</span> <span class="kw">=</span> <span class="no">new_raw_data</span>)
+
+
+<span class="kw pkg">kableExtra</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/reexports.html">kable</a></span>(<span class="no">df</span>)</pre></div>
+<table class="table">
+<thead><tr>
+<th style="text-align:right;">
+<p>i</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.0</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.1</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.2</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.3</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.4</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.5</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.6</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.7</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.8</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.9</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.10</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.11</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.12</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.13</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.14</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.15</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.16</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.17</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.18</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.19</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.20</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.21</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.22</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.23</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.24</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.25</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.26</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.27</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.28</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.29</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.30</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.31</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.32</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.33</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.34</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.35</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.36</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.37</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.38</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.39</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.40</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.41</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.42</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.43</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.44</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.45</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.46</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.47</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.48</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.49</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.50</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.51</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.52</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.53</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.54</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.55</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.56</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.57</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.58</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.59</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.60</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.61</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.62</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.63</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.64</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.65</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.66</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.67</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.68</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.69</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.70</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.71</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.72</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.73</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.74</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.75</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.76</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.77</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.78</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.79</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.80</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.81</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.82</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.83</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.84</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.85</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.86</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.87</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.88</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.89</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.90</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.91</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.92</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.93</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.94</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.95</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.96</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.97</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.98</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.99</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.100</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.101</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.102</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.103</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.104</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.105</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.106</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.107</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.108</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.109</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.110</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.111</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.112</p>
+</th>
+<th style="text-align:right;">
+<p>ECG..load.0.113</p>
+</th>
+<th style="text-align:left;">
+<p>Cancer.code..self.reported.0.0</p>
+</th>
+<th style="text-align:left;">
+<p>Sex</p>
+</th>
+<th style="text-align:right;">
+<p>Year.of.birth</p>
+</th>
+<th style="text-align:left;">
+<p>Month.of.birth</p>
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+<p>1000002</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+<p>1000016</p>
+</td>
+<td style="text-align:right;">
+<p>20</p>
+</td>
+<td style="text-align:right;">
+<p>75</p>
+</td>
+<td style="text-align:right;">
+<p>55</p>
+</td>
+<td style="text-align:right;">
+<p>57</p>
+</td>
+<td style="text-align:right;">
+<p>245</p>
+</td>
+<td style="text-align:right;">
+<p>22</p>
+</td>
+<td style="text-align:right;">
+<p>40</p>
+</td>
+<td style="text-align:right;">
+<p>24</p>
+</td>
+<td style="text-align:right;">
+<p>83</p>
+</td>
+<td style="text-align:right;">
+<p>93</p>
+</td>
+<td style="text-align:right;">
+<p>130</p>
+</td>
+<td style="text-align:right;">
+<p>41</p>
+</td>
+<td style="text-align:right;">
+<p>19</p>
+</td>
+<td style="text-align:right;">
+<p>64</p>
+</td>
+<td style="text-align:right;">
+<p>85</p>
+</td>
+<td style="text-align:right;">
+<p>87</p>
+</td>
+<td style="text-align:right;">
+<p>3</p>
+</td>
+<td style="text-align:right;">
+<p>47</p>
+</td>
+<td style="text-align:right;">
+<p>88</p>
+</td>
+<td style="text-align:right;">
+<p>130</p>
+</td>
+<td style="text-align:right;">
+<p>28</p>
+</td>
+<td style="text-align:right;">
+<p>96</p>
+</td>
+<td style="text-align:right;">
+<p>24</p>
+</td>
+<td style="text-align:right;">
+<p>17</p>
+</td>
+<td style="text-align:right;">
+<p>38</p>
+</td>
+<td style="text-align:right;">
+<p>63</p>
+</td>
+<td style="text-align:right;">
+<p>2</p>
+</td>
+<td style="text-align:right;">
+<p>108</p>
+</td>
+<td style="text-align:right;">
+<p>57</p>
+</td>
+<td style="text-align:right;">
+<p>140</p>
+</td>
+<td style="text-align:right;">
+<p>85</p>
+</td>
+<td style="text-align:right;">
+<p>8</p>
+</td>
+<td style="text-align:right;">
+<p>77</p>
+</td>
+<td style="text-align:right;">
+<p>112</p>
+</td>
+<td style="text-align:right;">
+<p>58</p>
+</td>
+<td style="text-align:right;">
+<p>12</p>
+</td>
+<td style="text-align:right;">
+<p>24</p>
+</td>
+<td style="text-align:right;">
+<p>20</p>
+</td>
+<td style="text-align:right;">
+<p>97</p>
+</td>
+<td style="text-align:right;">
+<p>30</p>
+</td>
+<td style="text-align:right;">
+<p>136</p>
+</td>
+<td style="text-align:right;">
+<p>50</p>
+</td>
+<td style="text-align:right;">
+<p>70</p>
+</td>
+<td style="text-align:right;">
+<p>29</p>
+</td>
+<td style="text-align:right;">
+<p>118</p>
+</td>
+<td style="text-align:right;">
+<p>104</p>
+</td>
+<td style="text-align:right;">
+<p>38</p>
+</td>
+<td style="text-align:right;">
+<p>24</p>
+</td>
+<td style="text-align:right;">
+<p>23</p>
+</td>
+<td style="text-align:right;">
+<p>18</p>
+</td>
+<td style="text-align:right;">
+<p>3</p>
+</td>
+<td style="text-align:right;">
+<p>62</p>
+</td>
+<td style="text-align:right;">
+<p>128</p>
+</td>
+<td style="text-align:right;">
+<p>71</p>
+</td>
+<td style="text-align:right;">
+<p>33</p>
+</td>
+<td style="text-align:right;">
+<p>23</p>
+</td>
+<td style="text-align:right;">
+<p>6</p>
+</td>
+<td style="text-align:right;">
+<p>104</p>
+</td>
+<td style="text-align:right;">
+<p>136</p>
+</td>
+<td style="text-align:right;">
+<p>0</p>
+</td>
+<td style="text-align:right;">
+<p>18</p>
+</td>
+<td style="text-align:right;">
+<p>63</p>
+</td>
+<td style="text-align:right;">
+<p>108</p>
+</td>
+<td style="text-align:right;">
+<p>47</p>
+</td>
+<td style="text-align:right;">
+<p>2</p>
+</td>
+<td style="text-align:right;">
+<p>116</p>
+</td>
+<td style="text-align:right;">
+<p>58</p>
+</td>
+<td style="text-align:right;">
+<p>44</p>
+</td>
+<td style="text-align:right;">
+<p>120</p>
+</td>
+<td style="text-align:right;">
+<p>77</p>
+</td>
+<td style="text-align:right;">
+<p>50</p>
+</td>
+<td style="text-align:right;">
+<p>51</p>
+</td>
+<td style="text-align:right;">
+<p>18</p>
+</td>
+<td style="text-align:right;">
+<p>132</p>
+</td>
+<td style="text-align:right;">
+<p>130</p>
+</td>
+<td style="text-align:right;">
+<p>96</p>
+</td>
+<td style="text-align:right;">
+<p>15</p>
+</td>
+<td style="text-align:right;">
+<p>42</p>
+</td>
+<td style="text-align:right;">
+<p>45</p>
+</td>
+<td style="text-align:right;">
+<p>0</p>
+</td>
+<td style="text-align:right;">
+<p>53</p>
+</td>
+<td style="text-align:right;">
+<p>13</p>
+</td>
+<td style="text-align:right;">
+<p>58</p>
+</td>
+<td style="text-align:right;">
+<p>25</p>
+</td>
+<td style="text-align:right;">
+<p>23</p>
+</td>
+<td style="text-align:right;">
+<p>53</p>
+</td>
+<td style="text-align:right;">
+<p>102</p>
+</td>
+<td style="text-align:right;">
+<p>76</p>
+</td>
+<td style="text-align:right;">
+<p>13</p>
+</td>
+<td style="text-align:right;">
+<p>55</p>
+</td>
+<td style="text-align:right;">
+<p>54</p>
+</td>
+<td style="text-align:right;">
+<p>127</p>
+</td>
+<td style="text-align:right;">
+<p>75</p>
+</td>
+<td style="text-align:right;">
+<p>270</p>
+</td>
+<td style="text-align:right;">
+<p>118</p>
+</td>
+<td style="text-align:right;">
+<p>60</p>
+</td>
+<td style="text-align:right;">
+<p>127</p>
+</td>
+<td style="text-align:right;">
+<p>37</p>
+</td>
+<td style="text-align:right;">
+<p>45</p>
+</td>
+<td style="text-align:right;">
+<p>19</p>
+</td>
+<td style="text-align:right;">
+<p>35</p>
+</td>
+<td style="text-align:right;">
+<p>73</p>
+</td>
+<td style="text-align:right;">
+<p>106</p>
+</td>
+<td style="text-align:right;">
+<p>7</p>
+</td>
+<td style="text-align:right;">
+<p>55</p>
+</td>
+<td style="text-align:right;">
+<p>116</p>
+</td>
+<td style="text-align:right;">
+<p>78</p>
+</td>
+<td style="text-align:right;">
+<p>75</p>
+</td>
+<td style="text-align:right;">
+<p>270</p>
+</td>
+<td style="text-align:right;">
+<p>11</p>
+</td>
+<td style="text-align:right;">
+<p>25</p>
+</td>
+<td style="text-align:right;">
+<p>121</p>
+</td>
+<td style="text-align:right;">
+<p>121</p>
+</td>
+<td style="text-align:right;">
+<p>83</p>
+</td>
+<td style="text-align:left;">
+<p>cervical cancer</p>
+</td>
+<td style="text-align:left;">
+<p>Male</p>
+</td>
+<td style="text-align:right;">
+<p>1954</p>
+</td>
+<td style="text-align:left;">
+<p>September</p>
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+<p>1000020</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+<p>1000035</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+<p>1000048</p>
+</td>
+<td style="text-align:right;">
+<p>109</p>
+</td>
+<td style="text-align:right;">
+<p>51</p>
+</td>
+<td style="text-align:right;">
+<p>87</p>
+</td>
+<td style="text-align:right;">
+<p>75</p>
+</td>
+<td style="text-align:right;">
+<p>16</p>
+</td>
+<td style="text-align:right;">
+<p>67</p>
+</td>
+<td style="text-align:right;">
+<p>12</p>
+</td>
+<td style="text-align:right;">
+<p>50</p>
+</td>
+<td style="text-align:right;">
+<p>51</p>
+</td>
+<td style="text-align:right;">
+<p>91</p>
+</td>
+<td style="text-align:right;">
+<p>77</p>
+</td>
+<td style="text-align:right;">
+<p>75</p>
+</td>
+<td style="text-align:right;">
+<p>47</p>
+</td>
+<td style="text-align:right;">
+<p>63</p>
+</td>
+<td style="text-align:right;">
+<p>108</p>
+</td>
+<td style="text-align:right;">
+<p>116</p>
+</td>
+<td style="text-align:right;">
+<p>80</p>
+</td>
+<td style="text-align:right;">
+<p>45</p>
+</td>
+<td style="text-align:right;">
+<p>93</p>
+</td>
+<td style="text-align:right;">
+<p>75</p>
+</td>
+<td style="text-align:right;">
+<p>9</p>
+</td>
+<td style="text-align:right;">
+<p>72</p>
+</td>
+<td style="text-align:right;">
+<p>73</p>
+</td>
+<td style="text-align:right;">
+<p>35</p>
+</td>
+<td style="text-align:right;">
+<p>31</p>
+</td>
+<td style="text-align:right;">
+<p>32</p>
+</td>
+<td style="text-align:right;">
+<p>76</p>
+</td>
+<td style="text-align:right;">
+<p>128</p>
+</td>
+<td style="text-align:right;">
+<p>31</p>
+</td>
+<td style="text-align:right;">
+<p>15</p>
+</td>
+<td style="text-align:right;">
+<p>100</p>
+</td>
+<td style="text-align:right;">
+<p>53</p>
+</td>
+<td style="text-align:right;">
+<p>2</p>
+</td>
+<td style="text-align:right;">
+<p>116</p>
+</td>
+<td style="text-align:right;">
+<p>25</p>
+</td>
+<td style="text-align:right;">
+<p>109</p>
+</td>
+<td style="text-align:right;">
+<p>195</p>
+</td>
+<td style="text-align:right;">
+<p>130</p>
+</td>
+<td style="text-align:right;">
+<p>21</p>
+</td>
+<td style="text-align:right;">
+<p>31</p>
+</td>
+<td style="text-align:right;">
+<p>25</p>
+</td>
+<td style="text-align:right;">
+<p>15</p>
+</td>
+<td style="text-align:right;">
+<p>99</p>
+</td>
+<td style="text-align:right;">
+<p>57</p>
+</td>
+<td style="text-align:right;">
+<p>78</p>
+</td>
+<td style="text-align:right;">
+<p>37</p>
+</td>
+<td style="text-align:right;">
+<p>7</p>
+</td>
+<td style="text-align:right;">
+<p>79</p>
+</td>
+<td style="text-align:right;">
+<p>130</p>
+</td>
+<td style="text-align:right;">
+<p>46</p>
+</td>
+<td style="text-align:right;">
+<p>130</p>
+</td>
+<td style="text-align:right;">
+<p>91</p>
+</td>
+<td style="text-align:right;">
+<p>33</p>
+</td>
+<td style="text-align:right;">
+<p>93</p>
+</td>
+<td style="text-align:right;">
+<p>2</p>
+</td>
+<td style="text-align:right;">
+<p>96</p>
+</td>
+<td style="text-align:right;">
+<p>90</p>
+</td>
+<td style="text-align:right;">
+<p>50</p>
+</td>
+<td style="text-align:right;">
+<p>18</p>
+</td>
+<td style="text-align:right;">
+<p>46</p>
+</td>
+<td style="text-align:right;">
+<p>28</p>
+</td>
+<td style="text-align:right;">
+<p>36</p>
+</td>
+<td style="text-align:right;">
+<p>9</p>
+</td>
+<td style="text-align:right;">
+<p>195</p>
+</td>
+<td style="text-align:right;">
+<p>26</p>
+</td>
+<td style="text-align:right;">
+<p>69</p>
+</td>
+<td style="text-align:right;">
+<p>3</p>
+</td>
+<td style="text-align:right;">
+<p>103</p>
+</td>
+<td style="text-align:right;">
+<p>29</p>
+</td>
+<td style="text-align:right;">
+<p>77</p>
+</td>
+<td style="text-align:right;">
+<p>34</p>
+</td>
+<td style="text-align:right;">
+<p>41</p>
+</td>
+<td style="text-align:right;">
+<p>26</p>
+</td>
+<td style="text-align:right;">
+<p>105</p>
+</td>
+<td style="text-align:right;">
+<p>29</p>
+</td>
+<td style="text-align:right;">
+<p>81</p>
+</td>
+<td style="text-align:right;">
+<p>94</p>
+</td>
+<td style="text-align:right;">
+<p>2</p>
+</td>
+<td style="text-align:right;">
+<p>71</p>
+</td>
+<td style="text-align:right;">
+<p>56</p>
+</td>
+<td style="text-align:right;">
+<p>18</p>
+</td>
+<td style="text-align:right;">
+<p>18</p>
+</td>
+<td style="text-align:right;">
+<p>57</p>
+</td>
+<td style="text-align:right;">
+<p>56</p>
+</td>
+<td style="text-align:right;">
+<p>38</p>
+</td>
+<td style="text-align:right;">
+<p>18</p>
+</td>
+<td style="text-align:right;">
+<p>5</p>
+</td>
+<td style="text-align:right;">
+<p>136</p>
+</td>
+<td style="text-align:right;">
+<p>39</p>
+</td>
+<td style="text-align:right;">
+<p>3</p>
+</td>
+<td style="text-align:right;">
+<p>116</p>
+</td>
+<td style="text-align:right;">
+<p>11</p>
+</td>
+<td style="text-align:right;">
+<p>74</p>
+</td>
+<td style="text-align:right;">
+<p>110</p>
+</td>
+<td style="text-align:right;">
+<p>14</p>
+</td>
+<td style="text-align:right;">
+<p>21</p>
+</td>
+<td style="text-align:right;">
+<p>60</p>
+</td>
+<td style="text-align:right;">
+<p>39</p>
+</td>
+<td style="text-align:right;">
+<p>66</p>
+</td>
+<td style="text-align:right;">
+<p>15</p>
+</td>
+<td style="text-align:right;">
+<p>106</p>
+</td>
+<td style="text-align:right;">
+<p>15</p>
+</td>
+<td style="text-align:right;">
+<p>50</p>
+</td>
+<td style="text-align:right;">
+<p>85</p>
+</td>
+<td style="text-align:right;">
+<p>48</p>
+</td>
+<td style="text-align:right;">
+<p>71</p>
+</td>
+<td style="text-align:right;">
+<p>72</p>
+</td>
+<td style="text-align:right;">
+<p>53</p>
+</td>
+<td style="text-align:right;">
+<p>68</p>
+</td>
+<td style="text-align:right;">
+<p>0</p>
+</td>
+<td style="text-align:right;">
+<p>97</p>
+</td>
+<td style="text-align:right;">
+<p>13</p>
+</td>
+<td style="text-align:right;">
+<p>48</p>
+</td>
+<td style="text-align:right;">
+<p>105</p>
+</td>
+<td style="text-align:left;">
+<p>chronic myeloid</p>
+</td>
+<td style="text-align:left;">
+<p>Female</p>
+</td>
+<td style="text-align:right;">
+<p>1950</p>
+</td>
+<td style="text-align:left;">
+<p>January</p>
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+<p>1000057</p>
+</td>
+<td style="text-align:right;">
+<p>110</p>
+</td>
+<td style="text-align:right;">
+<p>112</p>
+</td>
+<td style="text-align:right;">
+<p>97</p>
+</td>
+<td style="text-align:right;">
+<p>67</p>
+</td>
+<td style="text-align:right;">
+<p>14</p>
+</td>
+<td style="text-align:right;">
+<p>54</p>
+</td>
+<td style="text-align:right;">
+<p>76</p>
+</td>
+<td style="text-align:right;">
+<p>57</p>
+</td>
+<td style="text-align:right;">
+<p>128</p>
+</td>
+<td style="text-align:right;">
+<p>88</p>
+</td>
+<td style="text-align:right;">
+<p>6</p>
+</td>
+<td style="text-align:right;">
+<p>59</p>
+</td>
+<td style="text-align:right;">
+<p>195</p>
+</td>
+<td style="text-align:right;">
+<p>11</p>
+</td>
+<td style="text-align:right;">
+<p>40</p>
+</td>
+<td style="text-align:right;">
+<p>57</p>
+</td>
+<td style="text-align:right;">
+<p>46</p>
+</td>
+<td style="text-align:right;">
+<p>3</p>
+</td>
+<td style="text-align:right;">
+<p>13</p>
+</td>
+<td style="text-align:right;">
+<p>9</p>
+</td>
+<td style="text-align:right;">
+<p>120</p>
+</td>
+<td style="text-align:right;">
+<p>36</p>
+</td>
+<td style="text-align:right;">
+<p>21</p>
+</td>
+<td style="text-align:right;">
+<p>5</p>
+</td>
+<td style="text-align:right;">
+<p>20</p>
+</td>
+<td style="text-align:right;">
+<p>9</p>
+</td>
+<td style="text-align:right;">
+<p>270</p>
+</td>
+<td style="text-align:right;">
+<p>132</p>
+</td>
+<td style="text-align:right;">
+<p>74</p>
+</td>
+<td style="text-align:right;">
+<p>90</p>
+</td>
+<td style="text-align:right;">
+<p>105</p>
+</td>
+<td style="text-align:right;">
+<p>97</p>
+</td>
+<td style="text-align:right;">
+<p>98</p>
+</td>
+<td style="text-align:right;">
+<p>0</p>
+</td>
+<td style="text-align:right;">
+<p>115</p>
+</td>
+<td style="text-align:right;">
+<p>16</p>
+</td>
+<td style="text-align:right;">
+<p>65</p>
+</td>
+<td style="text-align:right;">
+<p>54</p>
+</td>
+<td style="text-align:right;">
+<p>86</p>
+</td>
+<td style="text-align:right;">
+<p>11</p>
+</td>
+<td style="text-align:right;">
+<p>136</p>
+</td>
+<td style="text-align:right;">
+<p>28</p>
+</td>
+<td style="text-align:right;">
+<p>118</p>
+</td>
+<td style="text-align:right;">
+<p>118</p>
+</td>
+<td style="text-align:right;">
+<p>108</p>
+</td>
+<td style="text-align:right;">
+<p>32</p>
+</td>
+<td style="text-align:right;">
+<p>106</p>
+</td>
+<td style="text-align:right;">
+<p>71</p>
+</td>
+<td style="text-align:right;">
+<p>44</p>
+</td>
+<td style="text-align:right;">
+<p>270</p>
+</td>
+<td style="text-align:right;">
+<p>29</p>
+</td>
+<td style="text-align:right;">
+<p>245</p>
+</td>
+<td style="text-align:right;">
+<p>3</p>
+</td>
+<td style="text-align:right;">
+<p>106</p>
+</td>
+<td style="text-align:right;">
+<p>26</p>
+</td>
+<td style="text-align:right;">
+<p>105</p>
+</td>
+<td style="text-align:right;">
+<p>60</p>
+</td>
+<td style="text-align:right;">
+<p>70</p>
+</td>
+<td style="text-align:right;">
+<p>44</p>
+</td>
+<td style="text-align:right;">
+<p>77</p>
+</td>
+<td style="text-align:right;">
+<p>103</p>
+</td>
+<td style="text-align:right;">
+<p>62</p>
+</td>
+<td style="text-align:right;">
+<p>47</p>
+</td>
+<td style="text-align:right;">
+<p>74</p>
+</td>
+<td style="text-align:right;">
+<p>17</p>
+</td>
+<td style="text-align:right;">
+<p>86</p>
+</td>
+<td style="text-align:right;">
+<p>43</p>
+</td>
+<td style="text-align:right;">
+<p>75</p>
+</td>
+<td style="text-align:right;">
+<p>9</p>
+</td>
+<td style="text-align:right;">
+<p>35</p>
+</td>
+<td style="text-align:right;">
+<p>82</p>
+</td>
+<td style="text-align:right;">
+<p>49</p>
+</td>
+<td style="text-align:right;">
+<p>80</p>
+</td>
+<td style="text-align:right;">
+<p>93</p>
+</td>
+<td style="text-align:right;">
+<p>105</p>
+</td>
+<td style="text-align:right;">
+<p>97</p>
+</td>
+<td style="text-align:right;">
+<p>65</p>
+</td>
+<td style="text-align:right;">
+<p>94</p>
+</td>
+<td style="text-align:right;">
+<p>5</p>
+</td>
+<td style="text-align:right;">
+<p>22</p>
+</td>
+<td style="text-align:right;">
+<p>5</p>
+</td>
+<td style="text-align:right;">
+<p>60</p>
+</td>
+<td style="text-align:right;">
+<p>51</p>
+</td>
+<td style="text-align:right;">
+<p>128</p>
+</td>
+<td style="text-align:right;">
+<p>23</p>
+</td>
+<td style="text-align:right;">
+<p>52</p>
+</td>
+<td style="text-align:right;">
+<p>25</p>
+</td>
+<td style="text-align:right;">
+<p>55</p>
+</td>
+<td style="text-align:right;">
+<p>79</p>
+</td>
+<td style="text-align:right;">
+<p>43</p>
+</td>
+<td style="text-align:right;">
+<p>0</p>
+</td>
+<td style="text-align:right;">
+<p>128</p>
+</td>
+<td style="text-align:right;">
+<p>87</p>
+</td>
+<td style="text-align:right;">
+<p>51</p>
+</td>
+<td style="text-align:right;">
+<p>120</p>
+</td>
+<td style="text-align:right;">
+<p>67</p>
+</td>
+<td style="text-align:right;">
+<p>83</p>
+</td>
+<td style="text-align:right;">
+<p>103</p>
+</td>
+<td style="text-align:right;">
+<p>270</p>
+</td>
+<td style="text-align:right;">
+<p>47</p>
+</td>
+<td style="text-align:right;">
+<p>8</p>
+</td>
+<td style="text-align:right;">
+<p>121</p>
+</td>
+<td style="text-align:right;">
+<p>79</p>
+</td>
+<td style="text-align:right;">
+<p>109</p>
+</td>
+<td style="text-align:right;">
+<p>35</p>
+</td>
+<td style="text-align:right;">
+<p>58</p>
+</td>
+<td style="text-align:right;">
+<p>28</p>
+</td>
+<td style="text-align:right;">
+<p>130</p>
+</td>
+<td style="text-align:right;">
+<p>136</p>
+</td>
+<td style="text-align:right;">
+<p>85</p>
+</td>
+<td style="text-align:right;">
+<p>78</p>
+</td>
+<td style="text-align:right;">
+<p>99</p>
+</td>
+<td style="text-align:right;">
+<p>99</p>
+</td>
+<td style="text-align:right;">
+<p>91</p>
+</td>
+<td style="text-align:left;">
+<p>metastatic cancer (unknown primary)</p>
+</td>
+<td style="text-align:left;">
+<p>Female</p>
+</td>
+<td style="text-align:right;">
+<p>1942</p>
+</td>
+<td style="text-align:left;">
+<p>February</p>
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+<p>1000059</p>
+</td>
+<td style="text-align:right;">
+<p>85</p>
+</td>
+<td style="text-align:right;">
+<p>99</p>
+</td>
+<td style="text-align:right;">
+<p>52</p>
+</td>
+<td style="text-align:right;">
+<p>86</p>
+</td>
+<td style="text-align:right;">
+<p>29</p>
+</td>
+<td style="text-align:right;">
+<p>108</p>
+</td>
+<td style="text-align:right;">
+<p>49</p>
+</td>
+<td style="text-align:right;">
+<p>112</p>
+</td>
+<td style="text-align:right;">
+<p>99</p>
+</td>
+<td style="text-align:right;">
+<p>53</p>
+</td>
+<td style="text-align:right;">
+<p>245</p>
+</td>
+<td style="text-align:right;">
+<p>90</p>
+</td>
+<td style="text-align:right;">
+<p>44</p>
+</td>
+<td style="text-align:right;">
+<p>132</p>
+</td>
+<td style="text-align:right;">
+<p>97</p>
+</td>
+<td style="text-align:right;">
+<p>270</p>
+</td>
+<td style="text-align:right;">
+<p>95</p>
+</td>
+<td style="text-align:right;">
+<p>57</p>
+</td>
+<td style="text-align:right;">
+<p>140</p>
+</td>
+<td style="text-align:right;">
+<p>22</p>
+</td>
+<td style="text-align:right;">
+<p>30</p>
+</td>
+<td style="text-align:right;">
+<p>68</p>
+</td>
+<td style="text-align:right;">
+<p>118</p>
+</td>
+<td style="text-align:right;">
+<p>38</p>
+</td>
+<td style="text-align:right;">
+<p>53</p>
+</td>
+<td style="text-align:right;">
+<p>58</p>
+</td>
+<td style="text-align:right;">
+<p>80</p>
+</td>
+<td style="text-align:right;">
+<p>118</p>
+</td>
+<td style="text-align:right;">
+<p>195</p>
+</td>
+<td style="text-align:right;">
+<p>18</p>
+</td>
+<td style="text-align:right;">
+<p>136</p>
+</td>
+<td style="text-align:right;">
+<p>94</p>
+</td>
+<td style="text-align:right;">
+<p>92</p>
+</td>
+<td style="text-align:right;">
+<p>65</p>
+</td>
+<td style="text-align:right;">
+<p>121</p>
+</td>
+<td style="text-align:right;">
+<p>54</p>
+</td>
+<td style="text-align:right;">
+<p>77</p>
+</td>
+<td style="text-align:right;">
+<p>100</p>
+</td>
+<td style="text-align:right;">
+<p>124</p>
+</td>
+<td style="text-align:right;">
+<p>73</p>
+</td>
+<td style="text-align:right;">
+<p>59</p>
+</td>
+<td style="text-align:right;">
+<p>108</p>
+</td>
+<td style="text-align:right;">
+<p>60</p>
+</td>
+<td style="text-align:right;">
+<p>3</p>
+</td>
+<td style="text-align:right;">
+<p>130</p>
+</td>
+<td style="text-align:right;">
+<p>13</p>
+</td>
+<td style="text-align:right;">
+<p>48</p>
+</td>
+<td style="text-align:right;">
+<p>83</p>
+</td>
+<td style="text-align:right;">
+<p>97</p>
+</td>
+<td style="text-align:right;">
+<p>61</p>
+</td>
+<td style="text-align:right;">
+<p>77</p>
+</td>
+<td style="text-align:right;">
+<p>81</p>
+</td>
+<td style="text-align:right;">
+<p>30</p>
+</td>
+<td style="text-align:right;">
+<p>53</p>
+</td>
+<td style="text-align:right;">
+<p>93</p>
+</td>
+<td style="text-align:right;">
+<p>79</p>
+</td>
+<td style="text-align:right;">
+<p>77</p>
+</td>
+<td style="text-align:right;">
+<p>84</p>
+</td>
+<td style="text-align:right;">
+<p>48</p>
+</td>
+<td style="text-align:right;">
+<p>32</p>
+</td>
+<td style="text-align:right;">
+<p>54</p>
+</td>
+<td style="text-align:right;">
+<p>96</p>
+</td>
+<td style="text-align:right;">
+<p>40</p>
+</td>
+<td style="text-align:right;">
+<p>61</p>
+</td>
+<td style="text-align:right;">
+<p>90</p>
+</td>
+<td style="text-align:right;">
+<p>44</p>
+</td>
+<td style="text-align:right;">
+<p>9</p>
+</td>
+<td style="text-align:right;">
+<p>140</p>
+</td>
+<td style="text-align:right;">
+<p>19</p>
+</td>
+<td style="text-align:right;">
+<p>66</p>
+</td>
+<td style="text-align:right;">
+<p>46</p>
+</td>
+<td style="text-align:right;">
+<p>27</p>
+</td>
+<td style="text-align:right;">
+<p>26</p>
+</td>
+<td style="text-align:right;">
+<p>127</p>
+</td>
+<td style="text-align:right;">
+<p>96</p>
+</td>
+<td style="text-align:right;">
+<p>245</p>
+</td>
+<td style="text-align:right;">
+<p>121</p>
+</td>
+<td style="text-align:right;">
+<p>83</p>
+</td>
+<td style="text-align:right;">
+<p>3</p>
+</td>
+<td style="text-align:right;">
+<p>48</p>
+</td>
+<td style="text-align:right;">
+<p>50</p>
+</td>
+<td style="text-align:right;">
+<p>55</p>
+</td>
+<td style="text-align:right;">
+<p>57</p>
+</td>
+<td style="text-align:right;">
+<p>51</p>
+</td>
+<td style="text-align:right;">
+<p>62</p>
+</td>
+<td style="text-align:right;">
+<p>2</p>
+</td>
+<td style="text-align:right;">
+<p>76</p>
+</td>
+<td style="text-align:right;">
+<p>59</p>
+</td>
+<td style="text-align:right;">
+<p>49</p>
+</td>
+<td style="text-align:right;">
+<p>56</p>
+</td>
+<td style="text-align:right;">
+<p>3</p>
+</td>
+<td style="text-align:right;">
+<p>25</p>
+</td>
+<td style="text-align:right;">
+<p>61</p>
+</td>
+<td style="text-align:right;">
+<p>20</p>
+</td>
+<td style="text-align:right;">
+<p>102</p>
+</td>
+<td style="text-align:right;">
+<p>61</p>
+</td>
+<td style="text-align:right;">
+<p>28</p>
+</td>
+<td style="text-align:right;">
+<p>41</p>
+</td>
+<td style="text-align:right;">
+<p>55</p>
+</td>
+<td style="text-align:right;">
+<p>40</p>
+</td>
+<td style="text-align:right;">
+<p>69</p>
+</td>
+<td style="text-align:right;">
+<p>115</p>
+</td>
+<td style="text-align:right;">
+<p>51</p>
+</td>
+<td style="text-align:right;">
+<p>23</p>
+</td>
+<td style="text-align:right;">
+<p>110</p>
+</td>
+<td style="text-align:right;">
+<p>1</p>
+</td>
+<td style="text-align:right;">
+<p>40</p>
+</td>
+<td style="text-align:right;">
+<p>30</p>
+</td>
+<td style="text-align:right;">
+<p>66</p>
+</td>
+<td style="text-align:right;">
+<p>99</p>
+</td>
+<td style="text-align:right;">
+<p>25</p>
+</td>
+<td style="text-align:right;">
+<p>6</p>
+</td>
+<td style="text-align:right;">
+<p>61</p>
+</td>
+<td style="text-align:right;">
+<p>29</p>
+</td>
+<td style="text-align:left;">
+<p>uterine/endometrial cancer</p>
+</td>
+<td style="text-align:left;">
+<p>Female</p>
+</td>
+<td style="text-align:right;">
+<p>1964</p>
+</td>
+<td style="text-align:left;">
+<p>December</p>
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+<p>1000061</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:right;">
+<p>NA</p>
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+<p>1000063</p>
+</td>
+<td style="text-align:right;">
+<p>15</p>
+</td>
+<td style="text-align:right;">
+<p>58</p>
+</td>
+<td style="text-align:right;">
+<p>130</p>
+</td>
+<td style="text-align:right;">
+<p>100</p>
+</td>
+<td style="text-align:right;">
+<p>94</p>
+</td>
+<td style="text-align:right;">
+<p>124</p>
+</td>
+<td style="text-align:right;">
+<p>74</p>
+</td>
+<td style="text-align:right;">
+<p>59</p>
+</td>
+<td style="text-align:right;">
+<p>127</p>
+</td>
+<td style="text-align:right;">
+<p>62</p>
+</td>
+<td style="text-align:right;">
+<p>102</p>
+</td>
+<td style="text-align:right;">
+<p>75</p>
+</td>
+<td style="text-align:right;">
+<p>63</p>
+</td>
+<td style="text-align:right;">
+<p>0</p>
+</td>
+<td style="text-align:right;">
+<p>106</p>
+</td>
+<td style="text-align:right;">
+<p>46</p>
+</td>
+<td style="text-align:right;">
+<p>91</p>
+</td>
+<td style="text-align:right;">
+<p>51</p>
+</td>
+<td style="text-align:right;">
+<p>29</p>
+</td>
+<td style="text-align:right;">
+<p>5</p>
+</td>
+<td style="text-align:right;">
+<p>11</p>
+</td>
+<td style="text-align:right;">
+<p>75</p>
+</td>
+<td style="text-align:right;">
+<p>112</p>
+</td>
+<td style="text-align:right;">
+<p>91</p>
+</td>
+<td style="text-align:right;">
+<p>106</p>
+</td>
+<td style="text-align:right;">
+<p>108</p>
+</td>
+<td style="text-align:right;">
+<p>92</p>
+</td>
+<td style="text-align:right;">
+<p>74</p>
+</td>
+<td style="text-align:right;">
+<p>121</p>
+</td>
+<td style="text-align:right;">
+<p>63</p>
+</td>
+<td style="text-align:right;">
+<p>9</p>
+</td>
+<td style="text-align:right;">
+<p>26</p>
+</td>
+<td style="text-align:right;">
+<p>63</p>
+</td>
+<td style="text-align:right;">
+<p>43</p>
+</td>
+<td style="text-align:right;">
+<p>105</p>
+</td>
+<td style="text-align:right;">
+<p>27</p>
+</td>
+<td style="text-align:right;">
+<p>112</p>
+</td>
+<td style="text-align:right;">
+<p>30</p>
+</td>
+<td style="text-align:right;">
+<p>75</p>
+</td>
+<td style="text-align:right;">
+<p>124</p>
+</td>
+<td style="text-align:right;">
+<p>20</p>
+</td>
+<td style="text-align:right;">
+<p>112</p>
+</td>
+<td style="text-align:right;">
+<p>69</p>
+</td>
+<td style="text-align:right;">
+<p>41</p>
+</td>
+<td style="text-align:right;">
+<p>118</p>
+</td>
+<td style="text-align:right;">
+<p>17</p>
+</td>
+<td style="text-align:right;">
+<p>54</p>
+</td>
+<td style="text-align:right;">
+<p>24</p>
+</td>
+<td style="text-align:right;">
+<p>124</p>
+</td>
+<td style="text-align:right;">
+<p>48</p>
+</td>
+<td style="text-align:right;">
+<p>24</p>
+</td>
+<td style="text-align:right;">
+<p>55</p>
+</td>
+<td style="text-align:right;">
+<p>57</p>
+</td>
+<td style="text-align:right;">
+<p>0</p>
+</td>
+<td style="text-align:right;">
+<p>58</p>
+</td>
+<td style="text-align:right;">
+<p>127</p>
+</td>
+<td style="text-align:right;">
+<p>85</p>
+</td>
+<td style="text-align:right;">
+<p>84</p>
+</td>
+<td style="text-align:right;">
+<p>110</p>
+</td>
+<td style="text-align:right;">
+<p>67</p>
+</td>
+<td style="text-align:right;">
+<p>52</p>
+</td>
+<td style="text-align:right;">
+<p>43</p>
+</td>
+<td style="text-align:right;">
+<p>24</p>
+</td>
+<td style="text-align:right;">
+<p>121</p>
+</td>
+<td style="text-align:right;">
+<p>96</p>
+</td>
+<td style="text-align:right;">
+<p>270</p>
+</td>
+<td style="text-align:right;">
+<p>4</p>
+</td>
+<td style="text-align:right;">
+<p>26</p>
+</td>
+<td style="text-align:right;">
+<p>73</p>
+</td>
+<td style="text-align:right;">
+<p>29</p>
+</td>
+<td style="text-align:right;">
+<p>28</p>
+</td>
+<td style="text-align:right;">
+<p>136</p>
+</td>
+<td style="text-align:right;">
+<p>48</p>
+</td>
+<td style="text-align:right;">
+<p>75</p>
+</td>
+<td style="text-align:right;">
+<p>109</p>
+</td>
+<td style="text-align:right;">
+<p>2</p>
+</td>
+<td style="text-align:right;">
+<p>24</p>
+</td>
+<td style="text-align:right;">
+<p>26</p>
+</td>
+<td style="text-align:right;">
+<p>49</p>
+</td>
+<td style="text-align:right;">
+<p>36</p>
+</td>
+<td style="text-align:right;">
+<p>92</p>
+</td>
+<td style="text-align:right;">
+<p>19</p>
+</td>
+<td style="text-align:right;">
+<p>24</p>
+</td>
+<td style="text-align:right;">
+<p>16</p>
+</td>
+<td style="text-align:right;">
+<p>40</p>
+</td>
+<td style="text-align:right;">
+<p>127</p>
+</td>
+<td style="text-align:right;">
+<p>91</p>
+</td>
+<td style="text-align:right;">
+<p>110</p>
+</td>
+<td style="text-align:right;">
+<p>5</p>
+</td>
+<td style="text-align:right;">
+<p>112</p>
+</td>
+<td style="text-align:right;">
+<p>41</p>
+</td>
+<td style="text-align:right;">
+<p>82</p>
+</td>
+<td style="text-align:right;">
+<p>82</p>
+</td>
+<td style="text-align:right;">
+<p>21</p>
+</td>
+<td style="text-align:right;">
+<p>15</p>
+</td>
+<td style="text-align:right;">
+<p>23</p>
+</td>
+<td style="text-align:right;">
+<p>76</p>
+</td>
+<td style="text-align:right;">
+<p>30</p>
+</td>
+<td style="text-align:right;">
+<p>13</p>
+</td>
+<td style="text-align:right;">
+<p>106</p>
+</td>
+<td style="text-align:right;">
+<p>47</p>
+</td>
+<td style="text-align:right;">
+<p>14</p>
+</td>
+<td style="text-align:right;">
+<p>55</p>
+</td>
+<td style="text-align:right;">
+<p>57</p>
+</td>
+<td style="text-align:right;">
+<p>6</p>
+</td>
+<td style="text-align:right;">
+<p>83</p>
+</td>
+<td style="text-align:right;">
+<p>21</p>
+</td>
+<td style="text-align:right;">
+<p>97</p>
+</td>
+<td style="text-align:right;">
+<p>40</p>
+</td>
+<td style="text-align:right;">
+<p>84</p>
+</td>
+<td style="text-align:right;">
+<p>56</p>
+</td>
+<td style="text-align:right;">
+<p>110</p>
+</td>
+<td style="text-align:right;">
+<p>52</p>
+</td>
+<td style="text-align:right;">
+<p>124</p>
+</td>
+<td style="text-align:left;">
+<p>chronic myeloid</p>
+</td>
+<td style="text-align:left;">
+<p>Female</p>
+</td>
+<td style="text-align:right;">
+<p>1944</p>
+</td>
+<td style="text-align:left;">
+<p>April</p>
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+<p>1000068</p>
+</td>
+<td style="text-align:right;">
+<p>14</p>
+</td>
+<td style="text-align:right;">
+<p>128</p>
+</td>
+<td style="text-align:right;">
+<p>128</p>
+</td>
+<td style="text-align:right;">
+<p>13</p>
+</td>
+<td style="text-align:right;">
+<p>94</p>
+</td>
+<td style="text-align:right;">
+<p>15</p>
+</td>
+<td style="text-align:right;">
+<p>0</p>
+</td>
+<td style="text-align:right;">
+<p>106</p>
+</td>
+<td style="text-align:right;">
+<p>91</p>
+</td>
+<td style="text-align:right;">
+<p>66</p>
+</td>
+<td style="text-align:right;">
+<p>66</p>
+</td>
+<td style="text-align:right;">
+<p>66</p>
+</td>
+<td style="text-align:right;">
+<p>88</p>
+</td>
+<td style="text-align:right;">
+<p>195</p>
+</td>
+<td style="text-align:right;">
+<p>136</p>
+</td>
+<td style="text-align:right;">
+<p>121</p>
+</td>
+<td style="text-align:right;">
+<p>52</p>
+</td>
+<td style="text-align:right;">
+<p>48</p>
+</td>
+<td style="text-align:right;">
+<p>19</p>
+</td>
+<td style="text-align:right;">
+<p>50</p>
+</td>
+<td style="text-align:right;">
+<p>29</p>
+</td>
+<td style="text-align:right;">
+<p>39</p>
+</td>
+<td style="text-align:right;">
+<p>29</p>
+</td>
+<td style="text-align:right;">
+<p>115</p>
+</td>
+<td style="text-align:right;">
+<p>120</p>
+</td>
+<td style="text-align:right;">
+<p>121</p>
+</td>
+<td style="text-align:right;">
+<p>5</p>
+</td>
+<td style="text-align:right;">
+<p>120</p>
+</td>
+<td style="text-align:right;">
+<p>124</p>
+</td>
+<td style="text-align:right;">
+<p>95</p>
+</td>
+<td style="text-align:right;">
+<p>0</p>
+</td>
+<td style="text-align:right;">
+<p>88</p>
+</td>
+<td style="text-align:right;">
+<p>76</p>
+</td>
+<td style="text-align:right;">
+<p>60</p>
+</td>
+<td style="text-align:right;">
+<p>86</p>
+</td>
+<td style="text-align:right;">
+<p>84</p>
+</td>
+<td style="text-align:right;">
+<p>33</p>
+</td>
+<td style="text-align:right;">
+<p>13</p>
+</td>
+<td style="text-align:right;">
+<p>92</p>
+</td>
+<td style="text-align:right;">
+<p>108</p>
+</td>
+<td style="text-align:right;">
+<p>38</p>
+</td>
+<td style="text-align:right;">
+<p>118</p>
+</td>
+<td style="text-align:right;">
+<p>24</p>
+</td>
+<td style="text-align:right;">
+<p>49</p>
+</td>
+<td style="text-align:right;">
+<p>28</p>
+</td>
+<td style="text-align:right;">
+<p>108</p>
+</td>
+<td style="text-align:right;">
+<p>76</p>
+</td>
+<td style="text-align:right;">
+<p>21</p>
+</td>
+<td style="text-align:right;">
+<p>19</p>
+</td>
+<td style="text-align:right;">
+<p>24</p>
+</td>
+<td style="text-align:right;">
+<p>95</p>
+</td>
+<td style="text-align:right;">
+<p>27</p>
+</td>
+<td style="text-align:right;">
+<p>4</p>
+</td>
+<td style="text-align:right;">
+<p>51</p>
+</td>
+<td style="text-align:right;">
+<p>103</p>
+</td>
+<td style="text-align:right;">
+<p>76</p>
+</td>
+<td style="text-align:right;">
+<p>118</p>
+</td>
+<td style="text-align:right;">
+<p>33</p>
+</td>
+<td style="text-align:right;">
+<p>14</p>
+</td>
+<td style="text-align:right;">
+<p>105</p>
+</td>
+<td style="text-align:right;">
+<p>11</p>
+</td>
+<td style="text-align:right;">
+<p>72</p>
+</td>
+<td style="text-align:right;">
+<p>91</p>
+</td>
+<td style="text-align:right;">
+<p>51</p>
+</td>
+<td style="text-align:right;">
+<p>79</p>
+</td>
+<td style="text-align:right;">
+<p>92</p>
+</td>
+<td style="text-align:right;">
+<p>103</p>
+</td>
+<td style="text-align:right;">
+<p>38</p>
+</td>
+<td style="text-align:right;">
+<p>82</p>
+</td>
+<td style="text-align:right;">
+<p>96</p>
+</td>
+<td style="text-align:right;">
+<p>87</p>
+</td>
+<td style="text-align:right;">
+<p>34</p>
+</td>
+<td style="text-align:right;">
+<p>39</p>
+</td>
+<td style="text-align:right;">
+<p>13</p>
+</td>
+<td style="text-align:right;">
+<p>1</p>
+</td>
+<td style="text-align:right;">
+<p>81</p>
+</td>
+<td style="text-align:right;">
+<p>4</p>
+</td>
+<td style="text-align:right;">
+<p>83</p>
+</td>
+<td style="text-align:right;">
+<p>118</p>
+</td>
+<td style="text-align:right;">
+<p>5</p>
+</td>
+<td style="text-align:right;">
+<p>44</p>
+</td>
+<td style="text-align:right;">
+<p>75</p>
+</td>
+<td style="text-align:right;">
+<p>100</p>
+</td>
+<td style="text-align:right;">
+<p>109</p>
+</td>
+<td style="text-align:right;">
+<p>13</p>
+</td>
+<td style="text-align:right;">
+<p>84</p>
+</td>
+<td style="text-align:right;">
+<p>49</p>
+</td>
+<td style="text-align:right;">
+<p>102</p>
+</td>
+<td style="text-align:right;">
+<p>63</p>
+</td>
+<td style="text-align:right;">
+<p>35</p>
+</td>
+<td style="text-align:right;">
+<p>82</p>
+</td>
+<td style="text-align:right;">
+<p>23</p>
+</td>
+<td style="text-align:right;">
+<p>92</p>
+</td>
+<td style="text-align:right;">
+<p>79</p>
+</td>
+<td style="text-align:right;">
+<p>38</p>
+</td>
+<td style="text-align:right;">
+<p>128</p>
+</td>
+<td style="text-align:right;">
+<p>25</p>
+</td>
+<td style="text-align:right;">
+<p>81</p>
+</td>
+<td style="text-align:right;">
+<p>45</p>
+</td>
+<td style="text-align:right;">
+<p>42</p>
+</td>
+<td style="text-align:right;">
+<p>62</p>
+</td>
+<td style="text-align:right;">
+<p>18</p>
+</td>
+<td style="text-align:right;">
+<p>5</p>
+</td>
+<td style="text-align:right;">
+<p>44</p>
+</td>
+<td style="text-align:right;">
+<p>110</p>
+</td>
+<td style="text-align:right;">
+<p>5</p>
+</td>
+<td style="text-align:right;">
+<p>62</p>
+</td>
+<td style="text-align:right;">
+<p>87</p>
+</td>
+<td style="text-align:right;">
+<p>13</p>
+</td>
+<td style="text-align:right;">
+<p>74</p>
+</td>
+<td style="text-align:right;">
+<p>41</p>
+</td>
+<td style="text-align:right;">
+<p>66</p>
+</td>
+<td style="text-align:right;">
+<p>106</p>
+</td>
+<td style="text-align:right;">
+<p>48</p>
+</td>
+<td style="text-align:left;">
+<p>bladder cancer</p>
+</td>
+<td style="text-align:left;">
+<p>Female</p>
+</td>
+<td style="text-align:right;">
+<p>1947</p>
+</td>
+<td style="text-align:left;">
+<p>November</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 </div>
   </div>

@@ -1,29 +1,45 @@
 ---
-title: "Access Lifebit's cohort broswer in R"
-author: "Sangram Keshari Sahu"
-date: "`r format(Sys.time(), '%d %B, %Y')`"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Access Lifebit's cohort broswer in R}
-  %\VignetteEngine{knitr::rmarkdown}
-  \usepackage[utf8]{inputenc}
+output: github_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-# https://cran.r-project.org/web/packages/httr/vignettes/secrets.html#vignettes
-NOT_CRAN <- identical(tolower(Sys.getenv("NOT_CRAN")), "true")
-knitr::opts_chunk$set(purl = NOT_CRAN)
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
 ```
 
+# cloudos
 
+<!-- badges: start -->
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![R build status](https://github.com/lifebit-ai/cloudos/workflows/R-CMD-check/badge.svg)](https://github.com/lifebit-ai/cloudos/actions)
+<!-- badges: end -->
 
-## Load the R-client library
+The 'CloudOS' client library for R makes it easy to interact with CloudOS <https://cloudos.lifebit.ai/> in the R environment for analysis.
+
+## Installation
+
+You can install the released version of cloudos from [GitHub](https://github.com/lifebit-ai/cloudos/) at this moment. (Will be listed on  [CRAN](https://CRAN.R-project.org) as well)
+
+```{r, eval=FALSE}
+if (!require(remotes)) { install.packages("remotes") }
+  remotes::install_github("lifebit-ai/cloudos")
+```
+
+## Usage
+
+### Load the cloudos R-client library
+
 ```{r}
 library(cloudos)
 ```
 
-## Setup essentials 
+### Setup essentials 
 
 ```{r}
 cb_base_url <- "http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com"
@@ -36,7 +52,7 @@ my_auth <- Sys.getenv("cloudos_Bearer_token")
 my_team_id <- Sys.getenv("cloudos_team_id")
 ```
 
-## Create a cohort
+### Create a cohort
 
 ```{r}
 cloudos::create_cohort(base_url = cb_base_url,
@@ -46,7 +62,7 @@ cloudos::create_cohort(base_url = cb_base_url,
               cohort_desc = "This cohort is for testing purpose, created from R.")
 ```
 
-## List Cohorts
+### List Cohorts
 
 List available cohorts in a workspace.
 
@@ -57,7 +73,7 @@ cohorts <- cloudos::list_cohorts(base_url = cb_base_url,
 kableExtra::kable(cohorts)
 ```
 
-## Extract participants
+### Extract participants
 
 Create a RAW data string. This usually generates after selecting participants on UI. (more information will be added how to create this in R)
 
@@ -75,3 +91,4 @@ df <- cloudos::extract_participants(base_url= cb_base_url,
 
 kableExtra::kable(df)
 ```
+
