@@ -36,8 +36,8 @@ extract_genotypic_data <- function(base_url, auth, team_id,
   )
   if (!r$status_code == 200) {
     stop("Something went wrong.")
-  }else{
-    res <- httr::content(r)
-    return(res$participants)
   }
+  # parse the content
+  res <- httr::content(r)
+  return(res$participants)
 }

@@ -36,12 +36,12 @@ create_cohort <- function(base_url, auth, team_id,
   )
   if (!r$status_code == 200) {
     stop("Something went wrong. Not able to create a cohort")
-  }else{
-    message("Cohort named ", cohort_name, " created successfully. Bellow are the details")
-    res <- httr::content(r)
-    # into a dataframe
-    res_df <- do.call(rbind, res)
-    colnames(res_df) <- "details"
-    return(res_df)
   }
+  # parse the content
+  message("Cohort named ", cohort_name, " created successfully. Bellow are the details")
+  res <- httr::content(r)
+  # into a dataframe
+  res_df <- do.call(rbind, res)
+  colnames(res_df) <- "details"
+  return(res_df)
 }

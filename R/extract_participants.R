@@ -27,9 +27,9 @@ extract_participants <- function(base_url, auth, raw_data) {
         )
   if (!r$status_code == 200) {
     stop("Something went wrong.")
-  }else{
-    res <- httr::content(r, as = "text")
-    df <- utils::read.csv(textConnection(res))
-    return(df)
   }
+  # parse the content
+  res <- httr::content(r, as = "text")
+  df <- utils::read.csv(textConnection(res))
+  return(df)
 }
