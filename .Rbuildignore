@@ -7,3 +7,4 @@
 ^pkgdown$
 ^local*
 README*
+^check$
