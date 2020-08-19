@@ -1,5 +1,6 @@
 .Rproj.user
 .Rhistory
 .RData
-docs
 local*
+inst/doc
+check*

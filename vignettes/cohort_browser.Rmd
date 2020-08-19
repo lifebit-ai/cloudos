@@ -1,0 +1,77 @@
+---
+title: "Access Lifebit's cohort broswer"
+author: "Sangram Keshari Sahu"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteEngine{knitr::knitr}
+  %\VignetteIndexEntry{Access Lifebit's cohort broswer}
+  %\usepackage[UTF-8]{inputenc}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+# https://cran.r-project.org/web/packages/httr/vignettes/secrets.html#vignettes
+NOT_CRAN <- identical(tolower(Sys.getenv("NOT_CRAN")), "true")
+knitr::opts_chunk$set(purl = NOT_CRAN)
+```
+
+
+
+## Load the R-client library
+```{r}
+library(cloudos)
+```
+
+## Setup essentials 
+
+```{r}
+cb_baseurl <- "http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com"
+my_auth <- "*************************"
+my_teamid <- "***************************"
+```
+
+```{r secrets, echo=FALSE}
+my_auth <- Sys.getenv("cloudos_Bearer_token")
+my_teamid <- Sys.getenv("cloudos_teamid")
+```
+
+## Create a cohort
+
+```{r}
+cloudos::create_cohort(baseurl = cb_baseurl,
+              auth = my_auth,
+              teamid = my_teamid,
+              cohort_name = "Test cohort",
+              cohort_desc = "This cohort is for testing purpose.")
+```
+
+## List Cohorts
+
+List available cohorts in a workspace.
+
+```{r}
+cohorts <- cloudos::list_cohorts(baseurl = cb_baseurl,
+                        auth = my_auth,
+                        teamid = my_teamid)
+kableExtra::kable(cohorts)
+```
+
+## Extract participants
+
+Create a RAW data string. This usually generates after selecting participants on UI. (more information will be added how to create this in R)
+
+```{r}
+new_raw_data <- '{"columns":[{"id":34,"instance":0,"array":{"type":"exact","value":0}},{"id":31,"instance":0,"array":{"type":"exact","value":0}},{"id":52,"instance":0,"array":{"type":"exact","value":0}},{"id":5984,"instance":0,"array":{"type":"avg"}},{"id":5984,"instance":0,"array":{"type":"min"}},{"id":5984,"instance":0,"array":{"type":"max"}},{"id":20001,"instance":0,"array":{"type":"exact","value":0}}],"ids":["5f185b92bf92ed4d3be9637d","5edbdd689d700db709af0c2f","5f185b91bf92ed4d3be9587e","5f185b91bf92ed4d3be95984","5edbdd689d700db709af0c3e","5edbdd689d700db709af0c2b","5edbdd689d700db709af0c2d","5f185b93bf92ed4d3be982e9","5edbdd689d700db709af0c2a","5edbdd689d700db709af0c4d"],"type":"csv","baseURL":"http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com"}'
+```
+
+Using this above raw data lets extract selected participants.
+
+```{r}
+df <- cloudos::extract_participants(baseurl= cb_baseurl, 
+                      auth = my_auth,
+                      raw_data = new_raw_data)
+
+
+kableExtra::kable(df)
+```
