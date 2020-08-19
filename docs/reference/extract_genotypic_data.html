@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cloudos</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9000</span>
       </span>
     </div>
 
@@ -86,18 +86,6 @@
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/cohort_browser.html">Access Lifebit's cohort broswer</a>
-    </li>
-  </ul>
 </li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -133,9 +121,9 @@
     </div>
 
     <pre class="usage"><span class='fu'>extract_genotypic_data</span>(
-  <span class='no'>baseurl</span>,
+  <span class='no'>base_url</span>,
   <span class='no'>auth</span>,
-  <span class='no'>teamid</span>,
+  <span class='no'>team_id</span>,
   <span class='kw'>page_number</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>page_size</span> <span class='kw'>=</span> <span class='fl'>10</span>,
   <span class='kw'>filters</span> <span class='kw'>=</span> <span class='st'>""</span>
@@ -145,7 +133,7 @@
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>baseurl</th>
+      <th>base_url</th>
       <td><p>Base URL of the CloudOS server. (Required)</p></td>
     </tr>
     <tr>
@@ -154,7 +142,7 @@
 Example - Bearer token or API key.</p></td>
     </tr>
     <tr>
-      <th>teamid</th>
+      <th>team_id</th>
       <td><p>Team ID in CloudOS account. (Required)</p></td>
     </tr>
     <tr>
@@ -177,9 +165,9 @@ Example - Bearer token or API key.</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'>extract_genotypic_data</span>(<span class='kw'>baseurl</span><span class='kw'>=</span> <span class='st'>"https://cloudos.lifebit.ai"</span>,
+<span class='fu'>extract_genotypic_data</span>(<span class='kw'>base_url</span><span class='kw'>=</span> <span class='st'>"https://cloudos.lifebit.ai"</span>,
              <span class='kw'>auth</span> <span class='kw'>=</span> <span class='st'>"Bearer ***token***"</span>,
-             <span class='kw'>teamid</span> <span class='kw'>=</span> <span class='st'>"***teamid***"</span>)
+             <span class='kw'>team_id</span> <span class='kw'>=</span> <span class='st'>"***team_id***"</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
