@@ -2,3 +2,5 @@
 .Rhistory
 .RData
 local*
+inst/doc
+check*

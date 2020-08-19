@@ -1,0 +1,94 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# cloudos
+
+<!-- badges: start -->
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![R build status](https://github.com/lifebit-ai/cloudos/workflows/R-CMD-check/badge.svg)](https://github.com/lifebit-ai/cloudos/actions)
+<!-- badges: end -->
+
+The 'CloudOS' client library for R makes it easy to interact with CloudOS <https://cloudos.lifebit.ai/> in the R environment for analysis.
+
+## Installation
+
+You can install the released version of cloudos from [GitHub](https://github.com/lifebit-ai/cloudos/) at this moment. (Will be listed on  [CRAN](https://CRAN.R-project.org) as well)
+
+```{r, eval=FALSE}
+if (!require(remotes)) { install.packages("remotes") }
+  remotes::install_github("lifebit-ai/cloudos")
+```
+
+## Usage
+
+### Load the cloudos R-client library
+
+```{r}
+library(cloudos)
+```
+
+### Setup essentials 
+
+```{r}
+cb_base_url <- "http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com"
+my_auth <- "*************************"
+my_team_id <- "***************************"
+```
+
+```{r secrets, echo=FALSE}
+my_auth <- Sys.getenv("cloudos_Bearer_token")
+my_team_id <- Sys.getenv("cloudos_team_id")
+```
+
+### Create a cohort
+
+```{r}
+cloudos::create_cohort(base_url = cb_base_url,
+              auth = my_auth,
+              team_id = my_team_id,
+              cohort_name = "Cohort-R",
+              cohort_desc = "This cohort is for testing purpose, created from R.")
+```
+
+### List Cohorts
+
+List available cohorts in a workspace.
+
+```{r}
+cohorts <- cloudos::list_cohorts(base_url = cb_base_url,
+                        auth = my_auth,
+                        team_id = my_team_id)
+kableExtra::kable(cohorts)
+```
+
+### Extract participants
+
+Create a RAW data string. This usually generates after selecting participants on UI. (more information will be added how to create this in R)
+
+```{r}
+new_raw_data <- '{"columns":[{"id":34,"instance":0,"array":{"type":"exact","value":0}},{"id":31,"instance":0,"array":{"type":"exact","value":0}},{"id":52,"instance":0,"array":{"type":"exact","value":0}},{"id":5984,"instance":0,"array":{"type":"avg"}},{"id":5984,"instance":0,"array":{"type":"min"}},{"id":5984,"instance":0,"array":{"type":"max"}},{"id":20001,"instance":0,"array":{"type":"exact","value":0}}],"ids":["5f185b92bf92ed4d3be9637d","5edbdd689d700db709af0c2f","5f185b91bf92ed4d3be9587e","5f185b91bf92ed4d3be95984","5edbdd689d700db709af0c3e","5edbdd689d700db709af0c2b","5edbdd689d700db709af0c2d","5f185b93bf92ed4d3be982e9","5edbdd689d700db709af0c2a","5edbdd689d700db709af0c4d"],"type":"csv","base_url":"http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com"}'
+```
+
+Using this above raw data lets extract selected participants.
+
+```{r}
+df <- cloudos::extract_participants(base_url= cb_base_url, 
+                      auth = my_auth,
+                      raw_data = new_raw_data)
+
+
+kableExtra::kable(df)
+```
+

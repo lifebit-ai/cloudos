@@ -1,5 +1,5 @@
 Package: cloudos
-Title: R client library for CloudOS
+Title: R Client Library for CloudOS
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "Lifebit",
@@ -21,7 +21,7 @@ Suggests:
     testthat,
     lintr,
     knitr,
-    kableExtra
+    kableExtra,
+    rmarkdown
 URL: https://github.com/lifebit-ai/cloudos
 BugReports: https://github.com/lifebit-ai/cloudos/issues
-VignetteBuilder: knitr

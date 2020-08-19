@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Changelog • cloudos</title>
+<title>Create Cohort — create_cohort • cloudos</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,8 @@
 
 
 
-<meta property="og:title" content="Changelog" />
+<meta property="og:title" content="Create Cohort — create_cohort" />
+<meta property="og:description" content="Creates a new Cohort" />
 
 
 
@@ -58,7 +59,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-news">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -110,25 +111,65 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1 data-toc-skip>Changelog <small></small></h1>
-      <small>Source: <a href='https://github.com/lifebit-ai/cloudos/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
+    <h1>Create Cohort</h1>
+    <small class="dont-index">Source: <a href='https://github.com/lifebit-ai/cloudos/blob/master/R/create_cohort.R'><code>R/create_cohort.R</code></a></small>
+    <div class="hidden name"><code>create_cohort.Rd</code></div>
     </div>
 
-    <div id="cloudos-0009000" class="section level1">
-<h1 class="page-header" data-toc-text="0.0.0.9000">
-<a href="#cloudos-0009000" class="anchor"></a>cloudos 0.0.0.9000</h1>
-<ul>
-<li>Added a <code>NEWS.md</code> file to track changes to the package.</li>
-</ul>
-</div>
-  </div>
+    <div class="ref-description">
+    <p>Creates a new Cohort</p>
+    </div>
 
+    <pre class="usage"><span class='fu'>create_cohort</span>(<span class='no'>base_url</span>, <span class='no'>auth</span>, <span class='no'>team_id</span>, <span class='no'>cohort_name</span>, <span class='no'>cohort_desc</span>, <span class='kw'>filters</span> <span class='kw'>=</span> <span class='st'>""</span>)</pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>base_url</th>
+      <td><p>Base URL of the CloudOS server. (Required)</p></td>
+    </tr>
+    <tr>
+      <th>auth</th>
+      <td><p>An authentication method. (Required)
+Example - Bearer token or API key.</p></td>
+    </tr>
+    <tr>
+      <th>team_id</th>
+      <td><p>Team ID in CloudOS account. (Required)</p></td>
+    </tr>
+    <tr>
+      <th>cohort_name</th>
+      <td><p>New cohort name to be created. (Required)</p></td>
+    </tr>
+    <tr>
+      <th>cohort_desc</th>
+      <td><p>New cohort description to be created. (Required)</p></td>
+    </tr>
+    <tr>
+      <th>filters</th>
+      <td><p>WIP - details will be added.</p></td>
+    </tr>
+    </table>
+
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A dataframe.</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'>create_cohort</span>(<span class='kw'>base_url</span><span class='kw'>=</span> <span class='st'>"https://cloudos.lifebit.ai"</span>,
+             <span class='kw'>auth</span> <span class='kw'>=</span> <span class='st'>"Bearer ***token***"</span>,
+             <span class='kw'>team_id</span> <span class='kw'>=</span> <span class='st'>"***team_id***"</span>,
+             <span class='kw'>cohort_name</span> <span class='kw'>=</span> <span class='st'>"my cohort"</span>,
+             <span class='kw'>cohort_desc</span> <span class='kw'>=</span> <span class='st'>"my cohort description"</span>)
+}</div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
     </nav>
   </div>
-
 </div>
 
 
