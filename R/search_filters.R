@@ -7,7 +7,7 @@
 #' Example - Bearer token or API key.
 #' @param team_id Team ID in CloudOS account. (Required)
 #' @param term A term to search. (Required)
-#' Example - "male"
+#' Example - "cancer"
 #'
 #' @return A data frame with available cohort filters.
 #'
