@@ -160,5 +160,5 @@ filter_metadata <- function(object, filter_id) {
   # parse the content
   res <- httr::content(r)
   res_df <- as.data.frame(do.call(cbind, res))
-  return(cohorts_df)
+  return(res_df)
 }

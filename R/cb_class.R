@@ -9,6 +9,7 @@
 #' @name cohort-class
 #' @rdname cohort-class
 #' @export
+# TODO: work on cohort class
 setClass("cohort", slots = list(cohort = "list",
                                 filter = "list")
 )

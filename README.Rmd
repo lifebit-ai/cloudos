@@ -78,6 +78,7 @@ cohorts
 my_cohort <- cloudos::create_cohort(my_cloudos,
               cohort_name = "Cohort-R",
               cohort_desc = "This cohort is for testing purpose, created from R.")
+my_cohort
 ```
 
 ### Filtering
