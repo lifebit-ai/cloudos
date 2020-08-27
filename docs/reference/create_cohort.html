@@ -112,7 +112,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Create Cohort</h1>
-    <small class="dont-index">Source: <a href='https://github.com/lifebit-ai/cloudos/blob/master/R/create_cohort.R'><code>R/create_cohort.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/lifebit-ai/cloudos/blob/master/R/cb_create_cohort.R'><code>R/cb_create_cohort.R</code></a></small>
     <div class="hidden name"><code>create_cohort.Rd</code></div>
     </div>
 
@@ -120,23 +120,15 @@
     <p>Creates a new Cohort</p>
     </div>
 
-    <pre class="usage"><span class='fu'>create_cohort</span>(<span class='no'>base_url</span>, <span class='no'>auth</span>, <span class='no'>team_id</span>, <span class='no'>cohort_name</span>, <span class='no'>cohort_desc</span>, <span class='kw'>filters</span> <span class='kw'>=</span> <span class='st'>""</span>)</pre>
+    <pre class="usage"><span class='fu'>create_cohort</span>(<span class='no'>object</span>, <span class='no'>cohort_name</span>, <span class='no'>cohort_desc</span>, <span class='kw'>filters</span> <span class='kw'>=</span> <span class='st'>""</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>base_url</th>
-      <td><p>Base URL of the CloudOS server. (Required)</p></td>
-    </tr>
-    <tr>
-      <th>auth</th>
-      <td><p>An authentication method. (Required)
-Example - Bearer token or API key.</p></td>
-    </tr>
-    <tr>
-      <th>team_id</th>
-      <td><p>Team ID in CloudOS account. (Required)</p></td>
+      <th>object</th>
+      <td><p>A cloudos object. (Required)
+See constructor function <code><a href='cloudos.html'>cloudos</a></code></p></td>
     </tr>
     <tr>
       <th>cohort_name</th>
@@ -158,9 +150,7 @@ Example - Bearer token or API key.</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'>create_cohort</span>(<span class='kw'>base_url</span><span class='kw'>=</span> <span class='st'>"https://cloudos.lifebit.ai"</span>,
-             <span class='kw'>auth</span> <span class='kw'>=</span> <span class='st'>"Bearer ***token***"</span>,
-             <span class='kw'>team_id</span> <span class='kw'>=</span> <span class='st'>"***team_id***"</span>,
+<span class='fu'>create_cohort</span>(<span class='no'>cloudos_obj</span>,
              <span class='kw'>cohort_name</span> <span class='kw'>=</span> <span class='st'>"my cohort"</span>,
              <span class='kw'>cohort_desc</span> <span class='kw'>=</span> <span class='st'>"my cohort description"</span>)
 }</div></pre>

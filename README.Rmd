@@ -1,5 +1,7 @@
 ---
-output: github_document
+output: 
+  github_document:
+    toc: true
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -13,7 +15,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# cloudos
+# cloudos <img src="logo/hexlogo.png" align="right" height=140/>
 
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
@@ -52,14 +54,13 @@ my_auth <- Sys.getenv("cloudos_Bearer_token")
 my_team_id <- Sys.getenv("cloudos_team_id")
 ```
 
-### Create a cohort
+### Create a cloudos object
 
 ```{r}
-cloudos::create_cohort(base_url = cb_base_url,
-              auth = my_auth,
-              team_id = my_team_id,
-              cohort_name = "Cohort-R",
-              cohort_desc = "This cohort is for testing purpose, created from R.")
+my_cloudos <- cloudos::cloudos(base_url = cb_base_url,
+                               auth = my_auth,
+                               team_id = my_team_id)
+my_cloudos
 ```
 
 ### List Cohorts
@@ -67,10 +68,62 @@ cloudos::create_cohort(base_url = cb_base_url,
 List available cohorts in a workspace.
 
 ```{r}
-cohorts <- cloudos::list_cohorts(base_url = cb_base_url,
-                        auth = my_auth,
-                        team_id = my_team_id)
-kableExtra::kable(cohorts)
+cohorts <- cloudos::list_cohorts(my_cloudos)
+cohorts
+```
+
+### Create a cohort
+
+```{r}
+my_cohort <- cloudos::create_cohort(my_cloudos,
+              cohort_name = "Cohort-R",
+              cohort_desc = "This cohort is for testing purpose, created from R.")
+```
+
+### Filtering
+
+#### Search avaiable filters
+
+```{r}
+filt <- cloudos::search_filters(my_cloudos, term = "cancer")
+filt
+```
+
+#### Phenotype filtering
+
+TODO: For now two filters are hard-coded for testing.
+
+```{r}
+# phenotype filter
+cohort_with_filters <- cloudos::filter_data(my_cloudos, 
+                                   cohort_id = my_cohort["_id",], 
+                                   filter_id = filt$id[1])
+cohort_with_filters
+```
+
+```{r}
+# filter participants
+# participants_with_fiter <- cloudos:::filter_participants(my_cloudos,
+#                                                cohort_id = my_cohort["_id",], 
+#                                                filter_id = filt$id[1] )
+# 
+# participants_with_fiter
+```
+
+```{r}
+# apply filter (genotypic_save) 
+# gs <- cloudos::genotypic_save(my_cloudos,
+#                      cohort_id = my_cohort["_id",], 
+#                      filter_id = filt$id[1] )
+# 
+# gs
+```
+
+### Extract Genotypic data
+
+```{r}
+df <- cloudos::extract_genotypic_data(my_cloudos)
+df
 ```
 
 ### Extract participants
@@ -84,11 +137,8 @@ new_raw_data <- '{"columns":[{"id":34,"instance":0,"array":{"type":"exact","valu
 Using this above raw data lets extract selected participants.
 
 ```{r}
-df <- cloudos::extract_participants(base_url= cb_base_url, 
-                      auth = my_auth,
+df <- cloudos::extract_participants(my_cloudos,
                       raw_data = new_raw_data)
-
-
-kableExtra::kable(df)
+df
 ```
 

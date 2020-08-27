@@ -6,5 +6,6 @@
 ^docs$
 ^pkgdown$
 ^local*
+^logo*
 README*
 ^check$

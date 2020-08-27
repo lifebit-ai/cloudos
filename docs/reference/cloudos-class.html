@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Extract participants — extract_participants • cloudos</title>
+<title>This cloudos S4 class creates a cloudos object. — cloudos-class • cloudos</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,12 @@
 
 
 
-<meta property="og:title" content="Extract participants — extract_participants" />
-<meta property="og:description" content="Extracts selected participants." />
+<meta property="og:title" content="This cloudos S4 class creates a cloudos object. — cloudos-class" />
+<meta property="og:description" content="This will create a main object, which will
+hold many information related to CloudOS server
+including base URL, authentication and team ID.
+Use of this object will simplify calling every
+other functions which requires to communicate with server." />
 
 
 
@@ -111,34 +115,35 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Extract participants</h1>
-    <small class="dont-index">Source: <a href='https://github.com/lifebit-ai/cloudos/blob/master/R/cb_extract_cohort.R'><code>R/cb_extract_cohort.R</code></a></small>
-    <div class="hidden name"><code>extract_participants.Rd</code></div>
+    <h1>This cloudos S4 class creates a cloudos object.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/lifebit-ai/cloudos/blob/master/R/cloudos_class.R'><code>R/cloudos_class.R</code></a></small>
+    <div class="hidden name"><code>cloudos-class.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Extracts selected participants.</p>
+    <p>This will create a main object, which will
+hold many information related to CloudOS server
+including base URL, authentication and team ID.
+Use of this object will simplify calling every
+other functions which requires to communicate with server.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>extract_participants</span>(<span class='no'>object</span>, <span class='no'>raw_data</span>)</pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>object</th>
-      <td><p>A cloudos object. (Required)
-See constructor function <code><a href='cloudos.html'>cloudos</a></code></p></td>
-    </tr>
-    <tr>
-      <th>raw_data</th>
-      <td><p>A JSON string for selected participants. (Required)</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="slots"><a class="anchor" href="#slots"></a>Slots</h2>
 
-    <p>A dataframe.</p>
+    
+
+<dl'>
+<dt><code>base_url</code></dt><dd><p>Base URL of the CloudOS server.</p></dd>
+
+<dt><code>auth</code></dt><dd><p>An authentication method.</p></dd>
+
+<dt><code>auth_method</code></dt><dd><p>Which authentication method being used.</p></dd>
+
+<dt><code>team_id</code></dt><dd><p>Team ID in CloudOS account.</p></dd>
+
+</dl>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

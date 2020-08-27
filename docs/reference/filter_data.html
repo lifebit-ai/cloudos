@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Extract participants — extract_participants • cloudos</title>
+<title>Filter data — filter_data • cloudos</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Extract participants — extract_participants" />
-<meta property="og:description" content="Extracts selected participants." />
+<meta property="og:title" content="Filter data — filter_data" />
+<meta property="og:description" content="Filters a cohort data based on particular phenotype filter." />
 
 
 
@@ -111,16 +111,16 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Extract participants</h1>
-    <small class="dont-index">Source: <a href='https://github.com/lifebit-ai/cloudos/blob/master/R/cb_extract_cohort.R'><code>R/cb_extract_cohort.R</code></a></small>
-    <div class="hidden name"><code>extract_participants.Rd</code></div>
+    <h1>Filter data</h1>
+    <small class="dont-index">Source: <a href='https://github.com/lifebit-ai/cloudos/blob/master/R/cb_filter_cohort.R'><code>R/cb_filter_cohort.R</code></a></small>
+    <div class="hidden name"><code>filter_data.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Extracts selected participants.</p>
+    <p>Filters a cohort data based on particular phenotype filter.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>extract_participants</span>(<span class='no'>object</span>, <span class='no'>raw_data</span>)</pre>
+    <pre class="usage"><span class='fu'>filter_data</span>(<span class='no'>object</span>, <span class='no'>cohort_id</span>, <span class='no'>filter_id</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -131,14 +131,18 @@
 See constructor function <code><a href='cloudos.html'>cloudos</a></code></p></td>
     </tr>
     <tr>
-      <th>raw_data</th>
-      <td><p>A JSON string for selected participants. (Required)</p></td>
+      <th>cohort_id</th>
+      <td><p>A cohort ID. (Required)</p></td>
+    </tr>
+    <tr>
+      <th>filter_id</th>
+      <td><p>A filter ID. (Required)</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A dataframe.</p>
+    <p>A data frame with filters applied.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

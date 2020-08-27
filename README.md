@@ -1,7 +1,6 @@
-
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# cloudos
+# cloudos <img src="logo/hexlogo.png" align="right" height=140/>
 
 <!-- badges: start -->
 
@@ -13,6 +12,17 @@ status](https://github.com/lifebit-ai/cloudos/workflows/R-CMD-check/badge.svg)](
 
 The ‘CloudOS’ client library for R makes it easy to interact with
 CloudOS <https://cloudos.lifebit.ai/> in the R environment for analysis.
+
+- [Installation](#installation)
+- [Usage](#usage)
+    - [Load the cloudos R-client library](#load-the-cloudos-r-client-library)
+    - [Setup essentials](#setup-essentials)
+    - [Create a cloudos object](#create-a-cloudos-object)
+    - [List Cohorts](#list-cohorts)
+    - [Create a cohort](#create-a-cohort)
+    - [Filtering](#filtering)
+    - [Extract Genotypic data](#extract-genotypic-data)
+    - [Extract participants](#extract-participants)
 
 ## Installation
 
@@ -41,27 +51,16 @@ my_auth <- "*************************"
 my_team_id <- "***************************"
 ```
 
-### Create a cohort
+### Create a cloudos object
 
 ``` r
-cloudos::create_cohort(base_url = cb_base_url,
-              auth = my_auth,
-              team_id = my_team_id,
-              cohort_name = "Cohort-R",
-              cohort_desc = "This cohort is for testing purpose, created from R.")
-#> Cohort named Cohort-R created successfully. Bellow are the details
-#>                      details                                              
-#> phenotypeFilters     ""                                                   
-#> _id                  "5f3d271d2890e2285ef3afff"                           
-#> name                 "Cohort-R"                                           
-#> description          "This cohort is for testing purpose, created from R."
-#> team                 "5f046bf6c132dd15fdd1a525"                           
-#> owner                "5f046be1c132dd15fdd1a51e"                           
-#> numberOfParticipants 644686                                               
-#> numberOfFilters      0                                                    
-#> createdAt            "2020-08-19T13:20:29.096Z"                           
-#> updatedAt            "2020-08-19T13:20:29.096Z"                           
-#> __v                  0
+my_cloudos <- cloudos::cloudos(base_url = cb_base_url,
+                               auth = my_auth,
+                               team_id = my_team_id)
+my_cloudos
+#> Base URL:  http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com 
+#> Authentication Method:  Bearer Token 
+#> Team ID: 5f046bf6c132dd15fdd1a525
 ```
 
 ### List Cohorts
@@ -69,530 +68,675 @@ cloudos::create_cohort(base_url = cb_base_url,
 List available cohorts in a workspace.
 
 ``` r
-cohorts <- cloudos::list_cohorts(base_url = cb_base_url,
-                        auth = my_auth,
-                        team_id = my_team_id)
-#> Total number of cohorts found-28. But here is 10. For more, change 'page_number' and 'page_size'
-kableExtra::kable(cohorts)
+cohorts <- cloudos::list_cohorts(my_cloudos)
+#> Total number of cohorts found-39. But here is 10. For more, change 'page_number' and 'page_size'
+cohorts
+#>                          id         name
+#> 1  5f2ab881b695de55d93024a7         test
+#> 2  5f327e8c1733200222dc3e8c       test_2
+#> 3  5f32c2147ca1902e9c5ba45d       test-R
+#> 4  5f32e1687ca1902e9c5ba467  Test cohort
+#> 5  5f32f1407ca1902e9c5ba46e     Cohort-R
+#> 6  5f351e89cb536f664c1e0a47     test-new
+#> 7  5f351ec1305af25011d57b25 test-new-new
+#> 8  5f351f15305af25011d57b26 test-new-new
+#> 9  5f352103cb536f664c1e0a4a  random test
+#> 10 5f3521c5b12d49672a616b88     Cohort-R
+#>                                            description number_of_participants
+#> 1                                            test-desc                 414326
+#> 2                                          some random                 600000
+#> 3                                   created from R lib                 600000
+#> 4                  This cohort is for testing purpose.                 600000
+#> 5  This cohort is for testing purpose, created from R.                 600000
+#> 6                                        test-new-desc                 600000
+#> 7                                              New-new                 600000
+#> 8                                              New-new                 600000
+#> 9                                   random descriptiom                 600000
+#> 10 This cohort is for testing purpose, created from R.                 333264
+#>    number_of_filters               created_at               updated_at
+#> 1                  1 2020-08-05T13:47:45.826Z 2020-08-14T10:48:37.284Z
+#> 2                  0 2020-08-11T11:18:36.703Z 2020-08-11T11:18:36.703Z
+#> 3                  0 2020-08-11T16:06:44.205Z 2020-08-11T16:06:44.205Z
+#> 4                  0 2020-08-11T18:20:24.356Z 2020-08-11T18:20:24.356Z
+#> 5                  0 2020-08-11T19:28:00.606Z 2020-08-11T19:28:00.606Z
+#> 6                  0 2020-08-13T11:05:45.111Z 2020-08-13T11:05:45.111Z
+#> 7                  0 2020-08-13T11:06:41.160Z 2020-08-13T11:06:41.160Z
+#> 8                  0 2020-08-13T11:08:05.512Z 2020-08-13T11:08:05.512Z
+#> 9                  0 2020-08-13T11:16:19.086Z 2020-08-13T11:16:19.086Z
+#> 10                 1 2020-08-13T11:19:33.094Z 2020-08-20T07:30:41.584Z
 ```
 
-<table>
-
-<thead>
-
-<tr>
-
-<th style="text-align:left;">
-
-id
-
-</th>
-
-<th style="text-align:left;">
-
-name
-
-</th>
-
-<th style="text-align:left;">
-
-description
-
-</th>
-
-<th style="text-align:right;">
-
-number\_of\_participants
-
-</th>
-
-<th style="text-align:right;">
-
-number\_of\_filters
-
-</th>
-
-<th style="text-align:left;">
-
-created\_at
-
-</th>
-
-<th style="text-align:left;">
-
-updated\_at
-
-</th>
-
-</tr>
-
-</thead>
-
-<tbody>
-
-<tr>
-
-<td style="text-align:left;">
-
-5f2ab881b695de55d93024a7
-
-</td>
-
-<td style="text-align:left;">
-
-test
-
-</td>
-
-<td style="text-align:left;">
-
-test-desc
-
-</td>
-
-<td style="text-align:right;">
-
-414326
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:left;">
-
-2020-08-05T13:47:45.826Z
-
-</td>
-
-<td style="text-align:left;">
-
-2020-08-14T10:48:37.284Z
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-5f327e8c1733200222dc3e8c
-
-</td>
-
-<td style="text-align:left;">
-
-test\_2
-
-</td>
-
-<td style="text-align:left;">
-
-some random
-
-</td>
-
-<td style="text-align:right;">
-
-600000
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-2020-08-11T11:18:36.703Z
-
-</td>
-
-<td style="text-align:left;">
-
-2020-08-11T11:18:36.703Z
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-5f32c2147ca1902e9c5ba45d
-
-</td>
-
-<td style="text-align:left;">
-
-test-R
-
-</td>
-
-<td style="text-align:left;">
-
-created from R lib
-
-</td>
-
-<td style="text-align:right;">
-
-600000
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-2020-08-11T16:06:44.205Z
-
-</td>
-
-<td style="text-align:left;">
-
-2020-08-11T16:06:44.205Z
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-5f32e1687ca1902e9c5ba467
-
-</td>
-
-<td style="text-align:left;">
-
-Test cohort
-
-</td>
-
-<td style="text-align:left;">
-
-This cohort is for testing purpose.
-
-</td>
-
-<td style="text-align:right;">
-
-600000
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-2020-08-11T18:20:24.356Z
-
-</td>
-
-<td style="text-align:left;">
-
-2020-08-11T18:20:24.356Z
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-5f32f1407ca1902e9c5ba46e
-
-</td>
-
-<td style="text-align:left;">
-
-Cohort-R
-
-</td>
-
-<td style="text-align:left;">
-
-This cohort is for testing purpose, created from R.
-
-</td>
-
-<td style="text-align:right;">
-
-600000
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-2020-08-11T19:28:00.606Z
-
-</td>
-
-<td style="text-align:left;">
-
-2020-08-11T19:28:00.606Z
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-5f351e89cb536f664c1e0a47
-
-</td>
-
-<td style="text-align:left;">
-
-test-new
-
-</td>
-
-<td style="text-align:left;">
-
-test-new-desc
-
-</td>
-
-<td style="text-align:right;">
-
-600000
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-2020-08-13T11:05:45.111Z
-
-</td>
-
-<td style="text-align:left;">
-
-2020-08-13T11:05:45.111Z
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-5f351ec1305af25011d57b25
-
-</td>
-
-<td style="text-align:left;">
-
-test-new-new
-
-</td>
-
-<td style="text-align:left;">
-
-New-new
-
-</td>
-
-<td style="text-align:right;">
-
-600000
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-2020-08-13T11:06:41.160Z
-
-</td>
-
-<td style="text-align:left;">
-
-2020-08-13T11:06:41.160Z
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-5f351f15305af25011d57b26
-
-</td>
-
-<td style="text-align:left;">
-
-test-new-new
-
-</td>
-
-<td style="text-align:left;">
-
-New-new
-
-</td>
-
-<td style="text-align:right;">
-
-600000
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-2020-08-13T11:08:05.512Z
-
-</td>
-
-<td style="text-align:left;">
-
-2020-08-13T11:08:05.512Z
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-5f352103cb536f664c1e0a4a
-
-</td>
-
-<td style="text-align:left;">
-
-random test
-
-</td>
-
-<td style="text-align:left;">
-
-random descriptiom
-
-</td>
-
-<td style="text-align:right;">
-
-600000
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-2020-08-13T11:16:19.086Z
-
-</td>
-
-<td style="text-align:left;">
-
-2020-08-13T11:16:19.086Z
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-5f3521c5b12d49672a616b88
-
-</td>
-
-<td style="text-align:left;">
-
-Cohort-R
-
-</td>
-
-<td style="text-align:left;">
-
-This cohort is for testing purpose, created from R.
-
-</td>
-
-<td style="text-align:right;">
-
-600000
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:left;">
-
-2020-08-13T11:19:33.094Z
-
-</td>
-
-<td style="text-align:left;">
-
-2020-08-13T11:19:33.094Z
-
-</td>
-
-</tr>
-
-</tbody>
-
-</table>
+### Create a cohort
+
+``` r
+my_cohort <- cloudos::create_cohort(my_cloudos,
+              cohort_name = "Cohort-R",
+              cohort_desc = "This cohort is for testing purpose, created from R.")
+#> Cohort named Cohort-R created successfully.
+```
+
+### Filtering
+
+#### Search avaiable filters
+
+``` r
+filt <- cloudos::search_filters(my_cloudos, term = "cancer")
+#> Total number of filters - 29
+filt
+#>                         _id           categoryPathLevel1 categoryPathLevel2
+#> 1  5eb55c78599ae918ebb48f69 UK Biobank Assessment Centre        Touchscreen
+#> 2  5eb55c78599ae918ebb48f6b UK Biobank Assessment Centre        Touchscreen
+#> 3  5eb55c78599ae918ebb48f7d UK Biobank Assessment Centre        Touchscreen
+#> 4  5eb55c78599ae918ebb48fa6 UK Biobank Assessment Centre        Touchscreen
+#> 5  5eb55c78599ae918ebb48fb3 UK Biobank Assessment Centre        Touchscreen
+#> 6  5eb55c78599ae918ebb48fc1 UK Biobank Assessment Centre   Verbal interview
+#> 7  5eb55c78599ae918ebb48fc2 UK Biobank Assessment Centre   Verbal interview
+#> 8  5eb55c78599ae918ebb48fc3 UK Biobank Assessment Centre   Verbal interview
+#> 9  5eb55c78599ae918ebb48fc4 UK Biobank Assessment Centre   Verbal interview
+#> 10 5eb55c78599ae918ebb48fc5 UK Biobank Assessment Centre   Verbal interview
+#> 11 5eb55c78599ae918ebb48fc6 UK Biobank Assessment Centre   Verbal interview
+#> 12 5eb55c78599ae918ebb48fc7 UK Biobank Assessment Centre   Verbal interview
+#> 13 5eb55c78599ae918ebb48fc8 UK Biobank Assessment Centre   Verbal interview
+#> 14 5eb55c78599ae918ebb48fc9 UK Biobank Assessment Centre   Verbal interview
+#> 15 5eb55c78599ae918ebb48fcb UK Biobank Assessment Centre   Verbal interview
+#> 16 5eb55c78599ae918ebb48fcc UK Biobank Assessment Centre   Verbal interview
+#> 17 5eb55c78599ae918ebb48fcd UK Biobank Assessment Centre   Verbal interview
+#> 18 5eb55c87599ae918ebb4a09c             Online follow-up   Work environment
+#> 19 5eb55c87599ae918ebb4a0a9             Online follow-up   Work environment
+#> 20 5eb55c87599ae918ebb4a0bf             Online follow-up   Work environment
+#> 21 5eb55c8a599ae918ebb4a226      Health-related outcomes    Cancer register
+#> 22 5eb55c8a599ae918ebb4a227      Health-related outcomes    Cancer register
+#> 23 5eb55c8a599ae918ebb4a228      Health-related outcomes    Cancer register
+#> 24 5eb55c8a599ae918ebb4a229      Health-related outcomes    Cancer register
+#> 25 5eb55c8a599ae918ebb4a22a      Health-related outcomes    Cancer register
+#> 26 5eb55c8a599ae918ebb4a22b      Health-related outcomes    Cancer register
+#> 27 5eb55c8a599ae918ebb4a22c      Health-related outcomes    Cancer register
+#> 28 5eb55c8a599ae918ebb4a306      Health-related outcomes    Cancer register
+#> 29 5eb55c8a599ae918ebb4a32b      Health-related outcomes    Cancer register
+#>            categoryPathLevel3      categoryPathLevel4    id
+#> 1  Health and medical history        Cancer screening  2345
+#> 2  Health and medical history        Cancer screening  2355
+#> 3  Health and medical history      Medical conditions  2453
+#> 4        Sex-specific factors Female-specific factors  2674
+#> 5        Sex-specific factors Female-specific factors  2684
+#> 6          Medical conditions                    <NA> 20009
+#> 7          Medical conditions                    <NA> 20012
+#> 8          Medical conditions                    <NA> 20013
+#> 9          Medical conditions                    <NA> 20001
+#> 10         Medical conditions                    <NA> 20006
+#> 11         Medical conditions                    <NA>    84
+#> 12         Medical conditions                    <NA> 20007
+#> 13         Medical conditions                    <NA> 20008
+#> 14         Medical conditions                    <NA>    87
+#> 15         Medical conditions                    <NA>   134
+#> 16         Medical conditions                    <NA>   135
+#> 17         Medical conditions                    <NA> 20002
+#> 18        Medical information                    <NA> 22140
+#> 19        Medical information                    <NA> 22180
+#> 20        Medical information                    <NA> 22160
+#> 21                       <NA>                    <NA> 40012
+#> 22                       <NA>                    <NA> 40011
+#> 23                       <NA>                    <NA> 40021
+#> 24                       <NA>                    <NA> 40019
+#> 25                       <NA>                    <NA> 40005
+#> 26                       <NA>                    <NA> 40008
+#> 27                       <NA>                    <NA> 40009
+#> 28                       <NA>                    <NA> 40013
+#> 29                       <NA>                    <NA> 40006
+#>                                                                       name
+#> 1                                          Ever had bowel cancer screening
+#> 2                                       Most recent bowel cancer screening
+#> 3                                               Cancer diagnosed by doctor
+#> 4                             Ever had breast cancer screening / mammogram
+#> 5                     Years since last breast cancer screening / mammogram
+#> 6  Interpolated Age of participant when non-cancer illness first diagnosed
+#> 7                     Method of recording time when cancer first diagnosed
+#> 8         Method of recording time when non-cancer illness first diagnosed
+#> 9                                               Cancer code; self-reported
+#> 10                           Interpolated Year when cancer first diagnosed
+#> 11                                          Cancer year/age first occurred
+#> 12             Interpolated Age of participant when cancer first diagnosed
+#> 13               Interpolated Year when non-cancer illness first diagnosed
+#> 14                              Non-cancer illness year/age first occurred
+#> 15                                         Number of self-reported cancers
+#> 16                            Number of self-reported non-cancer illnesses
+#> 17                                  Non-cancer illness code; self-reported
+#> 18                         Doctor diagnosed lung cancer (not mesothelioma)
+#> 19                    Recent medication for lung cancer (not mesothelioma)
+#> 20                  Age lung cancer (not mesothelioma) diagnosed by doctor
+#> 21                                              Behaviour of cancer tumour
+#> 22                                              Histology of cancer tumour
+#> 23                                                    Cancer record origin
+#> 24                                                    Cancer record format
+#> 25                                                Date of cancer diagnosis
+#> 26                                                 Age at cancer diagnosis
+#> 27                                          Reported occurrences of cancer
+#> 28                                                    Type of cancer: ICD9
+#> 29                                                   Type of cancer: ICD10
+#>           type            valueType units instances array
+#> 1         bars   Categorical single               4     1
+#> 2    histogram              Integer years         4     1
+#> 3         bars   Categorical single               4     1
+#> 4         bars   Categorical single               4     1
+#> 5    histogram              Integer years         4     1
+#> 6    histogram           Continuous years         4    34
+#> 7         bars   Categorical single               4     6
+#> 8         bars   Categorical single               4    34
+#> 9  nested list Categorical multiple               4     6
+#> 10   histogram           Continuous years         4     6
+#> 11   histogram              Integer               4     6
+#> 12   histogram           Continuous years         4     6
+#> 13   histogram           Continuous years         4    34
+#> 14   histogram              Integer               4    34
+#> 15   histogram              Integer               4     1
+#> 16   histogram              Integer               4     1
+#> 17 nested list Categorical multiple               4    34
+#> 18        bars   Categorical single               1     1
+#> 19        bars   Categorical single               1     1
+#> 20   histogram              Integer               1     1
+#> 21 nested list   Categorical single              17     1
+#> 22 nested list   Categorical single              17     1
+#> 23        bars   Categorical single              17     1
+#> 24        bars   Categorical single              17     1
+#> 25   histogram                 Date              17     1
+#> 26   histogram           Continuous              17     1
+#> 27   histogram              Integer               1     1
+#> 28 nested list   Categorical single              15     1
+#> 29 nested list   Categorical single              17     1
+#>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           description
+#> 1  "ACE touchscreen question ""Have you ever had a screening test for bowel (colorectal) cancer? (Please include tests for blood in the stool/faeces or a colonoscopy or a sigmoidoscopy)"" If the participant activated the Help button they were shown the message:     Screening tests for bowel or colorectal cancer include:  - FOBT (faecal occult blood test) - this is when you    are given a set of cards and asked to smear a part    of your stool on three separate occasions onto the    cards and then return the cards to be tested for    blood.  - Sigmoidoscopy - a tube is used to examine the lower    bowel. This is usually done in a doctor's office    without pain relief.  - Colonoscopy - a long tube is used the examine the    whole large bowel; you would usually have to drink    a large amount of special liquid to prepare the    bowel; and you would be given a sedative medication    for the procedure.     "
+#> 2                                                                                                                                                                                                                                                                                                                                                                           "ACE touchscreen question ""How many years ago was the most recent one of these tests?"" The following checks were performed:  If answer   If answer > Participants age - 5 years then rejected  If answer > 20 then participant asked to confirm   If the participant activated the Help button they were shown the message:     If you are unsure; please provide an estimate or select Do not know.      ~F2355~ was collected from participants who indicated they have had a screening test for bowel (colorectal) cancer; as indicated by their answers to ~F2345~"
+#> 3                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       "ACE touchscreen question ""Has a doctor ever told you that you have had cancer?"" If the participant activated the Help button they were shown the message:     If you are unsure if you have been told you had cancer; select Do not know and you will be asked about this by an interviewer later during this visit.     "
+#> 4                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        "ACE touchscreen question ""Have you ever been for breast cancer screening (a mammogram)?"""
+#> 5                                                                                                                                                                                                                                                                                                                                                                                                                               "ACE touchscreen question ""How many years ago was your last screen?"" The following checks were performed:  If answer   If answer > Participants age - 15 years then rejected  If answer > 15 then participant asked to confirm   If the participant activated the Help button they were shown the message:     If you are unsure; please provide an estimate or select Do not know.      ~F2684~ was collected from women who indicated that they had been for a mammogram; as defined by their answers to ~F2674~"
+#> 6                                                                                                      This is the interpolated time when the participant indicated the corresponding condition was first diagnosed by a doctor; given as their estimated age.    If the participant gave a calendar year; then the best-fit time is their age at the mid-point of that year. For example if the year was given as 1970; and the participant was born on 1 April 1950; then their age on 1st July 1970 is 20.25  then the value presented is 1970.5   If the participant gave their age then the value presented is the fractional year corresponding to the mid-point of that age. For example; if the participant said they were 30 years old then the value is 30.5  Interpolated values before the date of birth were truncated forwards to that time.   Interpolated values after the time of data acquisition were truncated back to that time.
+#> 7                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                Participants were able to record the time the cancer was diagnosed by entering either their age or the year. Some participants recorded an event but were unable to recall the time.
+#> 8                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    Participants were able to record the time the non-cancer illness was diagnosed by entering either their age or the year. Some participants recorded an event but were unable to recall the time.
+#> 9                                                                                                                                                                                                                                                                                                                                                                        "Code for cancer. If the participant was uncertain of the type of cancer they had had; then they described it to the interviewer (a trained nurse) who attempted to place it within the coding tree. If the cancer could not be located in the coding tree then the interviewer entered a free-text description of it. These free-text descriptions were subsequently examined by a doctor and; where possible; matched to entries in the coding tree. Free-text descriptions which could not be matched with very high probability have been marked as ""unclassifiable""."
+#> 10                                                                                                                                                                                This is the interpolated time when the participant indicated the corresponding cancer was first diagnosed by a doctor; measured in years.    If the participant gave a calendar year; then the best-fit time is half-way through that year. For example if the year was given as 1970; then the value presented is 1970.5   If the participant gave their age then the value presented is the fractional year corresponding to the mid-point of that age. For example; if the participant said they were 30 years old then the value is the date at which they were 30years+6months.  Interpolated values before the date of birth were truncated forwards to that time.   Interpolated values after the time of data acquisition were truncated back to that time.
+#> 11                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   For each cancer entered; the nurse entered the date or age at diagnosis using a pop-up screen; depending on the participant's response. See Related Data-fields tab for further information on where to find separate data-fields for age and year of diagnosis.
+#> 12                                                                                                        This is the interpolated time when the participant indicated the corresponding cancer was first diagnosed by a doctor; given as their estimated age.    If the participant gave a calendar year; then the best-fit time is their age at the mid-point of that year. For example if the year was given as 1970; and the participant was born on 1 April 1950; then their age on 1st July 1970 is 20.25  then the value presented is 1970.5   If the participant gave their age then the value presented is the fractional year corresponding to the mid-point of that age. For example; if the participant said they were 30 years old then the value is 30.5  Interpolated values before the date of birth were truncated forwards to that time.   Interpolated values after the time of data acquisition were truncated back to that time.
+#> 13                                                                                                                                                                             This is the interpolated time when the participant indicated the corresponding condition was first diagnosed by a doctor; measured in years.    If the participant gave a calendar year; then the best-fit time is half-way through that year. For example if the year was given as 1970; then the value presented is 1970.5   If the participant gave their age then the value presented is the fractional year corresponding to the mid-point of that age. For example; if the participant said they were 30 years old then the value is the date at which they were 30years+6months.  Interpolated values before the date of birth were truncated forwards to that time.   Interpolated values after the time of data acquisition were truncated back to that time.
+#> 14                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  For each disease entered; the nurse entered the date or age at diagnosis using a pop-up screen; depending on the participant's response. See Related Data-fields tab for further information on where to find separate data-fields for age and year of diagnosis.
+#> 15                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          Number of cancers entered
+#> 16                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             Number of non-cancer illnesses entered
+#> 17                                                                                                                                                                                                            "Code for non-cancer illness. If the participant was uncertain of the type of illness they had had; then they described it to the interviewer (a trained nurse) who attempted to place it within the coding tree. If the illness could not be located in the coding tree then the interviewer entered a free-text description of it. These free-text descriptions were subsequently examined by a doctor and; where possible; matched to entries in the coding tree. Free-text descriptions which could not be matched with very high probability have been marked as ""unclassifiable"".   Note that myasthenia gravis appears twice (under codes 1260 and 1437). Please ensure you use both codes to capture all relevant diagnoses."
+#> 18                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       "User asked ""Has a doctor ever told you that you have had any of the conditions below?"" ""lung cancer (not mesothelioma)"" was one of the options listed."
+#> 19                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         User asked whether they are currently on medication for the lung cancer (not mesothelioma) which was diagnosed by a doctor
+#> 20                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    User was asked the age at which doctor diagnosed lung cancer (not mesothelioma)
+#> 21                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    This is a numeric code relating to the behaviour of the tumour; provided by the cancer registry
+#> 22                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    This is a numeric code relating to the histology of the tumour; provided by the cancer registry
+#> 23                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   Indicates the origin of the data in which the original cancer record was supplied to UK Biobank.
+#> 24                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   Indicates the format of the data in which the original cancer record was supplied to UK Biobank.
+#> 25                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          Date of cancer diagnosis; acquired from central registry.  Note that data from the most recent 12-18 months is still accruing (i.e. it is not complete).   The events/dates are indexed in the order in which they are received and processed by UK Biobank rather than in their own chronological order.
+#> 26                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            Age calculated as interval between Dates of Birth and Cancer diagnosis.
+#> 27                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 This is the number of reports of cancer received from UK National registries. Participants who have never been reported as having cancer do not contribute to this field unless a report was received then subsequently withdrawn.
+#> 28                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              The ICD9 code for the type of cancer. Acquired from central registry.
+#> 29                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         The ICD-10 code for the type of cancer. Acquired from central registry. The ICD-10 tree displayed on this page includes all cancer records for each UK Biobank participant (for which there may be multiple ICD codes). For more information on the first diagnosed cancer in each participant; please refer to ~L100092~.
+#>    descriptionParticipantsNo descriptionItemNo descriptionStability coding
+#> 1                     501599            572225             Complete 100349
+#> 2                     180035            202611             Complete 100567
+#> 3                     501592            572218             Complete 100603
+#> 4                     272921            309271             Complete 100349
+#> 5                     223188            252179             Complete 100567
+#> 6                     385696           1121517             Complete     13
+#> 7                      45525             53149             Complete     14
+#> 8                     385697           1121528             Complete     14
+#> 9                      45525             53149             Complete      3
+#> 10                     45525             53149             Complete     13
+#> 11                     45525             53149             Complete     37
+#> 12                     45525             53149             Complete     13
+#> 13                    385696           1121517             Complete     13
+#> 14                    385697           1121528             Complete     37
+#> 15                    501656            566685             Complete       
+#> 16                    501656            566685             Complete       
+#> 17                    385697           1121528             Complete      6
+#> 18                    121277            121277             Accruing      7
+#> 19                       156               156             Accruing      7
+#> 20                       156               156             Accruing       
+#> 21                     89269            114009             Accruing     39
+#> 22                     89177            113834             Accruing     38
+#> 23                     89808            118822           Updateable   1970
+#> 24                     89808            118822              Ongoing    262
+#> 25                     89766            118715             Accruing       
+#> 26                     89766            118715             Accruing       
+#> 27                     89766             89766              Ongoing       
+#> 28                     11222             15241             Accruing     87
+#> 29                     84723            103466             Accruing     19
+#>    descriptionCategoryID descriptionItemType descriptionStrata descriptionSexed
+#> 1                 100040                Data           Primary           Unisex
+#> 2                 100040                Data           Primary           Unisex
+#> 3                 100044                Data           Primary           Unisex
+#> 4                 100069                Data           Primary           Female
+#> 5                 100069                Data           Primary           Female
+#> 6                 100074                Data           Primary           Unisex
+#> 7                 100074                Data           Primary           Unisex
+#> 8                 100074                Data           Primary           Unisex
+#> 9                 100074                Data           Derived           Unisex
+#> 10                100074                Data           Primary           Unisex
+#> 11                100074                Data           Primary           Unisex
+#> 12                100074                Data           Primary           Unisex
+#> 13                100074                Data           Primary           Unisex
+#> 14                100074                Data           Primary           Unisex
+#> 15                100074                Data           Primary           Unisex
+#> 16                100074                Data           Primary           Unisex
+#> 17                100074                Data           Derived           Unisex
+#> 18                   132                Data           Primary           Unisex
+#> 19                   132                Data           Primary           Unisex
+#> 20                   132                Data           Primary           Unisex
+#> 21                100092                Data           Primary           Unisex
+#> 22                100092                Data           Primary           Unisex
+#> 23                100092                Data           Primary           Unisex
+#> 24                100092                Data         Auxiliary           Unisex
+#> 25                100092                Data           Primary           Unisex
+#> 26                100092                Data           Derived           Unisex
+#> 27                100092                Data           Derived           Unisex
+#> 28                100092                Data           Primary           Unisex
+#> 29                100092                Data           Primary           Unisex
+#>                                                        link
+#> 1   http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=2345
+#> 2   http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=2355
+#> 3   http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=2453
+#> 4   http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=2674
+#> 5   http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=2684
+#> 6  http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=20009
+#> 7  http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=20012
+#> 8  http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=20013
+#> 9  http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=20001
+#> 10 http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=20006
+#> 11    http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=84
+#> 12 http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=20007
+#> 13 http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=20008
+#> 14    http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=87
+#> 15   http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=134
+#> 16   http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=135
+#> 17 http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=20002
+#> 18 http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=22140
+#> 19 http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=22180
+#> 20 http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=22160
+#> 21 http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=40012
+#> 22 http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=40011
+#> 23 http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=40021
+#> 24 http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=40019
+#> 25 http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=40005
+#> 26 http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=40008
+#> 27 http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=40009
+#> 28 http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=40013
+#> 29 http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=40006
+#>                                                                                  instance0Name
+#> 1  Initial assessment visit (2006-2010) at which participants were recruited and consent given
+#> 2  Initial assessment visit (2006-2010) at which participants were recruited and consent given
+#> 3  Initial assessment visit (2006-2010) at which participants were recruited and consent given
+#> 4  Initial assessment visit (2006-2010) at which participants were recruited and consent given
+#> 5  Initial assessment visit (2006-2010) at which participants were recruited and consent given
+#> 6  Initial assessment visit (2006-2010) at which participants were recruited and consent given
+#> 7  Initial assessment visit (2006-2010) at which participants were recruited and consent given
+#> 8  Initial assessment visit (2006-2010) at which participants were recruited and consent given
+#> 9  Initial assessment visit (2006-2010) at which participants were recruited and consent given
+#> 10 Initial assessment visit (2006-2010) at which participants were recruited and consent given
+#> 11 Initial assessment visit (2006-2010) at which participants were recruited and consent given
+#> 12 Initial assessment visit (2006-2010) at which participants were recruited and consent given
+#> 13 Initial assessment visit (2006-2010) at which participants were recruited and consent given
+#> 14 Initial assessment visit (2006-2010) at which participants were recruited and consent given
+#> 15 Initial assessment visit (2006-2010) at which participants were recruited and consent given
+#> 16 Initial assessment visit (2006-2010) at which participants were recruited and consent given
+#> 17 Initial assessment visit (2006-2010) at which participants were recruited and consent given
+#> 18                                                                                            
+#> 19                                                                                            
+#> 20                                                                                            
+#> 21                                                                                           0
+#> 22                                                                                           0
+#> 23                                                                                           0
+#> 24                                                                                           0
+#> 25                                                                                           0
+#> 26                                                                                           0
+#> 27                                                                                           0
+#> 28                                                                                           0
+#> 29                                                                                           0
+#>                              instance1Name         instance2Name
+#> 1  First repeat assessment visit (2012-13) Imaging visit (2014+)
+#> 2  First repeat assessment visit (2012-13) Imaging visit (2014+)
+#> 3  First repeat assessment visit (2012-13) Imaging visit (2014+)
+#> 4  First repeat assessment visit (2012-13) Imaging visit (2014+)
+#> 5  First repeat assessment visit (2012-13) Imaging visit (2014+)
+#> 6  First repeat assessment visit (2012-13) Imaging visit (2014+)
+#> 7  First repeat assessment visit (2012-13) Imaging visit (2014+)
+#> 8  First repeat assessment visit (2012-13) Imaging visit (2014+)
+#> 9  First repeat assessment visit (2012-13) Imaging visit (2014+)
+#> 10 First repeat assessment visit (2012-13) Imaging visit (2014+)
+#> 11 First repeat assessment visit (2012-13) Imaging visit (2014+)
+#> 12 First repeat assessment visit (2012-13) Imaging visit (2014+)
+#> 13 First repeat assessment visit (2012-13) Imaging visit (2014+)
+#> 14 First repeat assessment visit (2012-13) Imaging visit (2014+)
+#> 15 First repeat assessment visit (2012-13) Imaging visit (2014+)
+#> 16 First repeat assessment visit (2012-13) Imaging visit (2014+)
+#> 17 First repeat assessment visit (2012-13) Imaging visit (2014+)
+#> 18                                                              
+#> 19                                                              
+#> 20                                                              
+#> 21                                       1                     2
+#> 22                                       1                     2
+#> 23                                       1                     2
+#> 24                                       1                     2
+#> 25                                       1                     2
+#> 26                                       1                     2
+#> 27                                                              
+#> 28                                       1                     2
+#> 29                                       1                     2
+#>                         instance3Name instance4Name instance5Name instance6Name
+#> 1  First repeat imaging visit (2019+)                                          
+#> 2  First repeat imaging visit (2019+)                                          
+#> 3  First repeat imaging visit (2019+)                                          
+#> 4  First repeat imaging visit (2019+)                                          
+#> 5  First repeat imaging visit (2019+)                                          
+#> 6  First repeat imaging visit (2019+)                                          
+#> 7  First repeat imaging visit (2019+)                                          
+#> 8  First repeat imaging visit (2019+)                                          
+#> 9  First repeat imaging visit (2019+)                                          
+#> 10 First repeat imaging visit (2019+)                                          
+#> 11 First repeat imaging visit (2019+)                                          
+#> 12 First repeat imaging visit (2019+)                                          
+#> 13 First repeat imaging visit (2019+)                                          
+#> 14 First repeat imaging visit (2019+)                                          
+#> 15 First repeat imaging visit (2019+)                                          
+#> 16 First repeat imaging visit (2019+)                                          
+#> 17 First repeat imaging visit (2019+)                                          
+#> 18                                                                             
+#> 19                                                                             
+#> 20                                                                             
+#> 21                                  3             4             5             6
+#> 22                                  3             4             5             6
+#> 23                                  3             4             5             6
+#> 24                                  3             4             5             6
+#> 25                                  3             4             5             6
+#> 26                                  3             4             5             6
+#> 27                                                                             
+#> 28                                  3             4             5             6
+#> 29                                  3             4             5             6
+#>    instance7Name instance8Name instance9Name instance10Name instance11Name
+#> 1                                                                         
+#> 2                                                                         
+#> 3                                                                         
+#> 4                                                                         
+#> 5                                                                         
+#> 6                                                                         
+#> 7                                                                         
+#> 8                                                                         
+#> 9                                                                         
+#> 10                                                                        
+#> 11                                                                        
+#> 12                                                                        
+#> 13                                                                        
+#> 14                                                                        
+#> 15                                                                        
+#> 16                                                                        
+#> 17                                                                        
+#> 18                                                                        
+#> 19                                                                        
+#> 20                                                                        
+#> 21             7             8             9             10             11
+#> 22             7             8             9             10             11
+#> 23             7             8             9             10             11
+#> 24             7             8             9             10             11
+#> 25             7             8             9             10             11
+#> 26             7             8             9             10             11
+#> 27                                                                        
+#> 28             7             8                           10             11
+#> 29             7             8             9             10             11
+#>    instance12Name instance13Name instance14Name instance15Name instance16Name
+#> 1                                                                            
+#> 2                                                                            
+#> 3                                                                            
+#> 4                                                                            
+#> 5                                                                            
+#> 6                                                                            
+#> 7                                                                            
+#> 8                                                                            
+#> 9                                                                            
+#> 10                                                                           
+#> 11                                                                           
+#> 12                                                                           
+#> 13                                                                           
+#> 14                                                                           
+#> 15                                                                           
+#> 16                                                                           
+#> 17                                                                           
+#> 18                                                                           
+#> 19                                                                           
+#> 20                                                                           
+#> 21             12             13                            15             16
+#> 22             12             13             14             15             16
+#> 23             12             13             14             15             16
+#> 24             12             13             14             15             16
+#> 25             12             13             14             15             16
+#> 26             12             13             14             15             16
+#> 27                                                                           
+#> 28             12                            14                              
+#> 29                            13                            15             16
+#>    bucket300 bucket500 bucket1000 bucket2500 bucket5000 bucket10000
+#> 1      FALSE     FALSE      FALSE      FALSE      FALSE       FALSE
+#> 2      FALSE     FALSE      FALSE      FALSE      FALSE       FALSE
+#> 3      FALSE     FALSE      FALSE      FALSE      FALSE       FALSE
+#> 4      FALSE     FALSE      FALSE      FALSE      FALSE       FALSE
+#> 5      FALSE     FALSE      FALSE      FALSE      FALSE       FALSE
+#> 6       TRUE      TRUE       TRUE       TRUE       TRUE        TRUE
+#> 7      FALSE     FALSE      FALSE      FALSE      FALSE       FALSE
+#> 8      FALSE     FALSE      FALSE      FALSE      FALSE       FALSE
+#> 9      FALSE     FALSE      FALSE      FALSE      FALSE       FALSE
+#> 10      TRUE      TRUE       TRUE       TRUE       TRUE        TRUE
+#> 11     FALSE     FALSE      FALSE      FALSE      FALSE       FALSE
+#> 12      TRUE      TRUE       TRUE       TRUE       TRUE        TRUE
+#> 13      TRUE      TRUE       TRUE       TRUE       TRUE        TRUE
+#> 14     FALSE     FALSE      FALSE      FALSE      FALSE       FALSE
+#> 15     FALSE     FALSE      FALSE      FALSE      FALSE       FALSE
+#> 16     FALSE     FALSE      FALSE      FALSE      FALSE       FALSE
+#> 17     FALSE     FALSE      FALSE      FALSE      FALSE       FALSE
+#> 18     FALSE     FALSE      FALSE      FALSE      FALSE       FALSE
+#> 19     FALSE     FALSE      FALSE      FALSE      FALSE       FALSE
+#> 20     FALSE     FALSE      FALSE      FALSE      FALSE       FALSE
+#> 21     FALSE     FALSE      FALSE      FALSE      FALSE       FALSE
+#> 22     FALSE     FALSE      FALSE      FALSE      FALSE       FALSE
+#> 23     FALSE     FALSE      FALSE      FALSE      FALSE       FALSE
+#> 24     FALSE     FALSE      FALSE      FALSE      FALSE       FALSE
+#> 25      TRUE      TRUE       TRUE       TRUE       TRUE        TRUE
+#> 26     FALSE      TRUE       TRUE       TRUE       TRUE        TRUE
+#> 27     FALSE     FALSE      FALSE      FALSE      FALSE       FALSE
+#> 28     FALSE     FALSE      FALSE      FALSE      FALSE       FALSE
+#> 29     FALSE     FALSE      FALSE      FALSE      FALSE       FALSE
+#>    orderPhenotype checked
+#> 1              40       1
+#> 2              40       1
+#> 3              42       1
+#> 4              47       1
+#> 5              47       1
+#> 6              51       1
+#> 7              51       1
+#> 8              51       1
+#> 9              51       1
+#> 10             51       1
+#> 11             51       1
+#> 12             51       1
+#> 13             51       1
+#> 14             51       1
+#> 15             51       1
+#> 16             51       1
+#> 17             51       1
+#> 18            196       0
+#> 19            196       0
+#> 20            196       0
+#> 21            224       0
+#> 22            224       0
+#> 23            224       0
+#> 24            224       0
+#> 25            224       0
+#> 26            224       0
+#> 27            224       0
+#> 28            224       0
+#> 29            224       0
+```
+
+#### Phenotype filtering
+
+TODO: For now two filters are hard-coded for testing.
+
+``` r
+# phenotype filter
+cohort_with_filters <- cloudos::filter_data(my_cloudos, 
+                                   cohort_id = my_cohort["_id",], 
+                                   filter_id = filt$id[1])
+cohort_with_filters
+#>      _id number total  label                 
+#> [1,] -3  32545  600000 "Prefer not to answer"
+#> [2,] -1  181143 600000 "Do not know"         
+#> [3,] 0   300719 600000 "No"                  
+#> [4,] 1   85593  600000 "Yes"
+```
+
+``` r
+# filter participants
+# participants_with_fiter <- cloudos:::filter_participants(my_cloudos,
+#                                                cohort_id = my_cohort["_id",], 
+#                                                filter_id = filt$id[1] )
+# 
+# participants_with_fiter
+```
+
+``` r
+# apply filter (genotypic_save) 
+# gs <- cloudos::genotypic_save(my_cloudos,
+#                      cohort_id = my_cohort["_id",], 
+#                      filter_id = filt$id[1] )
+# 
+# gs
+```
+
+### Extract Genotypic data
+
+``` r
+df <- cloudos::extract_genotypic_data(my_cloudos)
+df
+#>       _id                        Chromosome Location    Reference Alternative
+#>  [1,] "5ef793999b8097fcd1da226a" "10"       "10:93190"  "AC"      " "        
+#>  [2,] "5ef793719b8097fcd1cea2f3" "10"       "10:93502"  "C"       "G"        
+#>  [3,] "5ef793719b8097fcd1cea2ff" "10"       "10:93635"  "T"       "C"        
+#>  [4,] "5ef793999b8097fcd1da2266" "10"       "10:94514"  "CTGG"    " "        
+#>  [5,] "5ef793999b8097fcd1da2277" "10"       "10:94693"  "G"       " "        
+#>  [6,] "5ef793719b8097fcd1cea2f6" "10"       "10:95844"  "C"       "T"        
+#>  [7,] "5ef793719b8097fcd1cea2f2" "10"       "10:110655" "C"       "T"        
+#>  [8,] "5ef793719b8097fcd1cea2f5" "10"       "10:111955" "A"       "G"        
+#>  [9,] "5ef793719b8097fcd1cea2f0" "10"       "10:119812" "C"       "T"        
+#> [10,] "5ef793719b8097fcd1cea2ef" "10"       "10:122109" "C"       "T"        
+#>       Affimetrix ID Possible allele combination 0 Possible allele combination 1
+#>  [1,] "80278591"    "GAC G"                       "0 0"                        
+#>  [2,] "52134431"    "C C"                         "0 0"                        
+#>  [3,] "3729558"     "T T"                         "0 0"                        
+#>  [4,] "52349171"    "CCTGG CCT"                   "C CCTGG"                    
+#>  [5,] "80278592"    "AG"                          "0 0"                        
+#>  [6,] "35481805"    "C C"                         "T C"                        
+#>  [7,] "2365062"     "T C"                         "0 0"                        
+#>  [8,] "2380802"     "A A"                         "G A"                        
+#>  [9,] "2473215"     "T T"                         "C C"                        
+#> [10,] "2502714"     "C C"                         "T T"                        
+#>       Possible allele combination 2 index Type        id   cn          
+#>  [1,] "G GAC"                       "0"   "Insertion" "1"  "zzg_m_10_0"
+#>  [2,] "G C"                         "1"   "SNP"       "2"  "zzg_m_10_1"
+#>  [3,] "C T"                         "2"   "SNP"       "3"  "zzg_m_10_2"
+#>  [4,] "0 0"                         "3"   "Insertion" "4"  "zzg_m_10_3"
+#>  [5,] "A A"                         "4"   "SNP"       "5"  "zzg_m_10_4"
+#>  [6,] "0 0"                         "5"   "SNP"       "6"  "zzg_m_10_5"
+#>  [7,] "C C"                         "6"   "SNP"       "7"  "zzg_m_10_6"
+#>  [8,] "G G"                         "7"   "SNP"       "8"  "zzg_m_10_7"
+#>  [9,] "T C"                         "8"   "SNP"       "9"  "zzg_m_10_8"
+#> [10,] "T C"                         "9"   "SNP"       "10" "zzg_m_10_9"
+#>       <NA>          <NA>          <NA>                <NA>               
+#>  [1,] NA            NA            NA                  NA                 
+#>  [2,] "rs201177578" "Deleterious" "Possibly Damaging" "Possibly Damaging"
+#>  [3,] "rs200242637" "Deleterious" "Benign"            "Benign"           
+#>  [4,] NA            NA            NA                  NA                 
+#>  [5,] NA            NA            NA                  NA                 
+#>  [6,] "rs117205301" NA            NA                  NA                 
+#>  [7,] "rs78253668"  NA            NA                  NA                 
+#>  [8,] "rs7909677"   NA            NA                  NA                 
+#>  [9,] "rs11253280"  NA            NA                  NA                 
+#> [10,] "rs7093061"   NA            NA                  NA                 
+#>       <NA>      <NA>              <NA>     <NA>          <NA>         
+#>  [1,] NA        NA                NA       NA            NA           
+#>  [2,] "Unknown" "Disease Causing" "Medium" "Deleterious" "Deleterious"
+#>  [3,] "Unknown" "Disease Causing" "Medium" "Tolerated"   "Deleterious"
+#>  [4,] NA        NA                NA       NA            NA           
+#>  [5,] NA        NA                NA       NA            NA           
+#>  [6,] NA        NA                NA       NA            NA           
+#>  [7,] NA        NA                NA       NA            NA           
+#>  [8,] NA        NA                NA       NA            NA           
+#>  [9,] NA        NA                NA       NA            NA           
+#> [10,] NA        NA                NA       NA            NA           
+#>       <NA>        <NA>          <NA>  <NA> 
+#>  [1,] NA          NA            NA    NA   
+#>  [2,] "Tolerated" "Deleterious" "542" "244"
+#>  [3,] "Tolerated" "Tolerated"   "615" "27" 
+#>  [4,] NA          NA            NA    NA   
+#>  [5,] NA          NA            NA    NA   
+#>  [6,] NA          NA            NA    NA   
+#>  [7,] NA          NA            NA    NA   
+#>  [8,] NA          NA            NA    NA   
+#>  [9,] NA          NA            NA    NA   
+#> [10,] NA          NA            NA    NA   
+#>       <NA>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+#>  [1,] NA                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+#>  [2,] "GO CYTOSKELETON ORGANIZATION| GO OOGENESIS| GO MICROTUBULE BASED PROCESS| GO MICROTUBULE CYTOSKELETON ORGANIZATION| GO SEXUAL REPRODUCTION| GO ATOMICAL STRUCTURE MATURATION| GO MITOTIC CELL CYCLE| GO ORGANELLE FISSION| GO CELL MATURATION| GO ORGANELLE ASSEMBLY| GO CELLULAR PROCESS INVOLVED IN REPRODUCTION IN MULTICELLULAR ORGANISM| GO OOCYTE MATURATION| GO OOCYTE DIFFERENTIATION| GO MEIOTIC CELL CYCLE| GO CELL CYCLE| GO MULTI ORGANISM REPRODUCTIVE PROCESS| GO GAMETE GENERATION| GO FEMALE GAMETE GENERATION| GO DEVELOPMENTAL PROCESS INVOLVED IN REPRODUCTION| GO MEIOTIC CELL CYCLE PROCESS| GO SPINDLE ASSEMBLY| GO REPRODUCTION| GO GERM CELL DEVELOPMENT| GO MULTICELLULAR ORGANISM REPRODUCTION| GO DEVELOPMENTAL MATURATION| GO CELL CYCLE PROCESS| GO MICROTUBULE CYTOSKELETON| GO CYTOSKELETAL PART| GO MICROTUBULE| GO SPINDLE| GO GTPASE ACTIVITY| GO HYDROLASE ACTIVITY ACTING ON ACID ANHYDRIDES| GO GUANYL NUCLEOTIDE BINDING| GO RIBONUCLEOTIDE BINDING| GO STRUCTURAL CONSTITUENT OF CYTOSKELETON| GO STRUCTURAL MOLECULE ACTIVITY| GO MEIOTIC SPINDLE ORGANIZATION| GO SPINDLE ORGANIZATION| GO FEMALE MEIOTIC NUCLEAR DIVISION| GO SPINDLE ASSEMBLY INVOLVED IN MEIOSIS| GO MEIOTIC SPINDLE| GO SUPRAMOLECULAR COMPLEX| GO POLYMERIC CYTOSKELETAL FIBER"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+#>  [3,] "GO CYTOSKELETON ORGANIZATION| GO OOGENESIS| GO MICROTUBULE BASED PROCESS| GO MICROTUBULE CYTOSKELETON ORGANIZATION| GO SEXUAL REPRODUCTION| GO ATOMICAL STRUCTURE MATURATION| GO MITOTIC CELL CYCLE| GO ORGANELLE FISSION| GO CELL MATURATION| GO ORGANELLE ASSEMBLY| GO CELLULAR PROCESS INVOLVED IN REPRODUCTION IN MULTICELLULAR ORGANISM| GO OOCYTE MATURATION| GO OOCYTE DIFFERENTIATION| GO MEIOTIC CELL CYCLE| GO CELL CYCLE| GO MULTI ORGANISM REPRODUCTIVE PROCESS| GO GAMETE GENERATION| GO FEMALE GAMETE GENERATION| GO DEVELOPMENTAL PROCESS INVOLVED IN REPRODUCTION| GO MEIOTIC CELL CYCLE PROCESS| GO SPINDLE ASSEMBLY| GO REPRODUCTION| GO GERM CELL DEVELOPMENT| GO MULTICELLULAR ORGANISM REPRODUCTION| GO DEVELOPMENTAL MATURATION| GO CELL CYCLE PROCESS| GO MICROTUBULE CYTOSKELETON| GO CYTOSKELETAL PART| GO MICROTUBULE| GO SPINDLE| GO GTPASE ACTIVITY| GO HYDROLASE ACTIVITY ACTING ON ACID ANHYDRIDES| GO GUANYL NUCLEOTIDE BINDING| GO RIBONUCLEOTIDE BINDING| GO STRUCTURAL CONSTITUENT OF CYTOSKELETON| GO STRUCTURAL MOLECULE ACTIVITY| GO MEIOTIC SPINDLE ORGANIZATION| GO SPINDLE ORGANIZATION| GO FEMALE MEIOTIC NUCLEAR DIVISION| GO SPINDLE ASSEMBLY INVOLVED IN MEIOSIS| GO MEIOTIC SPINDLE| GO SUPRAMOLECULAR COMPLEX| GO POLYMERIC CYTOSKELETAL FIBER"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+#>  [4,] NA                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+#>  [5,] "GO CYTOSKELETON ORGANIZATION| GO OOGENESIS| GO MICROTUBULE BASED PROCESS| GO MICROTUBULE CYTOSKELETON ORGANIZATION| GO SEXUAL REPRODUCTION| GO ATOMICAL STRUCTURE MATURATION| GO MITOTIC CELL CYCLE| GO ORGANELLE FISSION| GO CELL MATURATION| GO ORGANELLE ASSEMBLY| GO CELLULAR PROCESS INVOLVED IN REPRODUCTION IN MULTICELLULAR ORGANISM| GO OOCYTE MATURATION| GO OOCYTE DIFFERENTIATION| GO MEIOTIC CELL CYCLE| GO CELL CYCLE| GO MULTI ORGANISM REPRODUCTIVE PROCESS| GO GAMETE GENERATION| GO FEMALE GAMETE GENERATION| GO DEVELOPMENTAL PROCESS INVOLVED IN REPRODUCTION| GO MEIOTIC CELL CYCLE PROCESS| GO SPINDLE ASSEMBLY| GO REPRODUCTION| GO GERM CELL DEVELOPMENT| GO MULTICELLULAR ORGANISM REPRODUCTION| GO DEVELOPMENTAL MATURATION| GO CELL CYCLE PROCESS| GO MICROTUBULE CYTOSKELETON| GO CYTOSKELETAL PART| GO MICROTUBULE| GO SPINDLE| GO GTPASE ACTIVITY| GO HYDROLASE ACTIVITY ACTING ON ACID ANHYDRIDES| GO GUANYL NUCLEOTIDE BINDING| GO RIBONUCLEOTIDE BINDING| GO STRUCTURAL CONSTITUENT OF CYTOSKELETON| GO STRUCTURAL MOLECULE ACTIVITY| GO MEIOTIC SPINDLE ORGANIZATION| GO SPINDLE ORGANIZATION| GO FEMALE MEIOTIC NUCLEAR DIVISION| GO SPINDLE ASSEMBLY INVOLVED IN MEIOSIS| GO MEIOTIC SPINDLE| GO SUPRAMOLECULAR COMPLEX| GO POLYMERIC CYTOSKELETAL FIBER"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+#>  [6,] "GO CYTOSKELETON ORGANIZATION| GO OOGENESIS| GO MICROTUBULE BASED PROCESS| GO MICROTUBULE CYTOSKELETON ORGANIZATION| GO SEXUAL REPRODUCTION| GO ATOMICAL STRUCTURE MATURATION| GO MITOTIC CELL CYCLE| GO ORGANELLE FISSION| GO CELL MATURATION| GO ORGANELLE ASSEMBLY| GO CELLULAR PROCESS INVOLVED IN REPRODUCTION IN MULTICELLULAR ORGANISM| GO OOCYTE MATURATION| GO OOCYTE DIFFERENTIATION| GO MEIOTIC CELL CYCLE| GO CELL CYCLE| GO MULTI ORGANISM REPRODUCTIVE PROCESS| GO GAMETE GENERATION| GO FEMALE GAMETE GENERATION| GO DEVELOPMENTAL PROCESS INVOLVED IN REPRODUCTION| GO MEIOTIC CELL CYCLE PROCESS| GO SPINDLE ASSEMBLY| GO REPRODUCTION| GO GERM CELL DEVELOPMENT| GO MULTICELLULAR ORGANISM REPRODUCTION| GO DEVELOPMENTAL MATURATION| GO CELL CYCLE PROCESS| GO MICROTUBULE CYTOSKELETON| GO CYTOSKELETAL PART| GO MICROTUBULE| GO SPINDLE| GO GTPASE ACTIVITY| GO HYDROLASE ACTIVITY ACTING ON ACID ANHYDRIDES| GO GUANYL NUCLEOTIDE BINDING| GO RIBONUCLEOTIDE BINDING| GO STRUCTURAL CONSTITUENT OF CYTOSKELETON| GO STRUCTURAL MOLECULE ACTIVITY| GO MEIOTIC SPINDLE ORGANIZATION| GO SPINDLE ORGANIZATION| GO FEMALE MEIOTIC NUCLEAR DIVISION| GO SPINDLE ASSEMBLY INVOLVED IN MEIOSIS| GO MEIOTIC SPINDLE| GO SUPRAMOLECULAR COMPLEX| GO POLYMERIC CYTOSKELETAL FIBER"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+#>  [7,] "GO CYTOSKELETON ORGANIZATION| GO OOGENESIS| GO MICROTUBULE BASED PROCESS| GO MICROTUBULE CYTOSKELETON ORGANIZATION| GO SEXUAL REPRODUCTION| GO ATOMICAL STRUCTURE MATURATION| GO MITOTIC CELL CYCLE| GO ORGANELLE FISSION| GO CELL MATURATION| GO ORGANELLE ASSEMBLY| GO CELLULAR PROCESS INVOLVED IN REPRODUCTION IN MULTICELLULAR ORGANISM| GO OOCYTE MATURATION| GO OOCYTE DIFFERENTIATION| GO MEIOTIC CELL CYCLE| GO CELL CYCLE| GO MULTI ORGANISM REPRODUCTIVE PROCESS| GO GAMETE GENERATION| GO FEMALE GAMETE GENERATION| GO DEVELOPMENTAL PROCESS INVOLVED IN REPRODUCTION| GO MEIOTIC CELL CYCLE PROCESS| GO SPINDLE ASSEMBLY| GO REPRODUCTION| GO GERM CELL DEVELOPMENT| GO MULTICELLULAR ORGANISM REPRODUCTION| GO DEVELOPMENTAL MATURATION| GO CELL CYCLE PROCESS| GO MICROTUBULE CYTOSKELETON| GO CYTOSKELETAL PART| GO MICROTUBULE| GO SPINDLE| GO GTPASE ACTIVITY| GO HYDROLASE ACTIVITY ACTING ON ACID ANHYDRIDES| GO GUANYL NUCLEOTIDE BINDING| GO RIBONUCLEOTIDE BINDING| GO STRUCTURAL CONSTITUENT OF CYTOSKELETON| GO STRUCTURAL MOLECULE ACTIVITY| GO MEIOTIC SPINDLE ORGANIZATION| GO SPINDLE ORGANIZATION| GO FEMALE MEIOTIC NUCLEAR DIVISION| GO SPINDLE ASSEMBLY INVOLVED IN MEIOSIS| GO MEIOTIC SPINDLE| GO SUPRAMOLECULAR COMPLEX| GO POLYMERIC CYTOSKELETAL FIBER; GO CHROMOSOME ORGANIZATION| GO D TEMPLATED TRANSCRIPTION ELONGATION| GO REGULATION OF MAPK CASCADE| GO REGULATION OF STRESS ACTIVATED PROTEIN KISE SIGLING CASCADE| GO I KAPPAB KISE NF KAPPAB SIGLING| GO DEFENSE RESPONSE TO VIRUS| GO EXTRINSIC APOPTOTIC SIGLING PATHWAY| GO REGULATION OF INTRACELLULAR SIGL TRANSDUCTION| GO NEGATIVE REGULATION OF MAPK CASCADE| GO NEGATIVE REGULATION OF INTRACELLULAR SIGL TRANSDUCTION| GO DEFENSE RESPONSE| GO NEGATIVE REGULATION OF EXTRINSIC APOPTOTIC SIGLING PATHWAY| GO REGULATION OF TRANSCRIPTION ELONGATION FROM R POLYMERASE II PROMOTER| GO DEFENSE RESPONSE TO OTHER ORGANISM| GO APOPTOTIC SIGLING PATHWAY| GO TRANSCRIPTION ELONGATION FROM R POLYMERASE II PROMOTER| GO JNK CASCADE| GO REGULATION OF EXTRINSIC APOPTOTIC SIGLING PATHWAY| GO NEGATIVE REGULATION OF PHOSPHORUS METABOLIC PROCESS| GO REGULATION OF RESPONSE TO STRESS| GO PROTEIN PHOSPHORYLATION| GO CHROMATIN ORGANIZATION| GO NEGATIVE REGULATION OF CELL DEATH| GO NEGATIVE REGULATION OF I KAPPAB KISE NF KAPPAB SIGLING| GO INTERSPECIES INTERACTION BETWEEN ORGANISMS| GO CELL CYCLE| GO NEGATIVE REGULATION OF JNK CASCADE| GO NEGATIVE REGULATION OF APOPTOTIC SIGLING PATHWAY| GO NEGATIVE REGULATION OF STRESS ACTIVATED PROTEIN KISE SIGLING CASCADE| GO REGULATION OF CELLULAR RESPONSE TO STRESS| GO REGULATION OF CELL DEATH| GO NEGATIVE REGULATION OF RESPONSE TO STIMULUS| GO NEGATIVE REGULATION OF PHOSPHORYLATION| GO NEGATIVE REGULATION OF PROTEIN METABOLIC PROCESS| GO RESPONSE TO BIOTIC STIMULUS| GO REGULATION OF PROTEIN MODIFICATION PROCESS| GO SIGL TRANSDUCTION BY PROTEIN PHOSPHORYLATION| GO STRESS ACTIVATED PROTEIN KISE SIGLING CASCADE| GO REGULATION OF PHOSPHORUS METABOLIC PROCESS| GO RESPONSE TO VIRUS| GO NEGATIVE REGULATION OF PROTEIN MODIFICATION PROCESS| GO REGULATION OF D TEMPLATED TRANSCRIPTION ELONGATION| GO IMMUNE EFFECTOR PROCESS| GO REGULATION OF APOPTOTIC SIGLING PATHWAY| GO CHROMOSOME| GO HISTONE BINDING| GO METHYLATED HISTONE BINDING| GO DOUBLE STRANDED D BINDING| GO TRANSITION METAL ION BINDING| GO ZINC ION BINDING| GO TRANSCRIPTION COREPRESSOR ACTIVITY| GO APOPTOTIC PROCESS| GO NEGATIVE REGULATION OF BIOSYNTHETIC PROCESS| GO NEGATIVE REGULATION OF SIGLING| GO NEGATIVE REGULATION OF R BIOSYNTHETIC PROCESS| GO TRANSCRIPTION COREGULATOR ACTIVITY| GO MODIFICATION DEPENDENT PROTEIN BINDING"
+#>  [8,] "GO CYTOSKELETON ORGANIZATION| GO OOGENESIS| GO MICROTUBULE BASED PROCESS| GO MICROTUBULE CYTOSKELETON ORGANIZATION| GO SEXUAL REPRODUCTION| GO ATOMICAL STRUCTURE MATURATION| GO MITOTIC CELL CYCLE| GO ORGANELLE FISSION| GO CELL MATURATION| GO ORGANELLE ASSEMBLY| GO CELLULAR PROCESS INVOLVED IN REPRODUCTION IN MULTICELLULAR ORGANISM| GO OOCYTE MATURATION| GO OOCYTE DIFFERENTIATION| GO MEIOTIC CELL CYCLE| GO CELL CYCLE| GO MULTI ORGANISM REPRODUCTIVE PROCESS| GO GAMETE GENERATION| GO FEMALE GAMETE GENERATION| GO DEVELOPMENTAL PROCESS INVOLVED IN REPRODUCTION| GO MEIOTIC CELL CYCLE PROCESS| GO SPINDLE ASSEMBLY| GO REPRODUCTION| GO GERM CELL DEVELOPMENT| GO MULTICELLULAR ORGANISM REPRODUCTION| GO DEVELOPMENTAL MATURATION| GO CELL CYCLE PROCESS| GO MICROTUBULE CYTOSKELETON| GO CYTOSKELETAL PART| GO MICROTUBULE| GO SPINDLE| GO GTPASE ACTIVITY| GO HYDROLASE ACTIVITY ACTING ON ACID ANHYDRIDES| GO GUANYL NUCLEOTIDE BINDING| GO RIBONUCLEOTIDE BINDING| GO STRUCTURAL CONSTITUENT OF CYTOSKELETON| GO STRUCTURAL MOLECULE ACTIVITY| GO MEIOTIC SPINDLE ORGANIZATION| GO SPINDLE ORGANIZATION| GO FEMALE MEIOTIC NUCLEAR DIVISION| GO SPINDLE ASSEMBLY INVOLVED IN MEIOSIS| GO MEIOTIC SPINDLE| GO SUPRAMOLECULAR COMPLEX| GO POLYMERIC CYTOSKELETAL FIBER; GO CHROMOSOME ORGANIZATION| GO D TEMPLATED TRANSCRIPTION ELONGATION| GO REGULATION OF MAPK CASCADE| GO REGULATION OF STRESS ACTIVATED PROTEIN KISE SIGLING CASCADE| GO I KAPPAB KISE NF KAPPAB SIGLING| GO DEFENSE RESPONSE TO VIRUS| GO EXTRINSIC APOPTOTIC SIGLING PATHWAY| GO REGULATION OF INTRACELLULAR SIGL TRANSDUCTION| GO NEGATIVE REGULATION OF MAPK CASCADE| GO NEGATIVE REGULATION OF INTRACELLULAR SIGL TRANSDUCTION| GO DEFENSE RESPONSE| GO NEGATIVE REGULATION OF EXTRINSIC APOPTOTIC SIGLING PATHWAY| GO REGULATION OF TRANSCRIPTION ELONGATION FROM R POLYMERASE II PROMOTER| GO DEFENSE RESPONSE TO OTHER ORGANISM| GO APOPTOTIC SIGLING PATHWAY| GO TRANSCRIPTION ELONGATION FROM R POLYMERASE II PROMOTER| GO JNK CASCADE| GO REGULATION OF EXTRINSIC APOPTOTIC SIGLING PATHWAY| GO NEGATIVE REGULATION OF PHOSPHORUS METABOLIC PROCESS| GO REGULATION OF RESPONSE TO STRESS| GO PROTEIN PHOSPHORYLATION| GO CHROMATIN ORGANIZATION| GO NEGATIVE REGULATION OF CELL DEATH| GO NEGATIVE REGULATION OF I KAPPAB KISE NF KAPPAB SIGLING| GO INTERSPECIES INTERACTION BETWEEN ORGANISMS| GO CELL CYCLE| GO NEGATIVE REGULATION OF JNK CASCADE| GO NEGATIVE REGULATION OF APOPTOTIC SIGLING PATHWAY| GO NEGATIVE REGULATION OF STRESS ACTIVATED PROTEIN KISE SIGLING CASCADE| GO REGULATION OF CELLULAR RESPONSE TO STRESS| GO REGULATION OF CELL DEATH| GO NEGATIVE REGULATION OF RESPONSE TO STIMULUS| GO NEGATIVE REGULATION OF PHOSPHORYLATION| GO NEGATIVE REGULATION OF PROTEIN METABOLIC PROCESS| GO RESPONSE TO BIOTIC STIMULUS| GO REGULATION OF PROTEIN MODIFICATION PROCESS| GO SIGL TRANSDUCTION BY PROTEIN PHOSPHORYLATION| GO STRESS ACTIVATED PROTEIN KISE SIGLING CASCADE| GO REGULATION OF PHOSPHORUS METABOLIC PROCESS| GO RESPONSE TO VIRUS| GO NEGATIVE REGULATION OF PROTEIN MODIFICATION PROCESS| GO REGULATION OF D TEMPLATED TRANSCRIPTION ELONGATION| GO IMMUNE EFFECTOR PROCESS| GO REGULATION OF APOPTOTIC SIGLING PATHWAY| GO CHROMOSOME| GO HISTONE BINDING| GO METHYLATED HISTONE BINDING| GO DOUBLE STRANDED D BINDING| GO TRANSITION METAL ION BINDING| GO ZINC ION BINDING| GO TRANSCRIPTION COREPRESSOR ACTIVITY| GO APOPTOTIC PROCESS| GO NEGATIVE REGULATION OF BIOSYNTHETIC PROCESS| GO NEGATIVE REGULATION OF SIGLING| GO NEGATIVE REGULATION OF R BIOSYNTHETIC PROCESS| GO TRANSCRIPTION COREGULATOR ACTIVITY| GO MODIFICATION DEPENDENT PROTEIN BINDING"
+#>  [9,] "GO CYTOSKELETON ORGANIZATION| GO OOGENESIS| GO MICROTUBULE BASED PROCESS| GO MICROTUBULE CYTOSKELETON ORGANIZATION| GO SEXUAL REPRODUCTION| GO ATOMICAL STRUCTURE MATURATION| GO MITOTIC CELL CYCLE| GO ORGANELLE FISSION| GO CELL MATURATION| GO ORGANELLE ASSEMBLY| GO CELLULAR PROCESS INVOLVED IN REPRODUCTION IN MULTICELLULAR ORGANISM| GO OOCYTE MATURATION| GO OOCYTE DIFFERENTIATION| GO MEIOTIC CELL CYCLE| GO CELL CYCLE| GO MULTI ORGANISM REPRODUCTIVE PROCESS| GO GAMETE GENERATION| GO FEMALE GAMETE GENERATION| GO DEVELOPMENTAL PROCESS INVOLVED IN REPRODUCTION| GO MEIOTIC CELL CYCLE PROCESS| GO SPINDLE ASSEMBLY| GO REPRODUCTION| GO GERM CELL DEVELOPMENT| GO MULTICELLULAR ORGANISM REPRODUCTION| GO DEVELOPMENTAL MATURATION| GO CELL CYCLE PROCESS| GO MICROTUBULE CYTOSKELETON| GO CYTOSKELETAL PART| GO MICROTUBULE| GO SPINDLE| GO GTPASE ACTIVITY| GO HYDROLASE ACTIVITY ACTING ON ACID ANHYDRIDES| GO GUANYL NUCLEOTIDE BINDING| GO RIBONUCLEOTIDE BINDING| GO STRUCTURAL CONSTITUENT OF CYTOSKELETON| GO STRUCTURAL MOLECULE ACTIVITY| GO MEIOTIC SPINDLE ORGANIZATION| GO SPINDLE ORGANIZATION| GO FEMALE MEIOTIC NUCLEAR DIVISION| GO SPINDLE ASSEMBLY INVOLVED IN MEIOSIS| GO MEIOTIC SPINDLE| GO SUPRAMOLECULAR COMPLEX| GO POLYMERIC CYTOSKELETAL FIBER; GO CHROMOSOME ORGANIZATION| GO D TEMPLATED TRANSCRIPTION ELONGATION| GO REGULATION OF MAPK CASCADE| GO REGULATION OF STRESS ACTIVATED PROTEIN KISE SIGLING CASCADE| GO I KAPPAB KISE NF KAPPAB SIGLING| GO DEFENSE RESPONSE TO VIRUS| GO EXTRINSIC APOPTOTIC SIGLING PATHWAY| GO REGULATION OF INTRACELLULAR SIGL TRANSDUCTION| GO NEGATIVE REGULATION OF MAPK CASCADE| GO NEGATIVE REGULATION OF INTRACELLULAR SIGL TRANSDUCTION| GO DEFENSE RESPONSE| GO NEGATIVE REGULATION OF EXTRINSIC APOPTOTIC SIGLING PATHWAY| GO REGULATION OF TRANSCRIPTION ELONGATION FROM R POLYMERASE II PROMOTER| GO DEFENSE RESPONSE TO OTHER ORGANISM| GO APOPTOTIC SIGLING PATHWAY| GO TRANSCRIPTION ELONGATION FROM R POLYMERASE II PROMOTER| GO JNK CASCADE| GO REGULATION OF EXTRINSIC APOPTOTIC SIGLING PATHWAY| GO NEGATIVE REGULATION OF PHOSPHORUS METABOLIC PROCESS| GO REGULATION OF RESPONSE TO STRESS| GO PROTEIN PHOSPHORYLATION| GO CHROMATIN ORGANIZATION| GO NEGATIVE REGULATION OF CELL DEATH| GO NEGATIVE REGULATION OF I KAPPAB KISE NF KAPPAB SIGLING| GO INTERSPECIES INTERACTION BETWEEN ORGANISMS| GO CELL CYCLE| GO NEGATIVE REGULATION OF JNK CASCADE| GO NEGATIVE REGULATION OF APOPTOTIC SIGLING PATHWAY| GO NEGATIVE REGULATION OF STRESS ACTIVATED PROTEIN KISE SIGLING CASCADE| GO REGULATION OF CELLULAR RESPONSE TO STRESS| GO REGULATION OF CELL DEATH| GO NEGATIVE REGULATION OF RESPONSE TO STIMULUS| GO NEGATIVE REGULATION OF PHOSPHORYLATION| GO NEGATIVE REGULATION OF PROTEIN METABOLIC PROCESS| GO RESPONSE TO BIOTIC STIMULUS| GO REGULATION OF PROTEIN MODIFICATION PROCESS| GO SIGL TRANSDUCTION BY PROTEIN PHOSPHORYLATION| GO STRESS ACTIVATED PROTEIN KISE SIGLING CASCADE| GO REGULATION OF PHOSPHORUS METABOLIC PROCESS| GO RESPONSE TO VIRUS| GO NEGATIVE REGULATION OF PROTEIN MODIFICATION PROCESS| GO REGULATION OF D TEMPLATED TRANSCRIPTION ELONGATION| GO IMMUNE EFFECTOR PROCESS| GO REGULATION OF APOPTOTIC SIGLING PATHWAY| GO CHROMOSOME| GO HISTONE BINDING| GO METHYLATED HISTONE BINDING| GO DOUBLE STRANDED D BINDING| GO TRANSITION METAL ION BINDING| GO ZINC ION BINDING| GO TRANSCRIPTION COREPRESSOR ACTIVITY| GO APOPTOTIC PROCESS| GO NEGATIVE REGULATION OF BIOSYNTHETIC PROCESS| GO NEGATIVE REGULATION OF SIGLING| GO NEGATIVE REGULATION OF R BIOSYNTHETIC PROCESS| GO TRANSCRIPTION COREGULATOR ACTIVITY| GO MODIFICATION DEPENDENT PROTEIN BINDING"
+#> [10,] "GO CYTOSKELETON ORGANIZATION| GO OOGENESIS| GO MICROTUBULE BASED PROCESS| GO MICROTUBULE CYTOSKELETON ORGANIZATION| GO SEXUAL REPRODUCTION| GO ATOMICAL STRUCTURE MATURATION| GO MITOTIC CELL CYCLE| GO ORGANELLE FISSION| GO CELL MATURATION| GO ORGANELLE ASSEMBLY| GO CELLULAR PROCESS INVOLVED IN REPRODUCTION IN MULTICELLULAR ORGANISM| GO OOCYTE MATURATION| GO OOCYTE DIFFERENTIATION| GO MEIOTIC CELL CYCLE| GO CELL CYCLE| GO MULTI ORGANISM REPRODUCTIVE PROCESS| GO GAMETE GENERATION| GO FEMALE GAMETE GENERATION| GO DEVELOPMENTAL PROCESS INVOLVED IN REPRODUCTION| GO MEIOTIC CELL CYCLE PROCESS| GO SPINDLE ASSEMBLY| GO REPRODUCTION| GO GERM CELL DEVELOPMENT| GO MULTICELLULAR ORGANISM REPRODUCTION| GO DEVELOPMENTAL MATURATION| GO CELL CYCLE PROCESS| GO MICROTUBULE CYTOSKELETON| GO CYTOSKELETAL PART| GO MICROTUBULE| GO SPINDLE| GO GTPASE ACTIVITY| GO HYDROLASE ACTIVITY ACTING ON ACID ANHYDRIDES| GO GUANYL NUCLEOTIDE BINDING| GO RIBONUCLEOTIDE BINDING| GO STRUCTURAL CONSTITUENT OF CYTOSKELETON| GO STRUCTURAL MOLECULE ACTIVITY| GO MEIOTIC SPINDLE ORGANIZATION| GO SPINDLE ORGANIZATION| GO FEMALE MEIOTIC NUCLEAR DIVISION| GO SPINDLE ASSEMBLY INVOLVED IN MEIOSIS| GO MEIOTIC SPINDLE| GO SUPRAMOLECULAR COMPLEX| GO POLYMERIC CYTOSKELETAL FIBER; GO CHROMOSOME ORGANIZATION| GO D TEMPLATED TRANSCRIPTION ELONGATION| GO REGULATION OF MAPK CASCADE| GO REGULATION OF STRESS ACTIVATED PROTEIN KISE SIGLING CASCADE| GO I KAPPAB KISE NF KAPPAB SIGLING| GO DEFENSE RESPONSE TO VIRUS| GO EXTRINSIC APOPTOTIC SIGLING PATHWAY| GO REGULATION OF INTRACELLULAR SIGL TRANSDUCTION| GO NEGATIVE REGULATION OF MAPK CASCADE| GO NEGATIVE REGULATION OF INTRACELLULAR SIGL TRANSDUCTION| GO DEFENSE RESPONSE| GO NEGATIVE REGULATION OF EXTRINSIC APOPTOTIC SIGLING PATHWAY| GO REGULATION OF TRANSCRIPTION ELONGATION FROM R POLYMERASE II PROMOTER| GO DEFENSE RESPONSE TO OTHER ORGANISM| GO APOPTOTIC SIGLING PATHWAY| GO TRANSCRIPTION ELONGATION FROM R POLYMERASE II PROMOTER| GO JNK CASCADE| GO REGULATION OF EXTRINSIC APOPTOTIC SIGLING PATHWAY| GO NEGATIVE REGULATION OF PHOSPHORUS METABOLIC PROCESS| GO REGULATION OF RESPONSE TO STRESS| GO PROTEIN PHOSPHORYLATION| GO CHROMATIN ORGANIZATION| GO NEGATIVE REGULATION OF CELL DEATH| GO NEGATIVE REGULATION OF I KAPPAB KISE NF KAPPAB SIGLING| GO INTERSPECIES INTERACTION BETWEEN ORGANISMS| GO CELL CYCLE| GO NEGATIVE REGULATION OF JNK CASCADE| GO NEGATIVE REGULATION OF APOPTOTIC SIGLING PATHWAY| GO NEGATIVE REGULATION OF STRESS ACTIVATED PROTEIN KISE SIGLING CASCADE| GO REGULATION OF CELLULAR RESPONSE TO STRESS| GO REGULATION OF CELL DEATH| GO NEGATIVE REGULATION OF RESPONSE TO STIMULUS| GO NEGATIVE REGULATION OF PHOSPHORYLATION| GO NEGATIVE REGULATION OF PROTEIN METABOLIC PROCESS| GO RESPONSE TO BIOTIC STIMULUS| GO REGULATION OF PROTEIN MODIFICATION PROCESS| GO SIGL TRANSDUCTION BY PROTEIN PHOSPHORYLATION| GO STRESS ACTIVATED PROTEIN KISE SIGLING CASCADE| GO REGULATION OF PHOSPHORUS METABOLIC PROCESS| GO RESPONSE TO VIRUS| GO NEGATIVE REGULATION OF PROTEIN MODIFICATION PROCESS| GO REGULATION OF D TEMPLATED TRANSCRIPTION ELONGATION| GO IMMUNE EFFECTOR PROCESS| GO REGULATION OF APOPTOTIC SIGLING PATHWAY| GO CHROMOSOME| GO HISTONE BINDING| GO METHYLATED HISTONE BINDING| GO DOUBLE STRANDED D BINDING| GO TRANSITION METAL ION BINDING| GO ZINC ION BINDING| GO TRANSCRIPTION COREPRESSOR ACTIVITY| GO APOPTOTIC PROCESS| GO NEGATIVE REGULATION OF BIOSYNTHETIC PROCESS| GO NEGATIVE REGULATION OF SIGLING| GO NEGATIVE REGULATION OF R BIOSYNTHETIC PROCESS| GO TRANSCRIPTION COREGULATOR ACTIVITY| GO MODIFICATION DEPENDENT PROTEIN BINDING"
+#>       <NA>             <NA>                                  <NA>    <NA>   
+#>  [1,] NA               NA                                    NA      NA     
+#>  [2,] "TUBB8"          "TUBB8:NM 177987:exon4:cG830C:pG277A" "0.002" "0.787"
+#>  [3,] "TUBB8"          "TUBB8:NM 177987:exon4:cA697G:pM233V" "0.012" "0.01" 
+#>  [4,] NA               NA                                    NA      NA     
+#>  [5,] "TUBB8"          NA                                    NA      NA     
+#>  [6,] "TUBB8"          NA                                    NA      NA     
+#>  [7,] "TUBB8; ZMYND11" NA                                    NA      NA     
+#>  [8,] "TUBB8; ZMYND11" NA                                    NA      NA     
+#>  [9,] "TUBB8; ZMYND11" NA                                    NA      NA     
+#> [10,] "TUBB8; ZMYND11" NA                                    NA      NA     
+#>       <NA>    <NA>    <NA> <NA>    <NA>    <NA>    <NA>    <NA>    <NA>    
+#>  [1,] NA      NA      NA   NA      NA      NA      NA      NA      NA      
+#>  [2,] "0.598" "0.001" "1"  "2.155" "-1.84" "-4.65" "0.41"  "0.877" "-0.012"
+#>  [3,] "0.043" "0"     "1"  "2.105" "-0.18" "-3.33" "0.098" "0.713" "-0.829"
+#>  [4,] NA      NA      NA   NA      NA      NA      NA      NA      NA      
+#>  [5,] NA      NA      NA   NA      NA      NA      NA      NA      NA      
+#>  [6,] NA      NA      NA   NA      NA      NA      NA      NA      NA      
+#>  [7,] NA      NA      NA   NA      NA      NA      NA      NA      NA      
+#>  [8,] NA      NA      NA   NA      NA      NA      NA      NA      NA      
+#>  [9,] NA      NA      NA   NA      NA      NA      NA      NA      NA      
+#> [10,] NA      NA      NA   NA      NA      NA      NA      NA      NA      
+#>       <NA>    <NA>     <NA>     <NA>     <NA>     <NA>     <NA>     <NA>    
+#>  [1,] NA      NA       NA       NA       NA       NA       NA       NA      
+#>  [2,] "0.561" NA       NA       NA       NA       NA       NA       NA      
+#>  [3,] "0.183" "0.0279" "0.0174" "0.0196" "0.04"   "0.0194" "0.0573" "0.028" 
+#>  [4,] NA      NA       NA       NA       NA       NA       NA       NA      
+#>  [5,] NA      NA       NA       NA       NA       NA       NA       NA      
+#>  [6,] NA      "0.0242" "0.0085" "0.0155" "0.0199" "0.0025" "0.0218" "0.0367"
+#>  [7,] NA      "0.2678" "0.1517" "0.195"  "0.2881" "0.254"  "0.3489" "0.3203"
+#>  [8,] NA      "0.0634" "0.0352" "0.0465" "0.0265" "0.066"  "0.0785" "0.0786"
+#>  [9,] NA      "0.4425" "0.4947" "0.3077" "0.3699" "0.3674" "0.4488" "0.4306"
+#> [10,] NA      "0.2538" "0.1036" "0.2734" "0.3514" "0.0961" "0.282"  "0.3489"
+#>       <NA>     <NA>  <NA>       
+#>  [1,] NA       NA    NA         
+#>  [2,] NA       NA    NA         
+#>  [3,] "0.0461" NA    NA         
+#>  [4,] NA       NA    NA         
+#>  [5,] NA       NA    NA         
+#>  [6,] "0.0275" "T T" "0.0364263"
+#>  [7,] "0.2916" "T T" "0.315864" 
+#>  [8,] "0.0519" "0 0" "0.0843255"
+#>  [9,] "0.4063" "0 0" "0.444643" 
+#> [10,] "0.3077" "0 0" "0.35744"
+```
 
 ### Extract participants
 
@@ -607,7896 +751,282 @@ new_raw_data <- '{"columns":[{"id":34,"instance":0,"array":{"type":"exact","valu
 Using this above raw data lets extract selected participants.
 
 ``` r
-df <- cloudos::extract_participants(base_url= cb_base_url, 
-                      auth = my_auth,
+df <- cloudos::extract_participants(my_cloudos,
                       raw_data = new_raw_data)
-
-
-kableExtra::kable(df)
+df
+#>          i ECG..load.0.0 ECG..load.0.1 ECG..load.0.2 ECG..load.0.3
+#> 1  1000002            NA            NA            NA            NA
+#> 2  1000016            20            75            55            57
+#> 3  1000020            NA            NA            NA            NA
+#> 4  1000035            NA            NA            NA            NA
+#> 5  1000048           109            51            87            75
+#> 6  1000057           110           112            97            67
+#> 7  1000059            85            99            52            86
+#> 8  1000061            NA            NA            NA            NA
+#> 9  1000063            15            58           130           100
+#> 10 1000068            14           128           128            13
+#>    ECG..load.0.4 ECG..load.0.5 ECG..load.0.6 ECG..load.0.7 ECG..load.0.8
+#> 1             NA            NA            NA            NA            NA
+#> 2            245            22            40            24            83
+#> 3             NA            NA            NA            NA            NA
+#> 4             NA            NA            NA            NA            NA
+#> 5             16            67            12            50            51
+#> 6             14            54            76            57           128
+#> 7             29           108            49           112            99
+#> 8             NA            NA            NA            NA            NA
+#> 9             94           124            74            59           127
+#> 10            94            15             0           106            91
+#>    ECG..load.0.9 ECG..load.0.10 ECG..load.0.11 ECG..load.0.12 ECG..load.0.13
+#> 1             NA             NA             NA             NA             NA
+#> 2             93            130             41             19             64
+#> 3             NA             NA             NA             NA             NA
+#> 4             NA             NA             NA             NA             NA
+#> 5             91             77             75             47             63
+#> 6             88              6             59            195             11
+#> 7             53            245             90             44            132
+#> 8             NA             NA             NA             NA             NA
+#> 9             62            102             75             63              0
+#> 10            66             66             66             88            195
+#>    ECG..load.0.14 ECG..load.0.15 ECG..load.0.16 ECG..load.0.17 ECG..load.0.18
+#> 1              NA             NA             NA             NA             NA
+#> 2              85             87              3             47             88
+#> 3              NA             NA             NA             NA             NA
+#> 4              NA             NA             NA             NA             NA
+#> 5             108            116             80             45             93
+#> 6              40             57             46              3             13
+#> 7              97            270             95             57            140
+#> 8              NA             NA             NA             NA             NA
+#> 9             106             46             91             51             29
+#> 10            136            121             52             48             19
+#>    ECG..load.0.19 ECG..load.0.20 ECG..load.0.21 ECG..load.0.22 ECG..load.0.23
+#> 1              NA             NA             NA             NA             NA
+#> 2             130             28             96             24             17
+#> 3              NA             NA             NA             NA             NA
+#> 4              NA             NA             NA             NA             NA
+#> 5              75              9             72             73             35
+#> 6               9            120             36             21              5
+#> 7              22             30             68            118             38
+#> 8              NA             NA             NA             NA             NA
+#> 9               5             11             75            112             91
+#> 10             50             29             39             29            115
+#>    ECG..load.0.24 ECG..load.0.25 ECG..load.0.26 ECG..load.0.27 ECG..load.0.28
+#> 1              NA             NA             NA             NA             NA
+#> 2              38             63              2            108             57
+#> 3              NA             NA             NA             NA             NA
+#> 4              NA             NA             NA             NA             NA
+#> 5              31             32             76            128             31
+#> 6              20              9            270            132             74
+#> 7              53             58             80            118            195
+#> 8              NA             NA             NA             NA             NA
+#> 9             106            108             92             74            121
+#> 10            120            121              5            120            124
+#>    ECG..load.0.29 ECG..load.0.30 ECG..load.0.31 ECG..load.0.32 ECG..load.0.33
+#> 1              NA             NA             NA             NA             NA
+#> 2             140             85              8             77            112
+#> 3              NA             NA             NA             NA             NA
+#> 4              NA             NA             NA             NA             NA
+#> 5              15            100             53              2            116
+#> 6              90            105             97             98              0
+#> 7              18            136             94             92             65
+#> 8              NA             NA             NA             NA             NA
+#> 9              63              9             26             63             43
+#> 10             95              0             88             76             60
+#>    ECG..load.0.34 ECG..load.0.35 ECG..load.0.36 ECG..load.0.37 ECG..load.0.38
+#> 1              NA             NA             NA             NA             NA
+#> 2              58             12             24             20             97
+#> 3              NA             NA             NA             NA             NA
+#> 4              NA             NA             NA             NA             NA
+#> 5              25            109            195            130             21
+#> 6             115             16             65             54             86
+#> 7             121             54             77            100            124
+#> 8              NA             NA             NA             NA             NA
+#> 9             105             27            112             30             75
+#> 10             86             84             33             13             92
+#>    ECG..load.0.39 ECG..load.0.40 ECG..load.0.41 ECG..load.0.42 ECG..load.0.43
+#> 1              NA             NA             NA             NA             NA
+#> 2              30            136             50             70             29
+#> 3              NA             NA             NA             NA             NA
+#> 4              NA             NA             NA             NA             NA
+#> 5              31             25             15             99             57
+#> 6              11            136             28            118            118
+#> 7              73             59            108             60              3
+#> 8              NA             NA             NA             NA             NA
+#> 9             124             20            112             69             41
+#> 10            108             38            118             24             49
+#>    ECG..load.0.44 ECG..load.0.45 ECG..load.0.46 ECG..load.0.47 ECG..load.0.48
+#> 1              NA             NA             NA             NA             NA
+#> 2             118            104             38             24             23
+#> 3              NA             NA             NA             NA             NA
+#> 4              NA             NA             NA             NA             NA
+#> 5              78             37              7             79            130
+#> 6             108             32            106             71             44
+#> 7             130             13             48             83             97
+#> 8              NA             NA             NA             NA             NA
+#> 9             118             17             54             24            124
+#> 10             28            108             76             21             19
+#>    ECG..load.0.49 ECG..load.0.50 ECG..load.0.51 ECG..load.0.52 ECG..load.0.53
+#> 1              NA             NA             NA             NA             NA
+#> 2              18              3             62            128             71
+#> 3              NA             NA             NA             NA             NA
+#> 4              NA             NA             NA             NA             NA
+#> 5              46            130             91             33             93
+#> 6             270             29            245              3            106
+#> 7              61             77             81             30             53
+#> 8              NA             NA             NA             NA             NA
+#> 9              48             24             55             57              0
+#> 10             24             95             27              4             51
+#>    ECG..load.0.54 ECG..load.0.55 ECG..load.0.56 ECG..load.0.57 ECG..load.0.58
+#> 1              NA             NA             NA             NA             NA
+#> 2              33             23              6            104            136
+#> 3              NA             NA             NA             NA             NA
+#> 4              NA             NA             NA             NA             NA
+#> 5               2             96             90             50             18
+#> 6              26            105             60             70             44
+#> 7              93             79             77             84             48
+#> 8              NA             NA             NA             NA             NA
+#> 9              58            127             85             84            110
+#> 10            103             76            118             33             14
+#>    ECG..load.0.59 ECG..load.0.60 ECG..load.0.61 ECG..load.0.62 ECG..load.0.63
+#> 1              NA             NA             NA             NA             NA
+#> 2               0             18             63            108             47
+#> 3              NA             NA             NA             NA             NA
+#> 4              NA             NA             NA             NA             NA
+#> 5              46             28             36              9            195
+#> 6              77            103             62             47             74
+#> 7              32             54             96             40             61
+#> 8              NA             NA             NA             NA             NA
+#> 9              67             52             43             24            121
+#> 10            105             11             72             91             51
+#>    ECG..load.0.64 ECG..load.0.65 ECG..load.0.66 ECG..load.0.67 ECG..load.0.68
+#> 1              NA             NA             NA             NA             NA
+#> 2               2            116             58             44            120
+#> 3              NA             NA             NA             NA             NA
+#> 4              NA             NA             NA             NA             NA
+#> 5              26             69              3            103             29
+#> 6              17             86             43             75              9
+#> 7              90             44              9            140             19
+#> 8              NA             NA             NA             NA             NA
+#> 9              96            270              4             26             73
+#> 10             79             92            103             38             82
+#>    ECG..load.0.69 ECG..load.0.70 ECG..load.0.71 ECG..load.0.72 ECG..load.0.73
+#> 1              NA             NA             NA             NA             NA
+#> 2              77             50             51             18            132
+#> 3              NA             NA             NA             NA             NA
+#> 4              NA             NA             NA             NA             NA
+#> 5              77             34             41             26            105
+#> 6              35             82             49             80             93
+#> 7              66             46             27             26            127
+#> 8              NA             NA             NA             NA             NA
+#> 9              29             28            136             48             75
+#> 10             96             87             34             39             13
+#>    ECG..load.0.74 ECG..load.0.75 ECG..load.0.76 ECG..load.0.77 ECG..load.0.78
+#> 1              NA             NA             NA             NA             NA
+#> 2             130             96             15             42             45
+#> 3              NA             NA             NA             NA             NA
+#> 4              NA             NA             NA             NA             NA
+#> 5              29             81             94              2             71
+#> 6             105             97             65             94              5
+#> 7              96            245            121             83              3
+#> 8              NA             NA             NA             NA             NA
+#> 9             109              2             24             26             49
+#> 10              1             81              4             83            118
+#>    ECG..load.0.79 ECG..load.0.80 ECG..load.0.81 ECG..load.0.82 ECG..load.0.83
+#> 1              NA             NA             NA             NA             NA
+#> 2               0             53             13             58             25
+#> 3              NA             NA             NA             NA             NA
+#> 4              NA             NA             NA             NA             NA
+#> 5              56             18             18             57             56
+#> 6              22              5             60             51            128
+#> 7              48             50             55             57             51
+#> 8              NA             NA             NA             NA             NA
+#> 9              36             92             19             24             16
+#> 10              5             44             75            100            109
+#>    ECG..load.0.84 ECG..load.0.85 ECG..load.0.86 ECG..load.0.87 ECG..load.0.88
+#> 1              NA             NA             NA             NA             NA
+#> 2              23             53            102             76             13
+#> 3              NA             NA             NA             NA             NA
+#> 4              NA             NA             NA             NA             NA
+#> 5              38             18              5            136             39
+#> 6              23             52             25             55             79
+#> 7              62              2             76             59             49
+#> 8              NA             NA             NA             NA             NA
+#> 9              40            127             91            110              5
+#> 10             13             84             49            102             63
+#>    ECG..load.0.89 ECG..load.0.90 ECG..load.0.91 ECG..load.0.92 ECG..load.0.93
+#> 1              NA             NA             NA             NA             NA
+#> 2              55             54            127             75            270
+#> 3              NA             NA             NA             NA             NA
+#> 4              NA             NA             NA             NA             NA
+#> 5               3            116             11             74            110
+#> 6              43              0            128             87             51
+#> 7              56              3             25             61             20
+#> 8              NA             NA             NA             NA             NA
+#> 9             112             41             82             82             21
+#> 10             35             82             23             92             79
+#>    ECG..load.0.94 ECG..load.0.95 ECG..load.0.96 ECG..load.0.97 ECG..load.0.98
+#> 1              NA             NA             NA             NA             NA
+#> 2             118             60            127             37             45
+#> 3              NA             NA             NA             NA             NA
+#> 4              NA             NA             NA             NA             NA
+#> 5              14             21             60             39             66
+#> 6             120             67             83            103            270
+#> 7             102             61             28             41             55
+#> 8              NA             NA             NA             NA             NA
+#> 9              15             23             76             30             13
+#> 10             38            128             25             81             45
+#>    ECG..load.0.99 ECG..load.0.100 ECG..load.0.101 ECG..load.0.102
+#> 1              NA              NA              NA              NA
+#> 2              19              35              73             106
+#> 3              NA              NA              NA              NA
+#> 4              NA              NA              NA              NA
+#> 5              15             106              15              50
+#> 6              47               8             121              79
+#> 7              40              69             115              51
+#> 8              NA              NA              NA              NA
+#> 9             106              47              14              55
+#> 10             42              62              18               5
+#>    ECG..load.0.103 ECG..load.0.104 ECG..load.0.105 ECG..load.0.106
+#> 1               NA              NA              NA              NA
+#> 2                7              55             116              78
+#> 3               NA              NA              NA              NA
+#> 4               NA              NA              NA              NA
+#> 5               85              48              71              72
+#> 6              109              35              58              28
+#> 7               23             110               1              40
+#> 8               NA              NA              NA              NA
+#> 9               57               6              83              21
+#> 10              44             110               5              62
+#>    ECG..load.0.107 ECG..load.0.108 ECG..load.0.109 ECG..load.0.110
+#> 1               NA              NA              NA              NA
+#> 2               75             270              11              25
+#> 3               NA              NA              NA              NA
+#> 4               NA              NA              NA              NA
+#> 5               53              68               0              97
+#> 6              130             136              85              78
+#> 7               30              66              99              25
+#> 8               NA              NA              NA              NA
+#> 9               97              40              84              56
+#> 10              87              13              74              41
+#>    ECG..load.0.111 ECG..load.0.112 ECG..load.0.113
+#> 1               NA              NA              NA
+#> 2              121             121              83
+#> 3               NA              NA              NA
+#> 4               NA              NA              NA
+#> 5               13              48             105
+#> 6               99              99              91
+#> 7                6              61              29
+#> 8               NA              NA              NA
+#> 9              110              52             124
+#> 10              66             106              48
+#>         Cancer.code..self.reported.0.0    Sex Year.of.birth Month.of.birth
+#> 1                                                        NA               
+#> 2                      cervical cancer   Male          1954      September
+#> 3                                                        NA               
+#> 4                                                        NA               
+#> 5                      chronic myeloid Female          1950        January
+#> 6  metastatic cancer (unknown primary) Female          1942       February
+#> 7           uterine/endometrial cancer Female          1964       December
+#> 8                                                        NA               
+#> 9                      chronic myeloid Female          1944          April
+#> 10                      bladder cancer Female          1947       November
 ```
-
-<table>
-
-<thead>
-
-<tr>
-
-<th style="text-align:right;">
-
-i
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.0
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.1
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.2
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.3
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.4
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.5
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.6
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.7
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.8
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.9
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.10
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.11
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.12
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.13
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.14
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.15
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.16
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.17
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.18
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.19
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.20
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.21
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.22
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.23
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.24
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.25
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.26
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.27
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.28
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.29
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.30
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.31
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.32
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.33
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.34
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.35
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.36
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.37
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.38
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.39
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.40
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.41
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.42
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.43
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.44
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.45
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.46
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.47
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.48
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.49
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.50
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.51
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.52
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.53
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.54
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.55
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.56
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.57
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.58
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.59
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.60
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.61
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.62
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.63
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.64
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.65
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.66
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.67
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.68
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.69
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.70
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.71
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.72
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.73
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.74
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.75
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.76
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.77
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.78
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.79
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.80
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.81
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.82
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.83
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.84
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.85
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.86
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.87
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.88
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.89
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.90
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.91
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.92
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.93
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.94
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.95
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.96
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.97
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.98
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.99
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.100
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.101
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.102
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.103
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.104
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.105
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.106
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.107
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.108
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.109
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.110
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.111
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.112
-
-</th>
-
-<th style="text-align:right;">
-
-ECG..load.0.113
-
-</th>
-
-<th style="text-align:left;">
-
-Cancer.code..self.reported.0.0
-
-</th>
-
-<th style="text-align:left;">
-
-Sex
-
-</th>
-
-<th style="text-align:right;">
-
-Year.of.birth
-
-</th>
-
-<th style="text-align:left;">
-
-Month.of.birth
-
-</th>
-
-</tr>
-
-</thead>
-
-<tbody>
-
-<tr>
-
-<td style="text-align:right;">
-
-1000002
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:left;">
-
-</td>
-
-<td style="text-align:left;">
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:left;">
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-1000016
-
-</td>
-
-<td style="text-align:right;">
-
-20
-
-</td>
-
-<td style="text-align:right;">
-
-75
-
-</td>
-
-<td style="text-align:right;">
-
-55
-
-</td>
-
-<td style="text-align:right;">
-
-57
-
-</td>
-
-<td style="text-align:right;">
-
-245
-
-</td>
-
-<td style="text-align:right;">
-
-22
-
-</td>
-
-<td style="text-align:right;">
-
-40
-
-</td>
-
-<td style="text-align:right;">
-
-24
-
-</td>
-
-<td style="text-align:right;">
-
-83
-
-</td>
-
-<td style="text-align:right;">
-
-93
-
-</td>
-
-<td style="text-align:right;">
-
-130
-
-</td>
-
-<td style="text-align:right;">
-
-41
-
-</td>
-
-<td style="text-align:right;">
-
-19
-
-</td>
-
-<td style="text-align:right;">
-
-64
-
-</td>
-
-<td style="text-align:right;">
-
-85
-
-</td>
-
-<td style="text-align:right;">
-
-87
-
-</td>
-
-<td style="text-align:right;">
-
-3
-
-</td>
-
-<td style="text-align:right;">
-
-47
-
-</td>
-
-<td style="text-align:right;">
-
-88
-
-</td>
-
-<td style="text-align:right;">
-
-130
-
-</td>
-
-<td style="text-align:right;">
-
-28
-
-</td>
-
-<td style="text-align:right;">
-
-96
-
-</td>
-
-<td style="text-align:right;">
-
-24
-
-</td>
-
-<td style="text-align:right;">
-
-17
-
-</td>
-
-<td style="text-align:right;">
-
-38
-
-</td>
-
-<td style="text-align:right;">
-
-63
-
-</td>
-
-<td style="text-align:right;">
-
-2
-
-</td>
-
-<td style="text-align:right;">
-
-108
-
-</td>
-
-<td style="text-align:right;">
-
-57
-
-</td>
-
-<td style="text-align:right;">
-
-140
-
-</td>
-
-<td style="text-align:right;">
-
-85
-
-</td>
-
-<td style="text-align:right;">
-
-8
-
-</td>
-
-<td style="text-align:right;">
-
-77
-
-</td>
-
-<td style="text-align:right;">
-
-112
-
-</td>
-
-<td style="text-align:right;">
-
-58
-
-</td>
-
-<td style="text-align:right;">
-
-12
-
-</td>
-
-<td style="text-align:right;">
-
-24
-
-</td>
-
-<td style="text-align:right;">
-
-20
-
-</td>
-
-<td style="text-align:right;">
-
-97
-
-</td>
-
-<td style="text-align:right;">
-
-30
-
-</td>
-
-<td style="text-align:right;">
-
-136
-
-</td>
-
-<td style="text-align:right;">
-
-50
-
-</td>
-
-<td style="text-align:right;">
-
-70
-
-</td>
-
-<td style="text-align:right;">
-
-29
-
-</td>
-
-<td style="text-align:right;">
-
-118
-
-</td>
-
-<td style="text-align:right;">
-
-104
-
-</td>
-
-<td style="text-align:right;">
-
-38
-
-</td>
-
-<td style="text-align:right;">
-
-24
-
-</td>
-
-<td style="text-align:right;">
-
-23
-
-</td>
-
-<td style="text-align:right;">
-
-18
-
-</td>
-
-<td style="text-align:right;">
-
-3
-
-</td>
-
-<td style="text-align:right;">
-
-62
-
-</td>
-
-<td style="text-align:right;">
-
-128
-
-</td>
-
-<td style="text-align:right;">
-
-71
-
-</td>
-
-<td style="text-align:right;">
-
-33
-
-</td>
-
-<td style="text-align:right;">
-
-23
-
-</td>
-
-<td style="text-align:right;">
-
-6
-
-</td>
-
-<td style="text-align:right;">
-
-104
-
-</td>
-
-<td style="text-align:right;">
-
-136
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-18
-
-</td>
-
-<td style="text-align:right;">
-
-63
-
-</td>
-
-<td style="text-align:right;">
-
-108
-
-</td>
-
-<td style="text-align:right;">
-
-47
-
-</td>
-
-<td style="text-align:right;">
-
-2
-
-</td>
-
-<td style="text-align:right;">
-
-116
-
-</td>
-
-<td style="text-align:right;">
-
-58
-
-</td>
-
-<td style="text-align:right;">
-
-44
-
-</td>
-
-<td style="text-align:right;">
-
-120
-
-</td>
-
-<td style="text-align:right;">
-
-77
-
-</td>
-
-<td style="text-align:right;">
-
-50
-
-</td>
-
-<td style="text-align:right;">
-
-51
-
-</td>
-
-<td style="text-align:right;">
-
-18
-
-</td>
-
-<td style="text-align:right;">
-
-132
-
-</td>
-
-<td style="text-align:right;">
-
-130
-
-</td>
-
-<td style="text-align:right;">
-
-96
-
-</td>
-
-<td style="text-align:right;">
-
-15
-
-</td>
-
-<td style="text-align:right;">
-
-42
-
-</td>
-
-<td style="text-align:right;">
-
-45
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-53
-
-</td>
-
-<td style="text-align:right;">
-
-13
-
-</td>
-
-<td style="text-align:right;">
-
-58
-
-</td>
-
-<td style="text-align:right;">
-
-25
-
-</td>
-
-<td style="text-align:right;">
-
-23
-
-</td>
-
-<td style="text-align:right;">
-
-53
-
-</td>
-
-<td style="text-align:right;">
-
-102
-
-</td>
-
-<td style="text-align:right;">
-
-76
-
-</td>
-
-<td style="text-align:right;">
-
-13
-
-</td>
-
-<td style="text-align:right;">
-
-55
-
-</td>
-
-<td style="text-align:right;">
-
-54
-
-</td>
-
-<td style="text-align:right;">
-
-127
-
-</td>
-
-<td style="text-align:right;">
-
-75
-
-</td>
-
-<td style="text-align:right;">
-
-270
-
-</td>
-
-<td style="text-align:right;">
-
-118
-
-</td>
-
-<td style="text-align:right;">
-
-60
-
-</td>
-
-<td style="text-align:right;">
-
-127
-
-</td>
-
-<td style="text-align:right;">
-
-37
-
-</td>
-
-<td style="text-align:right;">
-
-45
-
-</td>
-
-<td style="text-align:right;">
-
-19
-
-</td>
-
-<td style="text-align:right;">
-
-35
-
-</td>
-
-<td style="text-align:right;">
-
-73
-
-</td>
-
-<td style="text-align:right;">
-
-106
-
-</td>
-
-<td style="text-align:right;">
-
-7
-
-</td>
-
-<td style="text-align:right;">
-
-55
-
-</td>
-
-<td style="text-align:right;">
-
-116
-
-</td>
-
-<td style="text-align:right;">
-
-78
-
-</td>
-
-<td style="text-align:right;">
-
-75
-
-</td>
-
-<td style="text-align:right;">
-
-270
-
-</td>
-
-<td style="text-align:right;">
-
-11
-
-</td>
-
-<td style="text-align:right;">
-
-25
-
-</td>
-
-<td style="text-align:right;">
-
-121
-
-</td>
-
-<td style="text-align:right;">
-
-121
-
-</td>
-
-<td style="text-align:right;">
-
-83
-
-</td>
-
-<td style="text-align:left;">
-
-cervical cancer
-
-</td>
-
-<td style="text-align:left;">
-
-Male
-
-</td>
-
-<td style="text-align:right;">
-
-1954
-
-</td>
-
-<td style="text-align:left;">
-
-September
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-1000020
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:left;">
-
-</td>
-
-<td style="text-align:left;">
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:left;">
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-1000035
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:left;">
-
-</td>
-
-<td style="text-align:left;">
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:left;">
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-1000048
-
-</td>
-
-<td style="text-align:right;">
-
-109
-
-</td>
-
-<td style="text-align:right;">
-
-51
-
-</td>
-
-<td style="text-align:right;">
-
-87
-
-</td>
-
-<td style="text-align:right;">
-
-75
-
-</td>
-
-<td style="text-align:right;">
-
-16
-
-</td>
-
-<td style="text-align:right;">
-
-67
-
-</td>
-
-<td style="text-align:right;">
-
-12
-
-</td>
-
-<td style="text-align:right;">
-
-50
-
-</td>
-
-<td style="text-align:right;">
-
-51
-
-</td>
-
-<td style="text-align:right;">
-
-91
-
-</td>
-
-<td style="text-align:right;">
-
-77
-
-</td>
-
-<td style="text-align:right;">
-
-75
-
-</td>
-
-<td style="text-align:right;">
-
-47
-
-</td>
-
-<td style="text-align:right;">
-
-63
-
-</td>
-
-<td style="text-align:right;">
-
-108
-
-</td>
-
-<td style="text-align:right;">
-
-116
-
-</td>
-
-<td style="text-align:right;">
-
-80
-
-</td>
-
-<td style="text-align:right;">
-
-45
-
-</td>
-
-<td style="text-align:right;">
-
-93
-
-</td>
-
-<td style="text-align:right;">
-
-75
-
-</td>
-
-<td style="text-align:right;">
-
-9
-
-</td>
-
-<td style="text-align:right;">
-
-72
-
-</td>
-
-<td style="text-align:right;">
-
-73
-
-</td>
-
-<td style="text-align:right;">
-
-35
-
-</td>
-
-<td style="text-align:right;">
-
-31
-
-</td>
-
-<td style="text-align:right;">
-
-32
-
-</td>
-
-<td style="text-align:right;">
-
-76
-
-</td>
-
-<td style="text-align:right;">
-
-128
-
-</td>
-
-<td style="text-align:right;">
-
-31
-
-</td>
-
-<td style="text-align:right;">
-
-15
-
-</td>
-
-<td style="text-align:right;">
-
-100
-
-</td>
-
-<td style="text-align:right;">
-
-53
-
-</td>
-
-<td style="text-align:right;">
-
-2
-
-</td>
-
-<td style="text-align:right;">
-
-116
-
-</td>
-
-<td style="text-align:right;">
-
-25
-
-</td>
-
-<td style="text-align:right;">
-
-109
-
-</td>
-
-<td style="text-align:right;">
-
-195
-
-</td>
-
-<td style="text-align:right;">
-
-130
-
-</td>
-
-<td style="text-align:right;">
-
-21
-
-</td>
-
-<td style="text-align:right;">
-
-31
-
-</td>
-
-<td style="text-align:right;">
-
-25
-
-</td>
-
-<td style="text-align:right;">
-
-15
-
-</td>
-
-<td style="text-align:right;">
-
-99
-
-</td>
-
-<td style="text-align:right;">
-
-57
-
-</td>
-
-<td style="text-align:right;">
-
-78
-
-</td>
-
-<td style="text-align:right;">
-
-37
-
-</td>
-
-<td style="text-align:right;">
-
-7
-
-</td>
-
-<td style="text-align:right;">
-
-79
-
-</td>
-
-<td style="text-align:right;">
-
-130
-
-</td>
-
-<td style="text-align:right;">
-
-46
-
-</td>
-
-<td style="text-align:right;">
-
-130
-
-</td>
-
-<td style="text-align:right;">
-
-91
-
-</td>
-
-<td style="text-align:right;">
-
-33
-
-</td>
-
-<td style="text-align:right;">
-
-93
-
-</td>
-
-<td style="text-align:right;">
-
-2
-
-</td>
-
-<td style="text-align:right;">
-
-96
-
-</td>
-
-<td style="text-align:right;">
-
-90
-
-</td>
-
-<td style="text-align:right;">
-
-50
-
-</td>
-
-<td style="text-align:right;">
-
-18
-
-</td>
-
-<td style="text-align:right;">
-
-46
-
-</td>
-
-<td style="text-align:right;">
-
-28
-
-</td>
-
-<td style="text-align:right;">
-
-36
-
-</td>
-
-<td style="text-align:right;">
-
-9
-
-</td>
-
-<td style="text-align:right;">
-
-195
-
-</td>
-
-<td style="text-align:right;">
-
-26
-
-</td>
-
-<td style="text-align:right;">
-
-69
-
-</td>
-
-<td style="text-align:right;">
-
-3
-
-</td>
-
-<td style="text-align:right;">
-
-103
-
-</td>
-
-<td style="text-align:right;">
-
-29
-
-</td>
-
-<td style="text-align:right;">
-
-77
-
-</td>
-
-<td style="text-align:right;">
-
-34
-
-</td>
-
-<td style="text-align:right;">
-
-41
-
-</td>
-
-<td style="text-align:right;">
-
-26
-
-</td>
-
-<td style="text-align:right;">
-
-105
-
-</td>
-
-<td style="text-align:right;">
-
-29
-
-</td>
-
-<td style="text-align:right;">
-
-81
-
-</td>
-
-<td style="text-align:right;">
-
-94
-
-</td>
-
-<td style="text-align:right;">
-
-2
-
-</td>
-
-<td style="text-align:right;">
-
-71
-
-</td>
-
-<td style="text-align:right;">
-
-56
-
-</td>
-
-<td style="text-align:right;">
-
-18
-
-</td>
-
-<td style="text-align:right;">
-
-18
-
-</td>
-
-<td style="text-align:right;">
-
-57
-
-</td>
-
-<td style="text-align:right;">
-
-56
-
-</td>
-
-<td style="text-align:right;">
-
-38
-
-</td>
-
-<td style="text-align:right;">
-
-18
-
-</td>
-
-<td style="text-align:right;">
-
-5
-
-</td>
-
-<td style="text-align:right;">
-
-136
-
-</td>
-
-<td style="text-align:right;">
-
-39
-
-</td>
-
-<td style="text-align:right;">
-
-3
-
-</td>
-
-<td style="text-align:right;">
-
-116
-
-</td>
-
-<td style="text-align:right;">
-
-11
-
-</td>
-
-<td style="text-align:right;">
-
-74
-
-</td>
-
-<td style="text-align:right;">
-
-110
-
-</td>
-
-<td style="text-align:right;">
-
-14
-
-</td>
-
-<td style="text-align:right;">
-
-21
-
-</td>
-
-<td style="text-align:right;">
-
-60
-
-</td>
-
-<td style="text-align:right;">
-
-39
-
-</td>
-
-<td style="text-align:right;">
-
-66
-
-</td>
-
-<td style="text-align:right;">
-
-15
-
-</td>
-
-<td style="text-align:right;">
-
-106
-
-</td>
-
-<td style="text-align:right;">
-
-15
-
-</td>
-
-<td style="text-align:right;">
-
-50
-
-</td>
-
-<td style="text-align:right;">
-
-85
-
-</td>
-
-<td style="text-align:right;">
-
-48
-
-</td>
-
-<td style="text-align:right;">
-
-71
-
-</td>
-
-<td style="text-align:right;">
-
-72
-
-</td>
-
-<td style="text-align:right;">
-
-53
-
-</td>
-
-<td style="text-align:right;">
-
-68
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-97
-
-</td>
-
-<td style="text-align:right;">
-
-13
-
-</td>
-
-<td style="text-align:right;">
-
-48
-
-</td>
-
-<td style="text-align:right;">
-
-105
-
-</td>
-
-<td style="text-align:left;">
-
-chronic myeloid
-
-</td>
-
-<td style="text-align:left;">
-
-Female
-
-</td>
-
-<td style="text-align:right;">
-
-1950
-
-</td>
-
-<td style="text-align:left;">
-
-January
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-1000057
-
-</td>
-
-<td style="text-align:right;">
-
-110
-
-</td>
-
-<td style="text-align:right;">
-
-112
-
-</td>
-
-<td style="text-align:right;">
-
-97
-
-</td>
-
-<td style="text-align:right;">
-
-67
-
-</td>
-
-<td style="text-align:right;">
-
-14
-
-</td>
-
-<td style="text-align:right;">
-
-54
-
-</td>
-
-<td style="text-align:right;">
-
-76
-
-</td>
-
-<td style="text-align:right;">
-
-57
-
-</td>
-
-<td style="text-align:right;">
-
-128
-
-</td>
-
-<td style="text-align:right;">
-
-88
-
-</td>
-
-<td style="text-align:right;">
-
-6
-
-</td>
-
-<td style="text-align:right;">
-
-59
-
-</td>
-
-<td style="text-align:right;">
-
-195
-
-</td>
-
-<td style="text-align:right;">
-
-11
-
-</td>
-
-<td style="text-align:right;">
-
-40
-
-</td>
-
-<td style="text-align:right;">
-
-57
-
-</td>
-
-<td style="text-align:right;">
-
-46
-
-</td>
-
-<td style="text-align:right;">
-
-3
-
-</td>
-
-<td style="text-align:right;">
-
-13
-
-</td>
-
-<td style="text-align:right;">
-
-9
-
-</td>
-
-<td style="text-align:right;">
-
-120
-
-</td>
-
-<td style="text-align:right;">
-
-36
-
-</td>
-
-<td style="text-align:right;">
-
-21
-
-</td>
-
-<td style="text-align:right;">
-
-5
-
-</td>
-
-<td style="text-align:right;">
-
-20
-
-</td>
-
-<td style="text-align:right;">
-
-9
-
-</td>
-
-<td style="text-align:right;">
-
-270
-
-</td>
-
-<td style="text-align:right;">
-
-132
-
-</td>
-
-<td style="text-align:right;">
-
-74
-
-</td>
-
-<td style="text-align:right;">
-
-90
-
-</td>
-
-<td style="text-align:right;">
-
-105
-
-</td>
-
-<td style="text-align:right;">
-
-97
-
-</td>
-
-<td style="text-align:right;">
-
-98
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-115
-
-</td>
-
-<td style="text-align:right;">
-
-16
-
-</td>
-
-<td style="text-align:right;">
-
-65
-
-</td>
-
-<td style="text-align:right;">
-
-54
-
-</td>
-
-<td style="text-align:right;">
-
-86
-
-</td>
-
-<td style="text-align:right;">
-
-11
-
-</td>
-
-<td style="text-align:right;">
-
-136
-
-</td>
-
-<td style="text-align:right;">
-
-28
-
-</td>
-
-<td style="text-align:right;">
-
-118
-
-</td>
-
-<td style="text-align:right;">
-
-118
-
-</td>
-
-<td style="text-align:right;">
-
-108
-
-</td>
-
-<td style="text-align:right;">
-
-32
-
-</td>
-
-<td style="text-align:right;">
-
-106
-
-</td>
-
-<td style="text-align:right;">
-
-71
-
-</td>
-
-<td style="text-align:right;">
-
-44
-
-</td>
-
-<td style="text-align:right;">
-
-270
-
-</td>
-
-<td style="text-align:right;">
-
-29
-
-</td>
-
-<td style="text-align:right;">
-
-245
-
-</td>
-
-<td style="text-align:right;">
-
-3
-
-</td>
-
-<td style="text-align:right;">
-
-106
-
-</td>
-
-<td style="text-align:right;">
-
-26
-
-</td>
-
-<td style="text-align:right;">
-
-105
-
-</td>
-
-<td style="text-align:right;">
-
-60
-
-</td>
-
-<td style="text-align:right;">
-
-70
-
-</td>
-
-<td style="text-align:right;">
-
-44
-
-</td>
-
-<td style="text-align:right;">
-
-77
-
-</td>
-
-<td style="text-align:right;">
-
-103
-
-</td>
-
-<td style="text-align:right;">
-
-62
-
-</td>
-
-<td style="text-align:right;">
-
-47
-
-</td>
-
-<td style="text-align:right;">
-
-74
-
-</td>
-
-<td style="text-align:right;">
-
-17
-
-</td>
-
-<td style="text-align:right;">
-
-86
-
-</td>
-
-<td style="text-align:right;">
-
-43
-
-</td>
-
-<td style="text-align:right;">
-
-75
-
-</td>
-
-<td style="text-align:right;">
-
-9
-
-</td>
-
-<td style="text-align:right;">
-
-35
-
-</td>
-
-<td style="text-align:right;">
-
-82
-
-</td>
-
-<td style="text-align:right;">
-
-49
-
-</td>
-
-<td style="text-align:right;">
-
-80
-
-</td>
-
-<td style="text-align:right;">
-
-93
-
-</td>
-
-<td style="text-align:right;">
-
-105
-
-</td>
-
-<td style="text-align:right;">
-
-97
-
-</td>
-
-<td style="text-align:right;">
-
-65
-
-</td>
-
-<td style="text-align:right;">
-
-94
-
-</td>
-
-<td style="text-align:right;">
-
-5
-
-</td>
-
-<td style="text-align:right;">
-
-22
-
-</td>
-
-<td style="text-align:right;">
-
-5
-
-</td>
-
-<td style="text-align:right;">
-
-60
-
-</td>
-
-<td style="text-align:right;">
-
-51
-
-</td>
-
-<td style="text-align:right;">
-
-128
-
-</td>
-
-<td style="text-align:right;">
-
-23
-
-</td>
-
-<td style="text-align:right;">
-
-52
-
-</td>
-
-<td style="text-align:right;">
-
-25
-
-</td>
-
-<td style="text-align:right;">
-
-55
-
-</td>
-
-<td style="text-align:right;">
-
-79
-
-</td>
-
-<td style="text-align:right;">
-
-43
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-128
-
-</td>
-
-<td style="text-align:right;">
-
-87
-
-</td>
-
-<td style="text-align:right;">
-
-51
-
-</td>
-
-<td style="text-align:right;">
-
-120
-
-</td>
-
-<td style="text-align:right;">
-
-67
-
-</td>
-
-<td style="text-align:right;">
-
-83
-
-</td>
-
-<td style="text-align:right;">
-
-103
-
-</td>
-
-<td style="text-align:right;">
-
-270
-
-</td>
-
-<td style="text-align:right;">
-
-47
-
-</td>
-
-<td style="text-align:right;">
-
-8
-
-</td>
-
-<td style="text-align:right;">
-
-121
-
-</td>
-
-<td style="text-align:right;">
-
-79
-
-</td>
-
-<td style="text-align:right;">
-
-109
-
-</td>
-
-<td style="text-align:right;">
-
-35
-
-</td>
-
-<td style="text-align:right;">
-
-58
-
-</td>
-
-<td style="text-align:right;">
-
-28
-
-</td>
-
-<td style="text-align:right;">
-
-130
-
-</td>
-
-<td style="text-align:right;">
-
-136
-
-</td>
-
-<td style="text-align:right;">
-
-85
-
-</td>
-
-<td style="text-align:right;">
-
-78
-
-</td>
-
-<td style="text-align:right;">
-
-99
-
-</td>
-
-<td style="text-align:right;">
-
-99
-
-</td>
-
-<td style="text-align:right;">
-
-91
-
-</td>
-
-<td style="text-align:left;">
-
-metastatic cancer (unknown primary)
-
-</td>
-
-<td style="text-align:left;">
-
-Female
-
-</td>
-
-<td style="text-align:right;">
-
-1942
-
-</td>
-
-<td style="text-align:left;">
-
-February
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-1000059
-
-</td>
-
-<td style="text-align:right;">
-
-85
-
-</td>
-
-<td style="text-align:right;">
-
-99
-
-</td>
-
-<td style="text-align:right;">
-
-52
-
-</td>
-
-<td style="text-align:right;">
-
-86
-
-</td>
-
-<td style="text-align:right;">
-
-29
-
-</td>
-
-<td style="text-align:right;">
-
-108
-
-</td>
-
-<td style="text-align:right;">
-
-49
-
-</td>
-
-<td style="text-align:right;">
-
-112
-
-</td>
-
-<td style="text-align:right;">
-
-99
-
-</td>
-
-<td style="text-align:right;">
-
-53
-
-</td>
-
-<td style="text-align:right;">
-
-245
-
-</td>
-
-<td style="text-align:right;">
-
-90
-
-</td>
-
-<td style="text-align:right;">
-
-44
-
-</td>
-
-<td style="text-align:right;">
-
-132
-
-</td>
-
-<td style="text-align:right;">
-
-97
-
-</td>
-
-<td style="text-align:right;">
-
-270
-
-</td>
-
-<td style="text-align:right;">
-
-95
-
-</td>
-
-<td style="text-align:right;">
-
-57
-
-</td>
-
-<td style="text-align:right;">
-
-140
-
-</td>
-
-<td style="text-align:right;">
-
-22
-
-</td>
-
-<td style="text-align:right;">
-
-30
-
-</td>
-
-<td style="text-align:right;">
-
-68
-
-</td>
-
-<td style="text-align:right;">
-
-118
-
-</td>
-
-<td style="text-align:right;">
-
-38
-
-</td>
-
-<td style="text-align:right;">
-
-53
-
-</td>
-
-<td style="text-align:right;">
-
-58
-
-</td>
-
-<td style="text-align:right;">
-
-80
-
-</td>
-
-<td style="text-align:right;">
-
-118
-
-</td>
-
-<td style="text-align:right;">
-
-195
-
-</td>
-
-<td style="text-align:right;">
-
-18
-
-</td>
-
-<td style="text-align:right;">
-
-136
-
-</td>
-
-<td style="text-align:right;">
-
-94
-
-</td>
-
-<td style="text-align:right;">
-
-92
-
-</td>
-
-<td style="text-align:right;">
-
-65
-
-</td>
-
-<td style="text-align:right;">
-
-121
-
-</td>
-
-<td style="text-align:right;">
-
-54
-
-</td>
-
-<td style="text-align:right;">
-
-77
-
-</td>
-
-<td style="text-align:right;">
-
-100
-
-</td>
-
-<td style="text-align:right;">
-
-124
-
-</td>
-
-<td style="text-align:right;">
-
-73
-
-</td>
-
-<td style="text-align:right;">
-
-59
-
-</td>
-
-<td style="text-align:right;">
-
-108
-
-</td>
-
-<td style="text-align:right;">
-
-60
-
-</td>
-
-<td style="text-align:right;">
-
-3
-
-</td>
-
-<td style="text-align:right;">
-
-130
-
-</td>
-
-<td style="text-align:right;">
-
-13
-
-</td>
-
-<td style="text-align:right;">
-
-48
-
-</td>
-
-<td style="text-align:right;">
-
-83
-
-</td>
-
-<td style="text-align:right;">
-
-97
-
-</td>
-
-<td style="text-align:right;">
-
-61
-
-</td>
-
-<td style="text-align:right;">
-
-77
-
-</td>
-
-<td style="text-align:right;">
-
-81
-
-</td>
-
-<td style="text-align:right;">
-
-30
-
-</td>
-
-<td style="text-align:right;">
-
-53
-
-</td>
-
-<td style="text-align:right;">
-
-93
-
-</td>
-
-<td style="text-align:right;">
-
-79
-
-</td>
-
-<td style="text-align:right;">
-
-77
-
-</td>
-
-<td style="text-align:right;">
-
-84
-
-</td>
-
-<td style="text-align:right;">
-
-48
-
-</td>
-
-<td style="text-align:right;">
-
-32
-
-</td>
-
-<td style="text-align:right;">
-
-54
-
-</td>
-
-<td style="text-align:right;">
-
-96
-
-</td>
-
-<td style="text-align:right;">
-
-40
-
-</td>
-
-<td style="text-align:right;">
-
-61
-
-</td>
-
-<td style="text-align:right;">
-
-90
-
-</td>
-
-<td style="text-align:right;">
-
-44
-
-</td>
-
-<td style="text-align:right;">
-
-9
-
-</td>
-
-<td style="text-align:right;">
-
-140
-
-</td>
-
-<td style="text-align:right;">
-
-19
-
-</td>
-
-<td style="text-align:right;">
-
-66
-
-</td>
-
-<td style="text-align:right;">
-
-46
-
-</td>
-
-<td style="text-align:right;">
-
-27
-
-</td>
-
-<td style="text-align:right;">
-
-26
-
-</td>
-
-<td style="text-align:right;">
-
-127
-
-</td>
-
-<td style="text-align:right;">
-
-96
-
-</td>
-
-<td style="text-align:right;">
-
-245
-
-</td>
-
-<td style="text-align:right;">
-
-121
-
-</td>
-
-<td style="text-align:right;">
-
-83
-
-</td>
-
-<td style="text-align:right;">
-
-3
-
-</td>
-
-<td style="text-align:right;">
-
-48
-
-</td>
-
-<td style="text-align:right;">
-
-50
-
-</td>
-
-<td style="text-align:right;">
-
-55
-
-</td>
-
-<td style="text-align:right;">
-
-57
-
-</td>
-
-<td style="text-align:right;">
-
-51
-
-</td>
-
-<td style="text-align:right;">
-
-62
-
-</td>
-
-<td style="text-align:right;">
-
-2
-
-</td>
-
-<td style="text-align:right;">
-
-76
-
-</td>
-
-<td style="text-align:right;">
-
-59
-
-</td>
-
-<td style="text-align:right;">
-
-49
-
-</td>
-
-<td style="text-align:right;">
-
-56
-
-</td>
-
-<td style="text-align:right;">
-
-3
-
-</td>
-
-<td style="text-align:right;">
-
-25
-
-</td>
-
-<td style="text-align:right;">
-
-61
-
-</td>
-
-<td style="text-align:right;">
-
-20
-
-</td>
-
-<td style="text-align:right;">
-
-102
-
-</td>
-
-<td style="text-align:right;">
-
-61
-
-</td>
-
-<td style="text-align:right;">
-
-28
-
-</td>
-
-<td style="text-align:right;">
-
-41
-
-</td>
-
-<td style="text-align:right;">
-
-55
-
-</td>
-
-<td style="text-align:right;">
-
-40
-
-</td>
-
-<td style="text-align:right;">
-
-69
-
-</td>
-
-<td style="text-align:right;">
-
-115
-
-</td>
-
-<td style="text-align:right;">
-
-51
-
-</td>
-
-<td style="text-align:right;">
-
-23
-
-</td>
-
-<td style="text-align:right;">
-
-110
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-40
-
-</td>
-
-<td style="text-align:right;">
-
-30
-
-</td>
-
-<td style="text-align:right;">
-
-66
-
-</td>
-
-<td style="text-align:right;">
-
-99
-
-</td>
-
-<td style="text-align:right;">
-
-25
-
-</td>
-
-<td style="text-align:right;">
-
-6
-
-</td>
-
-<td style="text-align:right;">
-
-61
-
-</td>
-
-<td style="text-align:right;">
-
-29
-
-</td>
-
-<td style="text-align:left;">
-
-uterine/endometrial cancer
-
-</td>
-
-<td style="text-align:left;">
-
-Female
-
-</td>
-
-<td style="text-align:right;">
-
-1964
-
-</td>
-
-<td style="text-align:left;">
-
-December
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-1000061
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:left;">
-
-</td>
-
-<td style="text-align:left;">
-
-</td>
-
-<td style="text-align:right;">
-
-NA
-
-</td>
-
-<td style="text-align:left;">
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-1000063
-
-</td>
-
-<td style="text-align:right;">
-
-15
-
-</td>
-
-<td style="text-align:right;">
-
-58
-
-</td>
-
-<td style="text-align:right;">
-
-130
-
-</td>
-
-<td style="text-align:right;">
-
-100
-
-</td>
-
-<td style="text-align:right;">
-
-94
-
-</td>
-
-<td style="text-align:right;">
-
-124
-
-</td>
-
-<td style="text-align:right;">
-
-74
-
-</td>
-
-<td style="text-align:right;">
-
-59
-
-</td>
-
-<td style="text-align:right;">
-
-127
-
-</td>
-
-<td style="text-align:right;">
-
-62
-
-</td>
-
-<td style="text-align:right;">
-
-102
-
-</td>
-
-<td style="text-align:right;">
-
-75
-
-</td>
-
-<td style="text-align:right;">
-
-63
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-106
-
-</td>
-
-<td style="text-align:right;">
-
-46
-
-</td>
-
-<td style="text-align:right;">
-
-91
-
-</td>
-
-<td style="text-align:right;">
-
-51
-
-</td>
-
-<td style="text-align:right;">
-
-29
-
-</td>
-
-<td style="text-align:right;">
-
-5
-
-</td>
-
-<td style="text-align:right;">
-
-11
-
-</td>
-
-<td style="text-align:right;">
-
-75
-
-</td>
-
-<td style="text-align:right;">
-
-112
-
-</td>
-
-<td style="text-align:right;">
-
-91
-
-</td>
-
-<td style="text-align:right;">
-
-106
-
-</td>
-
-<td style="text-align:right;">
-
-108
-
-</td>
-
-<td style="text-align:right;">
-
-92
-
-</td>
-
-<td style="text-align:right;">
-
-74
-
-</td>
-
-<td style="text-align:right;">
-
-121
-
-</td>
-
-<td style="text-align:right;">
-
-63
-
-</td>
-
-<td style="text-align:right;">
-
-9
-
-</td>
-
-<td style="text-align:right;">
-
-26
-
-</td>
-
-<td style="text-align:right;">
-
-63
-
-</td>
-
-<td style="text-align:right;">
-
-43
-
-</td>
-
-<td style="text-align:right;">
-
-105
-
-</td>
-
-<td style="text-align:right;">
-
-27
-
-</td>
-
-<td style="text-align:right;">
-
-112
-
-</td>
-
-<td style="text-align:right;">
-
-30
-
-</td>
-
-<td style="text-align:right;">
-
-75
-
-</td>
-
-<td style="text-align:right;">
-
-124
-
-</td>
-
-<td style="text-align:right;">
-
-20
-
-</td>
-
-<td style="text-align:right;">
-
-112
-
-</td>
-
-<td style="text-align:right;">
-
-69
-
-</td>
-
-<td style="text-align:right;">
-
-41
-
-</td>
-
-<td style="text-align:right;">
-
-118
-
-</td>
-
-<td style="text-align:right;">
-
-17
-
-</td>
-
-<td style="text-align:right;">
-
-54
-
-</td>
-
-<td style="text-align:right;">
-
-24
-
-</td>
-
-<td style="text-align:right;">
-
-124
-
-</td>
-
-<td style="text-align:right;">
-
-48
-
-</td>
-
-<td style="text-align:right;">
-
-24
-
-</td>
-
-<td style="text-align:right;">
-
-55
-
-</td>
-
-<td style="text-align:right;">
-
-57
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-58
-
-</td>
-
-<td style="text-align:right;">
-
-127
-
-</td>
-
-<td style="text-align:right;">
-
-85
-
-</td>
-
-<td style="text-align:right;">
-
-84
-
-</td>
-
-<td style="text-align:right;">
-
-110
-
-</td>
-
-<td style="text-align:right;">
-
-67
-
-</td>
-
-<td style="text-align:right;">
-
-52
-
-</td>
-
-<td style="text-align:right;">
-
-43
-
-</td>
-
-<td style="text-align:right;">
-
-24
-
-</td>
-
-<td style="text-align:right;">
-
-121
-
-</td>
-
-<td style="text-align:right;">
-
-96
-
-</td>
-
-<td style="text-align:right;">
-
-270
-
-</td>
-
-<td style="text-align:right;">
-
-4
-
-</td>
-
-<td style="text-align:right;">
-
-26
-
-</td>
-
-<td style="text-align:right;">
-
-73
-
-</td>
-
-<td style="text-align:right;">
-
-29
-
-</td>
-
-<td style="text-align:right;">
-
-28
-
-</td>
-
-<td style="text-align:right;">
-
-136
-
-</td>
-
-<td style="text-align:right;">
-
-48
-
-</td>
-
-<td style="text-align:right;">
-
-75
-
-</td>
-
-<td style="text-align:right;">
-
-109
-
-</td>
-
-<td style="text-align:right;">
-
-2
-
-</td>
-
-<td style="text-align:right;">
-
-24
-
-</td>
-
-<td style="text-align:right;">
-
-26
-
-</td>
-
-<td style="text-align:right;">
-
-49
-
-</td>
-
-<td style="text-align:right;">
-
-36
-
-</td>
-
-<td style="text-align:right;">
-
-92
-
-</td>
-
-<td style="text-align:right;">
-
-19
-
-</td>
-
-<td style="text-align:right;">
-
-24
-
-</td>
-
-<td style="text-align:right;">
-
-16
-
-</td>
-
-<td style="text-align:right;">
-
-40
-
-</td>
-
-<td style="text-align:right;">
-
-127
-
-</td>
-
-<td style="text-align:right;">
-
-91
-
-</td>
-
-<td style="text-align:right;">
-
-110
-
-</td>
-
-<td style="text-align:right;">
-
-5
-
-</td>
-
-<td style="text-align:right;">
-
-112
-
-</td>
-
-<td style="text-align:right;">
-
-41
-
-</td>
-
-<td style="text-align:right;">
-
-82
-
-</td>
-
-<td style="text-align:right;">
-
-82
-
-</td>
-
-<td style="text-align:right;">
-
-21
-
-</td>
-
-<td style="text-align:right;">
-
-15
-
-</td>
-
-<td style="text-align:right;">
-
-23
-
-</td>
-
-<td style="text-align:right;">
-
-76
-
-</td>
-
-<td style="text-align:right;">
-
-30
-
-</td>
-
-<td style="text-align:right;">
-
-13
-
-</td>
-
-<td style="text-align:right;">
-
-106
-
-</td>
-
-<td style="text-align:right;">
-
-47
-
-</td>
-
-<td style="text-align:right;">
-
-14
-
-</td>
-
-<td style="text-align:right;">
-
-55
-
-</td>
-
-<td style="text-align:right;">
-
-57
-
-</td>
-
-<td style="text-align:right;">
-
-6
-
-</td>
-
-<td style="text-align:right;">
-
-83
-
-</td>
-
-<td style="text-align:right;">
-
-21
-
-</td>
-
-<td style="text-align:right;">
-
-97
-
-</td>
-
-<td style="text-align:right;">
-
-40
-
-</td>
-
-<td style="text-align:right;">
-
-84
-
-</td>
-
-<td style="text-align:right;">
-
-56
-
-</td>
-
-<td style="text-align:right;">
-
-110
-
-</td>
-
-<td style="text-align:right;">
-
-52
-
-</td>
-
-<td style="text-align:right;">
-
-124
-
-</td>
-
-<td style="text-align:left;">
-
-chronic myeloid
-
-</td>
-
-<td style="text-align:left;">
-
-Female
-
-</td>
-
-<td style="text-align:right;">
-
-1944
-
-</td>
-
-<td style="text-align:left;">
-
-April
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:right;">
-
-1000068
-
-</td>
-
-<td style="text-align:right;">
-
-14
-
-</td>
-
-<td style="text-align:right;">
-
-128
-
-</td>
-
-<td style="text-align:right;">
-
-128
-
-</td>
-
-<td style="text-align:right;">
-
-13
-
-</td>
-
-<td style="text-align:right;">
-
-94
-
-</td>
-
-<td style="text-align:right;">
-
-15
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-106
-
-</td>
-
-<td style="text-align:right;">
-
-91
-
-</td>
-
-<td style="text-align:right;">
-
-66
-
-</td>
-
-<td style="text-align:right;">
-
-66
-
-</td>
-
-<td style="text-align:right;">
-
-66
-
-</td>
-
-<td style="text-align:right;">
-
-88
-
-</td>
-
-<td style="text-align:right;">
-
-195
-
-</td>
-
-<td style="text-align:right;">
-
-136
-
-</td>
-
-<td style="text-align:right;">
-
-121
-
-</td>
-
-<td style="text-align:right;">
-
-52
-
-</td>
-
-<td style="text-align:right;">
-
-48
-
-</td>
-
-<td style="text-align:right;">
-
-19
-
-</td>
-
-<td style="text-align:right;">
-
-50
-
-</td>
-
-<td style="text-align:right;">
-
-29
-
-</td>
-
-<td style="text-align:right;">
-
-39
-
-</td>
-
-<td style="text-align:right;">
-
-29
-
-</td>
-
-<td style="text-align:right;">
-
-115
-
-</td>
-
-<td style="text-align:right;">
-
-120
-
-</td>
-
-<td style="text-align:right;">
-
-121
-
-</td>
-
-<td style="text-align:right;">
-
-5
-
-</td>
-
-<td style="text-align:right;">
-
-120
-
-</td>
-
-<td style="text-align:right;">
-
-124
-
-</td>
-
-<td style="text-align:right;">
-
-95
-
-</td>
-
-<td style="text-align:right;">
-
-0
-
-</td>
-
-<td style="text-align:right;">
-
-88
-
-</td>
-
-<td style="text-align:right;">
-
-76
-
-</td>
-
-<td style="text-align:right;">
-
-60
-
-</td>
-
-<td style="text-align:right;">
-
-86
-
-</td>
-
-<td style="text-align:right;">
-
-84
-
-</td>
-
-<td style="text-align:right;">
-
-33
-
-</td>
-
-<td style="text-align:right;">
-
-13
-
-</td>
-
-<td style="text-align:right;">
-
-92
-
-</td>
-
-<td style="text-align:right;">
-
-108
-
-</td>
-
-<td style="text-align:right;">
-
-38
-
-</td>
-
-<td style="text-align:right;">
-
-118
-
-</td>
-
-<td style="text-align:right;">
-
-24
-
-</td>
-
-<td style="text-align:right;">
-
-49
-
-</td>
-
-<td style="text-align:right;">
-
-28
-
-</td>
-
-<td style="text-align:right;">
-
-108
-
-</td>
-
-<td style="text-align:right;">
-
-76
-
-</td>
-
-<td style="text-align:right;">
-
-21
-
-</td>
-
-<td style="text-align:right;">
-
-19
-
-</td>
-
-<td style="text-align:right;">
-
-24
-
-</td>
-
-<td style="text-align:right;">
-
-95
-
-</td>
-
-<td style="text-align:right;">
-
-27
-
-</td>
-
-<td style="text-align:right;">
-
-4
-
-</td>
-
-<td style="text-align:right;">
-
-51
-
-</td>
-
-<td style="text-align:right;">
-
-103
-
-</td>
-
-<td style="text-align:right;">
-
-76
-
-</td>
-
-<td style="text-align:right;">
-
-118
-
-</td>
-
-<td style="text-align:right;">
-
-33
-
-</td>
-
-<td style="text-align:right;">
-
-14
-
-</td>
-
-<td style="text-align:right;">
-
-105
-
-</td>
-
-<td style="text-align:right;">
-
-11
-
-</td>
-
-<td style="text-align:right;">
-
-72
-
-</td>
-
-<td style="text-align:right;">
-
-91
-
-</td>
-
-<td style="text-align:right;">
-
-51
-
-</td>
-
-<td style="text-align:right;">
-
-79
-
-</td>
-
-<td style="text-align:right;">
-
-92
-
-</td>
-
-<td style="text-align:right;">
-
-103
-
-</td>
-
-<td style="text-align:right;">
-
-38
-
-</td>
-
-<td style="text-align:right;">
-
-82
-
-</td>
-
-<td style="text-align:right;">
-
-96
-
-</td>
-
-<td style="text-align:right;">
-
-87
-
-</td>
-
-<td style="text-align:right;">
-
-34
-
-</td>
-
-<td style="text-align:right;">
-
-39
-
-</td>
-
-<td style="text-align:right;">
-
-13
-
-</td>
-
-<td style="text-align:right;">
-
-1
-
-</td>
-
-<td style="text-align:right;">
-
-81
-
-</td>
-
-<td style="text-align:right;">
-
-4
-
-</td>
-
-<td style="text-align:right;">
-
-83
-
-</td>
-
-<td style="text-align:right;">
-
-118
-
-</td>
-
-<td style="text-align:right;">
-
-5
-
-</td>
-
-<td style="text-align:right;">
-
-44
-
-</td>
-
-<td style="text-align:right;">
-
-75
-
-</td>
-
-<td style="text-align:right;">
-
-100
-
-</td>
-
-<td style="text-align:right;">
-
-109
-
-</td>
-
-<td style="text-align:right;">
-
-13
-
-</td>
-
-<td style="text-align:right;">
-
-84
-
-</td>
-
-<td style="text-align:right;">
-
-49
-
-</td>
-
-<td style="text-align:right;">
-
-102
-
-</td>
-
-<td style="text-align:right;">
-
-63
-
-</td>
-
-<td style="text-align:right;">
-
-35
-
-</td>
-
-<td style="text-align:right;">
-
-82
-
-</td>
-
-<td style="text-align:right;">
-
-23
-
-</td>
-
-<td style="text-align:right;">
-
-92
-
-</td>
-
-<td style="text-align:right;">
-
-79
-
-</td>
-
-<td style="text-align:right;">
-
-38
-
-</td>
-
-<td style="text-align:right;">
-
-128
-
-</td>
-
-<td style="text-align:right;">
-
-25
-
-</td>
-
-<td style="text-align:right;">
-
-81
-
-</td>
-
-<td style="text-align:right;">
-
-45
-
-</td>
-
-<td style="text-align:right;">
-
-42
-
-</td>
-
-<td style="text-align:right;">
-
-62
-
-</td>
-
-<td style="text-align:right;">
-
-18
-
-</td>
-
-<td style="text-align:right;">
-
-5
-
-</td>
-
-<td style="text-align:right;">
-
-44
-
-</td>
-
-<td style="text-align:right;">
-
-110
-
-</td>
-
-<td style="text-align:right;">
-
-5
-
-</td>
-
-<td style="text-align:right;">
-
-62
-
-</td>
-
-<td style="text-align:right;">
-
-87
-
-</td>
-
-<td style="text-align:right;">
-
-13
-
-</td>
-
-<td style="text-align:right;">
-
-74
-
-</td>
-
-<td style="text-align:right;">
-
-41
-
-</td>
-
-<td style="text-align:right;">
-
-66
-
-</td>
-
-<td style="text-align:right;">
-
-106
-
-</td>
-
-<td style="text-align:right;">
-
-48
-
-</td>
-
-<td style="text-align:left;">
-
-bladder cancer
-
-</td>
-
-<td style="text-align:left;">
-
-Female
-
-</td>
-
-<td style="text-align:right;">
-
-1947
-
-</td>
-
-<td style="text-align:left;">
-
-November
-
-</td>
-
-</tr>
-
-</tbody>
-
-</table>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Extract participants — extract_participants • cloudos</title>
+<title>List available filters — search_filters • cloudos</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Extract participants — extract_participants" />
-<meta property="og:description" content="Extracts selected participants." />
+<meta property="og:title" content="List available filters — search_filters" />
+<meta property="og:description" content="All the cohort filters available in CloudOS." />
 
 
 
@@ -111,16 +111,16 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Extract participants</h1>
-    <small class="dont-index">Source: <a href='https://github.com/lifebit-ai/cloudos/blob/master/R/cb_extract_cohort.R'><code>R/cb_extract_cohort.R</code></a></small>
-    <div class="hidden name"><code>extract_participants.Rd</code></div>
+    <h1>List available filters</h1>
+    <small class="dont-index">Source: <a href='https://github.com/lifebit-ai/cloudos/blob/master/R/cb_filter_cohort.R'><code>R/cb_filter_cohort.R</code></a></small>
+    <div class="hidden name"><code>search_filters.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Extracts selected participants.</p>
+    <p>All the cohort filters available in CloudOS.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>extract_participants</span>(<span class='no'>object</span>, <span class='no'>raw_data</span>)</pre>
+    <pre class="usage"><span class='fu'>search_filters</span>(<span class='no'>object</span>, <span class='no'>term</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -131,15 +131,21 @@
 See constructor function <code><a href='cloudos.html'>cloudos</a></code></p></td>
     </tr>
     <tr>
-      <th>raw_data</th>
-      <td><p>A JSON string for selected participants. (Required)</p></td>
+      <th>term</th>
+      <td><p>A term to search. (Required)
+Example - "cancer"</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A dataframe.</p>
+    <p>A data frame with available cohort filters.</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'>search_filters</span>(<span class='no'>cloudos_object</span>,
+             <span class='kw'>term</span> <span class='kw'>=</span> <span class='st'>"male"</span>)
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
