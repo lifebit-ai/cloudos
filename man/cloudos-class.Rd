@@ -3,7 +3,7 @@
 \docType{class}
 \name{cloudos-class}
 \alias{cloudos-class}
-\title{This cloudos S4 class creates a cloudos object.}
+\title{cloudos class}
 \description{
 This will create a main object, which will
 hold many information related to CloudOS server

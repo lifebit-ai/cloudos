@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • cloudos</title>
+<title>Genotypic save — genotypic_save • cloudos</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,8 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Genotypic save — genotypic_save" />
+<meta property="og:description" content="applies filter (genotypic-save). Returns df with cohort and filtered participants" />
 
 
 
@@ -58,7 +59,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -108,135 +109,42 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Genotypic save</h1>
+    <small class="dont-index">Source: <a href='https://github.com/lifebit-ai/cloudos/blob/master/R/cb_filter_cohort.R'><code>R/cb_filter_cohort.R</code></a></small>
+    <div class="hidden name"><code>genotypic_save.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>applies filter (genotypic-save). Returns df with cohort and filtered participants</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>genotypic_save</span>(<span class='no'>object</span>, <span class='no'>cohort_id</span>, <span class='no'>filter_id</span>)</pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-cloudos" class="hasAnchor"><a href="#section-cloudos" class="anchor"></a>cloudos</h2>
-          <p class="section-desc"><p>class and functions to interact with cloudos server</p></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="cloudos-class.html">cloudos-class</a></code> </p>
-        </td>
-        <td><p>cloudos class</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="cloudos.html">cloudos()</a></code> </p>
-        </td>
-        <td><p>Create a cloudos object</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-cohort-browser" class="hasAnchor"><a href="#section-cohort-browser" class="anchor"></a>Cohort Browser</h2>
-          <p class="section-desc"><p>List and create a cohort</p></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-cohort-browser-tables" class="hasAnchor"><a href="#section-cohort-browser-tables" class="anchor"></a>Cohort Browser - Tables</h2>
-          <p class="section-desc"><p>Show tables from Cohort Browser</p></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="get_samples_table.html">get_samples_table()</a></code> </p>
-        </td>
-        <td><p>Get samples table</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_genotypic_table.html">get_genotypic_table()</a></code> </p>
-        </td>
-        <td><p>Get genotypic table</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="extract_samples.html">extract_samples()</a></code> </p>
-        </td>
-        <td><p>Extract participants</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-cohort-browser-filter" class="hasAnchor"><a href="#section-cohort-browser-filter" class="anchor"></a>Cohort Browser - Filter</h2>
-          <p class="section-desc"><p>Show tables from Cohort Browser</p></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="search_filters.html">search_filters()</a></code> </p>
-        </td>
-        <td><p>List available filters</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="filter_samples.html">filter_samples()</a></code> </p>
-        </td>
-        <td><p>Filter a cohort samples</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="filter_participants.html">filter_participants()</a></code> </p>
-        </td>
-        <td><p>Filter participants</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="filter_metadata.html">filter_metadata()</a></code> </p>
-        </td>
-        <td><p>Filter metadata</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="genotypic_save.html">genotypic_save()</a></code> </p>
-        </td>
-        <td><p>Genotypic save</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>object</th>
+      <td><p>A cloudos object. (Required)
+See constructor function <code><a href='cloudos.html'>cloudos</a></code></p></td>
+    </tr>
+    <tr>
+      <th>cohort_id</th>
+      <td><p>A cohort ID. (Required)</p></td>
+    </tr>
+    <tr>
+      <th>filter_id</th>
+      <td><p>A filter ID. (Required)</p></td>
+    </tr>
     </table>
-  </div>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A data frame.</p>
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>

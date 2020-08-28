@@ -39,9 +39,10 @@ search_filters <- function(object,
 }
 
 
-#' @title Filter data
+#' @title Filter a cohort samples
 #'
-#' @description Filters a cohort data based on particular phenotype filter.
+#' @description This filters cohort samples based on particular phenotypic filter. 
+#' This will return number of samples after phenotype filter applied to a cohort.
 #'
 #' @param object A cloudos object. (Required)
 #' See constructor function \code{\link{cloudos}} 
@@ -51,7 +52,7 @@ search_filters <- function(object,
 #' @return A data frame with filters applied.
 #'
 #' @export
-filter_data <- function(object, cohort_id, filter_id ) {
+filter_samples <- function(object, cohort_id, filter_id ) {
   # prepare request body
   # TODO: remove the hard-coded filters
   r_body <- list("filter" = list("instances" = c(0)),
@@ -81,9 +82,19 @@ filter_data <- function(object, cohort_id, filter_id ) {
   return(res_df)
 }
 
-
-
-# this sums up all the filters and return number participants after applied filter.
+##################################################################################################
+#' @title Filter participants
+#'
+#' @description This sums up all the filters and return number participants after applied filter.
+#'
+#' @param object A cloudos object. (Required)
+#' See constructor function \code{\link{cloudos}} 
+#' @param cohort_id A cohort ID. (Required)
+#' @param filter_id A filter ID. (Required)
+#'
+#' @return A data frame with filters applied.
+#'
+#' @export
 filter_participants <-function(object, cohort_id, filter_id ) {
   # prepare request body
   # TODO: remove the hard-coded filters
@@ -113,8 +124,19 @@ filter_participants <-function(object, cohort_id, filter_id ) {
   #res_df <- do.call(rbind, res)
   return(res)
 }
-
-# applies filter (genotypic-save). Returns df with cohort and filtered participants
+#####################################################################################################
+#' @title Genotypic save
+#'
+#' @description applies filter (genotypic-save). Returns df with cohort and filtered participants
+#'
+#' @param object A cloudos object. (Required)
+#' See constructor function \code{\link{cloudos}} 
+#' @param cohort_id A cohort ID. (Required)
+#' @param filter_id A filter ID. (Required)
+#'
+#' @return A data frame.
+#'
+#' @export
 genotypic_save <- function(object, cohort_id, filter_id ) {
   # prepare request body
   r_body <- list("ids" = list(),
@@ -145,9 +167,17 @@ genotypic_save <- function(object, cohort_id, filter_id ) {
   return(res_df)
 }
 
-
-
-# returns all the cohorts
+#' @title Filter metadata
+#'
+#' @description Filter metadata of a cohort filter
+#'
+#' @param object A cloudos object. (Required)
+#' See constructor function \code{\link{cloudos}} 
+#' @param filter_id A filter ID. (Required)
+#'
+#' @return A data frame.
+#'
+#' @export
 filter_metadata <- function(object, filter_id) {
   url <- paste(object@base_url, "api/v1/cohort/filter", filter_id, "metadata", sep = "/")
   r <- httr::GET(url,

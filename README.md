@@ -15,14 +15,19 @@ CloudOS <https://cloudos.lifebit.ai/> in the R environment for analysis.
 
 - [Installation](#installation)
 - [Usage](#usage)
-    - [Load the cloudos R-client library](#load-the-cloudos-r-client-library)
+    - [Load the cloudos R-client
+    library](#load-the-cloudos-r-client-library)
     - [Setup essentials](#setup-essentials)
     - [Create a cloudos object](#create-a-cloudos-object)
     - [List Cohorts](#list-cohorts)
     - [Create a cohort](#create-a-cohort)
     - [Filtering](#filtering)
-    - [Extract Genotypic data](#extract-genotypic-data)
-    - [Extract participants](#extract-participants)
+    - [Get sample (participants) table - Independent from a
+      cohort](#get-sample-participants-table---independent-from-a-cohort)
+    - [Get genotypic table - Independent from a
+      cohort](#get-genotypic-table---independent-from-a-cohort)
+    - [Get samples table for selected
+      rows](#get-samples-table-for-selected-rows)
 
 ## Installation
 
@@ -53,6 +58,9 @@ my_team_id <- "***************************"
 
 ### Create a cloudos object
 
+This object will be input to most of the other functions, which directly
+communicates with the cloudos server.
+
 ``` r
 my_cloudos <- cloudos::cloudos(base_url = cb_base_url,
                                auth = my_auth,
@@ -69,7 +77,7 @@ List available cohorts in a workspace.
 
 ``` r
 cohorts <- cloudos::list_cohorts(my_cloudos)
-#> Total number of cohorts found-39. But here is 10. For more, change 'page_number' and 'page_size'
+#> Total number of cohorts found-42. But here is 10. For more, change 'page_number' and 'page_size'
 cohorts
 #>                          id         name
 #> 1  5f2ab881b695de55d93024a7         test
@@ -113,6 +121,19 @@ my_cohort <- cloudos::create_cohort(my_cloudos,
               cohort_name = "Cohort-R",
               cohort_desc = "This cohort is for testing purpose, created from R.")
 #> Cohort named Cohort-R created successfully.
+my_cohort
+#>                      details                                              
+#> phenotypeFilters     ""                                                   
+#> _id                  "5f49252baaafb6454ad4a30b"                           
+#> name                 "Cohort-R"                                           
+#> description          "This cohort is for testing purpose, created from R."
+#> team                 "5f046bf6c132dd15fdd1a525"                           
+#> owner                "5f046be1c132dd15fdd1a51e"                           
+#> numberOfParticipants 644686                                               
+#> numberOfFilters      0                                                    
+#> createdAt            "2020-08-28T15:39:23.097Z"                           
+#> updatedAt            "2020-08-28T15:39:23.097Z"                           
+#> __v                  0
 ```
 
 ### Filtering
@@ -577,11 +598,9 @@ filt
 
 #### Phenotype filtering
 
-TODO: For now two filters are hard-coded for testing.
-
 ``` r
 # phenotype filter
-cohort_with_filters <- cloudos::filter_data(my_cloudos, 
+cohort_with_filters <- cloudos::filter_samples(my_cloudos, 
                                    cohort_id = my_cohort["_id",], 
                                    filter_id = filt$id[1])
 cohort_with_filters
@@ -594,26 +613,118 @@ cohort_with_filters
 
 ``` r
 # filter participants
-# participants_with_fiter <- cloudos:::filter_participants(my_cloudos,
-#                                                cohort_id = my_cohort["_id",], 
-#                                                filter_id = filt$id[1] )
-# 
-# participants_with_fiter
+participants_with_fiter <- cloudos:::filter_participants(my_cloudos,
+                                                cohort_id = my_cohort["_id",], 
+                                                filter_id = filt$id[1] )
+ 
+participants_with_fiter
+#> $total
+#> [1] 644686
+#> 
+#> $count
+#> [1] 333264
 ```
 
 ``` r
 # apply filter (genotypic_save) 
-# gs <- cloudos::genotypic_save(my_cloudos,
-#                      cohort_id = my_cohort["_id",], 
-#                      filter_id = filt$id[1] )
-# 
-# gs
+gs <- cloudos::genotypic_save(my_cloudos,
+                     cohort_id = my_cohort["_id",],
+                     filter_id = filt$id[1] )
+
+gs
+#>      cohortId                   markers filters _id                       
+#> data "5f49252baaafb6454ad4a30b" List,0  List,1  "5f49252faaafb6454ad4a30c"
+#>      numberOfParticipants
+#> data 32545
 ```
 
-### Extract Genotypic data
+``` r
+df <- cloudos::filter_metadata(my_cloudos,
+                     filter_id = filt$id[1])
+df
+#>                        _id           categoryPathLevel1 categoryPathLevel2
+#> 1 5eb55c78599ae918ebb48f69 UK Biobank Assessment Centre        Touchscreen
+#>           categoryPathLevel3 categoryPathLevel4   id
+#> 1 Health and medical history   Cancer screening 2345
+#>                              name type          valueType units instances array
+#> 1 Ever had bowel cancer screening bars Categorical single               4     1
+#>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          description
+#> 1 "ACE touchscreen question ""Have you ever had a screening test for bowel (colorectal) cancer? (Please include tests for blood in the stool/faeces or a colonoscopy or a sigmoidoscopy)"" If the participant activated the Help button they were shown the message:     Screening tests for bowel or colorectal cancer include:  - FOBT (faecal occult blood test) - this is when you    are given a set of cards and asked to smear a part    of your stool on three separate occasions onto the    cards and then return the cards to be tested for    blood.  - Sigmoidoscopy - a tube is used to examine the lower    bowel. This is usually done in a doctor's office    without pain relief.  - Colonoscopy - a long tube is used the examine the    whole large bowel; you would usually have to drink    a large amount of special liquid to prepare the    bowel; and you would be given a sedative medication    for the procedure.     "
+#>   descriptionParticipantsNo descriptionItemNo descriptionStability coding
+#> 1                    501599            572225             Complete 100349
+#>   descriptionCategoryID descriptionItemType descriptionStrata descriptionSexed
+#> 1                100040                Data           Primary           Unisex
+#>                                                      link
+#> 1 http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=2345
+#>                                                                                 instance0Name
+#> 1 Initial assessment visit (2006-2010) at which participants were recruited and consent given
+#>                             instance1Name         instance2Name
+#> 1 First repeat assessment visit (2012-13) Imaging visit (2014+)
+#>                        instance3Name instance4Name instance5Name instance6Name
+#> 1 First repeat imaging visit (2019+)                                          
+#>   instance7Name instance8Name instance9Name instance10Name instance11Name
+#> 1                                                                        
+#>   instance12Name instance13Name instance14Name instance15Name instance16Name
+#> 1                                                                           
+#>   bucket300 bucket500 bucket1000 bucket2500 bucket5000 bucket10000
+#> 1     FALSE     FALSE      FALSE      FALSE      FALSE       FALSE
+#>   orderPhenotype checked
+#> 1             40       1
+```
+
+### Get sample (participants) table - Independent from a cohort
+
+Get all the sample (participants) table from cohort browser. Optionally
+you can also add filters.
+
+TODO: For now two filters are hard-coded for testing.
 
 ``` r
-df <- cloudos::extract_genotypic_data(my_cloudos)
+df <- cloudos::get_samples_table(my_cloudos)
+df
+#>                         _id       i      f5984i0aavg
+#> 1  5f185b92bf92ed4d3be9637d 1000002                0
+#> 2  5edbdd689d700db709af0c2f 1000016 65.7105263157895
+#> 3  5f32c12e2edb69826cc17cc6 1000016                0
+#> 4  5f185b91bf92ed4d3be9587e 1000020                0
+#> 5  5f185b91bf92ed4d3be95984 1000035                0
+#> 6  5edbdd689d700db709af0c3e 1000048 59.2368421052632
+#> 7  5edbdd689d700db709af0c2b 1000057  73.140350877193
+#> 8  5f32c12e2edb69826cc17ccd 1000057                0
+#> 9  5edbdd689d700db709af0c2d 1000059 71.1491228070175
+#> 10 5f32c12e2edb69826cc17cc9 1000059                0
+#>                             f20001i0a0 f31i0a0 f34i0a0   f52i0a0 f5984i0amin
+#> 1                                 <NA>    <NA>    <NA>      <NA>        <NA>
+#> 2                      cervical cancer    Male    1954 September           0
+#> 3                                 <NA>    <NA>    <NA>      <NA>        <NA>
+#> 4                                 <NA>    <NA>    <NA>      <NA>        <NA>
+#> 5                                 <NA>    <NA>    <NA>      <NA>        <NA>
+#> 6                      chronic myeloid  Female    1950   January           0
+#> 7  metastatic cancer (unknown primary)  Female    1942  February           0
+#> 8                                 <NA>    <NA>    <NA>      <NA>        <NA>
+#> 9           uterine/endometrial cancer  Female    1964  December           1
+#> 10                                <NA>    <NA>    <NA>      <NA>        <NA>
+#>    f5984i0amax
+#> 1         <NA>
+#> 2          270
+#> 3         <NA>
+#> 4         <NA>
+#> 5         <NA>
+#> 6          195
+#> 7          270
+#> 8         <NA>
+#> 9          270
+#> 10        <NA>
+```
+
+### Get genotypic table - Independent from a cohort
+
+Get all the genotypic table from cohort browser. Optionally you can also
+add filters.
+
+``` r
+# df <- cloudos::get_genotypic_table(my_cloudos, filt_chr = c(5,9), filt_type = c("SNP", "Insertion"))
+df <- cloudos::get_genotypic_table(my_cloudos)
 df
 #>       _id                        Chromosome Location    Reference Alternative
 #>  [1,] "5ef793999b8097fcd1da226a" "10"       "10:93190"  "AC"      " "        
@@ -738,11 +849,13 @@ df
 #> [10,] "0.3077" "0 0" "0.35744"
 ```
 
-### Extract participants
+### Get samples table for selected rows
 
 Create a RAW data string. This usually generates after selecting
 participants on UI. (more information will be added how to create this
 in R)
+
+NOTE: This function will be improved `raw_data` arg is temporary.
 
 ``` r
 new_raw_data <- '{"columns":[{"id":34,"instance":0,"array":{"type":"exact","value":0}},{"id":31,"instance":0,"array":{"type":"exact","value":0}},{"id":52,"instance":0,"array":{"type":"exact","value":0}},{"id":5984,"instance":0,"array":{"type":"avg"}},{"id":5984,"instance":0,"array":{"type":"min"}},{"id":5984,"instance":0,"array":{"type":"max"}},{"id":20001,"instance":0,"array":{"type":"exact","value":0}}],"ids":["5f185b92bf92ed4d3be9637d","5edbdd689d700db709af0c2f","5f185b91bf92ed4d3be9587e","5f185b91bf92ed4d3be95984","5edbdd689d700db709af0c3e","5edbdd689d700db709af0c2b","5edbdd689d700db709af0c2d","5f185b93bf92ed4d3be982e9","5edbdd689d700db709af0c2a","5edbdd689d700db709af0c4d"],"type":"csv","base_url":"http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com"}'
@@ -751,7 +864,7 @@ new_raw_data <- '{"columns":[{"id":34,"instance":0,"array":{"type":"exact","valu
 Using this above raw data lets extract selected participants.
 
 ``` r
-df <- cloudos::extract_participants(my_cloudos,
+df <- cloudos::extract_samples(my_cloudos,
                       raw_data = new_raw_data)
 df
 #>          i ECG..load.0.0 ECG..load.0.1 ECG..load.0.2 ECG..load.0.3

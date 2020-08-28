@@ -88,8 +88,9 @@
 <li><a href="#list-cohorts">List Cohorts</a></li>
 <li><a href="#create-a-cohort">Create a cohort</a></li>
 <li><a href="#filtering">Filtering</a></li>
-<li><a href="#extract-genotypic-data">Extract Genotypic data</a></li>
-<li><a href="#extract-participants">Extract participants</a></li>
+<li><a href="#get-sample-participants-table---independent-from-a-cohort">Get sample (participants) table - Independent from a cohort</a></li>
+<li><a href="#get-genotypic-table---independent-from-a-cohort">Get genotypic table - Independent from a cohort</a></li>
+<li><a href="#get-samples-table-for-selected-rows">Get samples table for selected rows</a></li>
 </ul>
 </li>
 </ul>
@@ -118,6 +119,7 @@
 <div id="create-a-cloudos-object" class="section level3">
 <h3 class="hasAnchor">
 <a href="#create-a-cloudos-object" class="anchor"></a>Create a cloudos object</h3>
+<p>This object will be input to most of the other functions, which directly communicates with the cloudos server.</p>
 <div class="sourceCode" id="cb4"><pre class="r"><span class="no">my_cloudos</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/cloudos.html">cloudos</a></span>(<span class="kw">base_url</span> <span class="kw">=</span> <span class="no">cb_base_url</span>,
                                <span class="kw">auth</span> <span class="kw">=</span> <span class="no">my_auth</span>,
                                <span class="kw">team_id</span> <span class="kw">=</span> <span class="no">my_team_id</span>)
@@ -131,7 +133,7 @@
 <a href="#list-cohorts" class="anchor"></a>List Cohorts</h3>
 <p>List available cohorts in a workspace.</p>
 <div class="sourceCode" id="cb5"><pre class="r"><span class="no">cohorts</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/list_cohorts.html">list_cohorts</a></span>(<span class="no">my_cloudos</span>)
-<span class="co">#&gt; Total number of cohorts found-39. But here is 10. For more, change 'page_number' and 'page_size'</span>
+<span class="co">#&gt; Total number of cohorts found-42. But here is 10. For more, change 'page_number' and 'page_size'</span>
 <span class="no">cohorts</span>
 <span class="co">#&gt;                          id         name</span>
 <span class="co">#&gt; 1  5f2ab881b695de55d93024a7         test</span>
@@ -173,7 +175,20 @@
 <div class="sourceCode" id="cb6"><pre class="r"><span class="no">my_cohort</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/create_cohort.html">create_cohort</a></span>(<span class="no">my_cloudos</span>,
               <span class="kw">cohort_name</span> <span class="kw">=</span> <span class="st">"Cohort-R"</span>,
               <span class="kw">cohort_desc</span> <span class="kw">=</span> <span class="st">"This cohort is for testing purpose, created from R."</span>)
-<span class="co">#&gt; Cohort named Cohort-R created successfully.</span></pre></div>
+<span class="co">#&gt; Cohort named Cohort-R created successfully.</span>
+<span class="no">my_cohort</span>
+<span class="co">#&gt;                      details                                              </span>
+<span class="co">#&gt; phenotypeFilters     ""                                                   </span>
+<span class="co">#&gt; _id                  "5f49252baaafb6454ad4a30b"                           </span>
+<span class="co">#&gt; name                 "Cohort-R"                                           </span>
+<span class="co">#&gt; description          "This cohort is for testing purpose, created from R."</span>
+<span class="co">#&gt; team                 "5f046bf6c132dd15fdd1a525"                           </span>
+<span class="co">#&gt; owner                "5f046be1c132dd15fdd1a51e"                           </span>
+<span class="co">#&gt; numberOfParticipants 644686                                               </span>
+<span class="co">#&gt; numberOfFilters      0                                                    </span>
+<span class="co">#&gt; createdAt            "2020-08-28T15:39:23.097Z"                           </span>
+<span class="co">#&gt; updatedAt            "2020-08-28T15:39:23.097Z"                           </span>
+<span class="co">#&gt; __v                  0</span></pre></div>
 </div>
 <div id="filtering" class="section level3">
 <h3 class="hasAnchor">
@@ -638,9 +653,8 @@
 <div id="phenotype-filtering" class="section level4">
 <h4 class="hasAnchor">
 <a href="#phenotype-filtering" class="anchor"></a>Phenotype filtering</h4>
-<p>TODO: For now two filters are hard-coded for testing.</p>
 <div class="sourceCode" id="cb8"><pre class="r"><span class="co"># phenotype filter</span>
-<span class="no">cohort_with_filters</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/filter_data.html">filter_data</a></span>(<span class="no">my_cloudos</span>,
+<span class="no">cohort_with_filters</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/filter_samples.html">filter_samples</a></span>(<span class="no">my_cloudos</span>,
                                    <span class="kw">cohort_id</span> <span class="kw">=</span> <span class="no">my_cohort</span>[<span class="st">"_id"</span>,],
                                    <span class="kw">filter_id</span> <span class="kw">=</span> <span class="no">filt</span>$<span class="no">id</span>[<span class="fl">1</span>])
 <span class="no">cohort_with_filters</span>
@@ -649,24 +663,107 @@
 <span class="co">#&gt; [2,] -1  181143 600000 "Do not know"         </span>
 <span class="co">#&gt; [3,] 0   300719 600000 "No"                  </span>
 <span class="co">#&gt; [4,] 1   85593  600000 "Yes"</span></pre></div>
-<div class="sourceCode" id="cb9"><pre class="r"># filter participants
-# participants_with_fiter &lt;- cloudos:::filter_participants(my_cloudos,
-#                                                cohort_id = my_cohort["_id",], 
-#                                                filter_id = filt$id[1] )
-# 
-# participants_with_fiter</pre></div>
-<div class="sourceCode" id="cb10"><pre class="r"># apply filter (genotypic_save) 
-# gs &lt;- cloudos::genotypic_save(my_cloudos,
-#                      cohort_id = my_cohort["_id",], 
-#                      filter_id = filt$id[1] )
-# 
-# gs</pre></div>
+<div class="sourceCode" id="cb9"><pre class="r"><span class="co"># filter participants</span>
+<span class="no">participants_with_fiter</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">:::</span><span class="fu"><a href="reference/filter_participants.html">filter_participants</a></span>(<span class="no">my_cloudos</span>,
+                                                <span class="kw">cohort_id</span> <span class="kw">=</span> <span class="no">my_cohort</span>[<span class="st">"_id"</span>,],
+                                                <span class="kw">filter_id</span> <span class="kw">=</span> <span class="no">filt</span>$<span class="no">id</span>[<span class="fl">1</span>] )
+
+<span class="no">participants_with_fiter</span>
+<span class="co">#&gt; $total</span>
+<span class="co">#&gt; [1] 644686</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $count</span>
+<span class="co">#&gt; [1] 333264</span></pre></div>
+<div class="sourceCode" id="cb10"><pre class="r"><span class="co"># apply filter (genotypic_save) </span>
+<span class="no">gs</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/genotypic_save.html">genotypic_save</a></span>(<span class="no">my_cloudos</span>,
+                     <span class="kw">cohort_id</span> <span class="kw">=</span> <span class="no">my_cohort</span>[<span class="st">"_id"</span>,],
+                     <span class="kw">filter_id</span> <span class="kw">=</span> <span class="no">filt</span>$<span class="no">id</span>[<span class="fl">1</span>] )
+
+<span class="no">gs</span>
+<span class="co">#&gt;      cohortId                   markers filters _id                       </span>
+<span class="co">#&gt; data "5f49252baaafb6454ad4a30b" List,0  List,1  "5f49252faaafb6454ad4a30c"</span>
+<span class="co">#&gt;      numberOfParticipants</span>
+<span class="co">#&gt; data 32545</span></pre></div>
+<div class="sourceCode" id="cb11"><pre class="r"><span class="no">df</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/filter_metadata.html">filter_metadata</a></span>(<span class="no">my_cloudos</span>,
+                     <span class="kw">filter_id</span> <span class="kw">=</span> <span class="no">filt</span>$<span class="no">id</span>[<span class="fl">1</span>])
+<span class="no">df</span>
+<span class="co">#&gt;                        _id           categoryPathLevel1 categoryPathLevel2</span>
+<span class="co">#&gt; 1 5eb55c78599ae918ebb48f69 UK Biobank Assessment Centre        Touchscreen</span>
+<span class="co">#&gt;           categoryPathLevel3 categoryPathLevel4   id</span>
+<span class="co">#&gt; 1 Health and medical history   Cancer screening 2345</span>
+<span class="co">#&gt;                              name type          valueType units instances array</span>
+<span class="co">#&gt; 1 Ever had bowel cancer screening bars Categorical single               4     1</span>
+<span class="co">#&gt;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          description</span>
+<span class="co">#&gt; 1 "ACE touchscreen question ""Have you ever had a screening test for bowel (colorectal) cancer? (Please include tests for blood in the stool/faeces or a colonoscopy or a sigmoidoscopy)"" If the participant activated the Help button they were shown the message:     Screening tests for bowel or colorectal cancer include:  - FOBT (faecal occult blood test) - this is when you    are given a set of cards and asked to smear a part    of your stool on three separate occasions onto the    cards and then return the cards to be tested for    blood.  - Sigmoidoscopy - a tube is used to examine the lower    bowel. This is usually done in a doctor's office    without pain relief.  - Colonoscopy - a long tube is used the examine the    whole large bowel; you would usually have to drink    a large amount of special liquid to prepare the    bowel; and you would be given a sedative medication    for the procedure.     "</span>
+<span class="co">#&gt;   descriptionParticipantsNo descriptionItemNo descriptionStability coding</span>
+<span class="co">#&gt; 1                    501599            572225             Complete 100349</span>
+<span class="co">#&gt;   descriptionCategoryID descriptionItemType descriptionStrata descriptionSexed</span>
+<span class="co">#&gt; 1                100040                Data           Primary           Unisex</span>
+<span class="co">#&gt;                                                      link</span>
+<span class="co">#&gt; 1 http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=2345</span>
+<span class="co">#&gt;                                                                                 instance0Name</span>
+<span class="co">#&gt; 1 Initial assessment visit (2006-2010) at which participants were recruited and consent given</span>
+<span class="co">#&gt;                             instance1Name         instance2Name</span>
+<span class="co">#&gt; 1 First repeat assessment visit (2012-13) Imaging visit (2014+)</span>
+<span class="co">#&gt;                        instance3Name instance4Name instance5Name instance6Name</span>
+<span class="co">#&gt; 1 First repeat imaging visit (2019+)                                          </span>
+<span class="co">#&gt;   instance7Name instance8Name instance9Name instance10Name instance11Name</span>
+<span class="co">#&gt; 1                                                                        </span>
+<span class="co">#&gt;   instance12Name instance13Name instance14Name instance15Name instance16Name</span>
+<span class="co">#&gt; 1                                                                           </span>
+<span class="co">#&gt;   bucket300 bucket500 bucket1000 bucket2500 bucket5000 bucket10000</span>
+<span class="co">#&gt; 1     FALSE     FALSE      FALSE      FALSE      FALSE       FALSE</span>
+<span class="co">#&gt;   orderPhenotype checked</span>
+<span class="co">#&gt; 1             40       1</span></pre></div>
 </div>
 </div>
-<div id="extract-genotypic-data" class="section level3">
+<div id="get-sample-participants-table---independent-from-a-cohort" class="section level3">
 <h3 class="hasAnchor">
-<a href="#extract-genotypic-data" class="anchor"></a>Extract Genotypic data</h3>
-<div class="sourceCode" id="cb11"><pre class="r"><span class="no">df</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/extract_genotypic_data.html">extract_genotypic_data</a></span>(<span class="no">my_cloudos</span>)
+<a href="#get-sample-participants-table---independent-from-a-cohort" class="anchor"></a>Get sample (participants) table - Independent from a cohort</h3>
+<p>Get all the sample (participants) table from cohort browser. Optionally you can also add filters.</p>
+<p>TODO: For now two filters are hard-coded for testing.</p>
+<div class="sourceCode" id="cb12"><pre class="r"><span class="no">df</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/get_samples_table.html">get_samples_table</a></span>(<span class="no">my_cloudos</span>)
+<span class="no">df</span>
+<span class="co">#&gt;                         _id       i      f5984i0aavg</span>
+<span class="co">#&gt; 1  5f185b92bf92ed4d3be9637d 1000002                0</span>
+<span class="co">#&gt; 2  5edbdd689d700db709af0c2f 1000016 65.7105263157895</span>
+<span class="co">#&gt; 3  5f32c12e2edb69826cc17cc6 1000016                0</span>
+<span class="co">#&gt; 4  5f185b91bf92ed4d3be9587e 1000020                0</span>
+<span class="co">#&gt; 5  5f185b91bf92ed4d3be95984 1000035                0</span>
+<span class="co">#&gt; 6  5edbdd689d700db709af0c3e 1000048 59.2368421052632</span>
+<span class="co">#&gt; 7  5edbdd689d700db709af0c2b 1000057  73.140350877193</span>
+<span class="co">#&gt; 8  5f32c12e2edb69826cc17ccd 1000057                0</span>
+<span class="co">#&gt; 9  5edbdd689d700db709af0c2d 1000059 71.1491228070175</span>
+<span class="co">#&gt; 10 5f32c12e2edb69826cc17cc9 1000059                0</span>
+<span class="co">#&gt;                             f20001i0a0 f31i0a0 f34i0a0   f52i0a0 f5984i0amin</span>
+<span class="co">#&gt; 1                                 &lt;NA&gt;    &lt;NA&gt;    &lt;NA&gt;      &lt;NA&gt;        &lt;NA&gt;</span>
+<span class="co">#&gt; 2                      cervical cancer    Male    1954 September           0</span>
+<span class="co">#&gt; 3                                 &lt;NA&gt;    &lt;NA&gt;    &lt;NA&gt;      &lt;NA&gt;        &lt;NA&gt;</span>
+<span class="co">#&gt; 4                                 &lt;NA&gt;    &lt;NA&gt;    &lt;NA&gt;      &lt;NA&gt;        &lt;NA&gt;</span>
+<span class="co">#&gt; 5                                 &lt;NA&gt;    &lt;NA&gt;    &lt;NA&gt;      &lt;NA&gt;        &lt;NA&gt;</span>
+<span class="co">#&gt; 6                      chronic myeloid  Female    1950   January           0</span>
+<span class="co">#&gt; 7  metastatic cancer (unknown primary)  Female    1942  February           0</span>
+<span class="co">#&gt; 8                                 &lt;NA&gt;    &lt;NA&gt;    &lt;NA&gt;      &lt;NA&gt;        &lt;NA&gt;</span>
+<span class="co">#&gt; 9           uterine/endometrial cancer  Female    1964  December           1</span>
+<span class="co">#&gt; 10                                &lt;NA&gt;    &lt;NA&gt;    &lt;NA&gt;      &lt;NA&gt;        &lt;NA&gt;</span>
+<span class="co">#&gt;    f5984i0amax</span>
+<span class="co">#&gt; 1         &lt;NA&gt;</span>
+<span class="co">#&gt; 2          270</span>
+<span class="co">#&gt; 3         &lt;NA&gt;</span>
+<span class="co">#&gt; 4         &lt;NA&gt;</span>
+<span class="co">#&gt; 5         &lt;NA&gt;</span>
+<span class="co">#&gt; 6          195</span>
+<span class="co">#&gt; 7          270</span>
+<span class="co">#&gt; 8         &lt;NA&gt;</span>
+<span class="co">#&gt; 9          270</span>
+<span class="co">#&gt; 10        &lt;NA&gt;</span></pre></div>
+</div>
+<div id="get-genotypic-table---independent-from-a-cohort" class="section level3">
+<h3 class="hasAnchor">
+<a href="#get-genotypic-table---independent-from-a-cohort" class="anchor"></a>Get genotypic table - Independent from a cohort</h3>
+<p>Get all the genotypic table from cohort browser. Optionally you can also add filters.</p>
+<div class="sourceCode" id="cb13"><pre class="r"><span class="co"># df &lt;- cloudos::get_genotypic_table(my_cloudos, filt_chr = c(5,9), filt_type = c("SNP", "Insertion"))</span>
+<span class="no">df</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/get_genotypic_table.html">get_genotypic_table</a></span>(<span class="no">my_cloudos</span>)
 <span class="no">df</span>
 <span class="co">#&gt;       _id                        Chromosome Location    Reference Alternative</span>
 <span class="co">#&gt;  [1,] "5ef793999b8097fcd1da226a" "10"       "10:93190"  "AC"      " "        </span>
@@ -790,13 +887,14 @@
 <span class="co">#&gt;  [9,] "0.4063" "0 0" "0.444643" </span>
 <span class="co">#&gt; [10,] "0.3077" "0 0" "0.35744"</span></pre></div>
 </div>
-<div id="extract-participants" class="section level3">
+<div id="get-samples-table-for-selected-rows" class="section level3">
 <h3 class="hasAnchor">
-<a href="#extract-participants" class="anchor"></a>Extract participants</h3>
+<a href="#get-samples-table-for-selected-rows" class="anchor"></a>Get samples table for selected rows</h3>
 <p>Create a RAW data string. This usually generates after selecting participants on UI. (more information will be added how to create this in R)</p>
-<div class="sourceCode" id="cb12"><pre class="r"><span class="no">new_raw_data</span> <span class="kw">&lt;-</span> <span class="st">'{"columns":[{"id":34,"instance":0,"array":{"type":"exact","value":0}},{"id":31,"instance":0,"array":{"type":"exact","value":0}},{"id":52,"instance":0,"array":{"type":"exact","value":0}},{"id":5984,"instance":0,"array":{"type":"avg"}},{"id":5984,"instance":0,"array":{"type":"min"}},{"id":5984,"instance":0,"array":{"type":"max"}},{"id":20001,"instance":0,"array":{"type":"exact","value":0}}],"ids":["5f185b92bf92ed4d3be9637d","5edbdd689d700db709af0c2f","5f185b91bf92ed4d3be9587e","5f185b91bf92ed4d3be95984","5edbdd689d700db709af0c3e","5edbdd689d700db709af0c2b","5edbdd689d700db709af0c2d","5f185b93bf92ed4d3be982e9","5edbdd689d700db709af0c2a","5edbdd689d700db709af0c4d"],"type":"csv","base_url":"http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com"}'</span></pre></div>
+<p>NOTE: This function will be improved <code>raw_data</code> arg is temporary.</p>
+<div class="sourceCode" id="cb14"><pre class="r"><span class="no">new_raw_data</span> <span class="kw">&lt;-</span> <span class="st">'{"columns":[{"id":34,"instance":0,"array":{"type":"exact","value":0}},{"id":31,"instance":0,"array":{"type":"exact","value":0}},{"id":52,"instance":0,"array":{"type":"exact","value":0}},{"id":5984,"instance":0,"array":{"type":"avg"}},{"id":5984,"instance":0,"array":{"type":"min"}},{"id":5984,"instance":0,"array":{"type":"max"}},{"id":20001,"instance":0,"array":{"type":"exact","value":0}}],"ids":["5f185b92bf92ed4d3be9637d","5edbdd689d700db709af0c2f","5f185b91bf92ed4d3be9587e","5f185b91bf92ed4d3be95984","5edbdd689d700db709af0c3e","5edbdd689d700db709af0c2b","5edbdd689d700db709af0c2d","5f185b93bf92ed4d3be982e9","5edbdd689d700db709af0c2a","5edbdd689d700db709af0c4d"],"type":"csv","base_url":"http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com"}'</span></pre></div>
 <p>Using this above raw data lets extract selected participants.</p>
-<div class="sourceCode" id="cb13"><pre class="r"><span class="no">df</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/extract_participants.html">extract_participants</a></span>(<span class="no">my_cloudos</span>,
+<div class="sourceCode" id="cb15"><pre class="r"><span class="no">df</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/extract_samples.html">extract_samples</a></span>(<span class="no">my_cloudos</span>,
                       <span class="kw">raw_data</span> <span class="kw">=</span> <span class="no">new_raw_data</span>)
 <span class="no">df</span>
 <span class="co">#&gt;          i ECG..load.0.0 ECG..load.0.1 ECG..load.0.2 ECG..load.0.3</span>

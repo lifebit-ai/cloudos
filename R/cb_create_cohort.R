@@ -25,8 +25,8 @@ create_cohort <- function(object, cohort_name, cohort_desc, filters = "") {
                                                  "content-type" = "application/json;charset=UTF-8")),
                   query = list("teamId" = object@team_id),
                   body = list("name" = cohort_name,
-                              "description" = cohort_desc,
-                              "moreFilters" = filters),
+                              "description" = cohort_desc, 
+                              "moreFilters" = filters), # TODO work on filters
                   encode = "json"
   )
   if (!r$status_code == 200) {

@@ -4,3 +4,30 @@ authors:
     href: https://lifebit.ai
 development:
   mode: auto
+reference:
+- title: "cloudos"
+  desc: "class and functions to interact with cloudos server"
+  contents:
+  - '`cloudos-class`'
+  - '`cloudos`'
+- title: "Cohort Browser"
+  desc: "List and create a cohort"
+  contents:
+  - '`list_cohort`'
+  - '`create_create`'
+- title: "Cohort Browser - Tables"
+  desc: "Show tables from Cohort Browser"
+  contents:
+  - '`get_samples_table`'
+  - '`get_genotypic_table`'
+  - '`extract_samples`'
+- title: "Cohort Browser - Filter"
+  desc: "Show tables from Cohort Browser"
+  contents:
+  - '`search_filters`'
+  - '`filter_samples`'
+  - '`filter_participants`'
+  - '`filter_metadata`'
+  - '`genotypic_save`'
+  
+  

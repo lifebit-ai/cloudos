@@ -1,4 +1,4 @@
-#' This cloudos S4 class creates a cloudos object.
+#' cloudos class
 #'
 #' This will create a main object, which will 
 #' hold many information related to CloudOS server 

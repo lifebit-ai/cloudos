@@ -10,19 +10,28 @@
     <loc>https://lifebit-ai.github.io/cloudos//reference/cloudos.html</loc>
   </url>
   <url>
-    <loc>https://lifebit-ai.github.io/cloudos//reference/cohort-class.html</loc>
-  </url>
-  <url>
     <loc>https://lifebit-ai.github.io/cloudos//reference/create_cohort.html</loc>
   </url>
   <url>
-    <loc>https://lifebit-ai.github.io/cloudos//reference/extract_genotypic_data.html</loc>
+    <loc>https://lifebit-ai.github.io/cloudos//reference/extract_samples.html</loc>
   </url>
   <url>
-    <loc>https://lifebit-ai.github.io/cloudos//reference/extract_participants.html</loc>
+    <loc>https://lifebit-ai.github.io/cloudos//reference/filter_metadata.html</loc>
   </url>
   <url>
-    <loc>https://lifebit-ai.github.io/cloudos//reference/filter_data.html</loc>
+    <loc>https://lifebit-ai.github.io/cloudos//reference/filter_participants.html</loc>
+  </url>
+  <url>
+    <loc>https://lifebit-ai.github.io/cloudos//reference/filter_samples.html</loc>
+  </url>
+  <url>
+    <loc>https://lifebit-ai.github.io/cloudos//reference/genotypic_save.html</loc>
+  </url>
+  <url>
+    <loc>https://lifebit-ai.github.io/cloudos//reference/get_genotypic_table.html</loc>
+  </url>
+  <url>
+    <loc>https://lifebit-ai.github.io/cloudos//reference/get_samples_table.html</loc>
   </url>
   <url>
     <loc>https://lifebit-ai.github.io/cloudos//reference/list_cohorts.html</loc>
