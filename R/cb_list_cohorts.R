@@ -49,3 +49,19 @@ list_cohorts <- function(object,
   cohorts_df <- do.call(rbind, cohorts_list)
   return(cohorts_df)
 }
+
+###################################################################
+
+get_cohort_info <- function(object, cohort_id) {
+  url <- paste(object@base_url, "api/v1/cohort", cohort_id, sep = "/")
+  r <- httr::GET(url,
+                 httr::add_headers("Authorization" = object@auth),
+                 query = list("teamId" = object@team_id)
+                 )
+  if (!r$status_code == 200) {
+    stop("Something went wrong.")
+  }
+  # parse the content
+  res <- httr::content(r)
+  return(res)
+}

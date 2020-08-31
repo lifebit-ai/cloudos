@@ -70,36 +70,36 @@ get_genotypic_table <- function(object,
 #' @export
 get_samples_table <- function(object, 
                               page_number = 0,
-                              page_size = 10) {
+                              page_size = 10, cohort_id =  NULL) {
   # TODO work on column
-  columns <- list(list("id" = 34,
+  columns <- list(list("id" = unbox(34),
                        "instance" = 0,
                        "array" = list("type" = "exact",
                                       "value" = 0)
                   ),
-                  list("id" = 31,
+                  list("id" = unbox(31),
                        "instance" = 0,
                        "array" = list("type" = "exact",
                                       "value" = 0)
                   ),
-                  list("id" = 52,
+                  list("id" = unbox(52),
                        "instance" = 0,
                        "array" = list("type" = "exact",
                                       "value" = 0)
                   ),
-                  list("id" = 5984,
+                  list("id" = unbox(5984),
                        "instance" = 0,
                        "array" = list("type" = "avg")
                   ),
-                  list("id" = 5984,
+                  list("id" = unbox(5984),
                        "instance" = 0,
                        "array" = list("type" = "min")
                   ),
-                  list("id" = 5984,
+                  list("id" = unbox(5984),
                        "instance" = 0,
                        "array" = list("type" = "max")
                   ),
-                  list("id" = 20001,
+                  list("id" = unbox(20001),
                        "instance" = 0,
                        "array" = list("type" = "exact",
                                       "value" = 0)
@@ -107,22 +107,12 @@ get_samples_table <- function(object,
             )
   
   # TODO work on filtered search
-  search = list()
-  cohort_filtered_search = list(list("column" = list("id" = 2345,
-                                                     "instance" = 0,
-                                                     "array" = list("type" = "exact",
-                                                                    "value" = "0")
-                                                    ),
-                                                    "values" = c("Prefer not to answer","No")
-                                    )
-                                )
-  onpage_filtered_serach = list(list("column" = list("id" = 31,
-                                                     "instance" = 0,
-                                                     "array" = list("type" = "exact",
-                                                                    "value" = "0")
-                                                     ),
-                                     "contains"= c("Male")
-  ))
+  if(missing(cohort_id)){
+    search = list()
+  }else{
+    my_cohort <- get_cohort_info(object, cohort_id)
+    search <- .get_search_json(my_cohort)
+  }
   
   # make request
   url <- paste(object@base_url, "api/v1/cohort/participants/search", sep = "/")
@@ -134,7 +124,7 @@ get_samples_table <- function(object,
                   body = list("pageNumber" = page_number,
                               "pageSize" = page_size,
                               "columns" = columns,
-                              "search" = search,
+                              "search" =  search,
                               "returnTotal" = "false"),
                   encode = "json"
   )
@@ -153,6 +143,7 @@ get_samples_table <- function(object,
   return(res_df)
 }
 
+df6 <- get_samples_table(object, cohort_id = "5f327e8c1733200222dc3e8c")
 #######################################################################
 
 #' @title Extract participants
