@@ -78,20 +78,8 @@
 
 <p>The ‘CloudOS’ client library for R makes it easy to interact with CloudOS <a href="https://cloudos.lifebit.ai/" class="uri">https://cloudos.lifebit.ai/</a> in the R environment for analysis.</p>
 <ul>
-<li><a href="#installation">Installation</a></li>
 <li>
-<a href="#usage">Usage</a>
-<ul>
-<li><a href="#load-the-cloudos-r-client-library">Load the cloudos R-client library</a></li>
-<li><a href="#setup-essentials">Setup essentials</a></li>
-<li><a href="#create-a-cloudos-object">Create a cloudos object</a></li>
-<li><a href="#list-cohorts">List Cohorts</a></li>
-<li><a href="#create-a-cohort">Create a cohort</a></li>
-<li><a href="#filtering">Filtering</a></li>
-<li><a href="#get-sample-participants-table---independent-from-a-cohort">Get sample (participants) table - Independent from a cohort</a></li>
-<li><a href="#get-genotypic-table---independent-from-a-cohort">Get genotypic table - Independent from a cohort</a></li>
-<li><a href="#get-samples-table-for-selected-rows">Get samples table for selected rows</a></li>
-</ul>
+<a href="#installation">Installation</a> - <a href="#usage">Usage</a> - <a href="#load-the-cloudos-r-client-library">Load the cloudos R-client library</a> - <a href="#setup-essentials">Setup essentials</a> - <a href="#create-a-cloudos-object">Create a cloudos object</a> - <a href="#list-cohorts">List Cohorts</a> - <a href="#create-a-cohort">Create a cohort</a> - <a href="#get-a-cohort">Get a cohort</a> - <a href="#get-sample-participants-table">Get sample (participants) table</a> - <a href="#get-genotypic-table">Get genotypic table</a> - <a href="#filtering">Filtering</a> - <a href="#additional-for-ui">Additional for UI</a>
 </li>
 </ul>
 <div id="installation" class="section level2">
@@ -112,14 +100,19 @@
 <div id="setup-essentials" class="section level3">
 <h3 class="hasAnchor">
 <a href="#setup-essentials" class="anchor"></a>Setup essentials</h3>
+<p>Require few cloudos server login details, which will used in next step to create a <code>my_cloudos</code> object</p>
+<p>Note: If no <code>base_url</code> given the default is <a href="https://cloudos.lifebit.ai/" class="uri">https://cloudos.lifebit.ai/</a></p>
 <div class="sourceCode" id="cb3"><pre class="r"><span class="no">cb_base_url</span> <span class="kw">&lt;-</span> <span class="st">"http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com"</span>
-<span class="no">my_auth</span> <span class="kw">&lt;-</span> <span class="st">"*************************"</span>
-<span class="no">my_team_id</span> <span class="kw">&lt;-</span> <span class="st">"***************************"</span></pre></div>
+<span class="no">my_auth</span> <span class="kw">&lt;-</span> <span class="st">"Bearer *************************"</span>
+<span class="no">my_team_id</span> <span class="kw">&lt;-</span> <span class="st">"***************************"</span>
+<span class="co"># OR from environment variable stored in a ~/.Renviron file</span>
+<span class="no">my_auth</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv</a></span>(<span class="st">"cloudos_Bearer_token"</span>)
+<span class="no">my_team_id</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv</a></span>(<span class="st">"cloudos_team_id"</span>)</pre></div>
 </div>
 <div id="create-a-cloudos-object" class="section level3">
 <h3 class="hasAnchor">
 <a href="#create-a-cloudos-object" class="anchor"></a>Create a cloudos object</h3>
-<p>This object will be input to most of the other functions, which directly communicates with the cloudos server.</p>
+<p>This object can be used as input to other functions, which directly requires to communicate with the cloudos server.</p>
 <div class="sourceCode" id="cb4"><pre class="r"><span class="no">my_cloudos</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/cloudos.html">cloudos</a></span>(<span class="kw">base_url</span> <span class="kw">=</span> <span class="no">cb_base_url</span>,
                                <span class="kw">auth</span> <span class="kw">=</span> <span class="no">my_auth</span>,
                                <span class="kw">team_id</span> <span class="kw">=</span> <span class="no">my_team_id</span>)
@@ -132,63 +125,143 @@
 <h3 class="hasAnchor">
 <a href="#list-cohorts" class="anchor"></a>List Cohorts</h3>
 <p>List available cohorts in a workspace.</p>
-<div class="sourceCode" id="cb5"><pre class="r"><span class="no">cohorts</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/list_cohorts.html">list_cohorts</a></span>(<span class="no">my_cloudos</span>)
-<span class="co">#&gt; Total number of cohorts found-42. But here is 10. For more, change 'page_number' and 'page_size'</span>
-<span class="no">cohorts</span>
-<span class="co">#&gt;                          id         name</span>
-<span class="co">#&gt; 1  5f2ab881b695de55d93024a7         test</span>
-<span class="co">#&gt; 2  5f327e8c1733200222dc3e8c       test_2</span>
-<span class="co">#&gt; 3  5f32c2147ca1902e9c5ba45d       test-R</span>
-<span class="co">#&gt; 4  5f32e1687ca1902e9c5ba467  Test cohort</span>
-<span class="co">#&gt; 5  5f32f1407ca1902e9c5ba46e     Cohort-R</span>
-<span class="co">#&gt; 6  5f351e89cb536f664c1e0a47     test-new</span>
-<span class="co">#&gt; 7  5f351ec1305af25011d57b25 test-new-new</span>
-<span class="co">#&gt; 8  5f351f15305af25011d57b26 test-new-new</span>
-<span class="co">#&gt; 9  5f352103cb536f664c1e0a4a  random test</span>
-<span class="co">#&gt; 10 5f3521c5b12d49672a616b88     Cohort-R</span>
-<span class="co">#&gt;                                            description number_of_participants</span>
-<span class="co">#&gt; 1                                            test-desc                 414326</span>
-<span class="co">#&gt; 2                                          some random                 600000</span>
-<span class="co">#&gt; 3                                   created from R lib                 600000</span>
-<span class="co">#&gt; 4                  This cohort is for testing purpose.                 600000</span>
-<span class="co">#&gt; 5  This cohort is for testing purpose, created from R.                 600000</span>
-<span class="co">#&gt; 6                                        test-new-desc                 600000</span>
-<span class="co">#&gt; 7                                              New-new                 600000</span>
-<span class="co">#&gt; 8                                              New-new                 600000</span>
-<span class="co">#&gt; 9                                   random descriptiom                 600000</span>
-<span class="co">#&gt; 10 This cohort is for testing purpose, created from R.                 333264</span>
-<span class="co">#&gt;    number_of_filters               created_at               updated_at</span>
-<span class="co">#&gt; 1                  1 2020-08-05T13:47:45.826Z 2020-08-14T10:48:37.284Z</span>
-<span class="co">#&gt; 2                  0 2020-08-11T11:18:36.703Z 2020-08-11T11:18:36.703Z</span>
-<span class="co">#&gt; 3                  0 2020-08-11T16:06:44.205Z 2020-08-11T16:06:44.205Z</span>
-<span class="co">#&gt; 4                  0 2020-08-11T18:20:24.356Z 2020-08-11T18:20:24.356Z</span>
-<span class="co">#&gt; 5                  0 2020-08-11T19:28:00.606Z 2020-08-11T19:28:00.606Z</span>
-<span class="co">#&gt; 6                  0 2020-08-13T11:05:45.111Z 2020-08-13T11:05:45.111Z</span>
-<span class="co">#&gt; 7                  0 2020-08-13T11:06:41.160Z 2020-08-13T11:06:41.160Z</span>
-<span class="co">#&gt; 8                  0 2020-08-13T11:08:05.512Z 2020-08-13T11:08:05.512Z</span>
-<span class="co">#&gt; 9                  0 2020-08-13T11:16:19.086Z 2020-08-13T11:16:19.086Z</span>
-<span class="co">#&gt; 10                 1 2020-08-13T11:19:33.094Z 2020-08-20T07:30:41.584Z</span></pre></div>
+<div class="sourceCode" id="cb5"><pre class="r"><span class="no">cohorts</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/cohorts_list.html">cohorts_list</a></span>(<span class="no">my_cloudos</span>)
+<span class="co">#&gt; Total number of cohorts found-49. But here is 10. For more, change 'page_number' and 'page_size'</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">cohorts</span>,<span class="fl">5</span>)
+<span class="co">#&gt;                         id        name</span>
+<span class="co">#&gt; 1 5f2ab881b695de55d93024a7        test</span>
+<span class="co">#&gt; 2 5f327e8c1733200222dc3e8c      test_2</span>
+<span class="co">#&gt; 3 5f32c2147ca1902e9c5ba45d      test-R</span>
+<span class="co">#&gt; 4 5f32e1687ca1902e9c5ba467 Test cohort</span>
+<span class="co">#&gt; 5 5f32f1407ca1902e9c5ba46e    Cohort-R</span>
+<span class="co">#&gt;                                           description number_of_participants</span>
+<span class="co">#&gt; 1                                           test-desc                 414326</span>
+<span class="co">#&gt; 2                                         some random                 514407</span>
+<span class="co">#&gt; 3                                  created from R lib                 600000</span>
+<span class="co">#&gt; 4                 This cohort is for testing purpose.                 600000</span>
+<span class="co">#&gt; 5 This cohort is for testing purpose, created from R.                 600000</span>
+<span class="co">#&gt;   number_of_filters               created_at               updated_at</span>
+<span class="co">#&gt; 1                 1 2020-08-05T13:47:45.826Z 2020-08-14T10:48:37.284Z</span>
+<span class="co">#&gt; 2                 1 2020-08-11T11:18:36.703Z 2020-09-01T13:51:34.560Z</span>
+<span class="co">#&gt; 3                 0 2020-08-11T16:06:44.205Z 2020-08-11T16:06:44.205Z</span>
+<span class="co">#&gt; 4                 0 2020-08-11T18:20:24.356Z 2020-08-11T18:20:24.356Z</span>
+<span class="co">#&gt; 5                 0 2020-08-11T19:28:00.606Z 2020-08-11T19:28:00.606Z</span></pre></div>
 </div>
 <div id="create-a-cohort" class="section level3">
 <h3 class="hasAnchor">
 <a href="#create-a-cohort" class="anchor"></a>Create a cohort</h3>
+<p>Create a new cohort.</p>
 <div class="sourceCode" id="cb6"><pre class="r"><span class="no">my_cohort</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/create_cohort.html">create_cohort</a></span>(<span class="no">my_cloudos</span>,
               <span class="kw">cohort_name</span> <span class="kw">=</span> <span class="st">"Cohort-R"</span>,
               <span class="kw">cohort_desc</span> <span class="kw">=</span> <span class="st">"This cohort is for testing purpose, created from R."</span>)
-<span class="co">#&gt; Cohort named Cohort-R created successfully.</span>
+<span class="co">#&gt; Cohort created successfully.</span>
 <span class="no">my_cohort</span>
-<span class="co">#&gt;                      details                                              </span>
-<span class="co">#&gt; phenotypeFilters     ""                                                   </span>
-<span class="co">#&gt; _id                  "5f49252baaafb6454ad4a30b"                           </span>
-<span class="co">#&gt; name                 "Cohort-R"                                           </span>
-<span class="co">#&gt; description          "This cohort is for testing purpose, created from R."</span>
-<span class="co">#&gt; team                 "5f046bf6c132dd15fdd1a525"                           </span>
-<span class="co">#&gt; owner                "5f046be1c132dd15fdd1a51e"                           </span>
-<span class="co">#&gt; numberOfParticipants 644686                                               </span>
-<span class="co">#&gt; numberOfFilters      0                                                    </span>
-<span class="co">#&gt; createdAt            "2020-08-28T15:39:23.097Z"                           </span>
-<span class="co">#&gt; updatedAt            "2020-08-28T15:39:23.097Z"                           </span>
-<span class="co">#&gt; __v                  0</span></pre></div>
+<span class="co">#&gt; Cphort ID:  5f4e55799a350d4bb04dd92f </span>
+<span class="co">#&gt; Cphort Name:  Cohort-R </span>
+<span class="co">#&gt; Cohort Description:  This cohort is for testing purpose, created from R.</span></pre></div>
+</div>
+<div id="get-a-cohort" class="section level3">
+<h3 class="hasAnchor">
+<a href="#get-a-cohort" class="anchor"></a>Get a cohort</h3>
+<p>Get a available cohort in to a cohort R object.</p>
+<div class="sourceCode" id="cb7"><pre class="r"><span class="no">my_cohort</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/cohort.html">cohort</a></span>(<span class="no">my_cloudos</span>, <span class="kw">cohort_id</span> <span class="kw">=</span> <span class="st">"5f327e8c1733200222dc3e8c"</span>)
+<span class="no">my_cohort</span>
+<span class="co">#&gt; Cphort ID:  5f327e8c1733200222dc3e8c </span>
+<span class="co">#&gt; Cphort Name:  test_2 </span>
+<span class="co">#&gt; Cohort Description:  some random</span></pre></div>
+</div>
+<div id="get-sample-participants-table" class="section level3">
+<h3 class="hasAnchor">
+<a href="#get-sample-participants-table" class="anchor"></a>Get sample (participants) table</h3>
+<p>Get all the sample (participants) table for a cohort.</p>
+<div class="sourceCode" id="cb8"><pre class="r"><span class="no">cohort_samples</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/get_samples_table.html">get_samples_table</a></span>(<span class="no">my_cloudos</span>, <span class="no">my_cohort</span>)
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">cohort_samples</span>, <span class="fl">5</span>)
+<span class="co">#&gt;                        _id       i      f20001i0a0 f31i0a0 f34i0a0   f52i0a0</span>
+<span class="co">#&gt; 1 5edbdd689d700db709af0c2f 1000016 cervical cancer    Male    1954 September</span>
+<span class="co">#&gt; 2 5edbdd689d700db709af0c3e 1000048 chronic myeloid  Female    1950   January</span>
+<span class="co">#&gt; 3 5edbdd689d700db709af0c2a 1000063 chronic myeloid  Female    1944     April</span>
+<span class="co">#&gt; 4 5edbdd689d700db709af0c4d 1000068  bladder cancer  Female    1947  November</span>
+<span class="co">#&gt; 5 5edbdd689d700db709af0c2c 1000080 cervical cancer  Female    1941  November</span>
+<span class="co">#&gt;        f5984i0aavg f5984i0amin f5984i0amax</span>
+<span class="co">#&gt; 1 65.7105263157895           0         270</span>
+<span class="co">#&gt; 2 59.2368421052632           0         195</span>
+<span class="co">#&gt; 3 65.0350877192982           0         270</span>
+<span class="co">#&gt; 4 63.9824561403509           0         195</span>
+<span class="co">#&gt; 5 61.1929824561403           0         270</span></pre></div>
+</div>
+<div id="get-genotypic-table" class="section level3">
+<h3 class="hasAnchor">
+<a href="#get-genotypic-table" class="anchor"></a>Get genotypic table</h3>
+<p>Get all the genotypic table for a cohort.</p>
+<div class="sourceCode" id="cb9"><pre class="r"><span class="co">#cohort_genotype &lt;- cloudos::get_genotypic_table(my_cloudos, my_cohort)</span>
+<span class="no">cohort_genotype</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/get_genotypic_table.html">get_genotypic_table</a></span>(<span class="no">my_cloudos</span>)
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">cohort_genotype</span>, <span class="fl">5</span>)
+<span class="co">#&gt;      _id                        Chromosome Location   Reference Alternative</span>
+<span class="co">#&gt; [1,] "5ef793999b8097fcd1da226a" "10"       "10:93190" "AC"      " "        </span>
+<span class="co">#&gt; [2,] "5ef793719b8097fcd1cea2f3" "10"       "10:93502" "C"       "G"        </span>
+<span class="co">#&gt; [3,] "5ef793719b8097fcd1cea2ff" "10"       "10:93635" "T"       "C"        </span>
+<span class="co">#&gt; [4,] "5ef793999b8097fcd1da2266" "10"       "10:94514" "CTGG"    " "        </span>
+<span class="co">#&gt; [5,] "5ef793999b8097fcd1da2277" "10"       "10:94693" "G"       " "        </span>
+<span class="co">#&gt;      Affimetrix ID Possible allele combination 0 Possible allele combination 1</span>
+<span class="co">#&gt; [1,] "80278591"    "GAC G"                       "0 0"                        </span>
+<span class="co">#&gt; [2,] "52134431"    "C C"                         "0 0"                        </span>
+<span class="co">#&gt; [3,] "3729558"     "T T"                         "0 0"                        </span>
+<span class="co">#&gt; [4,] "52349171"    "CCTGG CCT"                   "C CCTGG"                    </span>
+<span class="co">#&gt; [5,] "80278592"    "AG"                          "0 0"                        </span>
+<span class="co">#&gt;      Possible allele combination 2 index Type        id  cn          </span>
+<span class="co">#&gt; [1,] "G GAC"                       "0"   "Insertion" "1" "zzg_m_10_0"</span>
+<span class="co">#&gt; [2,] "G C"                         "1"   "SNP"       "2" "zzg_m_10_1"</span>
+<span class="co">#&gt; [3,] "C T"                         "2"   "SNP"       "3" "zzg_m_10_2"</span>
+<span class="co">#&gt; [4,] "0 0"                         "3"   "Insertion" "4" "zzg_m_10_3"</span>
+<span class="co">#&gt; [5,] "A A"                         "4"   "SNP"       "5" "zzg_m_10_4"</span>
+<span class="co">#&gt;      &lt;NA&gt;          &lt;NA&gt;          &lt;NA&gt;                &lt;NA&gt;               </span>
+<span class="co">#&gt; [1,] NA            NA            NA                  NA                 </span>
+<span class="co">#&gt; [2,] "rs201177578" "Deleterious" "Possibly Damaging" "Possibly Damaging"</span>
+<span class="co">#&gt; [3,] "rs200242637" "Deleterious" "Benign"            "Benign"           </span>
+<span class="co">#&gt; [4,] NA            NA            NA                  NA                 </span>
+<span class="co">#&gt; [5,] NA            NA            NA                  NA                 </span>
+<span class="co">#&gt;      &lt;NA&gt;      &lt;NA&gt;              &lt;NA&gt;     &lt;NA&gt;          &lt;NA&gt;         </span>
+<span class="co">#&gt; [1,] NA        NA                NA       NA            NA           </span>
+<span class="co">#&gt; [2,] "Unknown" "Disease Causing" "Medium" "Deleterious" "Deleterious"</span>
+<span class="co">#&gt; [3,] "Unknown" "Disease Causing" "Medium" "Tolerated"   "Deleterious"</span>
+<span class="co">#&gt; [4,] NA        NA                NA       NA            NA           </span>
+<span class="co">#&gt; [5,] NA        NA                NA       NA            NA           </span>
+<span class="co">#&gt;      &lt;NA&gt;        &lt;NA&gt;          &lt;NA&gt;  &lt;NA&gt; </span>
+<span class="co">#&gt; [1,] NA          NA            NA    NA   </span>
+<span class="co">#&gt; [2,] "Tolerated" "Deleterious" "542" "244"</span>
+<span class="co">#&gt; [3,] "Tolerated" "Tolerated"   "615" "27" </span>
+<span class="co">#&gt; [4,] NA          NA            NA    NA   </span>
+<span class="co">#&gt; [5,] NA          NA            NA    NA   </span>
+<span class="co">#&gt;      &lt;NA&gt;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          </span>
+<span class="co">#&gt; [1,] NA                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </span>
+<span class="co">#&gt; [2,] "GO CYTOSKELETON ORGANIZATION| GO OOGENESIS| GO MICROTUBULE BASED PROCESS| GO MICROTUBULE CYTOSKELETON ORGANIZATION| GO SEXUAL REPRODUCTION| GO ATOMICAL STRUCTURE MATURATION| GO MITOTIC CELL CYCLE| GO ORGANELLE FISSION| GO CELL MATURATION| GO ORGANELLE ASSEMBLY| GO CELLULAR PROCESS INVOLVED IN REPRODUCTION IN MULTICELLULAR ORGANISM| GO OOCYTE MATURATION| GO OOCYTE DIFFERENTIATION| GO MEIOTIC CELL CYCLE| GO CELL CYCLE| GO MULTI ORGANISM REPRODUCTIVE PROCESS| GO GAMETE GENERATION| GO FEMALE GAMETE GENERATION| GO DEVELOPMENTAL PROCESS INVOLVED IN REPRODUCTION| GO MEIOTIC CELL CYCLE PROCESS| GO SPINDLE ASSEMBLY| GO REPRODUCTION| GO GERM CELL DEVELOPMENT| GO MULTICELLULAR ORGANISM REPRODUCTION| GO DEVELOPMENTAL MATURATION| GO CELL CYCLE PROCESS| GO MICROTUBULE CYTOSKELETON| GO CYTOSKELETAL PART| GO MICROTUBULE| GO SPINDLE| GO GTPASE ACTIVITY| GO HYDROLASE ACTIVITY ACTING ON ACID ANHYDRIDES| GO GUANYL NUCLEOTIDE BINDING| GO RIBONUCLEOTIDE BINDING| GO STRUCTURAL CONSTITUENT OF CYTOSKELETON| GO STRUCTURAL MOLECULE ACTIVITY| GO MEIOTIC SPINDLE ORGANIZATION| GO SPINDLE ORGANIZATION| GO FEMALE MEIOTIC NUCLEAR DIVISION| GO SPINDLE ASSEMBLY INVOLVED IN MEIOSIS| GO MEIOTIC SPINDLE| GO SUPRAMOLECULAR COMPLEX| GO POLYMERIC CYTOSKELETAL FIBER"</span>
+<span class="co">#&gt; [3,] "GO CYTOSKELETON ORGANIZATION| GO OOGENESIS| GO MICROTUBULE BASED PROCESS| GO MICROTUBULE CYTOSKELETON ORGANIZATION| GO SEXUAL REPRODUCTION| GO ATOMICAL STRUCTURE MATURATION| GO MITOTIC CELL CYCLE| GO ORGANELLE FISSION| GO CELL MATURATION| GO ORGANELLE ASSEMBLY| GO CELLULAR PROCESS INVOLVED IN REPRODUCTION IN MULTICELLULAR ORGANISM| GO OOCYTE MATURATION| GO OOCYTE DIFFERENTIATION| GO MEIOTIC CELL CYCLE| GO CELL CYCLE| GO MULTI ORGANISM REPRODUCTIVE PROCESS| GO GAMETE GENERATION| GO FEMALE GAMETE GENERATION| GO DEVELOPMENTAL PROCESS INVOLVED IN REPRODUCTION| GO MEIOTIC CELL CYCLE PROCESS| GO SPINDLE ASSEMBLY| GO REPRODUCTION| GO GERM CELL DEVELOPMENT| GO MULTICELLULAR ORGANISM REPRODUCTION| GO DEVELOPMENTAL MATURATION| GO CELL CYCLE PROCESS| GO MICROTUBULE CYTOSKELETON| GO CYTOSKELETAL PART| GO MICROTUBULE| GO SPINDLE| GO GTPASE ACTIVITY| GO HYDROLASE ACTIVITY ACTING ON ACID ANHYDRIDES| GO GUANYL NUCLEOTIDE BINDING| GO RIBONUCLEOTIDE BINDING| GO STRUCTURAL CONSTITUENT OF CYTOSKELETON| GO STRUCTURAL MOLECULE ACTIVITY| GO MEIOTIC SPINDLE ORGANIZATION| GO SPINDLE ORGANIZATION| GO FEMALE MEIOTIC NUCLEAR DIVISION| GO SPINDLE ASSEMBLY INVOLVED IN MEIOSIS| GO MEIOTIC SPINDLE| GO SUPRAMOLECULAR COMPLEX| GO POLYMERIC CYTOSKELETAL FIBER"</span>
+<span class="co">#&gt; [4,] NA                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </span>
+<span class="co">#&gt; [5,] "GO CYTOSKELETON ORGANIZATION| GO OOGENESIS| GO MICROTUBULE BASED PROCESS| GO MICROTUBULE CYTOSKELETON ORGANIZATION| GO SEXUAL REPRODUCTION| GO ATOMICAL STRUCTURE MATURATION| GO MITOTIC CELL CYCLE| GO ORGANELLE FISSION| GO CELL MATURATION| GO ORGANELLE ASSEMBLY| GO CELLULAR PROCESS INVOLVED IN REPRODUCTION IN MULTICELLULAR ORGANISM| GO OOCYTE MATURATION| GO OOCYTE DIFFERENTIATION| GO MEIOTIC CELL CYCLE| GO CELL CYCLE| GO MULTI ORGANISM REPRODUCTIVE PROCESS| GO GAMETE GENERATION| GO FEMALE GAMETE GENERATION| GO DEVELOPMENTAL PROCESS INVOLVED IN REPRODUCTION| GO MEIOTIC CELL CYCLE PROCESS| GO SPINDLE ASSEMBLY| GO REPRODUCTION| GO GERM CELL DEVELOPMENT| GO MULTICELLULAR ORGANISM REPRODUCTION| GO DEVELOPMENTAL MATURATION| GO CELL CYCLE PROCESS| GO MICROTUBULE CYTOSKELETON| GO CYTOSKELETAL PART| GO MICROTUBULE| GO SPINDLE| GO GTPASE ACTIVITY| GO HYDROLASE ACTIVITY ACTING ON ACID ANHYDRIDES| GO GUANYL NUCLEOTIDE BINDING| GO RIBONUCLEOTIDE BINDING| GO STRUCTURAL CONSTITUENT OF CYTOSKELETON| GO STRUCTURAL MOLECULE ACTIVITY| GO MEIOTIC SPINDLE ORGANIZATION| GO SPINDLE ORGANIZATION| GO FEMALE MEIOTIC NUCLEAR DIVISION| GO SPINDLE ASSEMBLY INVOLVED IN MEIOSIS| GO MEIOTIC SPINDLE| GO SUPRAMOLECULAR COMPLEX| GO POLYMERIC CYTOSKELETAL FIBER"</span>
+<span class="co">#&gt;      &lt;NA&gt;    &lt;NA&gt;                                  &lt;NA&gt;    &lt;NA&gt;    &lt;NA&gt;   </span>
+<span class="co">#&gt; [1,] NA      NA                                    NA      NA      NA     </span>
+<span class="co">#&gt; [2,] "TUBB8" "TUBB8:NM 177987:exon4:cG830C:pG277A" "0.002" "0.787" "0.598"</span>
+<span class="co">#&gt; [3,] "TUBB8" "TUBB8:NM 177987:exon4:cA697G:pM233V" "0.012" "0.01"  "0.043"</span>
+<span class="co">#&gt; [4,] NA      NA                                    NA      NA      NA     </span>
+<span class="co">#&gt; [5,] "TUBB8" NA                                    NA      NA      NA     </span>
+<span class="co">#&gt;      &lt;NA&gt;    &lt;NA&gt; &lt;NA&gt;    &lt;NA&gt;    &lt;NA&gt;    &lt;NA&gt;    &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;   </span>
+<span class="co">#&gt; [1,] NA      NA   NA      NA      NA      NA      NA      NA       NA     </span>
+<span class="co">#&gt; [2,] "0.001" "1"  "2.155" "-1.84" "-4.65" "0.41"  "0.877" "-0.012" "0.561"</span>
+<span class="co">#&gt; [3,] "0"     "1"  "2.105" "-0.18" "-3.33" "0.098" "0.713" "-0.829" "0.183"</span>
+<span class="co">#&gt; [4,] NA      NA   NA      NA      NA      NA      NA      NA       NA     </span>
+<span class="co">#&gt; [5,] NA      NA   NA      NA      NA      NA      NA      NA       NA     </span>
+<span class="co">#&gt;      &lt;NA&gt;     &lt;NA&gt;     &lt;NA&gt;     &lt;NA&gt;   &lt;NA&gt;     &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;</span>
+<span class="co">#&gt; [1,] NA       NA       NA       NA     NA       NA       NA      NA       NA  </span>
+<span class="co">#&gt; [2,] NA       NA       NA       NA     NA       NA       NA      NA       NA  </span>
+<span class="co">#&gt; [3,] "0.0279" "0.0174" "0.0196" "0.04" "0.0194" "0.0573" "0.028" "0.0461" NA  </span>
+<span class="co">#&gt; [4,] NA       NA       NA       NA     NA       NA       NA      NA       NA  </span>
+<span class="co">#&gt; [5,] NA       NA       NA       NA     NA       NA       NA      NA       NA  </span>
+<span class="co">#&gt;      &lt;NA&gt;</span>
+<span class="co">#&gt; [1,] NA  </span>
+<span class="co">#&gt; [2,] NA  </span>
+<span class="co">#&gt; [3,] NA  </span>
+<span class="co">#&gt; [4,] NA  </span>
+<span class="co">#&gt; [5,] NA</span></pre></div>
 </div>
 <div id="filtering" class="section level3">
 <h3 class="hasAnchor">
@@ -196,477 +269,148 @@
 <div id="search-avaiable-filters" class="section level4">
 <h4 class="hasAnchor">
 <a href="#search-avaiable-filters" class="anchor"></a>Search avaiable filters</h4>
-<div class="sourceCode" id="cb7"><pre class="r"><span class="no">filt</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/search_filters.html">search_filters</a></span>(<span class="no">my_cloudos</span>, <span class="kw">term</span> <span class="kw">=</span> <span class="st">"cancer"</span>)
+<div class="sourceCode" id="cb10"><pre class="r"><span class="no">all_filters</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/search_filters.html">search_filters</a></span>(<span class="no">my_cloudos</span>, <span class="kw">term</span> <span class="kw">=</span> <span class="st">"cancer"</span>)
 <span class="co">#&gt; Total number of filters - 29</span>
-<span class="no">filt</span>
-<span class="co">#&gt;                         _id           categoryPathLevel1 categoryPathLevel2</span>
-<span class="co">#&gt; 1  5eb55c78599ae918ebb48f69 UK Biobank Assessment Centre        Touchscreen</span>
-<span class="co">#&gt; 2  5eb55c78599ae918ebb48f6b UK Biobank Assessment Centre        Touchscreen</span>
-<span class="co">#&gt; 3  5eb55c78599ae918ebb48f7d UK Biobank Assessment Centre        Touchscreen</span>
-<span class="co">#&gt; 4  5eb55c78599ae918ebb48fa6 UK Biobank Assessment Centre        Touchscreen</span>
-<span class="co">#&gt; 5  5eb55c78599ae918ebb48fb3 UK Biobank Assessment Centre        Touchscreen</span>
-<span class="co">#&gt; 6  5eb55c78599ae918ebb48fc1 UK Biobank Assessment Centre   Verbal interview</span>
-<span class="co">#&gt; 7  5eb55c78599ae918ebb48fc2 UK Biobank Assessment Centre   Verbal interview</span>
-<span class="co">#&gt; 8  5eb55c78599ae918ebb48fc3 UK Biobank Assessment Centre   Verbal interview</span>
-<span class="co">#&gt; 9  5eb55c78599ae918ebb48fc4 UK Biobank Assessment Centre   Verbal interview</span>
-<span class="co">#&gt; 10 5eb55c78599ae918ebb48fc5 UK Biobank Assessment Centre   Verbal interview</span>
-<span class="co">#&gt; 11 5eb55c78599ae918ebb48fc6 UK Biobank Assessment Centre   Verbal interview</span>
-<span class="co">#&gt; 12 5eb55c78599ae918ebb48fc7 UK Biobank Assessment Centre   Verbal interview</span>
-<span class="co">#&gt; 13 5eb55c78599ae918ebb48fc8 UK Biobank Assessment Centre   Verbal interview</span>
-<span class="co">#&gt; 14 5eb55c78599ae918ebb48fc9 UK Biobank Assessment Centre   Verbal interview</span>
-<span class="co">#&gt; 15 5eb55c78599ae918ebb48fcb UK Biobank Assessment Centre   Verbal interview</span>
-<span class="co">#&gt; 16 5eb55c78599ae918ebb48fcc UK Biobank Assessment Centre   Verbal interview</span>
-<span class="co">#&gt; 17 5eb55c78599ae918ebb48fcd UK Biobank Assessment Centre   Verbal interview</span>
-<span class="co">#&gt; 18 5eb55c87599ae918ebb4a09c             Online follow-up   Work environment</span>
-<span class="co">#&gt; 19 5eb55c87599ae918ebb4a0a9             Online follow-up   Work environment</span>
-<span class="co">#&gt; 20 5eb55c87599ae918ebb4a0bf             Online follow-up   Work environment</span>
-<span class="co">#&gt; 21 5eb55c8a599ae918ebb4a226      Health-related outcomes    Cancer register</span>
-<span class="co">#&gt; 22 5eb55c8a599ae918ebb4a227      Health-related outcomes    Cancer register</span>
-<span class="co">#&gt; 23 5eb55c8a599ae918ebb4a228      Health-related outcomes    Cancer register</span>
-<span class="co">#&gt; 24 5eb55c8a599ae918ebb4a229      Health-related outcomes    Cancer register</span>
-<span class="co">#&gt; 25 5eb55c8a599ae918ebb4a22a      Health-related outcomes    Cancer register</span>
-<span class="co">#&gt; 26 5eb55c8a599ae918ebb4a22b      Health-related outcomes    Cancer register</span>
-<span class="co">#&gt; 27 5eb55c8a599ae918ebb4a22c      Health-related outcomes    Cancer register</span>
-<span class="co">#&gt; 28 5eb55c8a599ae918ebb4a306      Health-related outcomes    Cancer register</span>
-<span class="co">#&gt; 29 5eb55c8a599ae918ebb4a32b      Health-related outcomes    Cancer register</span>
-<span class="co">#&gt;            categoryPathLevel3      categoryPathLevel4    id</span>
-<span class="co">#&gt; 1  Health and medical history        Cancer screening  2345</span>
-<span class="co">#&gt; 2  Health and medical history        Cancer screening  2355</span>
-<span class="co">#&gt; 3  Health and medical history      Medical conditions  2453</span>
-<span class="co">#&gt; 4        Sex-specific factors Female-specific factors  2674</span>
-<span class="co">#&gt; 5        Sex-specific factors Female-specific factors  2684</span>
-<span class="co">#&gt; 6          Medical conditions                    &lt;NA&gt; 20009</span>
-<span class="co">#&gt; 7          Medical conditions                    &lt;NA&gt; 20012</span>
-<span class="co">#&gt; 8          Medical conditions                    &lt;NA&gt; 20013</span>
-<span class="co">#&gt; 9          Medical conditions                    &lt;NA&gt; 20001</span>
-<span class="co">#&gt; 10         Medical conditions                    &lt;NA&gt; 20006</span>
-<span class="co">#&gt; 11         Medical conditions                    &lt;NA&gt;    84</span>
-<span class="co">#&gt; 12         Medical conditions                    &lt;NA&gt; 20007</span>
-<span class="co">#&gt; 13         Medical conditions                    &lt;NA&gt; 20008</span>
-<span class="co">#&gt; 14         Medical conditions                    &lt;NA&gt;    87</span>
-<span class="co">#&gt; 15         Medical conditions                    &lt;NA&gt;   134</span>
-<span class="co">#&gt; 16         Medical conditions                    &lt;NA&gt;   135</span>
-<span class="co">#&gt; 17         Medical conditions                    &lt;NA&gt; 20002</span>
-<span class="co">#&gt; 18        Medical information                    &lt;NA&gt; 22140</span>
-<span class="co">#&gt; 19        Medical information                    &lt;NA&gt; 22180</span>
-<span class="co">#&gt; 20        Medical information                    &lt;NA&gt; 22160</span>
-<span class="co">#&gt; 21                       &lt;NA&gt;                    &lt;NA&gt; 40012</span>
-<span class="co">#&gt; 22                       &lt;NA&gt;                    &lt;NA&gt; 40011</span>
-<span class="co">#&gt; 23                       &lt;NA&gt;                    &lt;NA&gt; 40021</span>
-<span class="co">#&gt; 24                       &lt;NA&gt;                    &lt;NA&gt; 40019</span>
-<span class="co">#&gt; 25                       &lt;NA&gt;                    &lt;NA&gt; 40005</span>
-<span class="co">#&gt; 26                       &lt;NA&gt;                    &lt;NA&gt; 40008</span>
-<span class="co">#&gt; 27                       &lt;NA&gt;                    &lt;NA&gt; 40009</span>
-<span class="co">#&gt; 28                       &lt;NA&gt;                    &lt;NA&gt; 40013</span>
-<span class="co">#&gt; 29                       &lt;NA&gt;                    &lt;NA&gt; 40006</span>
-<span class="co">#&gt;                                                                       name</span>
-<span class="co">#&gt; 1                                          Ever had bowel cancer screening</span>
-<span class="co">#&gt; 2                                       Most recent bowel cancer screening</span>
-<span class="co">#&gt; 3                                               Cancer diagnosed by doctor</span>
-<span class="co">#&gt; 4                             Ever had breast cancer screening / mammogram</span>
-<span class="co">#&gt; 5                     Years since last breast cancer screening / mammogram</span>
-<span class="co">#&gt; 6  Interpolated Age of participant when non-cancer illness first diagnosed</span>
-<span class="co">#&gt; 7                     Method of recording time when cancer first diagnosed</span>
-<span class="co">#&gt; 8         Method of recording time when non-cancer illness first diagnosed</span>
-<span class="co">#&gt; 9                                               Cancer code; self-reported</span>
-<span class="co">#&gt; 10                           Interpolated Year when cancer first diagnosed</span>
-<span class="co">#&gt; 11                                          Cancer year/age first occurred</span>
-<span class="co">#&gt; 12             Interpolated Age of participant when cancer first diagnosed</span>
-<span class="co">#&gt; 13               Interpolated Year when non-cancer illness first diagnosed</span>
-<span class="co">#&gt; 14                              Non-cancer illness year/age first occurred</span>
-<span class="co">#&gt; 15                                         Number of self-reported cancers</span>
-<span class="co">#&gt; 16                            Number of self-reported non-cancer illnesses</span>
-<span class="co">#&gt; 17                                  Non-cancer illness code; self-reported</span>
-<span class="co">#&gt; 18                         Doctor diagnosed lung cancer (not mesothelioma)</span>
-<span class="co">#&gt; 19                    Recent medication for lung cancer (not mesothelioma)</span>
-<span class="co">#&gt; 20                  Age lung cancer (not mesothelioma) diagnosed by doctor</span>
-<span class="co">#&gt; 21                                              Behaviour of cancer tumour</span>
-<span class="co">#&gt; 22                                              Histology of cancer tumour</span>
-<span class="co">#&gt; 23                                                    Cancer record origin</span>
-<span class="co">#&gt; 24                                                    Cancer record format</span>
-<span class="co">#&gt; 25                                                Date of cancer diagnosis</span>
-<span class="co">#&gt; 26                                                 Age at cancer diagnosis</span>
-<span class="co">#&gt; 27                                          Reported occurrences of cancer</span>
-<span class="co">#&gt; 28                                                    Type of cancer: ICD9</span>
-<span class="co">#&gt; 29                                                   Type of cancer: ICD10</span>
-<span class="co">#&gt;           type            valueType units instances array</span>
-<span class="co">#&gt; 1         bars   Categorical single               4     1</span>
-<span class="co">#&gt; 2    histogram              Integer years         4     1</span>
-<span class="co">#&gt; 3         bars   Categorical single               4     1</span>
-<span class="co">#&gt; 4         bars   Categorical single               4     1</span>
-<span class="co">#&gt; 5    histogram              Integer years         4     1</span>
-<span class="co">#&gt; 6    histogram           Continuous years         4    34</span>
-<span class="co">#&gt; 7         bars   Categorical single               4     6</span>
-<span class="co">#&gt; 8         bars   Categorical single               4    34</span>
-<span class="co">#&gt; 9  nested list Categorical multiple               4     6</span>
-<span class="co">#&gt; 10   histogram           Continuous years         4     6</span>
-<span class="co">#&gt; 11   histogram              Integer               4     6</span>
-<span class="co">#&gt; 12   histogram           Continuous years         4     6</span>
-<span class="co">#&gt; 13   histogram           Continuous years         4    34</span>
-<span class="co">#&gt; 14   histogram              Integer               4    34</span>
-<span class="co">#&gt; 15   histogram              Integer               4     1</span>
-<span class="co">#&gt; 16   histogram              Integer               4     1</span>
-<span class="co">#&gt; 17 nested list Categorical multiple               4    34</span>
-<span class="co">#&gt; 18        bars   Categorical single               1     1</span>
-<span class="co">#&gt; 19        bars   Categorical single               1     1</span>
-<span class="co">#&gt; 20   histogram              Integer               1     1</span>
-<span class="co">#&gt; 21 nested list   Categorical single              17     1</span>
-<span class="co">#&gt; 22 nested list   Categorical single              17     1</span>
-<span class="co">#&gt; 23        bars   Categorical single              17     1</span>
-<span class="co">#&gt; 24        bars   Categorical single              17     1</span>
-<span class="co">#&gt; 25   histogram                 Date              17     1</span>
-<span class="co">#&gt; 26   histogram           Continuous              17     1</span>
-<span class="co">#&gt; 27   histogram              Integer               1     1</span>
-<span class="co">#&gt; 28 nested list   Categorical single              15     1</span>
-<span class="co">#&gt; 29 nested list   Categorical single              17     1</span>
-<span class="co">#&gt;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           description</span>
-<span class="co">#&gt; 1  "ACE touchscreen question ""Have you ever had a screening test for bowel (colorectal) cancer? (Please include tests for blood in the stool/faeces or a colonoscopy or a sigmoidoscopy)"" If the participant activated the Help button they were shown the message:     Screening tests for bowel or colorectal cancer include:  - FOBT (faecal occult blood test) - this is when you    are given a set of cards and asked to smear a part    of your stool on three separate occasions onto the    cards and then return the cards to be tested for    blood.  - Sigmoidoscopy - a tube is used to examine the lower    bowel. This is usually done in a doctor's office    without pain relief.  - Colonoscopy - a long tube is used the examine the    whole large bowel; you would usually have to drink    a large amount of special liquid to prepare the    bowel; and you would be given a sedative medication    for the procedure.     "</span>
-<span class="co">#&gt; 2                                                                                                                                                                                                                                                                                                                                                                           "ACE touchscreen question ""How many years ago was the most recent one of these tests?"" The following checks were performed:  If answer   If answer &gt; Participants age - 5 years then rejected  If answer &gt; 20 then participant asked to confirm   If the participant activated the Help button they were shown the message:     If you are unsure; please provide an estimate or select Do not know.      ~F2355~ was collected from participants who indicated they have had a screening test for bowel (colorectal) cancer; as indicated by their answers to ~F2345~"</span>
-<span class="co">#&gt; 3                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       "ACE touchscreen question ""Has a doctor ever told you that you have had cancer?"" If the participant activated the Help button they were shown the message:     If you are unsure if you have been told you had cancer; select Do not know and you will be asked about this by an interviewer later during this visit.     "</span>
-<span class="co">#&gt; 4                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        "ACE touchscreen question ""Have you ever been for breast cancer screening (a mammogram)?"""</span>
-<span class="co">#&gt; 5                                                                                                                                                                                                                                                                                                                                                                                                                               "ACE touchscreen question ""How many years ago was your last screen?"" The following checks were performed:  If answer   If answer &gt; Participants age - 15 years then rejected  If answer &gt; 15 then participant asked to confirm   If the participant activated the Help button they were shown the message:     If you are unsure; please provide an estimate or select Do not know.      ~F2684~ was collected from women who indicated that they had been for a mammogram; as defined by their answers to ~F2674~"</span>
-<span class="co">#&gt; 6                                                                                                      This is the interpolated time when the participant indicated the corresponding condition was first diagnosed by a doctor; given as their estimated age.    If the participant gave a calendar year; then the best-fit time is their age at the mid-point of that year. For example if the year was given as 1970; and the participant was born on 1 April 1950; then their age on 1st July 1970 is 20.25  then the value presented is 1970.5   If the participant gave their age then the value presented is the fractional year corresponding to the mid-point of that age. For example; if the participant said they were 30 years old then the value is 30.5  Interpolated values before the date of birth were truncated forwards to that time.   Interpolated values after the time of data acquisition were truncated back to that time.</span>
-<span class="co">#&gt; 7                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                Participants were able to record the time the cancer was diagnosed by entering either their age or the year. Some participants recorded an event but were unable to recall the time.</span>
-<span class="co">#&gt; 8                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    Participants were able to record the time the non-cancer illness was diagnosed by entering either their age or the year. Some participants recorded an event but were unable to recall the time.</span>
-<span class="co">#&gt; 9                                                                                                                                                                                                                                                                                                                                                                        "Code for cancer. If the participant was uncertain of the type of cancer they had had; then they described it to the interviewer (a trained nurse) who attempted to place it within the coding tree. If the cancer could not be located in the coding tree then the interviewer entered a free-text description of it. These free-text descriptions were subsequently examined by a doctor and; where possible; matched to entries in the coding tree. Free-text descriptions which could not be matched with very high probability have been marked as ""unclassifiable""."</span>
-<span class="co">#&gt; 10                                                                                                                                                                                This is the interpolated time when the participant indicated the corresponding cancer was first diagnosed by a doctor; measured in years.    If the participant gave a calendar year; then the best-fit time is half-way through that year. For example if the year was given as 1970; then the value presented is 1970.5   If the participant gave their age then the value presented is the fractional year corresponding to the mid-point of that age. For example; if the participant said they were 30 years old then the value is the date at which they were 30years+6months.  Interpolated values before the date of birth were truncated forwards to that time.   Interpolated values after the time of data acquisition were truncated back to that time.</span>
-<span class="co">#&gt; 11                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   For each cancer entered; the nurse entered the date or age at diagnosis using a pop-up screen; depending on the participant's response. See Related Data-fields tab for further information on where to find separate data-fields for age and year of diagnosis.</span>
-<span class="co">#&gt; 12                                                                                                        This is the interpolated time when the participant indicated the corresponding cancer was first diagnosed by a doctor; given as their estimated age.    If the participant gave a calendar year; then the best-fit time is their age at the mid-point of that year. For example if the year was given as 1970; and the participant was born on 1 April 1950; then their age on 1st July 1970 is 20.25  then the value presented is 1970.5   If the participant gave their age then the value presented is the fractional year corresponding to the mid-point of that age. For example; if the participant said they were 30 years old then the value is 30.5  Interpolated values before the date of birth were truncated forwards to that time.   Interpolated values after the time of data acquisition were truncated back to that time.</span>
-<span class="co">#&gt; 13                                                                                                                                                                             This is the interpolated time when the participant indicated the corresponding condition was first diagnosed by a doctor; measured in years.    If the participant gave a calendar year; then the best-fit time is half-way through that year. For example if the year was given as 1970; then the value presented is 1970.5   If the participant gave their age then the value presented is the fractional year corresponding to the mid-point of that age. For example; if the participant said they were 30 years old then the value is the date at which they were 30years+6months.  Interpolated values before the date of birth were truncated forwards to that time.   Interpolated values after the time of data acquisition were truncated back to that time.</span>
-<span class="co">#&gt; 14                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  For each disease entered; the nurse entered the date or age at diagnosis using a pop-up screen; depending on the participant's response. See Related Data-fields tab for further information on where to find separate data-fields for age and year of diagnosis.</span>
-<span class="co">#&gt; 15                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          Number of cancers entered</span>
-<span class="co">#&gt; 16                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             Number of non-cancer illnesses entered</span>
-<span class="co">#&gt; 17                                                                                                                                                                                                            "Code for non-cancer illness. If the participant was uncertain of the type of illness they had had; then they described it to the interviewer (a trained nurse) who attempted to place it within the coding tree. If the illness could not be located in the coding tree then the interviewer entered a free-text description of it. These free-text descriptions were subsequently examined by a doctor and; where possible; matched to entries in the coding tree. Free-text descriptions which could not be matched with very high probability have been marked as ""unclassifiable"".   Note that myasthenia gravis appears twice (under codes 1260 and 1437). Please ensure you use both codes to capture all relevant diagnoses."</span>
-<span class="co">#&gt; 18                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       "User asked ""Has a doctor ever told you that you have had any of the conditions below?"" ""lung cancer (not mesothelioma)"" was one of the options listed."</span>
-<span class="co">#&gt; 19                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         User asked whether they are currently on medication for the lung cancer (not mesothelioma) which was diagnosed by a doctor</span>
-<span class="co">#&gt; 20                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    User was asked the age at which doctor diagnosed lung cancer (not mesothelioma)</span>
-<span class="co">#&gt; 21                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    This is a numeric code relating to the behaviour of the tumour; provided by the cancer registry</span>
-<span class="co">#&gt; 22                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    This is a numeric code relating to the histology of the tumour; provided by the cancer registry</span>
-<span class="co">#&gt; 23                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   Indicates the origin of the data in which the original cancer record was supplied to UK Biobank.</span>
-<span class="co">#&gt; 24                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   Indicates the format of the data in which the original cancer record was supplied to UK Biobank.</span>
-<span class="co">#&gt; 25                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          Date of cancer diagnosis; acquired from central registry.  Note that data from the most recent 12-18 months is still accruing (i.e. it is not complete).   The events/dates are indexed in the order in which they are received and processed by UK Biobank rather than in their own chronological order.</span>
-<span class="co">#&gt; 26                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            Age calculated as interval between Dates of Birth and Cancer diagnosis.</span>
-<span class="co">#&gt; 27                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 This is the number of reports of cancer received from UK National registries. Participants who have never been reported as having cancer do not contribute to this field unless a report was received then subsequently withdrawn.</span>
-<span class="co">#&gt; 28                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              The ICD9 code for the type of cancer. Acquired from central registry.</span>
-<span class="co">#&gt; 29                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         The ICD-10 code for the type of cancer. Acquired from central registry. The ICD-10 tree displayed on this page includes all cancer records for each UK Biobank participant (for which there may be multiple ICD codes). For more information on the first diagnosed cancer in each participant; please refer to ~L100092~.</span>
-<span class="co">#&gt;    descriptionParticipantsNo descriptionItemNo descriptionStability coding</span>
-<span class="co">#&gt; 1                     501599            572225             Complete 100349</span>
-<span class="co">#&gt; 2                     180035            202611             Complete 100567</span>
-<span class="co">#&gt; 3                     501592            572218             Complete 100603</span>
-<span class="co">#&gt; 4                     272921            309271             Complete 100349</span>
-<span class="co">#&gt; 5                     223188            252179             Complete 100567</span>
-<span class="co">#&gt; 6                     385696           1121517             Complete     13</span>
-<span class="co">#&gt; 7                      45525             53149             Complete     14</span>
-<span class="co">#&gt; 8                     385697           1121528             Complete     14</span>
-<span class="co">#&gt; 9                      45525             53149             Complete      3</span>
-<span class="co">#&gt; 10                     45525             53149             Complete     13</span>
-<span class="co">#&gt; 11                     45525             53149             Complete     37</span>
-<span class="co">#&gt; 12                     45525             53149             Complete     13</span>
-<span class="co">#&gt; 13                    385696           1121517             Complete     13</span>
-<span class="co">#&gt; 14                    385697           1121528             Complete     37</span>
-<span class="co">#&gt; 15                    501656            566685             Complete       </span>
-<span class="co">#&gt; 16                    501656            566685             Complete       </span>
-<span class="co">#&gt; 17                    385697           1121528             Complete      6</span>
-<span class="co">#&gt; 18                    121277            121277             Accruing      7</span>
-<span class="co">#&gt; 19                       156               156             Accruing      7</span>
-<span class="co">#&gt; 20                       156               156             Accruing       </span>
-<span class="co">#&gt; 21                     89269            114009             Accruing     39</span>
-<span class="co">#&gt; 22                     89177            113834             Accruing     38</span>
-<span class="co">#&gt; 23                     89808            118822           Updateable   1970</span>
-<span class="co">#&gt; 24                     89808            118822              Ongoing    262</span>
-<span class="co">#&gt; 25                     89766            118715             Accruing       </span>
-<span class="co">#&gt; 26                     89766            118715             Accruing       </span>
-<span class="co">#&gt; 27                     89766             89766              Ongoing       </span>
-<span class="co">#&gt; 28                     11222             15241             Accruing     87</span>
-<span class="co">#&gt; 29                     84723            103466             Accruing     19</span>
-<span class="co">#&gt;    descriptionCategoryID descriptionItemType descriptionStrata descriptionSexed</span>
-<span class="co">#&gt; 1                 100040                Data           Primary           Unisex</span>
-<span class="co">#&gt; 2                 100040                Data           Primary           Unisex</span>
-<span class="co">#&gt; 3                 100044                Data           Primary           Unisex</span>
-<span class="co">#&gt; 4                 100069                Data           Primary           Female</span>
-<span class="co">#&gt; 5                 100069                Data           Primary           Female</span>
-<span class="co">#&gt; 6                 100074                Data           Primary           Unisex</span>
-<span class="co">#&gt; 7                 100074                Data           Primary           Unisex</span>
-<span class="co">#&gt; 8                 100074                Data           Primary           Unisex</span>
-<span class="co">#&gt; 9                 100074                Data           Derived           Unisex</span>
-<span class="co">#&gt; 10                100074                Data           Primary           Unisex</span>
-<span class="co">#&gt; 11                100074                Data           Primary           Unisex</span>
-<span class="co">#&gt; 12                100074                Data           Primary           Unisex</span>
-<span class="co">#&gt; 13                100074                Data           Primary           Unisex</span>
-<span class="co">#&gt; 14                100074                Data           Primary           Unisex</span>
-<span class="co">#&gt; 15                100074                Data           Primary           Unisex</span>
-<span class="co">#&gt; 16                100074                Data           Primary           Unisex</span>
-<span class="co">#&gt; 17                100074                Data           Derived           Unisex</span>
-<span class="co">#&gt; 18                   132                Data           Primary           Unisex</span>
-<span class="co">#&gt; 19                   132                Data           Primary           Unisex</span>
-<span class="co">#&gt; 20                   132                Data           Primary           Unisex</span>
-<span class="co">#&gt; 21                100092                Data           Primary           Unisex</span>
-<span class="co">#&gt; 22                100092                Data           Primary           Unisex</span>
-<span class="co">#&gt; 23                100092                Data           Primary           Unisex</span>
-<span class="co">#&gt; 24                100092                Data         Auxiliary           Unisex</span>
-<span class="co">#&gt; 25                100092                Data           Primary           Unisex</span>
-<span class="co">#&gt; 26                100092                Data           Derived           Unisex</span>
-<span class="co">#&gt; 27                100092                Data           Derived           Unisex</span>
-<span class="co">#&gt; 28                100092                Data           Primary           Unisex</span>
-<span class="co">#&gt; 29                100092                Data           Primary           Unisex</span>
-<span class="co">#&gt;                                                        link</span>
-<span class="co">#&gt; 1   http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=2345</span>
-<span class="co">#&gt; 2   http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=2355</span>
-<span class="co">#&gt; 3   http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=2453</span>
-<span class="co">#&gt; 4   http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=2674</span>
-<span class="co">#&gt; 5   http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=2684</span>
-<span class="co">#&gt; 6  http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=20009</span>
-<span class="co">#&gt; 7  http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=20012</span>
-<span class="co">#&gt; 8  http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=20013</span>
-<span class="co">#&gt; 9  http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=20001</span>
-<span class="co">#&gt; 10 http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=20006</span>
-<span class="co">#&gt; 11    http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=84</span>
-<span class="co">#&gt; 12 http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=20007</span>
-<span class="co">#&gt; 13 http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=20008</span>
-<span class="co">#&gt; 14    http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=87</span>
-<span class="co">#&gt; 15   http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=134</span>
-<span class="co">#&gt; 16   http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=135</span>
-<span class="co">#&gt; 17 http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=20002</span>
-<span class="co">#&gt; 18 http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=22140</span>
-<span class="co">#&gt; 19 http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=22180</span>
-<span class="co">#&gt; 20 http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=22160</span>
-<span class="co">#&gt; 21 http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=40012</span>
-<span class="co">#&gt; 22 http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=40011</span>
-<span class="co">#&gt; 23 http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=40021</span>
-<span class="co">#&gt; 24 http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=40019</span>
-<span class="co">#&gt; 25 http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=40005</span>
-<span class="co">#&gt; 26 http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=40008</span>
-<span class="co">#&gt; 27 http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=40009</span>
-<span class="co">#&gt; 28 http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=40013</span>
-<span class="co">#&gt; 29 http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=40006</span>
-<span class="co">#&gt;                                                                                  instance0Name</span>
-<span class="co">#&gt; 1  Initial assessment visit (2006-2010) at which participants were recruited and consent given</span>
-<span class="co">#&gt; 2  Initial assessment visit (2006-2010) at which participants were recruited and consent given</span>
-<span class="co">#&gt; 3  Initial assessment visit (2006-2010) at which participants were recruited and consent given</span>
-<span class="co">#&gt; 4  Initial assessment visit (2006-2010) at which participants were recruited and consent given</span>
-<span class="co">#&gt; 5  Initial assessment visit (2006-2010) at which participants were recruited and consent given</span>
-<span class="co">#&gt; 6  Initial assessment visit (2006-2010) at which participants were recruited and consent given</span>
-<span class="co">#&gt; 7  Initial assessment visit (2006-2010) at which participants were recruited and consent given</span>
-<span class="co">#&gt; 8  Initial assessment visit (2006-2010) at which participants were recruited and consent given</span>
-<span class="co">#&gt; 9  Initial assessment visit (2006-2010) at which participants were recruited and consent given</span>
-<span class="co">#&gt; 10 Initial assessment visit (2006-2010) at which participants were recruited and consent given</span>
-<span class="co">#&gt; 11 Initial assessment visit (2006-2010) at which participants were recruited and consent given</span>
-<span class="co">#&gt; 12 Initial assessment visit (2006-2010) at which participants were recruited and consent given</span>
-<span class="co">#&gt; 13 Initial assessment visit (2006-2010) at which participants were recruited and consent given</span>
-<span class="co">#&gt; 14 Initial assessment visit (2006-2010) at which participants were recruited and consent given</span>
-<span class="co">#&gt; 15 Initial assessment visit (2006-2010) at which participants were recruited and consent given</span>
-<span class="co">#&gt; 16 Initial assessment visit (2006-2010) at which participants were recruited and consent given</span>
-<span class="co">#&gt; 17 Initial assessment visit (2006-2010) at which participants were recruited and consent given</span>
-<span class="co">#&gt; 18                                                                                            </span>
-<span class="co">#&gt; 19                                                                                            </span>
-<span class="co">#&gt; 20                                                                                            </span>
-<span class="co">#&gt; 21                                                                                           0</span>
-<span class="co">#&gt; 22                                                                                           0</span>
-<span class="co">#&gt; 23                                                                                           0</span>
-<span class="co">#&gt; 24                                                                                           0</span>
-<span class="co">#&gt; 25                                                                                           0</span>
-<span class="co">#&gt; 26                                                                                           0</span>
-<span class="co">#&gt; 27                                                                                           0</span>
-<span class="co">#&gt; 28                                                                                           0</span>
-<span class="co">#&gt; 29                                                                                           0</span>
-<span class="co">#&gt;                              instance1Name         instance2Name</span>
-<span class="co">#&gt; 1  First repeat assessment visit (2012-13) Imaging visit (2014+)</span>
-<span class="co">#&gt; 2  First repeat assessment visit (2012-13) Imaging visit (2014+)</span>
-<span class="co">#&gt; 3  First repeat assessment visit (2012-13) Imaging visit (2014+)</span>
-<span class="co">#&gt; 4  First repeat assessment visit (2012-13) Imaging visit (2014+)</span>
-<span class="co">#&gt; 5  First repeat assessment visit (2012-13) Imaging visit (2014+)</span>
-<span class="co">#&gt; 6  First repeat assessment visit (2012-13) Imaging visit (2014+)</span>
-<span class="co">#&gt; 7  First repeat assessment visit (2012-13) Imaging visit (2014+)</span>
-<span class="co">#&gt; 8  First repeat assessment visit (2012-13) Imaging visit (2014+)</span>
-<span class="co">#&gt; 9  First repeat assessment visit (2012-13) Imaging visit (2014+)</span>
-<span class="co">#&gt; 10 First repeat assessment visit (2012-13) Imaging visit (2014+)</span>
-<span class="co">#&gt; 11 First repeat assessment visit (2012-13) Imaging visit (2014+)</span>
-<span class="co">#&gt; 12 First repeat assessment visit (2012-13) Imaging visit (2014+)</span>
-<span class="co">#&gt; 13 First repeat assessment visit (2012-13) Imaging visit (2014+)</span>
-<span class="co">#&gt; 14 First repeat assessment visit (2012-13) Imaging visit (2014+)</span>
-<span class="co">#&gt; 15 First repeat assessment visit (2012-13) Imaging visit (2014+)</span>
-<span class="co">#&gt; 16 First repeat assessment visit (2012-13) Imaging visit (2014+)</span>
-<span class="co">#&gt; 17 First repeat assessment visit (2012-13) Imaging visit (2014+)</span>
-<span class="co">#&gt; 18                                                              </span>
-<span class="co">#&gt; 19                                                              </span>
-<span class="co">#&gt; 20                                                              </span>
-<span class="co">#&gt; 21                                       1                     2</span>
-<span class="co">#&gt; 22                                       1                     2</span>
-<span class="co">#&gt; 23                                       1                     2</span>
-<span class="co">#&gt; 24                                       1                     2</span>
-<span class="co">#&gt; 25                                       1                     2</span>
-<span class="co">#&gt; 26                                       1                     2</span>
-<span class="co">#&gt; 27                                                              </span>
-<span class="co">#&gt; 28                                       1                     2</span>
-<span class="co">#&gt; 29                                       1                     2</span>
-<span class="co">#&gt;                         instance3Name instance4Name instance5Name instance6Name</span>
-<span class="co">#&gt; 1  First repeat imaging visit (2019+)                                          </span>
-<span class="co">#&gt; 2  First repeat imaging visit (2019+)                                          </span>
-<span class="co">#&gt; 3  First repeat imaging visit (2019+)                                          </span>
-<span class="co">#&gt; 4  First repeat imaging visit (2019+)                                          </span>
-<span class="co">#&gt; 5  First repeat imaging visit (2019+)                                          </span>
-<span class="co">#&gt; 6  First repeat imaging visit (2019+)                                          </span>
-<span class="co">#&gt; 7  First repeat imaging visit (2019+)                                          </span>
-<span class="co">#&gt; 8  First repeat imaging visit (2019+)                                          </span>
-<span class="co">#&gt; 9  First repeat imaging visit (2019+)                                          </span>
-<span class="co">#&gt; 10 First repeat imaging visit (2019+)                                          </span>
-<span class="co">#&gt; 11 First repeat imaging visit (2019+)                                          </span>
-<span class="co">#&gt; 12 First repeat imaging visit (2019+)                                          </span>
-<span class="co">#&gt; 13 First repeat imaging visit (2019+)                                          </span>
-<span class="co">#&gt; 14 First repeat imaging visit (2019+)                                          </span>
-<span class="co">#&gt; 15 First repeat imaging visit (2019+)                                          </span>
-<span class="co">#&gt; 16 First repeat imaging visit (2019+)                                          </span>
-<span class="co">#&gt; 17 First repeat imaging visit (2019+)                                          </span>
-<span class="co">#&gt; 18                                                                             </span>
-<span class="co">#&gt; 19                                                                             </span>
-<span class="co">#&gt; 20                                                                             </span>
-<span class="co">#&gt; 21                                  3             4             5             6</span>
-<span class="co">#&gt; 22                                  3             4             5             6</span>
-<span class="co">#&gt; 23                                  3             4             5             6</span>
-<span class="co">#&gt; 24                                  3             4             5             6</span>
-<span class="co">#&gt; 25                                  3             4             5             6</span>
-<span class="co">#&gt; 26                                  3             4             5             6</span>
-<span class="co">#&gt; 27                                                                             </span>
-<span class="co">#&gt; 28                                  3             4             5             6</span>
-<span class="co">#&gt; 29                                  3             4             5             6</span>
-<span class="co">#&gt;    instance7Name instance8Name instance9Name instance10Name instance11Name</span>
-<span class="co">#&gt; 1                                                                         </span>
-<span class="co">#&gt; 2                                                                         </span>
-<span class="co">#&gt; 3                                                                         </span>
-<span class="co">#&gt; 4                                                                         </span>
-<span class="co">#&gt; 5                                                                         </span>
-<span class="co">#&gt; 6                                                                         </span>
-<span class="co">#&gt; 7                                                                         </span>
-<span class="co">#&gt; 8                                                                         </span>
-<span class="co">#&gt; 9                                                                         </span>
-<span class="co">#&gt; 10                                                                        </span>
-<span class="co">#&gt; 11                                                                        </span>
-<span class="co">#&gt; 12                                                                        </span>
-<span class="co">#&gt; 13                                                                        </span>
-<span class="co">#&gt; 14                                                                        </span>
-<span class="co">#&gt; 15                                                                        </span>
-<span class="co">#&gt; 16                                                                        </span>
-<span class="co">#&gt; 17                                                                        </span>
-<span class="co">#&gt; 18                                                                        </span>
-<span class="co">#&gt; 19                                                                        </span>
-<span class="co">#&gt; 20                                                                        </span>
-<span class="co">#&gt; 21             7             8             9             10             11</span>
-<span class="co">#&gt; 22             7             8             9             10             11</span>
-<span class="co">#&gt; 23             7             8             9             10             11</span>
-<span class="co">#&gt; 24             7             8             9             10             11</span>
-<span class="co">#&gt; 25             7             8             9             10             11</span>
-<span class="co">#&gt; 26             7             8             9             10             11</span>
-<span class="co">#&gt; 27                                                                        </span>
-<span class="co">#&gt; 28             7             8                           10             11</span>
-<span class="co">#&gt; 29             7             8             9             10             11</span>
-<span class="co">#&gt;    instance12Name instance13Name instance14Name instance15Name instance16Name</span>
-<span class="co">#&gt; 1                                                                            </span>
-<span class="co">#&gt; 2                                                                            </span>
-<span class="co">#&gt; 3                                                                            </span>
-<span class="co">#&gt; 4                                                                            </span>
-<span class="co">#&gt; 5                                                                            </span>
-<span class="co">#&gt; 6                                                                            </span>
-<span class="co">#&gt; 7                                                                            </span>
-<span class="co">#&gt; 8                                                                            </span>
-<span class="co">#&gt; 9                                                                            </span>
-<span class="co">#&gt; 10                                                                           </span>
-<span class="co">#&gt; 11                                                                           </span>
-<span class="co">#&gt; 12                                                                           </span>
-<span class="co">#&gt; 13                                                                           </span>
-<span class="co">#&gt; 14                                                                           </span>
-<span class="co">#&gt; 15                                                                           </span>
-<span class="co">#&gt; 16                                                                           </span>
-<span class="co">#&gt; 17                                                                           </span>
-<span class="co">#&gt; 18                                                                           </span>
-<span class="co">#&gt; 19                                                                           </span>
-<span class="co">#&gt; 20                                                                           </span>
-<span class="co">#&gt; 21             12             13                            15             16</span>
-<span class="co">#&gt; 22             12             13             14             15             16</span>
-<span class="co">#&gt; 23             12             13             14             15             16</span>
-<span class="co">#&gt; 24             12             13             14             15             16</span>
-<span class="co">#&gt; 25             12             13             14             15             16</span>
-<span class="co">#&gt; 26             12             13             14             15             16</span>
-<span class="co">#&gt; 27                                                                           </span>
-<span class="co">#&gt; 28             12                            14                              </span>
-<span class="co">#&gt; 29                            13                            15             16</span>
-<span class="co">#&gt;    bucket300 bucket500 bucket1000 bucket2500 bucket5000 bucket10000</span>
-<span class="co">#&gt; 1      FALSE     FALSE      FALSE      FALSE      FALSE       FALSE</span>
-<span class="co">#&gt; 2      FALSE     FALSE      FALSE      FALSE      FALSE       FALSE</span>
-<span class="co">#&gt; 3      FALSE     FALSE      FALSE      FALSE      FALSE       FALSE</span>
-<span class="co">#&gt; 4      FALSE     FALSE      FALSE      FALSE      FALSE       FALSE</span>
-<span class="co">#&gt; 5      FALSE     FALSE      FALSE      FALSE      FALSE       FALSE</span>
-<span class="co">#&gt; 6       TRUE      TRUE       TRUE       TRUE       TRUE        TRUE</span>
-<span class="co">#&gt; 7      FALSE     FALSE      FALSE      FALSE      FALSE       FALSE</span>
-<span class="co">#&gt; 8      FALSE     FALSE      FALSE      FALSE      FALSE       FALSE</span>
-<span class="co">#&gt; 9      FALSE     FALSE      FALSE      FALSE      FALSE       FALSE</span>
-<span class="co">#&gt; 10      TRUE      TRUE       TRUE       TRUE       TRUE        TRUE</span>
-<span class="co">#&gt; 11     FALSE     FALSE      FALSE      FALSE      FALSE       FALSE</span>
-<span class="co">#&gt; 12      TRUE      TRUE       TRUE       TRUE       TRUE        TRUE</span>
-<span class="co">#&gt; 13      TRUE      TRUE       TRUE       TRUE       TRUE        TRUE</span>
-<span class="co">#&gt; 14     FALSE     FALSE      FALSE      FALSE      FALSE       FALSE</span>
-<span class="co">#&gt; 15     FALSE     FALSE      FALSE      FALSE      FALSE       FALSE</span>
-<span class="co">#&gt; 16     FALSE     FALSE      FALSE      FALSE      FALSE       FALSE</span>
-<span class="co">#&gt; 17     FALSE     FALSE      FALSE      FALSE      FALSE       FALSE</span>
-<span class="co">#&gt; 18     FALSE     FALSE      FALSE      FALSE      FALSE       FALSE</span>
-<span class="co">#&gt; 19     FALSE     FALSE      FALSE      FALSE      FALSE       FALSE</span>
-<span class="co">#&gt; 20     FALSE     FALSE      FALSE      FALSE      FALSE       FALSE</span>
-<span class="co">#&gt; 21     FALSE     FALSE      FALSE      FALSE      FALSE       FALSE</span>
-<span class="co">#&gt; 22     FALSE     FALSE      FALSE      FALSE      FALSE       FALSE</span>
-<span class="co">#&gt; 23     FALSE     FALSE      FALSE      FALSE      FALSE       FALSE</span>
-<span class="co">#&gt; 24     FALSE     FALSE      FALSE      FALSE      FALSE       FALSE</span>
-<span class="co">#&gt; 25      TRUE      TRUE       TRUE       TRUE       TRUE        TRUE</span>
-<span class="co">#&gt; 26     FALSE      TRUE       TRUE       TRUE       TRUE        TRUE</span>
-<span class="co">#&gt; 27     FALSE     FALSE      FALSE      FALSE      FALSE       FALSE</span>
-<span class="co">#&gt; 28     FALSE     FALSE      FALSE      FALSE      FALSE       FALSE</span>
-<span class="co">#&gt; 29     FALSE     FALSE      FALSE      FALSE      FALSE       FALSE</span>
-<span class="co">#&gt;    orderPhenotype checked</span>
-<span class="co">#&gt; 1              40       1</span>
-<span class="co">#&gt; 2              40       1</span>
-<span class="co">#&gt; 3              42       1</span>
-<span class="co">#&gt; 4              47       1</span>
-<span class="co">#&gt; 5              47       1</span>
-<span class="co">#&gt; 6              51       1</span>
-<span class="co">#&gt; 7              51       1</span>
-<span class="co">#&gt; 8              51       1</span>
-<span class="co">#&gt; 9              51       1</span>
-<span class="co">#&gt; 10             51       1</span>
-<span class="co">#&gt; 11             51       1</span>
-<span class="co">#&gt; 12             51       1</span>
-<span class="co">#&gt; 13             51       1</span>
-<span class="co">#&gt; 14             51       1</span>
-<span class="co">#&gt; 15             51       1</span>
-<span class="co">#&gt; 16             51       1</span>
-<span class="co">#&gt; 17             51       1</span>
-<span class="co">#&gt; 18            196       0</span>
-<span class="co">#&gt; 19            196       0</span>
-<span class="co">#&gt; 20            196       0</span>
-<span class="co">#&gt; 21            224       0</span>
-<span class="co">#&gt; 22            224       0</span>
-<span class="co">#&gt; 23            224       0</span>
-<span class="co">#&gt; 24            224       0</span>
-<span class="co">#&gt; 25            224       0</span>
-<span class="co">#&gt; 26            224       0</span>
-<span class="co">#&gt; 27            224       0</span>
-<span class="co">#&gt; 28            224       0</span>
-<span class="co">#&gt; 29            224       0</span></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">all_filters</span>, <span class="fl">5</span>)
+<span class="co">#&gt;                        _id           categoryPathLevel1 categoryPathLevel2</span>
+<span class="co">#&gt; 1 5eb55c78599ae918ebb48f69 UK Biobank Assessment Centre        Touchscreen</span>
+<span class="co">#&gt; 2 5eb55c78599ae918ebb48f6b UK Biobank Assessment Centre        Touchscreen</span>
+<span class="co">#&gt; 3 5eb55c78599ae918ebb48f7d UK Biobank Assessment Centre        Touchscreen</span>
+<span class="co">#&gt; 4 5eb55c78599ae918ebb48fa6 UK Biobank Assessment Centre        Touchscreen</span>
+<span class="co">#&gt; 5 5eb55c78599ae918ebb48fb3 UK Biobank Assessment Centre        Touchscreen</span>
+<span class="co">#&gt;           categoryPathLevel3      categoryPathLevel4   id</span>
+<span class="co">#&gt; 1 Health and medical history        Cancer screening 2345</span>
+<span class="co">#&gt; 2 Health and medical history        Cancer screening 2355</span>
+<span class="co">#&gt; 3 Health and medical history      Medical conditions 2453</span>
+<span class="co">#&gt; 4       Sex-specific factors Female-specific factors 2674</span>
+<span class="co">#&gt; 5       Sex-specific factors Female-specific factors 2684</span>
+<span class="co">#&gt;                                                   name      type</span>
+<span class="co">#&gt; 1                      Ever had bowel cancer screening      bars</span>
+<span class="co">#&gt; 2                   Most recent bowel cancer screening histogram</span>
+<span class="co">#&gt; 3                           Cancer diagnosed by doctor      bars</span>
+<span class="co">#&gt; 4         Ever had breast cancer screening / mammogram      bars</span>
+<span class="co">#&gt; 5 Years since last breast cancer screening / mammogram histogram</span>
+<span class="co">#&gt;            valueType units instances array</span>
+<span class="co">#&gt; 1 Categorical single               4     1</span>
+<span class="co">#&gt; 2            Integer years         4     1</span>
+<span class="co">#&gt; 3 Categorical single               4     1</span>
+<span class="co">#&gt; 4 Categorical single               4     1</span>
+<span class="co">#&gt; 5            Integer years         4     1</span>
+<span class="co">#&gt;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          description</span>
+<span class="co">#&gt; 1 "ACE touchscreen question ""Have you ever had a screening test for bowel (colorectal) cancer? (Please include tests for blood in the stool/faeces or a colonoscopy or a sigmoidoscopy)"" If the participant activated the Help button they were shown the message:     Screening tests for bowel or colorectal cancer include:  - FOBT (faecal occult blood test) - this is when you    are given a set of cards and asked to smear a part    of your stool on three separate occasions onto the    cards and then return the cards to be tested for    blood.  - Sigmoidoscopy - a tube is used to examine the lower    bowel. This is usually done in a doctor's office    without pain relief.  - Colonoscopy - a long tube is used the examine the    whole large bowel; you would usually have to drink    a large amount of special liquid to prepare the    bowel; and you would be given a sedative medication    for the procedure.     "</span>
+<span class="co">#&gt; 2                                                                                                                                                                                                                                                                                                                                                                          "ACE touchscreen question ""How many years ago was the most recent one of these tests?"" The following checks were performed:  If answer   If answer &gt; Participants age - 5 years then rejected  If answer &gt; 20 then participant asked to confirm   If the participant activated the Help button they were shown the message:     If you are unsure; please provide an estimate or select Do not know.      ~F2355~ was collected from participants who indicated they have had a screening test for bowel (colorectal) cancer; as indicated by their answers to ~F2345~"</span>
+<span class="co">#&gt; 3                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      "ACE touchscreen question ""Has a doctor ever told you that you have had cancer?"" If the participant activated the Help button they were shown the message:     If you are unsure if you have been told you had cancer; select Do not know and you will be asked about this by an interviewer later during this visit.     "</span>
+<span class="co">#&gt; 4                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       "ACE touchscreen question ""Have you ever been for breast cancer screening (a mammogram)?"""</span>
+<span class="co">#&gt; 5                                                                                                                                                                                                                                                                                                                                                                                                                              "ACE touchscreen question ""How many years ago was your last screen?"" The following checks were performed:  If answer   If answer &gt; Participants age - 15 years then rejected  If answer &gt; 15 then participant asked to confirm   If the participant activated the Help button they were shown the message:     If you are unsure; please provide an estimate or select Do not know.      ~F2684~ was collected from women who indicated that they had been for a mammogram; as defined by their answers to ~F2674~"</span>
+<span class="co">#&gt;   descriptionParticipantsNo descriptionItemNo descriptionStability coding</span>
+<span class="co">#&gt; 1                    501599            572225             Complete 100349</span>
+<span class="co">#&gt; 2                    180035            202611             Complete 100567</span>
+<span class="co">#&gt; 3                    501592            572218             Complete 100603</span>
+<span class="co">#&gt; 4                    272921            309271             Complete 100349</span>
+<span class="co">#&gt; 5                    223188            252179             Complete 100567</span>
+<span class="co">#&gt;   descriptionCategoryID descriptionItemType descriptionStrata descriptionSexed</span>
+<span class="co">#&gt; 1                100040                Data           Primary           Unisex</span>
+<span class="co">#&gt; 2                100040                Data           Primary           Unisex</span>
+<span class="co">#&gt; 3                100044                Data           Primary           Unisex</span>
+<span class="co">#&gt; 4                100069                Data           Primary           Female</span>
+<span class="co">#&gt; 5                100069                Data           Primary           Female</span>
+<span class="co">#&gt;                                                      link</span>
+<span class="co">#&gt; 1 http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=2345</span>
+<span class="co">#&gt; 2 http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=2355</span>
+<span class="co">#&gt; 3 http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=2453</span>
+<span class="co">#&gt; 4 http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=2674</span>
+<span class="co">#&gt; 5 http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=2684</span>
+<span class="co">#&gt;                                                                                 instance0Name</span>
+<span class="co">#&gt; 1 Initial assessment visit (2006-2010) at which participants were recruited and consent given</span>
+<span class="co">#&gt; 2 Initial assessment visit (2006-2010) at which participants were recruited and consent given</span>
+<span class="co">#&gt; 3 Initial assessment visit (2006-2010) at which participants were recruited and consent given</span>
+<span class="co">#&gt; 4 Initial assessment visit (2006-2010) at which participants were recruited and consent given</span>
+<span class="co">#&gt; 5 Initial assessment visit (2006-2010) at which participants were recruited and consent given</span>
+<span class="co">#&gt;                             instance1Name         instance2Name</span>
+<span class="co">#&gt; 1 First repeat assessment visit (2012-13) Imaging visit (2014+)</span>
+<span class="co">#&gt; 2 First repeat assessment visit (2012-13) Imaging visit (2014+)</span>
+<span class="co">#&gt; 3 First repeat assessment visit (2012-13) Imaging visit (2014+)</span>
+<span class="co">#&gt; 4 First repeat assessment visit (2012-13) Imaging visit (2014+)</span>
+<span class="co">#&gt; 5 First repeat assessment visit (2012-13) Imaging visit (2014+)</span>
+<span class="co">#&gt;                        instance3Name instance4Name instance5Name instance6Name</span>
+<span class="co">#&gt; 1 First repeat imaging visit (2019+)                                          </span>
+<span class="co">#&gt; 2 First repeat imaging visit (2019+)                                          </span>
+<span class="co">#&gt; 3 First repeat imaging visit (2019+)                                          </span>
+<span class="co">#&gt; 4 First repeat imaging visit (2019+)                                          </span>
+<span class="co">#&gt; 5 First repeat imaging visit (2019+)                                          </span>
+<span class="co">#&gt;   instance7Name instance8Name instance9Name instance10Name instance11Name</span>
+<span class="co">#&gt; 1                                                                        </span>
+<span class="co">#&gt; 2                                                                        </span>
+<span class="co">#&gt; 3                                                                        </span>
+<span class="co">#&gt; 4                                                                        </span>
+<span class="co">#&gt; 5                                                                        </span>
+<span class="co">#&gt;   instance12Name instance13Name instance14Name instance15Name instance16Name</span>
+<span class="co">#&gt; 1                                                                           </span>
+<span class="co">#&gt; 2                                                                           </span>
+<span class="co">#&gt; 3                                                                           </span>
+<span class="co">#&gt; 4                                                                           </span>
+<span class="co">#&gt; 5                                                                           </span>
+<span class="co">#&gt;   bucket300 bucket500 bucket1000 bucket2500 bucket5000 bucket10000</span>
+<span class="co">#&gt; 1     FALSE     FALSE      FALSE      FALSE      FALSE       FALSE</span>
+<span class="co">#&gt; 2     FALSE     FALSE      FALSE      FALSE      FALSE       FALSE</span>
+<span class="co">#&gt; 3     FALSE     FALSE      FALSE      FALSE      FALSE       FALSE</span>
+<span class="co">#&gt; 4     FALSE     FALSE      FALSE      FALSE      FALSE       FALSE</span>
+<span class="co">#&gt; 5     FALSE     FALSE      FALSE      FALSE      FALSE       FALSE</span>
+<span class="co">#&gt;   orderPhenotype checked</span>
+<span class="co">#&gt; 1             40       1</span>
+<span class="co">#&gt; 2             40       1</span>
+<span class="co">#&gt; 3             42       1</span>
+<span class="co">#&gt; 4             47       1</span>
+<span class="co">#&gt; 5             47       1</span></pre></div>
 </div>
 <div id="phenotype-filtering" class="section level4">
 <h4 class="hasAnchor">
 <a href="#phenotype-filtering" class="anchor"></a>Phenotype filtering</h4>
-<div class="sourceCode" id="cb8"><pre class="r"><span class="co"># phenotype filter</span>
+<div class="sourceCode" id="cb11"><pre class="r"><span class="co"># lets apply this first filter</span>
+<span class="no">all_filters</span>[<span class="fl">1</span>,]
+<span class="co">#&gt;                        _id           categoryPathLevel1 categoryPathLevel2</span>
+<span class="co">#&gt; 1 5eb55c78599ae918ebb48f69 UK Biobank Assessment Centre        Touchscreen</span>
+<span class="co">#&gt;           categoryPathLevel3 categoryPathLevel4   id</span>
+<span class="co">#&gt; 1 Health and medical history   Cancer screening 2345</span>
+<span class="co">#&gt;                              name type          valueType units instances array</span>
+<span class="co">#&gt; 1 Ever had bowel cancer screening bars Categorical single               4     1</span>
+<span class="co">#&gt;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          description</span>
+<span class="co">#&gt; 1 "ACE touchscreen question ""Have you ever had a screening test for bowel (colorectal) cancer? (Please include tests for blood in the stool/faeces or a colonoscopy or a sigmoidoscopy)"" If the participant activated the Help button they were shown the message:     Screening tests for bowel or colorectal cancer include:  - FOBT (faecal occult blood test) - this is when you    are given a set of cards and asked to smear a part    of your stool on three separate occasions onto the    cards and then return the cards to be tested for    blood.  - Sigmoidoscopy - a tube is used to examine the lower    bowel. This is usually done in a doctor's office    without pain relief.  - Colonoscopy - a long tube is used the examine the    whole large bowel; you would usually have to drink    a large amount of special liquid to prepare the    bowel; and you would be given a sedative medication    for the procedure.     "</span>
+<span class="co">#&gt;   descriptionParticipantsNo descriptionItemNo descriptionStability coding</span>
+<span class="co">#&gt; 1                    501599            572225             Complete 100349</span>
+<span class="co">#&gt;   descriptionCategoryID descriptionItemType descriptionStrata descriptionSexed</span>
+<span class="co">#&gt; 1                100040                Data           Primary           Unisex</span>
+<span class="co">#&gt;                                                      link</span>
+<span class="co">#&gt; 1 http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=2345</span>
+<span class="co">#&gt;                                                                                 instance0Name</span>
+<span class="co">#&gt; 1 Initial assessment visit (2006-2010) at which participants were recruited and consent given</span>
+<span class="co">#&gt;                             instance1Name         instance2Name</span>
+<span class="co">#&gt; 1 First repeat assessment visit (2012-13) Imaging visit (2014+)</span>
+<span class="co">#&gt;                        instance3Name instance4Name instance5Name instance6Name</span>
+<span class="co">#&gt; 1 First repeat imaging visit (2019+)                                          </span>
+<span class="co">#&gt;   instance7Name instance8Name instance9Name instance10Name instance11Name</span>
+<span class="co">#&gt; 1                                                                        </span>
+<span class="co">#&gt;   instance12Name instance13Name instance14Name instance15Name instance16Name</span>
+<span class="co">#&gt; 1                                                                           </span>
+<span class="co">#&gt;   bucket300 bucket500 bucket1000 bucket2500 bucket5000 bucket10000</span>
+<span class="co">#&gt; 1     FALSE     FALSE      FALSE      FALSE      FALSE       FALSE</span>
+<span class="co">#&gt;   orderPhenotype checked</span>
+<span class="co">#&gt; 1             40       1</span>
+
+<span class="co"># phenotype filter</span>
 <span class="no">cohort_with_filters</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/filter_samples.html">filter_samples</a></span>(<span class="no">my_cloudos</span>,
-                                   <span class="kw">cohort_id</span> <span class="kw">=</span> <span class="no">my_cohort</span>[<span class="st">"_id"</span>,],
-                                   <span class="kw">filter_id</span> <span class="kw">=</span> <span class="no">filt</span>$<span class="no">id</span>[<span class="fl">1</span>])
+                                   <span class="kw">cohort</span> <span class="kw">=</span> <span class="no">my_cohort</span>,
+                                   <span class="kw">filter_id</span> <span class="kw">=</span> <span class="no">all_filters</span>[<span class="fl">1</span>,]$<span class="no">id</span>)
 <span class="no">cohort_with_filters</span>
 <span class="co">#&gt;      _id number total  label                 </span>
 <span class="co">#&gt; [1,] -3  32545  600000 "Prefer not to answer"</span>
 <span class="co">#&gt; [2,] -1  181143 600000 "Do not know"         </span>
 <span class="co">#&gt; [3,] 0   300719 600000 "No"                  </span>
 <span class="co">#&gt; [4,] 1   85593  600000 "Yes"</span></pre></div>
-<div class="sourceCode" id="cb9"><pre class="r"><span class="co"># filter participants</span>
+<div class="sourceCode" id="cb12"><pre class="r"><span class="co"># filter participants</span>
 <span class="no">participants_with_fiter</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">:::</span><span class="fu"><a href="reference/filter_participants.html">filter_participants</a></span>(<span class="no">my_cloudos</span>,
-                                                <span class="kw">cohort_id</span> <span class="kw">=</span> <span class="no">my_cohort</span>[<span class="st">"_id"</span>,],
-                                                <span class="kw">filter_id</span> <span class="kw">=</span> <span class="no">filt</span>$<span class="no">id</span>[<span class="fl">1</span>] )
+                                                <span class="kw">cohort</span> <span class="kw">=</span> <span class="no">my_cohort</span>,
+                                                <span class="kw">filter_id</span> <span class="kw">=</span> <span class="no">all_filters</span>[<span class="fl">1</span>,]$<span class="no">id</span>)
 
 <span class="no">participants_with_fiter</span>
 <span class="co">#&gt; $total</span>
@@ -674,18 +418,18 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $count</span>
 <span class="co">#&gt; [1] 333264</span></pre></div>
-<div class="sourceCode" id="cb10"><pre class="r"><span class="co"># apply filter (genotypic_save) </span>
+<div class="sourceCode" id="cb13"><pre class="r"><span class="co"># apply filter (genotypic_save) </span>
 <span class="no">gs</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/genotypic_save.html">genotypic_save</a></span>(<span class="no">my_cloudos</span>,
-                     <span class="kw">cohort_id</span> <span class="kw">=</span> <span class="no">my_cohort</span>[<span class="st">"_id"</span>,],
-                     <span class="kw">filter_id</span> <span class="kw">=</span> <span class="no">filt</span>$<span class="no">id</span>[<span class="fl">1</span>] )
+                     <span class="kw">cohort</span> <span class="kw">=</span> <span class="no">my_cohort</span>,
+                     <span class="kw">filter_id</span> <span class="kw">=</span> <span class="no">all_filters</span>[<span class="fl">1</span>,]$<span class="no">id</span>)
 
 <span class="no">gs</span>
 <span class="co">#&gt;      cohortId                   markers filters _id                       </span>
-<span class="co">#&gt; data "5f49252baaafb6454ad4a30b" List,0  List,1  "5f49252faaafb6454ad4a30c"</span>
+<span class="co">#&gt; data "5f327e8c1733200222dc3e8c" List,0  List,1  "5f4e557faaafb6454ad4a324"</span>
 <span class="co">#&gt;      numberOfParticipants</span>
 <span class="co">#&gt; data 32545</span></pre></div>
-<div class="sourceCode" id="cb11"><pre class="r"><span class="no">df</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/filter_metadata.html">filter_metadata</a></span>(<span class="no">my_cloudos</span>,
-                     <span class="kw">filter_id</span> <span class="kw">=</span> <span class="no">filt</span>$<span class="no">id</span>[<span class="fl">1</span>])
+<div class="sourceCode" id="cb14"><pre class="r"><span class="no">df</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/filter_metadata.html">filter_metadata</a></span>(<span class="no">my_cloudos</span>,
+                     <span class="kw">filter_id</span> <span class="kw">=</span> <span class="no">all_filters</span>[<span class="fl">1</span>,]$<span class="no">id</span>)
 <span class="no">df</span>
 <span class="co">#&gt;                        _id           categoryPathLevel1 categoryPathLevel2</span>
 <span class="co">#&gt; 1 5eb55c78599ae918ebb48f69 UK Biobank Assessment Centre        Touchscreen</span>
@@ -717,184 +461,17 @@
 <span class="co">#&gt; 1             40       1</span></pre></div>
 </div>
 </div>
-<div id="get-sample-participants-table---independent-from-a-cohort" class="section level3">
+<div id="additional-for-ui" class="section level3">
 <h3 class="hasAnchor">
-<a href="#get-sample-participants-table---independent-from-a-cohort" class="anchor"></a>Get sample (participants) table - Independent from a cohort</h3>
-<p>Get all the sample (participants) table from cohort browser. Optionally you can also add filters.</p>
-<p>TODO: For now two filters are hard-coded for testing.</p>
-<div class="sourceCode" id="cb12"><pre class="r"><span class="no">df</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/get_samples_table.html">get_samples_table</a></span>(<span class="no">my_cloudos</span>)
-<span class="no">df</span>
-<span class="co">#&gt;                         _id       i      f5984i0aavg</span>
-<span class="co">#&gt; 1  5f185b92bf92ed4d3be9637d 1000002                0</span>
-<span class="co">#&gt; 2  5edbdd689d700db709af0c2f 1000016 65.7105263157895</span>
-<span class="co">#&gt; 3  5f32c12e2edb69826cc17cc6 1000016                0</span>
-<span class="co">#&gt; 4  5f185b91bf92ed4d3be9587e 1000020                0</span>
-<span class="co">#&gt; 5  5f185b91bf92ed4d3be95984 1000035                0</span>
-<span class="co">#&gt; 6  5edbdd689d700db709af0c3e 1000048 59.2368421052632</span>
-<span class="co">#&gt; 7  5edbdd689d700db709af0c2b 1000057  73.140350877193</span>
-<span class="co">#&gt; 8  5f32c12e2edb69826cc17ccd 1000057                0</span>
-<span class="co">#&gt; 9  5edbdd689d700db709af0c2d 1000059 71.1491228070175</span>
-<span class="co">#&gt; 10 5f32c12e2edb69826cc17cc9 1000059                0</span>
-<span class="co">#&gt;                             f20001i0a0 f31i0a0 f34i0a0   f52i0a0 f5984i0amin</span>
-<span class="co">#&gt; 1                                 &lt;NA&gt;    &lt;NA&gt;    &lt;NA&gt;      &lt;NA&gt;        &lt;NA&gt;</span>
-<span class="co">#&gt; 2                      cervical cancer    Male    1954 September           0</span>
-<span class="co">#&gt; 3                                 &lt;NA&gt;    &lt;NA&gt;    &lt;NA&gt;      &lt;NA&gt;        &lt;NA&gt;</span>
-<span class="co">#&gt; 4                                 &lt;NA&gt;    &lt;NA&gt;    &lt;NA&gt;      &lt;NA&gt;        &lt;NA&gt;</span>
-<span class="co">#&gt; 5                                 &lt;NA&gt;    &lt;NA&gt;    &lt;NA&gt;      &lt;NA&gt;        &lt;NA&gt;</span>
-<span class="co">#&gt; 6                      chronic myeloid  Female    1950   January           0</span>
-<span class="co">#&gt; 7  metastatic cancer (unknown primary)  Female    1942  February           0</span>
-<span class="co">#&gt; 8                                 &lt;NA&gt;    &lt;NA&gt;    &lt;NA&gt;      &lt;NA&gt;        &lt;NA&gt;</span>
-<span class="co">#&gt; 9           uterine/endometrial cancer  Female    1964  December           1</span>
-<span class="co">#&gt; 10                                &lt;NA&gt;    &lt;NA&gt;    &lt;NA&gt;      &lt;NA&gt;        &lt;NA&gt;</span>
-<span class="co">#&gt;    f5984i0amax</span>
-<span class="co">#&gt; 1         &lt;NA&gt;</span>
-<span class="co">#&gt; 2          270</span>
-<span class="co">#&gt; 3         &lt;NA&gt;</span>
-<span class="co">#&gt; 4         &lt;NA&gt;</span>
-<span class="co">#&gt; 5         &lt;NA&gt;</span>
-<span class="co">#&gt; 6          195</span>
-<span class="co">#&gt; 7          270</span>
-<span class="co">#&gt; 8         &lt;NA&gt;</span>
-<span class="co">#&gt; 9          270</span>
-<span class="co">#&gt; 10        &lt;NA&gt;</span></pre></div>
-</div>
-<div id="get-genotypic-table---independent-from-a-cohort" class="section level3">
-<h3 class="hasAnchor">
-<a href="#get-genotypic-table---independent-from-a-cohort" class="anchor"></a>Get genotypic table - Independent from a cohort</h3>
-<p>Get all the genotypic table from cohort browser. Optionally you can also add filters.</p>
-<div class="sourceCode" id="cb13"><pre class="r"><span class="co"># df &lt;- cloudos::get_genotypic_table(my_cloudos, filt_chr = c(5,9), filt_type = c("SNP", "Insertion"))</span>
-<span class="no">df</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/get_genotypic_table.html">get_genotypic_table</a></span>(<span class="no">my_cloudos</span>)
-<span class="no">df</span>
-<span class="co">#&gt;       _id                        Chromosome Location    Reference Alternative</span>
-<span class="co">#&gt;  [1,] "5ef793999b8097fcd1da226a" "10"       "10:93190"  "AC"      " "        </span>
-<span class="co">#&gt;  [2,] "5ef793719b8097fcd1cea2f3" "10"       "10:93502"  "C"       "G"        </span>
-<span class="co">#&gt;  [3,] "5ef793719b8097fcd1cea2ff" "10"       "10:93635"  "T"       "C"        </span>
-<span class="co">#&gt;  [4,] "5ef793999b8097fcd1da2266" "10"       "10:94514"  "CTGG"    " "        </span>
-<span class="co">#&gt;  [5,] "5ef793999b8097fcd1da2277" "10"       "10:94693"  "G"       " "        </span>
-<span class="co">#&gt;  [6,] "5ef793719b8097fcd1cea2f6" "10"       "10:95844"  "C"       "T"        </span>
-<span class="co">#&gt;  [7,] "5ef793719b8097fcd1cea2f2" "10"       "10:110655" "C"       "T"        </span>
-<span class="co">#&gt;  [8,] "5ef793719b8097fcd1cea2f5" "10"       "10:111955" "A"       "G"        </span>
-<span class="co">#&gt;  [9,] "5ef793719b8097fcd1cea2f0" "10"       "10:119812" "C"       "T"        </span>
-<span class="co">#&gt; [10,] "5ef793719b8097fcd1cea2ef" "10"       "10:122109" "C"       "T"        </span>
-<span class="co">#&gt;       Affimetrix ID Possible allele combination 0 Possible allele combination 1</span>
-<span class="co">#&gt;  [1,] "80278591"    "GAC G"                       "0 0"                        </span>
-<span class="co">#&gt;  [2,] "52134431"    "C C"                         "0 0"                        </span>
-<span class="co">#&gt;  [3,] "3729558"     "T T"                         "0 0"                        </span>
-<span class="co">#&gt;  [4,] "52349171"    "CCTGG CCT"                   "C CCTGG"                    </span>
-<span class="co">#&gt;  [5,] "80278592"    "AG"                          "0 0"                        </span>
-<span class="co">#&gt;  [6,] "35481805"    "C C"                         "T C"                        </span>
-<span class="co">#&gt;  [7,] "2365062"     "T C"                         "0 0"                        </span>
-<span class="co">#&gt;  [8,] "2380802"     "A A"                         "G A"                        </span>
-<span class="co">#&gt;  [9,] "2473215"     "T T"                         "C C"                        </span>
-<span class="co">#&gt; [10,] "2502714"     "C C"                         "T T"                        </span>
-<span class="co">#&gt;       Possible allele combination 2 index Type        id   cn          </span>
-<span class="co">#&gt;  [1,] "G GAC"                       "0"   "Insertion" "1"  "zzg_m_10_0"</span>
-<span class="co">#&gt;  [2,] "G C"                         "1"   "SNP"       "2"  "zzg_m_10_1"</span>
-<span class="co">#&gt;  [3,] "C T"                         "2"   "SNP"       "3"  "zzg_m_10_2"</span>
-<span class="co">#&gt;  [4,] "0 0"                         "3"   "Insertion" "4"  "zzg_m_10_3"</span>
-<span class="co">#&gt;  [5,] "A A"                         "4"   "SNP"       "5"  "zzg_m_10_4"</span>
-<span class="co">#&gt;  [6,] "0 0"                         "5"   "SNP"       "6"  "zzg_m_10_5"</span>
-<span class="co">#&gt;  [7,] "C C"                         "6"   "SNP"       "7"  "zzg_m_10_6"</span>
-<span class="co">#&gt;  [8,] "G G"                         "7"   "SNP"       "8"  "zzg_m_10_7"</span>
-<span class="co">#&gt;  [9,] "T C"                         "8"   "SNP"       "9"  "zzg_m_10_8"</span>
-<span class="co">#&gt; [10,] "T C"                         "9"   "SNP"       "10" "zzg_m_10_9"</span>
-<span class="co">#&gt;       &lt;NA&gt;          &lt;NA&gt;          &lt;NA&gt;                &lt;NA&gt;               </span>
-<span class="co">#&gt;  [1,] NA            NA            NA                  NA                 </span>
-<span class="co">#&gt;  [2,] "rs201177578" "Deleterious" "Possibly Damaging" "Possibly Damaging"</span>
-<span class="co">#&gt;  [3,] "rs200242637" "Deleterious" "Benign"            "Benign"           </span>
-<span class="co">#&gt;  [4,] NA            NA            NA                  NA                 </span>
-<span class="co">#&gt;  [5,] NA            NA            NA                  NA                 </span>
-<span class="co">#&gt;  [6,] "rs117205301" NA            NA                  NA                 </span>
-<span class="co">#&gt;  [7,] "rs78253668"  NA            NA                  NA                 </span>
-<span class="co">#&gt;  [8,] "rs7909677"   NA            NA                  NA                 </span>
-<span class="co">#&gt;  [9,] "rs11253280"  NA            NA                  NA                 </span>
-<span class="co">#&gt; [10,] "rs7093061"   NA            NA                  NA                 </span>
-<span class="co">#&gt;       &lt;NA&gt;      &lt;NA&gt;              &lt;NA&gt;     &lt;NA&gt;          &lt;NA&gt;         </span>
-<span class="co">#&gt;  [1,] NA        NA                NA       NA            NA           </span>
-<span class="co">#&gt;  [2,] "Unknown" "Disease Causing" "Medium" "Deleterious" "Deleterious"</span>
-<span class="co">#&gt;  [3,] "Unknown" "Disease Causing" "Medium" "Tolerated"   "Deleterious"</span>
-<span class="co">#&gt;  [4,] NA        NA                NA       NA            NA           </span>
-<span class="co">#&gt;  [5,] NA        NA                NA       NA            NA           </span>
-<span class="co">#&gt;  [6,] NA        NA                NA       NA            NA           </span>
-<span class="co">#&gt;  [7,] NA        NA                NA       NA            NA           </span>
-<span class="co">#&gt;  [8,] NA        NA                NA       NA            NA           </span>
-<span class="co">#&gt;  [9,] NA        NA                NA       NA            NA           </span>
-<span class="co">#&gt; [10,] NA        NA                NA       NA            NA           </span>
-<span class="co">#&gt;       &lt;NA&gt;        &lt;NA&gt;          &lt;NA&gt;  &lt;NA&gt; </span>
-<span class="co">#&gt;  [1,] NA          NA            NA    NA   </span>
-<span class="co">#&gt;  [2,] "Tolerated" "Deleterious" "542" "244"</span>
-<span class="co">#&gt;  [3,] "Tolerated" "Tolerated"   "615" "27" </span>
-<span class="co">#&gt;  [4,] NA          NA            NA    NA   </span>
-<span class="co">#&gt;  [5,] NA          NA            NA    NA   </span>
-<span class="co">#&gt;  [6,] NA          NA            NA    NA   </span>
-<span class="co">#&gt;  [7,] NA          NA            NA    NA   </span>
-<span class="co">#&gt;  [8,] NA          NA            NA    NA   </span>
-<span class="co">#&gt;  [9,] NA          NA            NA    NA   </span>
-<span class="co">#&gt; [10,] NA          NA            NA    NA   </span>
-<span class="co">#&gt;       &lt;NA&gt;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           </span>
-<span class="co">#&gt;  [1,] NA                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             </span>
-<span class="co">#&gt;  [2,] "GO CYTOSKELETON ORGANIZATION| GO OOGENESIS| GO MICROTUBULE BASED PROCESS| GO MICROTUBULE CYTOSKELETON ORGANIZATION| GO SEXUAL REPRODUCTION| GO ATOMICAL STRUCTURE MATURATION| GO MITOTIC CELL CYCLE| GO ORGANELLE FISSION| GO CELL MATURATION| GO ORGANELLE ASSEMBLY| GO CELLULAR PROCESS INVOLVED IN REPRODUCTION IN MULTICELLULAR ORGANISM| GO OOCYTE MATURATION| GO OOCYTE DIFFERENTIATION| GO MEIOTIC CELL CYCLE| GO CELL CYCLE| GO MULTI ORGANISM REPRODUCTIVE PROCESS| GO GAMETE GENERATION| GO FEMALE GAMETE GENERATION| GO DEVELOPMENTAL PROCESS INVOLVED IN REPRODUCTION| GO MEIOTIC CELL CYCLE PROCESS| GO SPINDLE ASSEMBLY| GO REPRODUCTION| GO GERM CELL DEVELOPMENT| GO MULTICELLULAR ORGANISM REPRODUCTION| GO DEVELOPMENTAL MATURATION| GO CELL CYCLE PROCESS| GO MICROTUBULE CYTOSKELETON| GO CYTOSKELETAL PART| GO MICROTUBULE| GO SPINDLE| GO GTPASE ACTIVITY| GO HYDROLASE ACTIVITY ACTING ON ACID ANHYDRIDES| GO GUANYL NUCLEOTIDE BINDING| GO RIBONUCLEOTIDE BINDING| GO STRUCTURAL CONSTITUENT OF CYTOSKELETON| GO STRUCTURAL MOLECULE ACTIVITY| GO MEIOTIC SPINDLE ORGANIZATION| GO SPINDLE ORGANIZATION| GO FEMALE MEIOTIC NUCLEAR DIVISION| GO SPINDLE ASSEMBLY INVOLVED IN MEIOSIS| GO MEIOTIC SPINDLE| GO SUPRAMOLECULAR COMPLEX| GO POLYMERIC CYTOSKELETAL FIBER"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 </span>
-<span class="co">#&gt;  [3,] "GO CYTOSKELETON ORGANIZATION| GO OOGENESIS| GO MICROTUBULE BASED PROCESS| GO MICROTUBULE CYTOSKELETON ORGANIZATION| GO SEXUAL REPRODUCTION| GO ATOMICAL STRUCTURE MATURATION| GO MITOTIC CELL CYCLE| GO ORGANELLE FISSION| GO CELL MATURATION| GO ORGANELLE ASSEMBLY| GO CELLULAR PROCESS INVOLVED IN REPRODUCTION IN MULTICELLULAR ORGANISM| GO OOCYTE MATURATION| GO OOCYTE DIFFERENTIATION| GO MEIOTIC CELL CYCLE| GO CELL CYCLE| GO MULTI ORGANISM REPRODUCTIVE PROCESS| GO GAMETE GENERATION| GO FEMALE GAMETE GENERATION| GO DEVELOPMENTAL PROCESS INVOLVED IN REPRODUCTION| GO MEIOTIC CELL CYCLE PROCESS| GO SPINDLE ASSEMBLY| GO REPRODUCTION| GO GERM CELL DEVELOPMENT| GO MULTICELLULAR ORGANISM REPRODUCTION| GO DEVELOPMENTAL MATURATION| GO CELL CYCLE PROCESS| GO MICROTUBULE CYTOSKELETON| GO CYTOSKELETAL PART| GO MICROTUBULE| GO SPINDLE| GO GTPASE ACTIVITY| GO HYDROLASE ACTIVITY ACTING ON ACID ANHYDRIDES| GO GUANYL NUCLEOTIDE BINDING| GO RIBONUCLEOTIDE BINDING| GO STRUCTURAL CONSTITUENT OF CYTOSKELETON| GO STRUCTURAL MOLECULE ACTIVITY| GO MEIOTIC SPINDLE ORGANIZATION| GO SPINDLE ORGANIZATION| GO FEMALE MEIOTIC NUCLEAR DIVISION| GO SPINDLE ASSEMBLY INVOLVED IN MEIOSIS| GO MEIOTIC SPINDLE| GO SUPRAMOLECULAR COMPLEX| GO POLYMERIC CYTOSKELETAL FIBER"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 </span>
-<span class="co">#&gt;  [4,] NA                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             </span>
-<span class="co">#&gt;  [5,] "GO CYTOSKELETON ORGANIZATION| GO OOGENESIS| GO MICROTUBULE BASED PROCESS| GO MICROTUBULE CYTOSKELETON ORGANIZATION| GO SEXUAL REPRODUCTION| GO ATOMICAL STRUCTURE MATURATION| GO MITOTIC CELL CYCLE| GO ORGANELLE FISSION| GO CELL MATURATION| GO ORGANELLE ASSEMBLY| GO CELLULAR PROCESS INVOLVED IN REPRODUCTION IN MULTICELLULAR ORGANISM| GO OOCYTE MATURATION| GO OOCYTE DIFFERENTIATION| GO MEIOTIC CELL CYCLE| GO CELL CYCLE| GO MULTI ORGANISM REPRODUCTIVE PROCESS| GO GAMETE GENERATION| GO FEMALE GAMETE GENERATION| GO DEVELOPMENTAL PROCESS INVOLVED IN REPRODUCTION| GO MEIOTIC CELL CYCLE PROCESS| GO SPINDLE ASSEMBLY| GO REPRODUCTION| GO GERM CELL DEVELOPMENT| GO MULTICELLULAR ORGANISM REPRODUCTION| GO DEVELOPMENTAL MATURATION| GO CELL CYCLE PROCESS| GO MICROTUBULE CYTOSKELETON| GO CYTOSKELETAL PART| GO MICROTUBULE| GO SPINDLE| GO GTPASE ACTIVITY| GO HYDROLASE ACTIVITY ACTING ON ACID ANHYDRIDES| GO GUANYL NUCLEOTIDE BINDING| GO RIBONUCLEOTIDE BINDING| GO STRUCTURAL CONSTITUENT OF CYTOSKELETON| GO STRUCTURAL MOLECULE ACTIVITY| GO MEIOTIC SPINDLE ORGANIZATION| GO SPINDLE ORGANIZATION| GO FEMALE MEIOTIC NUCLEAR DIVISION| GO SPINDLE ASSEMBLY INVOLVED IN MEIOSIS| GO MEIOTIC SPINDLE| GO SUPRAMOLECULAR COMPLEX| GO POLYMERIC CYTOSKELETAL FIBER"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 </span>
-<span class="co">#&gt;  [6,] "GO CYTOSKELETON ORGANIZATION| GO OOGENESIS| GO MICROTUBULE BASED PROCESS| GO MICROTUBULE CYTOSKELETON ORGANIZATION| GO SEXUAL REPRODUCTION| GO ATOMICAL STRUCTURE MATURATION| GO MITOTIC CELL CYCLE| GO ORGANELLE FISSION| GO CELL MATURATION| GO ORGANELLE ASSEMBLY| GO CELLULAR PROCESS INVOLVED IN REPRODUCTION IN MULTICELLULAR ORGANISM| GO OOCYTE MATURATION| GO OOCYTE DIFFERENTIATION| GO MEIOTIC CELL CYCLE| GO CELL CYCLE| GO MULTI ORGANISM REPRODUCTIVE PROCESS| GO GAMETE GENERATION| GO FEMALE GAMETE GENERATION| GO DEVELOPMENTAL PROCESS INVOLVED IN REPRODUCTION| GO MEIOTIC CELL CYCLE PROCESS| GO SPINDLE ASSEMBLY| GO REPRODUCTION| GO GERM CELL DEVELOPMENT| GO MULTICELLULAR ORGANISM REPRODUCTION| GO DEVELOPMENTAL MATURATION| GO CELL CYCLE PROCESS| GO MICROTUBULE CYTOSKELETON| GO CYTOSKELETAL PART| GO MICROTUBULE| GO SPINDLE| GO GTPASE ACTIVITY| GO HYDROLASE ACTIVITY ACTING ON ACID ANHYDRIDES| GO GUANYL NUCLEOTIDE BINDING| GO RIBONUCLEOTIDE BINDING| GO STRUCTURAL CONSTITUENT OF CYTOSKELETON| GO STRUCTURAL MOLECULE ACTIVITY| GO MEIOTIC SPINDLE ORGANIZATION| GO SPINDLE ORGANIZATION| GO FEMALE MEIOTIC NUCLEAR DIVISION| GO SPINDLE ASSEMBLY INVOLVED IN MEIOSIS| GO MEIOTIC SPINDLE| GO SUPRAMOLECULAR COMPLEX| GO POLYMERIC CYTOSKELETAL FIBER"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 </span>
-<span class="co">#&gt;  [7,] "GO CYTOSKELETON ORGANIZATION| GO OOGENESIS| GO MICROTUBULE BASED PROCESS| GO MICROTUBULE CYTOSKELETON ORGANIZATION| GO SEXUAL REPRODUCTION| GO ATOMICAL STRUCTURE MATURATION| GO MITOTIC CELL CYCLE| GO ORGANELLE FISSION| GO CELL MATURATION| GO ORGANELLE ASSEMBLY| GO CELLULAR PROCESS INVOLVED IN REPRODUCTION IN MULTICELLULAR ORGANISM| GO OOCYTE MATURATION| GO OOCYTE DIFFERENTIATION| GO MEIOTIC CELL CYCLE| GO CELL CYCLE| GO MULTI ORGANISM REPRODUCTIVE PROCESS| GO GAMETE GENERATION| GO FEMALE GAMETE GENERATION| GO DEVELOPMENTAL PROCESS INVOLVED IN REPRODUCTION| GO MEIOTIC CELL CYCLE PROCESS| GO SPINDLE ASSEMBLY| GO REPRODUCTION| GO GERM CELL DEVELOPMENT| GO MULTICELLULAR ORGANISM REPRODUCTION| GO DEVELOPMENTAL MATURATION| GO CELL CYCLE PROCESS| GO MICROTUBULE CYTOSKELETON| GO CYTOSKELETAL PART| GO MICROTUBULE| GO SPINDLE| GO GTPASE ACTIVITY| GO HYDROLASE ACTIVITY ACTING ON ACID ANHYDRIDES| GO GUANYL NUCLEOTIDE BINDING| GO RIBONUCLEOTIDE BINDING| GO STRUCTURAL CONSTITUENT OF CYTOSKELETON| GO STRUCTURAL MOLECULE ACTIVITY| GO MEIOTIC SPINDLE ORGANIZATION| GO SPINDLE ORGANIZATION| GO FEMALE MEIOTIC NUCLEAR DIVISION| GO SPINDLE ASSEMBLY INVOLVED IN MEIOSIS| GO MEIOTIC SPINDLE| GO SUPRAMOLECULAR COMPLEX| GO POLYMERIC CYTOSKELETAL FIBER; GO CHROMOSOME ORGANIZATION| GO D TEMPLATED TRANSCRIPTION ELONGATION| GO REGULATION OF MAPK CASCADE| GO REGULATION OF STRESS ACTIVATED PROTEIN KISE SIGLING CASCADE| GO I KAPPAB KISE NF KAPPAB SIGLING| GO DEFENSE RESPONSE TO VIRUS| GO EXTRINSIC APOPTOTIC SIGLING PATHWAY| GO REGULATION OF INTRACELLULAR SIGL TRANSDUCTION| GO NEGATIVE REGULATION OF MAPK CASCADE| GO NEGATIVE REGULATION OF INTRACELLULAR SIGL TRANSDUCTION| GO DEFENSE RESPONSE| GO NEGATIVE REGULATION OF EXTRINSIC APOPTOTIC SIGLING PATHWAY| GO REGULATION OF TRANSCRIPTION ELONGATION FROM R POLYMERASE II PROMOTER| GO DEFENSE RESPONSE TO OTHER ORGANISM| GO APOPTOTIC SIGLING PATHWAY| GO TRANSCRIPTION ELONGATION FROM R POLYMERASE II PROMOTER| GO JNK CASCADE| GO REGULATION OF EXTRINSIC APOPTOTIC SIGLING PATHWAY| GO NEGATIVE REGULATION OF PHOSPHORUS METABOLIC PROCESS| GO REGULATION OF RESPONSE TO STRESS| GO PROTEIN PHOSPHORYLATION| GO CHROMATIN ORGANIZATION| GO NEGATIVE REGULATION OF CELL DEATH| GO NEGATIVE REGULATION OF I KAPPAB KISE NF KAPPAB SIGLING| GO INTERSPECIES INTERACTION BETWEEN ORGANISMS| GO CELL CYCLE| GO NEGATIVE REGULATION OF JNK CASCADE| GO NEGATIVE REGULATION OF APOPTOTIC SIGLING PATHWAY| GO NEGATIVE REGULATION OF STRESS ACTIVATED PROTEIN KISE SIGLING CASCADE| GO REGULATION OF CELLULAR RESPONSE TO STRESS| GO REGULATION OF CELL DEATH| GO NEGATIVE REGULATION OF RESPONSE TO STIMULUS| GO NEGATIVE REGULATION OF PHOSPHORYLATION| GO NEGATIVE REGULATION OF PROTEIN METABOLIC PROCESS| GO RESPONSE TO BIOTIC STIMULUS| GO REGULATION OF PROTEIN MODIFICATION PROCESS| GO SIGL TRANSDUCTION BY PROTEIN PHOSPHORYLATION| GO STRESS ACTIVATED PROTEIN KISE SIGLING CASCADE| GO REGULATION OF PHOSPHORUS METABOLIC PROCESS| GO RESPONSE TO VIRUS| GO NEGATIVE REGULATION OF PROTEIN MODIFICATION PROCESS| GO REGULATION OF D TEMPLATED TRANSCRIPTION ELONGATION| GO IMMUNE EFFECTOR PROCESS| GO REGULATION OF APOPTOTIC SIGLING PATHWAY| GO CHROMOSOME| GO HISTONE BINDING| GO METHYLATED HISTONE BINDING| GO DOUBLE STRANDED D BINDING| GO TRANSITION METAL ION BINDING| GO ZINC ION BINDING| GO TRANSCRIPTION COREPRESSOR ACTIVITY| GO APOPTOTIC PROCESS| GO NEGATIVE REGULATION OF BIOSYNTHETIC PROCESS| GO NEGATIVE REGULATION OF SIGLING| GO NEGATIVE REGULATION OF R BIOSYNTHETIC PROCESS| GO TRANSCRIPTION COREGULATOR ACTIVITY| GO MODIFICATION DEPENDENT PROTEIN BINDING"</span>
-<span class="co">#&gt;  [8,] "GO CYTOSKELETON ORGANIZATION| GO OOGENESIS| GO MICROTUBULE BASED PROCESS| GO MICROTUBULE CYTOSKELETON ORGANIZATION| GO SEXUAL REPRODUCTION| GO ATOMICAL STRUCTURE MATURATION| GO MITOTIC CELL CYCLE| GO ORGANELLE FISSION| GO CELL MATURATION| GO ORGANELLE ASSEMBLY| GO CELLULAR PROCESS INVOLVED IN REPRODUCTION IN MULTICELLULAR ORGANISM| GO OOCYTE MATURATION| GO OOCYTE DIFFERENTIATION| GO MEIOTIC CELL CYCLE| GO CELL CYCLE| GO MULTI ORGANISM REPRODUCTIVE PROCESS| GO GAMETE GENERATION| GO FEMALE GAMETE GENERATION| GO DEVELOPMENTAL PROCESS INVOLVED IN REPRODUCTION| GO MEIOTIC CELL CYCLE PROCESS| GO SPINDLE ASSEMBLY| GO REPRODUCTION| GO GERM CELL DEVELOPMENT| GO MULTICELLULAR ORGANISM REPRODUCTION| GO DEVELOPMENTAL MATURATION| GO CELL CYCLE PROCESS| GO MICROTUBULE CYTOSKELETON| GO CYTOSKELETAL PART| GO MICROTUBULE| GO SPINDLE| GO GTPASE ACTIVITY| GO HYDROLASE ACTIVITY ACTING ON ACID ANHYDRIDES| GO GUANYL NUCLEOTIDE BINDING| GO RIBONUCLEOTIDE BINDING| GO STRUCTURAL CONSTITUENT OF CYTOSKELETON| GO STRUCTURAL MOLECULE ACTIVITY| GO MEIOTIC SPINDLE ORGANIZATION| GO SPINDLE ORGANIZATION| GO FEMALE MEIOTIC NUCLEAR DIVISION| GO SPINDLE ASSEMBLY INVOLVED IN MEIOSIS| GO MEIOTIC SPINDLE| GO SUPRAMOLECULAR COMPLEX| GO POLYMERIC CYTOSKELETAL FIBER; GO CHROMOSOME ORGANIZATION| GO D TEMPLATED TRANSCRIPTION ELONGATION| GO REGULATION OF MAPK CASCADE| GO REGULATION OF STRESS ACTIVATED PROTEIN KISE SIGLING CASCADE| GO I KAPPAB KISE NF KAPPAB SIGLING| GO DEFENSE RESPONSE TO VIRUS| GO EXTRINSIC APOPTOTIC SIGLING PATHWAY| GO REGULATION OF INTRACELLULAR SIGL TRANSDUCTION| GO NEGATIVE REGULATION OF MAPK CASCADE| GO NEGATIVE REGULATION OF INTRACELLULAR SIGL TRANSDUCTION| GO DEFENSE RESPONSE| GO NEGATIVE REGULATION OF EXTRINSIC APOPTOTIC SIGLING PATHWAY| GO REGULATION OF TRANSCRIPTION ELONGATION FROM R POLYMERASE II PROMOTER| GO DEFENSE RESPONSE TO OTHER ORGANISM| GO APOPTOTIC SIGLING PATHWAY| GO TRANSCRIPTION ELONGATION FROM R POLYMERASE II PROMOTER| GO JNK CASCADE| GO REGULATION OF EXTRINSIC APOPTOTIC SIGLING PATHWAY| GO NEGATIVE REGULATION OF PHOSPHORUS METABOLIC PROCESS| GO REGULATION OF RESPONSE TO STRESS| GO PROTEIN PHOSPHORYLATION| GO CHROMATIN ORGANIZATION| GO NEGATIVE REGULATION OF CELL DEATH| GO NEGATIVE REGULATION OF I KAPPAB KISE NF KAPPAB SIGLING| GO INTERSPECIES INTERACTION BETWEEN ORGANISMS| GO CELL CYCLE| GO NEGATIVE REGULATION OF JNK CASCADE| GO NEGATIVE REGULATION OF APOPTOTIC SIGLING PATHWAY| GO NEGATIVE REGULATION OF STRESS ACTIVATED PROTEIN KISE SIGLING CASCADE| GO REGULATION OF CELLULAR RESPONSE TO STRESS| GO REGULATION OF CELL DEATH| GO NEGATIVE REGULATION OF RESPONSE TO STIMULUS| GO NEGATIVE REGULATION OF PHOSPHORYLATION| GO NEGATIVE REGULATION OF PROTEIN METABOLIC PROCESS| GO RESPONSE TO BIOTIC STIMULUS| GO REGULATION OF PROTEIN MODIFICATION PROCESS| GO SIGL TRANSDUCTION BY PROTEIN PHOSPHORYLATION| GO STRESS ACTIVATED PROTEIN KISE SIGLING CASCADE| GO REGULATION OF PHOSPHORUS METABOLIC PROCESS| GO RESPONSE TO VIRUS| GO NEGATIVE REGULATION OF PROTEIN MODIFICATION PROCESS| GO REGULATION OF D TEMPLATED TRANSCRIPTION ELONGATION| GO IMMUNE EFFECTOR PROCESS| GO REGULATION OF APOPTOTIC SIGLING PATHWAY| GO CHROMOSOME| GO HISTONE BINDING| GO METHYLATED HISTONE BINDING| GO DOUBLE STRANDED D BINDING| GO TRANSITION METAL ION BINDING| GO ZINC ION BINDING| GO TRANSCRIPTION COREPRESSOR ACTIVITY| GO APOPTOTIC PROCESS| GO NEGATIVE REGULATION OF BIOSYNTHETIC PROCESS| GO NEGATIVE REGULATION OF SIGLING| GO NEGATIVE REGULATION OF R BIOSYNTHETIC PROCESS| GO TRANSCRIPTION COREGULATOR ACTIVITY| GO MODIFICATION DEPENDENT PROTEIN BINDING"</span>
-<span class="co">#&gt;  [9,] "GO CYTOSKELETON ORGANIZATION| GO OOGENESIS| GO MICROTUBULE BASED PROCESS| GO MICROTUBULE CYTOSKELETON ORGANIZATION| GO SEXUAL REPRODUCTION| GO ATOMICAL STRUCTURE MATURATION| GO MITOTIC CELL CYCLE| GO ORGANELLE FISSION| GO CELL MATURATION| GO ORGANELLE ASSEMBLY| GO CELLULAR PROCESS INVOLVED IN REPRODUCTION IN MULTICELLULAR ORGANISM| GO OOCYTE MATURATION| GO OOCYTE DIFFERENTIATION| GO MEIOTIC CELL CYCLE| GO CELL CYCLE| GO MULTI ORGANISM REPRODUCTIVE PROCESS| GO GAMETE GENERATION| GO FEMALE GAMETE GENERATION| GO DEVELOPMENTAL PROCESS INVOLVED IN REPRODUCTION| GO MEIOTIC CELL CYCLE PROCESS| GO SPINDLE ASSEMBLY| GO REPRODUCTION| GO GERM CELL DEVELOPMENT| GO MULTICELLULAR ORGANISM REPRODUCTION| GO DEVELOPMENTAL MATURATION| GO CELL CYCLE PROCESS| GO MICROTUBULE CYTOSKELETON| GO CYTOSKELETAL PART| GO MICROTUBULE| GO SPINDLE| GO GTPASE ACTIVITY| GO HYDROLASE ACTIVITY ACTING ON ACID ANHYDRIDES| GO GUANYL NUCLEOTIDE BINDING| GO RIBONUCLEOTIDE BINDING| GO STRUCTURAL CONSTITUENT OF CYTOSKELETON| GO STRUCTURAL MOLECULE ACTIVITY| GO MEIOTIC SPINDLE ORGANIZATION| GO SPINDLE ORGANIZATION| GO FEMALE MEIOTIC NUCLEAR DIVISION| GO SPINDLE ASSEMBLY INVOLVED IN MEIOSIS| GO MEIOTIC SPINDLE| GO SUPRAMOLECULAR COMPLEX| GO POLYMERIC CYTOSKELETAL FIBER; GO CHROMOSOME ORGANIZATION| GO D TEMPLATED TRANSCRIPTION ELONGATION| GO REGULATION OF MAPK CASCADE| GO REGULATION OF STRESS ACTIVATED PROTEIN KISE SIGLING CASCADE| GO I KAPPAB KISE NF KAPPAB SIGLING| GO DEFENSE RESPONSE TO VIRUS| GO EXTRINSIC APOPTOTIC SIGLING PATHWAY| GO REGULATION OF INTRACELLULAR SIGL TRANSDUCTION| GO NEGATIVE REGULATION OF MAPK CASCADE| GO NEGATIVE REGULATION OF INTRACELLULAR SIGL TRANSDUCTION| GO DEFENSE RESPONSE| GO NEGATIVE REGULATION OF EXTRINSIC APOPTOTIC SIGLING PATHWAY| GO REGULATION OF TRANSCRIPTION ELONGATION FROM R POLYMERASE II PROMOTER| GO DEFENSE RESPONSE TO OTHER ORGANISM| GO APOPTOTIC SIGLING PATHWAY| GO TRANSCRIPTION ELONGATION FROM R POLYMERASE II PROMOTER| GO JNK CASCADE| GO REGULATION OF EXTRINSIC APOPTOTIC SIGLING PATHWAY| GO NEGATIVE REGULATION OF PHOSPHORUS METABOLIC PROCESS| GO REGULATION OF RESPONSE TO STRESS| GO PROTEIN PHOSPHORYLATION| GO CHROMATIN ORGANIZATION| GO NEGATIVE REGULATION OF CELL DEATH| GO NEGATIVE REGULATION OF I KAPPAB KISE NF KAPPAB SIGLING| GO INTERSPECIES INTERACTION BETWEEN ORGANISMS| GO CELL CYCLE| GO NEGATIVE REGULATION OF JNK CASCADE| GO NEGATIVE REGULATION OF APOPTOTIC SIGLING PATHWAY| GO NEGATIVE REGULATION OF STRESS ACTIVATED PROTEIN KISE SIGLING CASCADE| GO REGULATION OF CELLULAR RESPONSE TO STRESS| GO REGULATION OF CELL DEATH| GO NEGATIVE REGULATION OF RESPONSE TO STIMULUS| GO NEGATIVE REGULATION OF PHOSPHORYLATION| GO NEGATIVE REGULATION OF PROTEIN METABOLIC PROCESS| GO RESPONSE TO BIOTIC STIMULUS| GO REGULATION OF PROTEIN MODIFICATION PROCESS| GO SIGL TRANSDUCTION BY PROTEIN PHOSPHORYLATION| GO STRESS ACTIVATED PROTEIN KISE SIGLING CASCADE| GO REGULATION OF PHOSPHORUS METABOLIC PROCESS| GO RESPONSE TO VIRUS| GO NEGATIVE REGULATION OF PROTEIN MODIFICATION PROCESS| GO REGULATION OF D TEMPLATED TRANSCRIPTION ELONGATION| GO IMMUNE EFFECTOR PROCESS| GO REGULATION OF APOPTOTIC SIGLING PATHWAY| GO CHROMOSOME| GO HISTONE BINDING| GO METHYLATED HISTONE BINDING| GO DOUBLE STRANDED D BINDING| GO TRANSITION METAL ION BINDING| GO ZINC ION BINDING| GO TRANSCRIPTION COREPRESSOR ACTIVITY| GO APOPTOTIC PROCESS| GO NEGATIVE REGULATION OF BIOSYNTHETIC PROCESS| GO NEGATIVE REGULATION OF SIGLING| GO NEGATIVE REGULATION OF R BIOSYNTHETIC PROCESS| GO TRANSCRIPTION COREGULATOR ACTIVITY| GO MODIFICATION DEPENDENT PROTEIN BINDING"</span>
-<span class="co">#&gt; [10,] "GO CYTOSKELETON ORGANIZATION| GO OOGENESIS| GO MICROTUBULE BASED PROCESS| GO MICROTUBULE CYTOSKELETON ORGANIZATION| GO SEXUAL REPRODUCTION| GO ATOMICAL STRUCTURE MATURATION| GO MITOTIC CELL CYCLE| GO ORGANELLE FISSION| GO CELL MATURATION| GO ORGANELLE ASSEMBLY| GO CELLULAR PROCESS INVOLVED IN REPRODUCTION IN MULTICELLULAR ORGANISM| GO OOCYTE MATURATION| GO OOCYTE DIFFERENTIATION| GO MEIOTIC CELL CYCLE| GO CELL CYCLE| GO MULTI ORGANISM REPRODUCTIVE PROCESS| GO GAMETE GENERATION| GO FEMALE GAMETE GENERATION| GO DEVELOPMENTAL PROCESS INVOLVED IN REPRODUCTION| GO MEIOTIC CELL CYCLE PROCESS| GO SPINDLE ASSEMBLY| GO REPRODUCTION| GO GERM CELL DEVELOPMENT| GO MULTICELLULAR ORGANISM REPRODUCTION| GO DEVELOPMENTAL MATURATION| GO CELL CYCLE PROCESS| GO MICROTUBULE CYTOSKELETON| GO CYTOSKELETAL PART| GO MICROTUBULE| GO SPINDLE| GO GTPASE ACTIVITY| GO HYDROLASE ACTIVITY ACTING ON ACID ANHYDRIDES| GO GUANYL NUCLEOTIDE BINDING| GO RIBONUCLEOTIDE BINDING| GO STRUCTURAL CONSTITUENT OF CYTOSKELETON| GO STRUCTURAL MOLECULE ACTIVITY| GO MEIOTIC SPINDLE ORGANIZATION| GO SPINDLE ORGANIZATION| GO FEMALE MEIOTIC NUCLEAR DIVISION| GO SPINDLE ASSEMBLY INVOLVED IN MEIOSIS| GO MEIOTIC SPINDLE| GO SUPRAMOLECULAR COMPLEX| GO POLYMERIC CYTOSKELETAL FIBER; GO CHROMOSOME ORGANIZATION| GO D TEMPLATED TRANSCRIPTION ELONGATION| GO REGULATION OF MAPK CASCADE| GO REGULATION OF STRESS ACTIVATED PROTEIN KISE SIGLING CASCADE| GO I KAPPAB KISE NF KAPPAB SIGLING| GO DEFENSE RESPONSE TO VIRUS| GO EXTRINSIC APOPTOTIC SIGLING PATHWAY| GO REGULATION OF INTRACELLULAR SIGL TRANSDUCTION| GO NEGATIVE REGULATION OF MAPK CASCADE| GO NEGATIVE REGULATION OF INTRACELLULAR SIGL TRANSDUCTION| GO DEFENSE RESPONSE| GO NEGATIVE REGULATION OF EXTRINSIC APOPTOTIC SIGLING PATHWAY| GO REGULATION OF TRANSCRIPTION ELONGATION FROM R POLYMERASE II PROMOTER| GO DEFENSE RESPONSE TO OTHER ORGANISM| GO APOPTOTIC SIGLING PATHWAY| GO TRANSCRIPTION ELONGATION FROM R POLYMERASE II PROMOTER| GO JNK CASCADE| GO REGULATION OF EXTRINSIC APOPTOTIC SIGLING PATHWAY| GO NEGATIVE REGULATION OF PHOSPHORUS METABOLIC PROCESS| GO REGULATION OF RESPONSE TO STRESS| GO PROTEIN PHOSPHORYLATION| GO CHROMATIN ORGANIZATION| GO NEGATIVE REGULATION OF CELL DEATH| GO NEGATIVE REGULATION OF I KAPPAB KISE NF KAPPAB SIGLING| GO INTERSPECIES INTERACTION BETWEEN ORGANISMS| GO CELL CYCLE| GO NEGATIVE REGULATION OF JNK CASCADE| GO NEGATIVE REGULATION OF APOPTOTIC SIGLING PATHWAY| GO NEGATIVE REGULATION OF STRESS ACTIVATED PROTEIN KISE SIGLING CASCADE| GO REGULATION OF CELLULAR RESPONSE TO STRESS| GO REGULATION OF CELL DEATH| GO NEGATIVE REGULATION OF RESPONSE TO STIMULUS| GO NEGATIVE REGULATION OF PHOSPHORYLATION| GO NEGATIVE REGULATION OF PROTEIN METABOLIC PROCESS| GO RESPONSE TO BIOTIC STIMULUS| GO REGULATION OF PROTEIN MODIFICATION PROCESS| GO SIGL TRANSDUCTION BY PROTEIN PHOSPHORYLATION| GO STRESS ACTIVATED PROTEIN KISE SIGLING CASCADE| GO REGULATION OF PHOSPHORUS METABOLIC PROCESS| GO RESPONSE TO VIRUS| GO NEGATIVE REGULATION OF PROTEIN MODIFICATION PROCESS| GO REGULATION OF D TEMPLATED TRANSCRIPTION ELONGATION| GO IMMUNE EFFECTOR PROCESS| GO REGULATION OF APOPTOTIC SIGLING PATHWAY| GO CHROMOSOME| GO HISTONE BINDING| GO METHYLATED HISTONE BINDING| GO DOUBLE STRANDED D BINDING| GO TRANSITION METAL ION BINDING| GO ZINC ION BINDING| GO TRANSCRIPTION COREPRESSOR ACTIVITY| GO APOPTOTIC PROCESS| GO NEGATIVE REGULATION OF BIOSYNTHETIC PROCESS| GO NEGATIVE REGULATION OF SIGLING| GO NEGATIVE REGULATION OF R BIOSYNTHETIC PROCESS| GO TRANSCRIPTION COREGULATOR ACTIVITY| GO MODIFICATION DEPENDENT PROTEIN BINDING"</span>
-<span class="co">#&gt;       &lt;NA&gt;             &lt;NA&gt;                                  &lt;NA&gt;    &lt;NA&gt;   </span>
-<span class="co">#&gt;  [1,] NA               NA                                    NA      NA     </span>
-<span class="co">#&gt;  [2,] "TUBB8"          "TUBB8:NM 177987:exon4:cG830C:pG277A" "0.002" "0.787"</span>
-<span class="co">#&gt;  [3,] "TUBB8"          "TUBB8:NM 177987:exon4:cA697G:pM233V" "0.012" "0.01" </span>
-<span class="co">#&gt;  [4,] NA               NA                                    NA      NA     </span>
-<span class="co">#&gt;  [5,] "TUBB8"          NA                                    NA      NA     </span>
-<span class="co">#&gt;  [6,] "TUBB8"          NA                                    NA      NA     </span>
-<span class="co">#&gt;  [7,] "TUBB8; ZMYND11" NA                                    NA      NA     </span>
-<span class="co">#&gt;  [8,] "TUBB8; ZMYND11" NA                                    NA      NA     </span>
-<span class="co">#&gt;  [9,] "TUBB8; ZMYND11" NA                                    NA      NA     </span>
-<span class="co">#&gt; [10,] "TUBB8; ZMYND11" NA                                    NA      NA     </span>
-<span class="co">#&gt;       &lt;NA&gt;    &lt;NA&gt;    &lt;NA&gt; &lt;NA&gt;    &lt;NA&gt;    &lt;NA&gt;    &lt;NA&gt;    &lt;NA&gt;    &lt;NA&gt;    </span>
-<span class="co">#&gt;  [1,] NA      NA      NA   NA      NA      NA      NA      NA      NA      </span>
-<span class="co">#&gt;  [2,] "0.598" "0.001" "1"  "2.155" "-1.84" "-4.65" "0.41"  "0.877" "-0.012"</span>
-<span class="co">#&gt;  [3,] "0.043" "0"     "1"  "2.105" "-0.18" "-3.33" "0.098" "0.713" "-0.829"</span>
-<span class="co">#&gt;  [4,] NA      NA      NA   NA      NA      NA      NA      NA      NA      </span>
-<span class="co">#&gt;  [5,] NA      NA      NA   NA      NA      NA      NA      NA      NA      </span>
-<span class="co">#&gt;  [6,] NA      NA      NA   NA      NA      NA      NA      NA      NA      </span>
-<span class="co">#&gt;  [7,] NA      NA      NA   NA      NA      NA      NA      NA      NA      </span>
-<span class="co">#&gt;  [8,] NA      NA      NA   NA      NA      NA      NA      NA      NA      </span>
-<span class="co">#&gt;  [9,] NA      NA      NA   NA      NA      NA      NA      NA      NA      </span>
-<span class="co">#&gt; [10,] NA      NA      NA   NA      NA      NA      NA      NA      NA      </span>
-<span class="co">#&gt;       &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;     &lt;NA&gt;     &lt;NA&gt;     &lt;NA&gt;     &lt;NA&gt;     &lt;NA&gt;    </span>
-<span class="co">#&gt;  [1,] NA      NA       NA       NA       NA       NA       NA       NA      </span>
-<span class="co">#&gt;  [2,] "0.561" NA       NA       NA       NA       NA       NA       NA      </span>
-<span class="co">#&gt;  [3,] "0.183" "0.0279" "0.0174" "0.0196" "0.04"   "0.0194" "0.0573" "0.028" </span>
-<span class="co">#&gt;  [4,] NA      NA       NA       NA       NA       NA       NA       NA      </span>
-<span class="co">#&gt;  [5,] NA      NA       NA       NA       NA       NA       NA       NA      </span>
-<span class="co">#&gt;  [6,] NA      "0.0242" "0.0085" "0.0155" "0.0199" "0.0025" "0.0218" "0.0367"</span>
-<span class="co">#&gt;  [7,] NA      "0.2678" "0.1517" "0.195"  "0.2881" "0.254"  "0.3489" "0.3203"</span>
-<span class="co">#&gt;  [8,] NA      "0.0634" "0.0352" "0.0465" "0.0265" "0.066"  "0.0785" "0.0786"</span>
-<span class="co">#&gt;  [9,] NA      "0.4425" "0.4947" "0.3077" "0.3699" "0.3674" "0.4488" "0.4306"</span>
-<span class="co">#&gt; [10,] NA      "0.2538" "0.1036" "0.2734" "0.3514" "0.0961" "0.282"  "0.3489"</span>
-<span class="co">#&gt;       &lt;NA&gt;     &lt;NA&gt;  &lt;NA&gt;       </span>
-<span class="co">#&gt;  [1,] NA       NA    NA         </span>
-<span class="co">#&gt;  [2,] NA       NA    NA         </span>
-<span class="co">#&gt;  [3,] "0.0461" NA    NA         </span>
-<span class="co">#&gt;  [4,] NA       NA    NA         </span>
-<span class="co">#&gt;  [5,] NA       NA    NA         </span>
-<span class="co">#&gt;  [6,] "0.0275" "T T" "0.0364263"</span>
-<span class="co">#&gt;  [7,] "0.2916" "T T" "0.315864" </span>
-<span class="co">#&gt;  [8,] "0.0519" "0 0" "0.0843255"</span>
-<span class="co">#&gt;  [9,] "0.4063" "0 0" "0.444643" </span>
-<span class="co">#&gt; [10,] "0.3077" "0 0" "0.35744"</span></pre></div>
-</div>
-<div id="get-samples-table-for-selected-rows" class="section level3">
-<h3 class="hasAnchor">
-<a href="#get-samples-table-for-selected-rows" class="anchor"></a>Get samples table for selected rows</h3>
+<a href="#additional-for-ui" class="anchor"></a>Additional for UI</h3>
+<div id="get-samples-table-for-selected-rows" class="section level4">
+<h4 class="hasAnchor">
+<a href="#get-samples-table-for-selected-rows" class="anchor"></a>Get samples table for selected rows</h4>
 <p>Create a RAW data string. This usually generates after selecting participants on UI. (more information will be added how to create this in R)</p>
 <p>NOTE: This function will be improved <code>raw_data</code> arg is temporary.</p>
-<div class="sourceCode" id="cb14"><pre class="r"><span class="no">new_raw_data</span> <span class="kw">&lt;-</span> <span class="st">'{"columns":[{"id":34,"instance":0,"array":{"type":"exact","value":0}},{"id":31,"instance":0,"array":{"type":"exact","value":0}},{"id":52,"instance":0,"array":{"type":"exact","value":0}},{"id":5984,"instance":0,"array":{"type":"avg"}},{"id":5984,"instance":0,"array":{"type":"min"}},{"id":5984,"instance":0,"array":{"type":"max"}},{"id":20001,"instance":0,"array":{"type":"exact","value":0}}],"ids":["5f185b92bf92ed4d3be9637d","5edbdd689d700db709af0c2f","5f185b91bf92ed4d3be9587e","5f185b91bf92ed4d3be95984","5edbdd689d700db709af0c3e","5edbdd689d700db709af0c2b","5edbdd689d700db709af0c2d","5f185b93bf92ed4d3be982e9","5edbdd689d700db709af0c2a","5edbdd689d700db709af0c4d"],"type":"csv","base_url":"http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com"}'</span></pre></div>
+<div class="sourceCode" id="cb15"><pre class="r"><span class="no">new_raw_data</span> <span class="kw">&lt;-</span> <span class="st">'{"columns":[{"id":34,"instance":0,"array":{"type":"exact","value":0}},{"id":31,"instance":0,"array":{"type":"exact","value":0}},{"id":52,"instance":0,"array":{"type":"exact","value":0}},{"id":5984,"instance":0,"array":{"type":"avg"}},{"id":5984,"instance":0,"array":{"type":"min"}},{"id":5984,"instance":0,"array":{"type":"max"}},{"id":20001,"instance":0,"array":{"type":"exact","value":0}}],"ids":["5f185b92bf92ed4d3be9637d","5edbdd689d700db709af0c2f","5f185b91bf92ed4d3be9587e","5f185b91bf92ed4d3be95984","5edbdd689d700db709af0c3e","5edbdd689d700db709af0c2b","5edbdd689d700db709af0c2d","5f185b93bf92ed4d3be982e9","5edbdd689d700db709af0c2a","5edbdd689d700db709af0c4d"],"type":"csv","base_url":"http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com"}'</span></pre></div>
 <p>Using this above raw data lets extract selected participants.</p>
-<div class="sourceCode" id="cb15"><pre class="r"><span class="no">df</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/extract_samples.html">extract_samples</a></span>(<span class="no">my_cloudos</span>,
+<div class="sourceCode" id="cb16"><pre class="r"><span class="no">df</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/extract_samples.html">extract_samples</a></span>(<span class="no">my_cloudos</span>,
                       <span class="kw">raw_data</span> <span class="kw">=</span> <span class="no">new_raw_data</span>)
 <span class="no">df</span>
 <span class="co">#&gt;          i ECG..load.0.0 ECG..load.0.1 ECG..load.0.2 ECG..load.0.3</span>
@@ -1172,6 +749,7 @@
 <span class="co">#&gt; 8                                                        NA               </span>
 <span class="co">#&gt; 9                      chronic myeloid Female          1944          April</span>
 <span class="co">#&gt; 10                      bladder cancer Female          1947       November</span></pre></div>
+</div>
 </div>
 </div>
 </div>

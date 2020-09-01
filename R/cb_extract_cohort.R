@@ -16,7 +16,8 @@ get_genotypic_table <- function(object,
                                page_number = 0,
                                page_size = 10,
                                filters = "") {
-  # TODO work on filter
+  # TODO work on filter, they are not getting saved
+  # so it is not possible to retrieve cohort related genotypic table.
   
   # chromosome filter
   # chr_filt = list("columnHeader" = "Chromosome",
@@ -26,8 +27,6 @@ get_genotypic_table <- function(object,
   #                  "filterType" = "Text",
   #                  "values" = type)
   # filters = list(chr_filt, type_filt)
-  
-  
   
   url <- paste(object@base_url, "api/v1/cohort/genotypic-data", sep = "/")
   r <- httr::POST(url,

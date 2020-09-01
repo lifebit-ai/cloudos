@@ -73,7 +73,7 @@ List available cohorts in a workspace.
 
 ```{r}
 cohorts <- cloudos::cohorts_list(my_cloudos)
-cohorts
+head(cohorts,5)
 ```
 
 ### Create a cohort
@@ -112,7 +112,7 @@ Get all the genotypic table for a cohort.
 ```{r}
 #cohort_genotype <- cloudos::get_genotypic_table(my_cloudos, my_cohort)
 cohort_genotype <- cloudos::get_genotypic_table(my_cloudos)
-head(my_cloudos, 5)
+head(cohort_genotype, 5)
 ```
 
 ### Filtering
