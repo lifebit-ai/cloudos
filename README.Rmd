@@ -43,20 +43,22 @@ library(cloudos)
 
 ### Setup essentials 
 
+Require few cloudos server login details, which will used in next step to create a `my_cloudos` object
+
+Note: If no `base_url` given the default is https://cloudos.lifebit.ai/
+
 ```{r}
 cb_base_url <- "http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com"
-my_auth <- "*************************"
+my_auth <- "Bearer *************************"
 my_team_id <- "***************************"
-```
-
-```{r secrets, echo=FALSE}
+# OR from environment variable stored in a ~/.Renviron file
 my_auth <- Sys.getenv("cloudos_Bearer_token")
 my_team_id <- Sys.getenv("cloudos_team_id")
 ```
 
 ### Create a cloudos object
 
-This object will be input to most of the other functions, which directly communicates with the cloudos server.
+This object can be used as input to other functions, which directly requires to communicate with the cloudos server.
 
 ```{r}
 my_cloudos <- cloudos::cloudos(base_url = cb_base_url,
@@ -70,11 +72,13 @@ my_cloudos
 List available cohorts in a workspace.
 
 ```{r}
-cohorts <- cloudos::list_cohorts(my_cloudos)
+cohorts <- cloudos::cohorts_list(my_cloudos)
 cohorts
 ```
 
 ### Create a cohort
+
+Create a new cohort.
 
 ```{r}
 my_cohort <- cloudos::create_cohort(my_cloudos,
@@ -83,30 +87,61 @@ my_cohort <- cloudos::create_cohort(my_cloudos,
 my_cohort
 ```
 
+### Get a cohort
+
+Get a available cohort in to a cohort R object.
+
+```{r}
+my_cohort <- cloudos::cohort(my_cloudos, cohort_id = "5f327e8c1733200222dc3e8c")
+my_cohort
+```
+
+### Get sample (participants) table
+
+Get all the sample (participants) table for a cohort. 
+
+```{r}
+cohort_samples <- cloudos::get_samples_table(my_cloudos, my_cohort)
+head(cohort_samples, 5)
+```
+
+### Get genotypic table
+
+Get all the genotypic table for a cohort.
+
+```{r}
+#cohort_genotype <- cloudos::get_genotypic_table(my_cloudos, my_cohort)
+cohort_genotype <- cloudos::get_genotypic_table(my_cloudos)
+head(my_cloudos, 5)
+```
+
 ### Filtering
 
 #### Search avaiable filters
 
 ```{r}
-filt <- cloudos::search_filters(my_cloudos, term = "cancer")
-filt
+all_filters <- cloudos::search_filters(my_cloudos, term = "cancer")
+head(all_filters, 5)
 ```
 
 #### Phenotype filtering
 
 ```{r}
+# lets apply this first filter
+all_filters[1,]
+
 # phenotype filter
 cohort_with_filters <- cloudos::filter_samples(my_cloudos, 
-                                   cohort_id = my_cohort["_id",], 
-                                   filter_id = filt$id[1])
+                                   cohort = my_cohort, 
+                                   filter_id = all_filters[1,]$id)
 cohort_with_filters
 ```
 
 ```{r}
 # filter participants
 participants_with_fiter <- cloudos:::filter_participants(my_cloudos,
-                                                cohort_id = my_cohort["_id",], 
-                                                filter_id = filt$id[1] )
+                                                cohort = my_cohort, 
+                                                filter_id = all_filters[1,]$id)
  
 participants_with_fiter
 ```
@@ -114,40 +149,21 @@ participants_with_fiter
 ```{r}
 # apply filter (genotypic_save) 
 gs <- cloudos::genotypic_save(my_cloudos,
-                     cohort_id = my_cohort["_id",],
-                     filter_id = filt$id[1] )
+                     cohort = my_cohort,
+                     filter_id = all_filters[1,]$id)
 
 gs
 ```
 
 ```{r}
 df <- cloudos::filter_metadata(my_cloudos,
-                     filter_id = filt$id[1])
+                     filter_id = all_filters[1,]$id)
 df
 ```
 
-### Get sample (participants) table - Independent from a cohort
+### Additional for UI
 
-Get all the sample (participants) table from cohort browser. Optionally you can also add filters.
-
-TODO: For now two filters are hard-coded for testing.
-
-```{r}
-df <- cloudos::get_samples_table(my_cloudos)
-df
-```
-
-### Get genotypic table - Independent from a cohort
-
-Get all the genotypic table from cohort browser. Optionally you can also add filters.
-
-```{r}
-# df <- cloudos::get_genotypic_table(my_cloudos, filt_chr = c(5,9), filt_type = c("SNP", "Insertion"))
-df <- cloudos::get_genotypic_table(my_cloudos)
-df
-```
-
-### Get samples table for selected rows
+#### Get samples table for selected rows
 
 Create a RAW data string. This usually generates after selecting participants on UI. (more information will be added how to create this in R)
 

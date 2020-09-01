@@ -13,8 +13,10 @@ reference:
 - title: "Cohort Browser"
   desc: "List and create a cohort"
   contents:
-  - '`list_cohort`'
-  - '`create_create`'
+  - '`cohort-class`'
+  - '`cohort`'
+  - '`cohorts_list`'
+  - '`create_cohort`'
 - title: "Cohort Browser - Tables"
   desc: "Show tables from Cohort Browser"
   contents:
@@ -22,12 +24,10 @@ reference:
   - '`get_genotypic_table`'
   - '`extract_samples`'
 - title: "Cohort Browser - Filter"
-  desc: "Show tables from Cohort Browser"
+  desc: "Apply filters to Cohort Browser tables"
   contents:
   - '`search_filters`'
   - '`filter_samples`'
   - '`filter_participants`'
   - '`filter_metadata`'
   - '`genotypic_save`'
-  
-  

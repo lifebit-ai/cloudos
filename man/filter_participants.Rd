@@ -4,13 +4,14 @@
 \alias{filter_participants}
 \title{Filter participants}
 \usage{
-filter_participants(object, cohort_id, filter_id)
+filter_participants(object, cohort, filter_id)
 }
 \arguments{
 \item{object}{A cloudos object. (Required)
 See constructor function \code{\link{cloudos}}}
 
-\item{cohort_id}{A cohort ID. (Required)}
+\item{cohort}{A cohort object. (Required)
+See constructor function \code{\link{cohort}}}
 
 \item{filter_id}{A filter ID. (Required)}
 }

@@ -122,7 +122,7 @@ Optionally phenotypic filters can be applied as well." />
 Optionally phenotypic filters can be applied as well.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_samples_table</span>(<span class='no'>object</span>, <span class='kw'>page_number</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>page_size</span> <span class='kw'>=</span> <span class='fl'>10</span>)</pre>
+    <pre class="usage"><span class='fu'>get_samples_table</span>(<span class='no'>object</span>, <span class='kw'>page_number</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>page_size</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>cohort</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -139,6 +139,11 @@ See constructor function <code><a href='cloudos.html'>cloudos</a></code></p></td
     <tr>
       <th>page_size</th>
       <td><p>Number of entries in a page. (Optional) Default - 10</p></td>
+    </tr>
+    <tr>
+      <th>cohort</th>
+      <td><p>A cohort object. (Required)
+See constructor function <code><a href='cohort.html'>cohort</a></code></p></td>
     </tr>
     </table>
 

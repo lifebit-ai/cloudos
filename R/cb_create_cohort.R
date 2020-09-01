@@ -33,10 +33,13 @@ create_cohort <- function(object, cohort_name, cohort_desc, filters = "") {
     stop("Something went wrong. Not able to create a cohort")
   }
   # parse the content
-  message("Cohort named ", cohort_name, " created successfully.")
+  message("Cohort created successfully.")
   res <- httr::content(r)
   # into a dataframe
-  res_df <- do.call(rbind, res)
-  colnames(res_df) <- "details"
-  return(res_df)
+  # res_df <- do.call(rbind, res)
+  # colnames(res_df) <- "details"
+  # return a cohort object
+  cohort_obj <- cohort(object = object, 
+                       cohort_id = res$`_id`)
+  return(cohort_obj)
 }

@@ -1,4 +1,4 @@
-#my_cohort <- get_cohort_info(object, cohort_id)
+#my_cohort <- .get_cohort_info(object, cohort_id)
 #more_fields <- my_cohort$moreFields[[1]]
 #fields <- my_cohort$fields[[1]]
 
@@ -10,7 +10,7 @@
     my_values <- c(my_values, fields$field$values[[as.character(value_id)]])
   }
   # make search json
-  search = list("column" = list("id" = unbox(more_fields$fieldId),
+  search = list("column" = list("id" = jsonlite::unbox(more_fields$fieldId),
                                 "instance" = more_fields$instance[[1]],
                                 "array" = list("type" = "exact",
                                                "value" = "0")

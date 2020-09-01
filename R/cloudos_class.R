@@ -49,6 +49,11 @@ cloudos <- function(base_url, auth, team_id){
     stop("Please mention an authentication starts with apikey/Bearer")
   }
   
+  # check if base URL is given if not use default
+  if(missing(base_url)){
+    base_url = "https://cloudos.lifebit.ai/"
+  }
+  
   cloudos_class_obj <- methods::new("cloudos",
                                    base_url = base_url,
                                    auth_method = auth_method,

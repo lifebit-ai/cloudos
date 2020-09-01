@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>This S4 class creates a cohort object object. — cohort-class • cloudos</title>
+<title>cohort class — cohort-class • cloudos</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,12 @@
 
 
 
-<meta property="og:title" content="This S4 class creates a cohort object object. — cohort-class" />
-<meta property="og:description" content="This will create a main cohort object, which will
-hold many information related to a cohort." />
+<meta property="og:title" content="cohort class — cohort-class" />
+<meta property="og:description" content="This will create a cohort object, which will
+hold many information related to a cohort
+including cohort ID, name, description, filters, tables.
+Use of this object will simplify calling every
+other functions which requires a cohort." />
 
 
 
@@ -112,14 +115,17 @@ hold many information related to a cohort." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>This S4 class creates a cohort object object.</h1>
+    <h1>cohort class</h1>
     <small class="dont-index">Source: <a href='https://github.com/lifebit-ai/cloudos/blob/master/R/cb_class.R'><code>R/cb_class.R</code></a></small>
     <div class="hidden name"><code>cohort-class.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This will create a main cohort object, which will
-hold many information related to a cohort.</p>
+    <p>This will create a cohort object, which will
+hold many information related to a cohort
+including cohort ID, name, description, filters, tables.
+Use of this object will simplify calling every
+other functions which requires a cohort.</p>
     </div>
 
 
@@ -129,9 +135,15 @@ hold many information related to a cohort.</p>
     
 
 <dl'>
-<dt><code>cohort</code></dt><dd><p>A single cohort</p></dd>
+<dt><code>id</code></dt><dd><p>cohort ID.</p></dd>
 
-<dt><code>filter</code></dt><dd><p>A cohort filter</p></dd>
+<dt><code>name</code></dt><dd><p>cohort name.</p></dd>
+
+<dt><code>desc</code></dt><dd><p>cohort description.</p></dd>
+
+<dt><code>field</code></dt><dd><p>Filters.</p></dd>
+
+<dt><code>more_fileds</code></dt><dd><p>Filter related information.</p></dd>
 
 </dl>
 

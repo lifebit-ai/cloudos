@@ -62,44 +62,47 @@ get_genotypic_table <- function(object,
 #'
 #' @param object A cloudos object. (Required)
 #' See constructor function \code{\link{cloudos}}
+#' @param cohort A cohort object. (Required)
+#' See constructor function \code{\link{cohort}}
 #' @param page_number Number of page. (Optional) Default - 0
 #' @param page_size Number of entries in a page. (Optional) Default - 10
 #'
 #' @return A dataframe.
 #'
 #' @export
-get_samples_table <- function(object, 
+get_samples_table <- function(object,
+                              cohort,
                               page_number = 0,
-                              page_size = 10, cohort_id =  NULL) {
+                              page_size = 10) {
   # TODO work on column
-  columns <- list(list("id" = unbox(34),
+  columns <- list(list("id" = jsonlite::unbox(34),
                        "instance" = 0,
                        "array" = list("type" = "exact",
                                       "value" = 0)
                   ),
-                  list("id" = unbox(31),
+                  list("id" = jsonlite::unbox(31),
                        "instance" = 0,
                        "array" = list("type" = "exact",
                                       "value" = 0)
                   ),
-                  list("id" = unbox(52),
+                  list("id" = jsonlite::unbox(52),
                        "instance" = 0,
                        "array" = list("type" = "exact",
                                       "value" = 0)
                   ),
-                  list("id" = unbox(5984),
+                  list("id" = jsonlite::unbox(5984),
                        "instance" = 0,
                        "array" = list("type" = "avg")
                   ),
-                  list("id" = unbox(5984),
+                  list("id" = jsonlite::unbox(5984),
                        "instance" = 0,
                        "array" = list("type" = "min")
                   ),
-                  list("id" = unbox(5984),
+                  list("id" = jsonlite::unbox(5984),
                        "instance" = 0,
                        "array" = list("type" = "max")
                   ),
-                  list("id" = unbox(20001),
+                  list("id" = jsonlite::unbox(20001),
                        "instance" = 0,
                        "array" = list("type" = "exact",
                                       "value" = 0)
@@ -107,10 +110,10 @@ get_samples_table <- function(object,
             )
   
   # TODO work on filtered search
-  if(missing(cohort_id)){
+  if(missing(cohort)){
     search = list()
   }else{
-    my_cohort <- get_cohort_info(object, cohort_id)
+    my_cohort <- .get_cohort_info(object, cohort@id)
     search <- .get_search_json(my_cohort)
   }
   
@@ -143,7 +146,8 @@ get_samples_table <- function(object,
   return(res_df)
 }
 
-df6 <- get_samples_table(object, cohort_id = "5f327e8c1733200222dc3e8c")
+# test
+#df6 <- get_samples_table(object, cohort = cohort_obj)
 #######################################################################
 
 #' @title Extract participants

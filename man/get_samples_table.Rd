@@ -4,11 +4,14 @@
 \alias{get_samples_table}
 \title{Get samples table}
 \usage{
-get_samples_table(object, page_number = 0, page_size = 10)
+get_samples_table(object, cohort, page_number = 0, page_size = 10)
 }
 \arguments{
 \item{object}{A cloudos object. (Required)
 See constructor function \code{\link{cloudos}}}
+
+\item{cohort}{A cohort object. (Required)
+See constructor function \code{\link{cohort}}}
 
 \item{page_number}{Number of page. (Optional) Default - 0}
 

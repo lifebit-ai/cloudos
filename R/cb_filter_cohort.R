@@ -46,13 +46,14 @@ search_filters <- function(object,
 #'
 #' @param object A cloudos object. (Required)
 #' See constructor function \code{\link{cloudos}} 
-#' @param cohort_id A cohort ID. (Required)
+#' @param cohort A cohort object. (Required)
+#' See constructor function \code{\link{cohort}}
 #' @param filter_id A filter ID. (Required)
 #'
 #' @return A data frame with filters applied.
 #'
 #' @export
-filter_samples <- function(object, cohort_id, filter_id ) {
+filter_samples <- function(object, cohort, filter_id ) {
   # prepare request body
   # TODO: remove the hard-coded filters
   r_body <- list("filter" = list("instances" = c(0)),
@@ -60,7 +61,7 @@ filter_samples <- function(object, cohort_id, filter_id ) {
                                       "instance" = c(0),
                                       "value" = c(-3,0)
                                   ),
-                 "cohortId" = cohort_id
+                 "cohortId" = cohort@id
                  )
   # make request
   url <- paste(object@base_url, "api/v1/cohort/filter", filter_id, "data", sep = "/")
@@ -89,13 +90,14 @@ filter_samples <- function(object, cohort_id, filter_id ) {
 #'
 #' @param object A cloudos object. (Required)
 #' See constructor function \code{\link{cloudos}} 
-#' @param cohort_id A cohort ID. (Required)
+#' @param cohort A cohort object. (Required)
+#' See constructor function \code{\link{cohort}}
 #' @param filter_id A filter ID. (Required)
 #'
 #' @return A data frame with filters applied.
 #'
 #' @export
-filter_participants <-function(object, cohort_id, filter_id ) {
+filter_participants <-function(object, cohort, filter_id ) {
   # prepare request body
   # TODO: remove the hard-coded filters
   r_body <- list("moreFilters" = list(list("fieldId" = filter_id,
@@ -103,7 +105,7 @@ filter_participants <-function(object, cohort_id, filter_id ) {
                                            "value" = c(-3,0)
   )
   ),
-  "cohortId" = cohort_id
+  "cohortId" = cohort@id
   )
   # make request
   url <- paste(object@base_url, "api/v1/cohort/filter/participants", sep = "/")
@@ -131,13 +133,14 @@ filter_participants <-function(object, cohort_id, filter_id ) {
 #'
 #' @param object A cloudos object. (Required)
 #' See constructor function \code{\link{cloudos}} 
-#' @param cohort_id A cohort ID. (Required)
+#' @param cohort A cohort object. (Required)
+#' See constructor function \code{\link{cohort}}
 #' @param filter_id A filter ID. (Required)
 #'
 #' @return A data frame.
 #'
 #' @export
-genotypic_save <- function(object, cohort_id, filter_id ) {
+genotypic_save <- function(object, cohort, filter_id ) {
   # prepare request body
   r_body <- list("ids" = list(),
                  "moreFilters" = list(list("fieldId" = filter_id,
@@ -145,7 +148,7 @@ genotypic_save <- function(object, cohort_id, filter_id ) {
                                            "value" = c(-3)
                  )
                  ),
-                 "cohortId" = cohort_id
+                 "cohortId" = cohort@id
   )
   # make request
   url <- paste(object@base_url, "api/v1/cohort/genotypic-save", sep = "/")

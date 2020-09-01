@@ -10,6 +10,15 @@
     <loc>https://lifebit-ai.github.io/cloudos//reference/cloudos.html</loc>
   </url>
   <url>
+    <loc>https://lifebit-ai.github.io/cloudos//reference/cohort-class.html</loc>
+  </url>
+  <url>
+    <loc>https://lifebit-ai.github.io/cloudos//reference/cohort.html</loc>
+  </url>
+  <url>
+    <loc>https://lifebit-ai.github.io/cloudos//reference/cohorts_list.html</loc>
+  </url>
+  <url>
     <loc>https://lifebit-ai.github.io/cloudos//reference/create_cohort.html</loc>
   </url>
   <url>
@@ -32,9 +41,6 @@
   </url>
   <url>
     <loc>https://lifebit-ai.github.io/cloudos//reference/get_samples_table.html</loc>
-  </url>
-  <url>
-    <loc>https://lifebit-ai.github.io/cloudos//reference/list_cohorts.html</loc>
   </url>
   <url>
     <loc>https://lifebit-ai.github.io/cloudos//reference/search_filters.html</loc>
