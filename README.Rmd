@@ -72,7 +72,7 @@ my_cloudos
 List available cohorts in a workspace.
 
 ```{r}
-cohorts <- cloudos::cohorts_list(my_cloudos)
+cohorts <- cloudos::list_cohorts(my_cloudos)
 head(cohorts,5)
 ```
 

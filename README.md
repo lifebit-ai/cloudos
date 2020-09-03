@@ -84,7 +84,7 @@ my_cloudos
 List available cohorts in a workspace.
 
 ``` r
-cohorts <- cloudos::cohorts_list(my_cloudos)
+cohorts <- cloudos::list_cohorts(my_cloudos)
 #> Total number of cohorts found-49. But here is 10. For more, change 'page_number' and 'page_size'
 head(cohorts,5)
 #>                         id        name
