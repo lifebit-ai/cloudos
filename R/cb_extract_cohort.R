@@ -18,7 +18,6 @@ get_genotypic_table <- function(object,
                                filters = "") {
   # TODO work on filter, they are not getting saved
   # so it is not possible to retrieve cohort related genotypic table.
-  
   # chromosome filter
   # chr_filt = list("columnHeader" = "Chromosome",
   #                 "filterType" = "Text",
@@ -46,7 +45,6 @@ get_genotypic_table <- function(object,
   res <- httr::content(r)
   df_list <- res$participants
   # https://www.r-bloggers.com/r-combining-vectors-or-data-frames-of-unequal-length-into-one-data-frame/
-  # TODO improve the dataframe
   df <- do.call(rbind, lapply(lapply(df_list, unlist), "[",
                         unique(unlist(c(sapply(df_list,names))))))
   return(df)
@@ -73,7 +71,7 @@ get_samples_table <- function(object,
                               cohort,
                               page_number = 0,
                               page_size = 10) {
-  # TODO work on column
+  # TODO work on column - not able to find end-point that returns this information
   columns <- list(list("id" = jsonlite::unbox(34),
                        "instance" = 0,
                        "array" = list("type" = "exact",
@@ -108,7 +106,6 @@ get_samples_table <- function(object,
                   )
             )
   
-  # TODO work on filtered search
   if(missing(cohort)){
     search = list()
   }else{
@@ -162,7 +159,7 @@ get_samples_table <- function(object,
 #' @export
 extract_samples <- function(object, raw_data) {
   url <- paste(object@base_url, "api/v1/cohort/participants/export", sep = "/")
-  # TODO work on raw_data
+  # TODO work on raw_data - Find an end point that returns this and make a json in R
   r <- httr::POST(url,
                   httr::add_headers(.headers = c("Authorization" = object@auth,
                                                  "accept" = "*/*",

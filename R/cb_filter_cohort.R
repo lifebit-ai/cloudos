@@ -142,6 +142,7 @@ filter_participants <-function(object, cohort, filter_id ) {
 #' @export
 genotypic_save <- function(object, cohort, filter_id ) {
   # prepare request body
+  # TODO: remove the hard-coded filters
   r_body <- list("ids" = list(),
                  "moreFilters" = list(list("fieldId" = filter_id,
                                            "instance" = c(0),
