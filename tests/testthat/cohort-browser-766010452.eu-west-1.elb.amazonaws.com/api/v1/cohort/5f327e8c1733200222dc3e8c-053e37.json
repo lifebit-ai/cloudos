@@ -1,0 +1,83 @@
+{
+    "_id": "5f327e8c1733200222dc3e8c",
+    "name": "test_2",
+    "description": "some random",
+    "moreFields": [
+        {
+            "fieldId": 2345,
+            "instance": [
+                0
+            ],
+            "value": [
+                -3,
+                -1,
+                0
+            ],
+            "finished": true
+        }
+    ],
+    "fields": [
+        {
+            "field": {
+                "_id": "5eb55c78599ae918ebb48f69",
+                "categoryPathLevel1": "UK Biobank Assessment Centre",
+                "categoryPathLevel2": "Touchscreen",
+                "categoryPathLevel3": "Health and medical history",
+                "categoryPathLevel4": "Cancer screening",
+                "id": 2345,
+                "name": "Ever had bowel cancer screening",
+                "type": "bars",
+                "valueType": "Categorical single",
+                "units": "",
+                "instances": 4,
+                "array": 1,
+                "description": "\"ACE touchscreen question \"\"Have you ever had a screening test for bowel (colorectal) cancer? (Please include tests for blood in the stool/faeces or a colonoscopy or a sigmoidoscopy)\"\" If the participant activated the Help button they were shown the message:     Screening tests for bowel or colorectal cancer include:  - FOBT (faecal occult blood test) - this is when you    are given a set of cards and asked to smear a part    of your stool on three separate occasions onto the    cards and then return the cards to be tested for    blood.  - Sigmoidoscopy - a tube is used to examine the lower    bowel. This is usually done in a doctor's office    without pain relief.  - Colonoscopy - a long tube is used the examine the    whole large bowel; you would usually have to drink    a large amount of special liquid to prepare the    bowel; and you would be given a sedative medication    for the procedure.     \"",
+                "descriptionParticipantsNo": 501599,
+                "descriptionItemNo": 572225,
+                "descriptionStability": "Complete",
+                "coding": "100349",
+                "descriptionCategoryID": "100040",
+                "descriptionItemType": "Data",
+                "descriptionStrata": "Primary",
+                "descriptionSexed": "Unisex",
+                "link": "http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=2345",
+                "instance0Name": "Initial assessment visit (2006-2010) at which participants were recruited and consent given",
+                "instance1Name": "First repeat assessment visit (2012-13)",
+                "instance2Name": "Imaging visit (2014+)",
+                "instance3Name": "First repeat imaging visit (2019+)",
+                "instance4Name": "",
+                "instance5Name": "",
+                "instance6Name": "",
+                "instance7Name": "",
+                "instance8Name": "",
+                "instance9Name": "",
+                "instance10Name": "",
+                "instance11Name": "",
+                "instance12Name": "",
+                "instance13Name": "",
+                "instance14Name": "",
+                "instance15Name": "",
+                "instance16Name": "",
+                "bucket300": false,
+                "bucket500": false,
+                "bucket1000": false,
+                "bucket2500": false,
+                "bucket5000": false,
+                "bucket10000": false,
+                "orderPhenotype": 40,
+                "values": {
+                    "0": "No",
+                    "1": "Yes",
+                    "-1": "Do not know",
+                    "-3": "Prefer not to answer"
+                },
+                "checked": 1
+            },
+            "instances": [
+                0
+            ],
+            "createAt": 1599486182961,
+            "updatedAt": 1599486182961
+        }
+    ]
+}
