@@ -47,6 +47,7 @@ get_genotypic_table <- function(object,
   # https://www.r-bloggers.com/r-combining-vectors-or-data-frames-of-unequal-length-into-one-data-frame/
   df <- do.call(rbind, lapply(lapply(df_list, unlist), "[",
                         unique(unlist(c(sapply(df_list,names))))))
+  df <- as.data.frame(df)
   return(df)
 }
 
