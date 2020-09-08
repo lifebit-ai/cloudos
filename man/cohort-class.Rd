@@ -20,8 +20,8 @@ other functions which requires a cohort.
 
 \item{\code{desc}}{cohort description.}
 
-\item{\code{field}}{Filters.}
+\item{\code{fields}}{Filters.}
 
-\item{\code{more_fileds}}{Filter related information.}
+\item{\code{more_fields}}{Filter related information.}
 }}
 

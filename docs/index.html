@@ -78,8 +78,21 @@
 
 <p>The ‘CloudOS’ client library for R makes it easy to interact with CloudOS <a href="https://cloudos.lifebit.ai/" class="uri">https://cloudos.lifebit.ai/</a> in the R environment for analysis.</p>
 <ul>
+<li><a href="#installation">Installation</a></li>
 <li>
-<a href="#installation">Installation</a> - <a href="#usage">Usage</a> - <a href="#load-the-cloudos-r-client-library">Load the cloudos R-client library</a> - <a href="#setup-essentials">Setup essentials</a> - <a href="#create-a-cloudos-object">Create a cloudos object</a> - <a href="#list-cohorts">List Cohorts</a> - <a href="#create-a-cohort">Create a cohort</a> - <a href="#get-a-cohort">Get a cohort</a> - <a href="#get-sample-participants-table">Get sample (participants) table</a> - <a href="#get-genotypic-table">Get genotypic table</a> - <a href="#filtering">Filtering</a> - <a href="#additional-for-ui">Additional for UI</a>
+<a href="#usage">Usage</a>
+<ul>
+<li><a href="#load-the-cloudos-r-client-library">Load the cloudos R-client library</a></li>
+<li><a href="#setup-essentials">Setup essentials</a></li>
+<li><a href="#create-a-cloudos-object">Create a cloudos object</a></li>
+<li><a href="#list-cohorts">List Cohorts</a></li>
+<li><a href="#create-a-cohort">Create a cohort</a></li>
+<li><a href="#get-a-cohort">Get a cohort</a></li>
+<li><a href="#get-sample-participants-table">Get sample (participants) table</a></li>
+<li><a href="#get-genotypic-table">Get genotypic table</a></li>
+<li><a href="#filtering">Filtering</a></li>
+<li><a href="#additional-for-ui">Additional for UI</a></li>
+</ul>
 </li>
 </ul>
 <div id="installation" class="section level2">
@@ -125,7 +138,7 @@
 <h3 class="hasAnchor">
 <a href="#list-cohorts" class="anchor"></a>List Cohorts</h3>
 <p>List available cohorts in a workspace.</p>
-<div class="sourceCode" id="cb5"><pre class="r"><span class="no">cohorts</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/cohorts_list.html">cohorts_list</a></span>(<span class="no">my_cloudos</span>)
+<div class="sourceCode" id="cb5"><pre class="r"><span class="no">cohorts</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/list_cohorts.html">list_cohorts</a></span>(<span class="no">my_cloudos</span>)
 <span class="co">#&gt; Total number of cohorts found-49. But here is 10. For more, change 'page_number' and 'page_size'</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">cohorts</span>,<span class="fl">5</span>)
 <span class="co">#&gt;                         id        name</span>

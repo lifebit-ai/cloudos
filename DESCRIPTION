@@ -19,7 +19,8 @@ Imports:
     utils,
     methods,
     dplyr,
-    jsonlite
+    jsonlite,
+    ggplot2
 Suggests: 
     httptest,
     kableExtra,

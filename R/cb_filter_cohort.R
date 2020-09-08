@@ -54,13 +54,9 @@ search_filters <- function(object,
 #'
 #' @export
 filter_samples <- function(object, cohort, filter_id ) {
-  # prepare request body
-  # TODO: remove the hard-coded filters
+  # empty moreFilters returns all the filter values associated with a cohort for a filter
   r_body <- list("filter" = list("instances" = c(0)),
-                 "moreFilters" = list("fieldId" = filter_id,
-                                      "instance" = c(0),
-                                      "value" = c(-3,0)
-                                  ),
+                 "moreFilters" = list(),
                  "cohortId" = cohort@id
                  )
   # make request
@@ -79,8 +75,40 @@ filter_samples <- function(object, cohort, filter_id ) {
   # parse the content
   res <- httr::content(r)
   # into a dataframe
-  res_df <- do.call(rbind, res)
+  res_df <- dplyr::bind_rows(res)
   return(res_df)
+}
+
+#' @title Get cohort filters
+#'
+#' @description Get a list of all the filters associated with a cohort. 
+#'
+#' @param object A cloudos object. (Required)
+#' See constructor function \code{\link{cloudos}} 
+#' @param cohort A cohort object. (Required)
+#' See constructor function \code{\link{cohort}}
+#'
+#' @return A list of data frame.
+#'
+#' @export
+get_cohort_filters <- function(object, cohort){
+  # get all the filters dataframe in a single list
+  filter_list <- list()
+  for(i in 1:length(cohort@more_fields)){
+    field_id <- cohort@more_fields[[i]]$fieldId
+    filter_list[[as.character(field_id)]] <- filter_samples(object = object,
+                                                            cohort = cohort,
+                                                            filter_id = field_id)
+    # compare with applied filters from cohort and modify the dataframe
+    # if(names(cohort@more_fields[[i]][3]) == "value"){
+    #   
+    # }else if (names(cohort@more_fields[[i]][3]) == "range"){
+    #  
+    # }else{
+    #   stop("Unknown filter type. Accepts 'range' and 'value' only.")
+    # }
+  }
+  return(filter_list)
 }
 
 ##################################################################################################

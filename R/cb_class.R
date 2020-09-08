@@ -9,8 +9,8 @@
 #' @slot id cohort ID.
 #' @slot name  cohort name.
 #' @slot desc cohort description.
-#' @slot field Filters.
-#' @slot more_fileds Filter related information.
+#' @slot fields Filters.
+#' @slot more_fields Filter related information.
 #'
 #' @name cohort-class
 #' @rdname cohort-class
