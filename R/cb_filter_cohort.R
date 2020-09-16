@@ -11,11 +11,11 @@
 #'
 #' @examples
 #' \dontrun{
-#' search_filters(cloudos_object,
-#'              term = "male")
+#' search_phenotypic_filters(cloudos_object,
+#'              term = "cancer")
 #' }
 #' @export
-search_filters <- function(object,
+search_phenotypic_filters <- function(object,
                            term){
   url <- paste(object@base_url, "api/v1/cohort/fields_search", sep = "/")
   r <- httr::GET(url,
