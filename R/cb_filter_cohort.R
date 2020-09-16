@@ -53,7 +53,7 @@ search_phenotypic_filters <- function(object,
 #' @return A data frame with filters applied.
 #'
 #' @export
-filter_samples <- function(object, cohort, filter_id ) {
+get_filter_statistics <- function(object, cohort, filter_id ) {
   # empty moreFilters returns all the filter values associated with a cohort for a filter
   r_body <- list("filter" = list("instances" = c(0)),
                  "moreFilters" = list(),
@@ -96,7 +96,7 @@ get_cohort_filters <- function(object, cohort){
   filter_list <- list()
   for(i in 1:length(cohort@more_fields)){
     field_id <- cohort@more_fields[[i]]$fieldId
-    filter_list[[as.character(field_id)]] <- filter_samples(object = object,
+    filter_list[[as.character(field_id)]] <- get_filter_statistics(object = object,
                                                             cohort = cohort,
                                                             filter_id = field_id)
     # compare with applied filters from cohort and modify the dataframe
