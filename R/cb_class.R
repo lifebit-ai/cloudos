@@ -65,8 +65,8 @@ cohort <- function(object, cohort_id){
 # method for cohort object
 setMethod("show", "cohort",
           function(object) {
-            cat("Cphort ID: ", object@id, "\n")
-            cat("Cphort Name: ", object@name, "\n")
+            cat("Cohort ID: ", object@id, "\n")
+            cat("Cohort Name: ", object@name, "\n")
             cat("Cohort Description: ", object@desc, "\n")
           }
 )
