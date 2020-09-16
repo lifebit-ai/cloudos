@@ -12,12 +12,12 @@
 #'
 #' @examples
 #' \dontrun{
-#' create_cohort(cloudos_obj,
+#' cb_create_cohort(cloudos_obj,
 #'              cohort_name = "my cohort",
 #'              cohort_desc = "my cohort description")
 #' }
 #' @export
-create_cohort <- function(object, cohort_name, cohort_desc, filters = "") {
+cb_create_cohort <- function(object, cohort_name, cohort_desc, filters = "") {
   
   # if no description provided
   if(!cohort_desc){
@@ -45,7 +45,7 @@ create_cohort <- function(object, cohort_name, cohort_desc, filters = "") {
   # res_df <- do.call(rbind, res)
   # colnames(res_df) <- "details"
   # return a cohort object
-  cohort_obj <- load_cohort(object = object, 
+  cohort_obj <- cb_load_cohort(object = object, 
                             cohort_id = res$`_id`)
   return(cohort_obj)
 }

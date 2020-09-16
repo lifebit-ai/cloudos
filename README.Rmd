@@ -61,7 +61,7 @@ my_team_id <- Sys.getenv("cloudos_team_id")
 This object can be used as input to other functions, which directly requires to communicate with the cloudos server.
 
 ```{r}
-my_cloudos <- cloudos::cloudos(base_url = cb_base_url,
+my_cloudos <- cloudos::connect_cloudos(base_url = cb_base_url,
                                auth = my_auth,
                                team_id = my_team_id)
 my_cloudos
@@ -72,7 +72,7 @@ my_cloudos
 List available cohorts in a workspace.
 
 ```{r}
-cohorts <- cloudos::list_cohorts(my_cloudos)
+cohorts <- cloudos::cb_list_cohorts(my_cloudos)
 head(cohorts,5)
 ```
 
@@ -80,8 +80,8 @@ head(cohorts,5)
 
 Create a new cohort.
 
-```{r}
-my_cohort <- cloudos::create_cohort(my_cloudos,
+```{r, eval=F}
+my_cohort <- cloudos::cb_create_cohort(my_cloudos,
               cohort_name = "Cohort-R",
               cohort_desc = "This cohort is for testing purpose, created from R.")
 my_cohort
@@ -92,7 +92,7 @@ my_cohort
 Get a available cohort in to a cohort R object.
 
 ```{r}
-my_cohort <- cloudos::cohort(my_cloudos, cohort_id = "5f327e8c1733200222dc3e8c")
+my_cohort <- cloudos::cb_load_cohort(my_cloudos, cohort_id = "5f6228133097cc7a6504fb76")
 my_cohort
 ```
 
@@ -101,17 +101,29 @@ my_cohort
 Get all the sample (participants) table for a cohort. 
 
 ```{r}
-cohort_samples <- cloudos::get_samples_table(my_cloudos, my_cohort)
+cohort_samples <- cloudos::cb_get_samples_table(my_cloudos, my_cohort)
 head(cohort_samples, 5)
 ```
+
+### Get sample filters plot
+
+This is a work in progress feature.
+
+```{r}
+cohort_filters <- cb_get_cohort_filters(object = my_cloudos, cohort = my_cohort)
+plot_list <- cb_plot_filters(cohort_filters)
+library(ggpubr)
+ggpubr::ggarrange(plotlist = plot_list)
+```
+
 
 ### Get genotypic table
 
 Get all the genotypic table for a cohort.
 
 ```{r}
-#cohort_genotype <- cloudos::get_genotypic_table(my_cloudos, my_cohort)
-cohort_genotype <- cloudos::get_genotypic_table(my_cloudos)
+#cohort_genotype <- cloudos::cb_get_genotypic_table(my_cloudos, my_cohort)
+cohort_genotype <- cloudos::cb_get_genotypic_table(my_cloudos)
 head(cohort_genotype, 5)
 ```
 
@@ -120,7 +132,7 @@ head(cohort_genotype, 5)
 #### Search avaiable filters
 
 ```{r}
-all_filters <- cloudos::search_filters(my_cloudos, term = "cancer")
+all_filters <- cloudos::cb_search_phenotypic_filters(my_cloudos, term = "cancer")
 head(all_filters, 5)
 ```
 
@@ -139,7 +151,7 @@ cohort_with_filters
 
 ```{r}
 # filter participants
-participants_with_fiter <- cloudos:::filter_participants(my_cloudos,
+participants_with_fiter <- cloudos:::cb_filter_participants(my_cloudos,
                                                 cohort = my_cohort, 
                                                 filter_id = all_filters[1,]$id)
  
@@ -147,8 +159,8 @@ participants_with_fiter
 ```
 
 ```{r}
-# apply filter (genotypic_save) 
-gs <- cloudos::genotypic_save(my_cloudos,
+# apply filter (cb_genotypic_save) 
+gs <- cloudos::cb_genotypic_save(my_cloudos,
                      cohort = my_cohort,
                      filter_id = all_filters[1,]$id)
 
@@ -156,7 +168,7 @@ gs
 ```
 
 ```{r}
-df <- cloudos::filter_metadata(my_cloudos,
+df <- cloudos::cb_filter_metadata(my_cloudos,
                      filter_id = all_filters[1,]$id)
 df
 ```
@@ -176,7 +188,7 @@ new_raw_data <- '{"columns":[{"id":34,"instance":0,"array":{"type":"exact","valu
 Using this above raw data lets extract selected participants.
 
 ```{r}
-df <- cloudos::extract_samples(my_cloudos,
+df <- cloudos::cb_extract_samples(my_cloudos,
                       raw_data = new_raw_data)
 df
 ```

@@ -2,13 +2,13 @@
 #'
 #' @description Get a list of ggplot objects, each plot having one filter.
 #'
-#' @param filter_list The output of \code{\link{get_cohort_filters}} (Required)
+#' @param filter_list The output of \code{\link{cb_get_cohort_filters}} (Required)
 #'
 #' @return A list
 #' @import ggplot2
 #'
 #' @export
-plot_filters <- function(filter_list){ # latter the input will be a cohort object
+cb_plot_filters <- function(filter_list){ # latter the input will be a cohort object
   plot_list <- list()
   # check what kind of filter
   for(i in 1:length(filter_list)){

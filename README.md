@@ -76,7 +76,7 @@ my_cloudos <- cloudos::cloudos(base_url = cb_base_url,
 my_cloudos
 #> Base URL:  http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com 
 #> Authentication Method:  Bearer Token 
-#> Team ID: 5f046bf6c132dd15fdd1a525
+#> Team ID: 5f6228133097cc7a6504fb76
 ```
 
 ### List Cohorts
@@ -84,12 +84,12 @@ my_cloudos
 List available cohorts in a workspace.
 
 ``` r
-cohorts <- cloudos::list_cohorts(my_cloudos)
+cohorts <- cloudos::cb_list_cohorts(my_cloudos)
 #> Total number of cohorts found-49. But here is 10. For more, change 'page_number' and 'page_size'
 head(cohorts,5)
 #>                         id        name
 #> 1 5f2ab881b695de55d93024a7        test
-#> 2 5f327e8c1733200222dc3e8c      test_2
+#> 2 5f6228133097cc7a6504fb76      test_2
 #> 3 5f32c2147ca1902e9c5ba45d      test-R
 #> 4 5f32e1687ca1902e9c5ba467 Test cohort
 #> 5 5f32f1407ca1902e9c5ba46e    Cohort-R
@@ -112,7 +112,7 @@ head(cohorts,5)
 Create a new cohort.
 
 ``` r
-my_cohort <- cloudos::create_cohort(my_cloudos,
+my_cohort <- cloudos::cb_create_cohort(my_cloudos,
               cohort_name = "Cohort-R",
               cohort_desc = "This cohort is for testing purpose, created from R.")
 #> Cohort created successfully.
@@ -127,9 +127,9 @@ my_cohort
 Get a available cohort in to a cohort R object.
 
 ``` r
-my_cohort <- cloudos::cohort(my_cloudos, cohort_id = "5f327e8c1733200222dc3e8c")
+my_cohort <- cloudos::cohort(my_cloudos, cohort_id = "5f6228133097cc7a6504fb76")
 my_cohort
-#> Cphort ID:  5f327e8c1733200222dc3e8c 
+#> Cphort ID:  5f6228133097cc7a6504fb76 
 #> Cphort Name:  test_2 
 #> Cohort Description:  some random
 ```
@@ -139,7 +139,7 @@ my_cohort
 Get all the sample (participants) table for a cohort.
 
 ``` r
-cohort_samples <- cloudos::get_samples_table(my_cloudos, my_cohort)
+cohort_samples <- cloudos::cb_get_samples_table(my_cloudos, my_cohort)
 head(cohort_samples, 5)
 #>                        _id       i      f20001i0a0 f31i0a0 f34i0a0   f52i0a0
 #> 1 5edbdd689d700db709af0c2f 1000016 cervical cancer    Male    1954 September
@@ -160,8 +160,8 @@ head(cohort_samples, 5)
 Get all the genotypic table for a cohort.
 
 ``` r
-#cohort_genotype <- cloudos::get_genotypic_table(my_cloudos, my_cohort)
-cohort_genotype <- cloudos::get_genotypic_table(my_cloudos)
+#cohort_genotype <- cloudos::cb_get_genotypic_table(my_cloudos, my_cohort)
+cohort_genotype <- cloudos::cb_get_genotypic_table(my_cloudos)
 head(cohort_genotype, 5)
 #>      _id                        Chromosome Location   Reference Alternative
 #> [1,] "5ef793999b8097fcd1da226a" "10"       "10:93190" "AC"      " "        
@@ -236,7 +236,7 @@ head(cohort_genotype, 5)
 #### Search avaiable filters
 
 ``` r
-all_filters <- cloudos::search_filters(my_cloudos, term = "cancer")
+all_filters <- cloudos::cb_search_phenotypic_filters(my_cloudos, term = "cancer")
 #> Total number of filters - 29
 head(all_filters, 5)
 #>                        _id           categoryPathLevel1 categoryPathLevel2
@@ -379,7 +379,7 @@ cohort_with_filters
 
 ``` r
 # filter participants
-participants_with_fiter <- cloudos:::filter_participants(my_cloudos,
+participants_with_fiter <- cloudos:::cb_filter_participants(my_cloudos,
                                                 cohort = my_cohort, 
                                                 filter_id = all_filters[1,]$id)
  
@@ -392,20 +392,20 @@ participants_with_fiter
 ```
 
 ``` r
-# apply filter (genotypic_save) 
-gs <- cloudos::genotypic_save(my_cloudos,
+# apply filter (cb_genotypic_save) 
+gs <- cloudos::cb_genotypic_save(my_cloudos,
                      cohort = my_cohort,
                      filter_id = all_filters[1,]$id)
 
 gs
 #>      cohortId                   markers filters _id                       
-#> data "5f327e8c1733200222dc3e8c" List,0  List,1  "5f4e557faaafb6454ad4a324"
+#> data "5f6228133097cc7a6504fb76" List,0  List,1  "5f4e557faaafb6454ad4a324"
 #>      numberOfParticipants
 #> data 32545
 ```
 
 ``` r
-df <- cloudos::filter_metadata(my_cloudos,
+df <- cloudos::cb_filter_metadata(my_cloudos,
                      filter_id = all_filters[1,]$id)
 df
 #>                        _id           categoryPathLevel1 categoryPathLevel2
@@ -455,7 +455,7 @@ new_raw_data <- '{"columns":[{"id":34,"instance":0,"array":{"type":"exact","valu
 Using this above raw data lets extract selected participants.
 
 ``` r
-df <- cloudos::extract_samples(my_cloudos,
+df <- cloudos::cb_extract_samples(my_cloudos,
                       raw_data = new_raw_data)
 df
 #>          i ECG..load.0.0 ECG..load.0.1 ECG..load.0.2 ECG..load.0.3

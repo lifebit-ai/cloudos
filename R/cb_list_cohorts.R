@@ -14,7 +14,7 @@
 #' cohorts_list(cloudos_obj)
 #' }
 #' @export
-list_cohorts <- function(object,
+cb_list_cohorts <- function(object,
                          page_number = 0,
                          page_size = 10) {
   url <- paste(object@base_url, "api/v1/cohort", sep = "/")

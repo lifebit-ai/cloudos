@@ -16,18 +16,18 @@ reference:
   - '`cohort-class`'
   - '`cohort`'
   - '`cohorts_list`'
-  - '`create_cohort`'
+  - '`cb_create_cohort`'
 - title: "Cohort Browser - Tables"
   desc: "Show tables from Cohort Browser"
   contents:
-  - '`get_samples_table`'
-  - '`get_genotypic_table`'
-  - '`extract_samples`'
+  - '`cb_get_samples_table`'
+  - '`cb_get_genotypic_table`'
+  - '`cb_extract_samples`'
 - title: "Cohort Browser - Filter"
   desc: "Apply filters to Cohort Browser tables"
   contents:
   - '`search_filters`'
   - '`filter_samples`'
-  - '`filter_participants`'
-  - '`filter_metadata`'
-  - '`genotypic_save`'
+  - '`cb_filter_participants`'
+  - '`cb_filter_metadata`'
+  - '`cb_genotypic_save`'

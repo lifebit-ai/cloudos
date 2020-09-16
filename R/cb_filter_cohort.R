@@ -11,11 +11,11 @@
 #'
 #' @examples
 #' \dontrun{
-#' search_phenotypic_filters(cloudos_object,
+#' cb_search_phenotypic_filters(cloudos_object,
 #'              term = "cancer")
 #' }
 #' @export
-search_phenotypic_filters <- function(object,
+cb_search_phenotypic_filters <- function(object,
                            term){
   url <- paste(object@base_url, "api/v1/cohort/fields_search", sep = "/")
   r <- httr::GET(url,
@@ -47,13 +47,13 @@ search_phenotypic_filters <- function(object,
 #' @param object A cloudos object. (Required)
 #' See constructor function \code{\link{connect_cloudos}} 
 #' @param cohort A cohort object. (Required)
-#' See constructor function \code{\link{create_cohort}} or \code{\link{load_cohort}}
+#' See constructor function \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}
 #' @param filter_id A filter ID. (Required)
 #'
 #' @return A data frame with filters applied.
 #'
 #' @export
-get_filter_statistics <- function(object, cohort, filter_id ) {
+cb_get_filter_statistics <- function(object, cohort, filter_id ) {
   # empty moreFilters returns all the filter values associated with a cohort for a filter
   r_body <- list("filter" = list("instances" = c(0)),
                  "moreFilters" = list(),
@@ -86,17 +86,17 @@ get_filter_statistics <- function(object, cohort, filter_id ) {
 #' @param object A cloudos object. (Required)
 #' See constructor function \code{\link{connect_cloudos}} 
 #' @param cohort A cohort object. (Required)
-#' See constructor function \code{\link{create_cohort}} or \code{\link{load_cohort}}
+#' See constructor function \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}
 #'
 #' @return A list of data frame.
 #'
 #' @export
-get_cohort_filters <- function(object, cohort){
+cb_get_cohort_filters <- function(object, cohort){
   # get all the filters dataframe in a single list
   filter_list <- list()
   for(i in 1:length(cohort@more_fields)){
     field_id <- cohort@more_fields[[i]]$fieldId
-    filter_list[[as.character(field_id)]] <- get_filter_statistics(object = object,
+    filter_list[[as.character(field_id)]] <- cb_get_filter_statistics(object = object,
                                                             cohort = cohort,
                                                             filter_id = field_id)
     # compare with applied filters from cohort and modify the dataframe
@@ -119,13 +119,13 @@ get_cohort_filters <- function(object, cohort){
 #' @param object A cloudos object. (Required)
 #' See constructor function \code{\link{connect_cloudos}} 
 #' @param cohort A cohort object. (Required)
-#' See constructor function \code{\link{create_cohort}} or \code{\link{load_cohort}}
+#' See constructor function \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}
 #' @param filter_id A filter ID. (Required)
 #'
 #' @return A data frame with filters applied.
 #'
 #' @export
-filter_participants <-function(object, cohort, filter_id ) {
+cb_filter_participants <-function(object, cohort, filter_id ) {
   # prepare request body
   # TODO: remove the hard-coded filters
   r_body <- list("moreFilters" = list(list("fieldId" = filter_id,
@@ -162,13 +162,13 @@ filter_participants <-function(object, cohort, filter_id ) {
 #' @param object A cloudos object. (Required)
 #' See constructor function \code{\link{connect_cloudos}} 
 #' @param cohort A cohort object. (Required)
-#' See constructor function \code{\link{create_cohort}} or \code{\link{load_cohort}}
+#' See constructor function \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}
 #' @param filter_id A filter ID. (Required)
 #'
 #' @return A data frame.
 #'
 #' @export
-genotypic_save <- function(object, cohort, filter_id ) {
+cb_genotypic_save <- function(object, cohort, filter_id ) {
   # prepare request body
   # TODO: remove the hard-coded filters
   r_body <- list("ids" = list(),
@@ -210,7 +210,7 @@ genotypic_save <- function(object, cohort, filter_id ) {
 #' @return A data frame.
 #'
 #' @export
-filter_metadata <- function(object, filter_id) {
+cb_filter_metadata <- function(object, filter_id) {
   url <- paste(object@base_url, "api/v1/cohort/filter", filter_id, "metadata", sep = "/")
   r <- httr::GET(url,
                  httr::add_headers("Authorization" = object@auth),

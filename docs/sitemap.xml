@@ -16,37 +16,37 @@
     <loc>https://lifebit-ai.github.io/cloudos//reference/cohort.html</loc>
   </url>
   <url>
-    <loc>https://lifebit-ai.github.io/cloudos//reference/create_cohort.html</loc>
+    <loc>https://lifebit-ai.github.io/cloudos//reference/cb_create_cohort.html</loc>
   </url>
   <url>
-    <loc>https://lifebit-ai.github.io/cloudos//reference/extract_samples.html</loc>
+    <loc>https://lifebit-ai.github.io/cloudos//reference/cb_extract_samples.html</loc>
   </url>
   <url>
-    <loc>https://lifebit-ai.github.io/cloudos//reference/filter_metadata.html</loc>
+    <loc>https://lifebit-ai.github.io/cloudos//reference/cb_filter_metadata.html</loc>
   </url>
   <url>
-    <loc>https://lifebit-ai.github.io/cloudos//reference/filter_participants.html</loc>
+    <loc>https://lifebit-ai.github.io/cloudos//reference/cb_filter_participants.html</loc>
   </url>
   <url>
     <loc>https://lifebit-ai.github.io/cloudos//reference/filter_samples.html</loc>
   </url>
   <url>
-    <loc>https://lifebit-ai.github.io/cloudos//reference/genotypic_save.html</loc>
+    <loc>https://lifebit-ai.github.io/cloudos//reference/cb_genotypic_save.html</loc>
   </url>
   <url>
-    <loc>https://lifebit-ai.github.io/cloudos//reference/get_cohort_filters.html</loc>
+    <loc>https://lifebit-ai.github.io/cloudos//reference/cb_get_cohort_filters.html</loc>
   </url>
   <url>
-    <loc>https://lifebit-ai.github.io/cloudos//reference/get_genotypic_table.html</loc>
+    <loc>https://lifebit-ai.github.io/cloudos//reference/cb_get_genotypic_table.html</loc>
   </url>
   <url>
-    <loc>https://lifebit-ai.github.io/cloudos//reference/get_samples_table.html</loc>
+    <loc>https://lifebit-ai.github.io/cloudos//reference/cb_get_samples_table.html</loc>
   </url>
   <url>
-    <loc>https://lifebit-ai.github.io/cloudos//reference/list_cohorts.html</loc>
+    <loc>https://lifebit-ai.github.io/cloudos//reference/cb_list_cohorts.html</loc>
   </url>
   <url>
-    <loc>https://lifebit-ai.github.io/cloudos//reference/plot_filters.html</loc>
+    <loc>https://lifebit-ai.github.io/cloudos//reference/cb_plot_filters.html</loc>
   </url>
   <url>
     <loc>https://lifebit-ai.github.io/cloudos//reference/search_filters.html</loc>

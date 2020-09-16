@@ -138,7 +138,7 @@
 <h3 class="hasAnchor">
 <a href="#list-cohorts" class="anchor"></a>List Cohorts</h3>
 <p>List available cohorts in a workspace.</p>
-<div class="sourceCode" id="cb5"><pre class="r"><span class="no">cohorts</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/list_cohorts.html">list_cohorts</a></span>(<span class="no">my_cloudos</span>)
+<div class="sourceCode" id="cb5"><pre class="r"><span class="no">cohorts</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/cb_list_cohorts.html">cb_list_cohorts</a></span>(<span class="no">my_cloudos</span>)
 <span class="co">#&gt; Total number of cohorts found-49. But here is 10. For more, change 'page_number' and 'page_size'</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">cohorts</span>,<span class="fl">5</span>)
 <span class="co">#&gt;                         id        name</span>
@@ -164,7 +164,7 @@
 <h3 class="hasAnchor">
 <a href="#create-a-cohort" class="anchor"></a>Create a cohort</h3>
 <p>Create a new cohort.</p>
-<div class="sourceCode" id="cb6"><pre class="r"><span class="no">my_cohort</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/create_cohort.html">create_cohort</a></span>(<span class="no">my_cloudos</span>,
+<div class="sourceCode" id="cb6"><pre class="r"><span class="no">my_cohort</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/cb_create_cohort.html">cb_create_cohort</a></span>(<span class="no">my_cloudos</span>,
               <span class="kw">cohort_name</span> <span class="kw">=</span> <span class="st">"Cohort-R"</span>,
               <span class="kw">cohort_desc</span> <span class="kw">=</span> <span class="st">"This cohort is for testing purpose, created from R."</span>)
 <span class="co">#&gt; Cohort created successfully.</span>
@@ -187,7 +187,7 @@
 <h3 class="hasAnchor">
 <a href="#get-sample-participants-table" class="anchor"></a>Get sample (participants) table</h3>
 <p>Get all the sample (participants) table for a cohort.</p>
-<div class="sourceCode" id="cb8"><pre class="r"><span class="no">cohort_samples</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/get_samples_table.html">get_samples_table</a></span>(<span class="no">my_cloudos</span>, <span class="no">my_cohort</span>)
+<div class="sourceCode" id="cb8"><pre class="r"><span class="no">cohort_samples</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/cb_get_samples_table.html">cb_get_samples_table</a></span>(<span class="no">my_cloudos</span>, <span class="no">my_cohort</span>)
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">cohort_samples</span>, <span class="fl">5</span>)
 <span class="co">#&gt;                        _id       i      f20001i0a0 f31i0a0 f34i0a0   f52i0a0</span>
 <span class="co">#&gt; 1 5edbdd689d700db709af0c2f 1000016 cervical cancer    Male    1954 September</span>
@@ -206,8 +206,8 @@
 <h3 class="hasAnchor">
 <a href="#get-genotypic-table" class="anchor"></a>Get genotypic table</h3>
 <p>Get all the genotypic table for a cohort.</p>
-<div class="sourceCode" id="cb9"><pre class="r"><span class="co">#cohort_genotype &lt;- cloudos::get_genotypic_table(my_cloudos, my_cohort)</span>
-<span class="no">cohort_genotype</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/get_genotypic_table.html">get_genotypic_table</a></span>(<span class="no">my_cloudos</span>)
+<div class="sourceCode" id="cb9"><pre class="r"><span class="co">#cohort_genotype &lt;- cloudos::cb_get_genotypic_table(my_cloudos, my_cohort)</span>
+<span class="no">cohort_genotype</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/cb_get_genotypic_table.html">cb_get_genotypic_table</a></span>(<span class="no">my_cloudos</span>)
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">cohort_genotype</span>, <span class="fl">5</span>)
 <span class="co">#&gt;      _id                        Chromosome Location   Reference Alternative</span>
 <span class="co">#&gt; [1,] "5ef793999b8097fcd1da226a" "10"       "10:93190" "AC"      " "        </span>
@@ -421,7 +421,7 @@
 <span class="co">#&gt; [3,] 0   300719 600000 "No"                  </span>
 <span class="co">#&gt; [4,] 1   85593  600000 "Yes"</span></pre></div>
 <div class="sourceCode" id="cb12"><pre class="r"><span class="co"># filter participants</span>
-<span class="no">participants_with_fiter</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">:::</span><span class="fu"><a href="reference/filter_participants.html">filter_participants</a></span>(<span class="no">my_cloudos</span>,
+<span class="no">participants_with_fiter</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">:::</span><span class="fu"><a href="reference/cb_filter_participants.html">cb_filter_participants</a></span>(<span class="no">my_cloudos</span>,
                                                 <span class="kw">cohort</span> <span class="kw">=</span> <span class="no">my_cohort</span>,
                                                 <span class="kw">filter_id</span> <span class="kw">=</span> <span class="no">all_filters</span>[<span class="fl">1</span>,]$<span class="no">id</span>)
 
@@ -431,8 +431,8 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $count</span>
 <span class="co">#&gt; [1] 333264</span></pre></div>
-<div class="sourceCode" id="cb13"><pre class="r"><span class="co"># apply filter (genotypic_save) </span>
-<span class="no">gs</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/genotypic_save.html">genotypic_save</a></span>(<span class="no">my_cloudos</span>,
+<div class="sourceCode" id="cb13"><pre class="r"><span class="co"># apply filter (cb_genotypic_save) </span>
+<span class="no">gs</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/cb_genotypic_save.html">cb_genotypic_save</a></span>(<span class="no">my_cloudos</span>,
                      <span class="kw">cohort</span> <span class="kw">=</span> <span class="no">my_cohort</span>,
                      <span class="kw">filter_id</span> <span class="kw">=</span> <span class="no">all_filters</span>[<span class="fl">1</span>,]$<span class="no">id</span>)
 
@@ -441,7 +441,7 @@
 <span class="co">#&gt; data "5f327e8c1733200222dc3e8c" List,0  List,1  "5f4e557faaafb6454ad4a324"</span>
 <span class="co">#&gt;      numberOfParticipants</span>
 <span class="co">#&gt; data 32545</span></pre></div>
-<div class="sourceCode" id="cb14"><pre class="r"><span class="no">df</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/filter_metadata.html">filter_metadata</a></span>(<span class="no">my_cloudos</span>,
+<div class="sourceCode" id="cb14"><pre class="r"><span class="no">df</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/cb_filter_metadata.html">cb_filter_metadata</a></span>(<span class="no">my_cloudos</span>,
                      <span class="kw">filter_id</span> <span class="kw">=</span> <span class="no">all_filters</span>[<span class="fl">1</span>,]$<span class="no">id</span>)
 <span class="no">df</span>
 <span class="co">#&gt;                        _id           categoryPathLevel1 categoryPathLevel2</span>
@@ -484,7 +484,7 @@
 <p>NOTE: This function will be improved <code>raw_data</code> arg is temporary.</p>
 <div class="sourceCode" id="cb15"><pre class="r"><span class="no">new_raw_data</span> <span class="kw">&lt;-</span> <span class="st">'{"columns":[{"id":34,"instance":0,"array":{"type":"exact","value":0}},{"id":31,"instance":0,"array":{"type":"exact","value":0}},{"id":52,"instance":0,"array":{"type":"exact","value":0}},{"id":5984,"instance":0,"array":{"type":"avg"}},{"id":5984,"instance":0,"array":{"type":"min"}},{"id":5984,"instance":0,"array":{"type":"max"}},{"id":20001,"instance":0,"array":{"type":"exact","value":0}}],"ids":["5f185b92bf92ed4d3be9637d","5edbdd689d700db709af0c2f","5f185b91bf92ed4d3be9587e","5f185b91bf92ed4d3be95984","5edbdd689d700db709af0c3e","5edbdd689d700db709af0c2b","5edbdd689d700db709af0c2d","5f185b93bf92ed4d3be982e9","5edbdd689d700db709af0c2a","5edbdd689d700db709af0c4d"],"type":"csv","base_url":"http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com"}'</span></pre></div>
 <p>Using this above raw data lets extract selected participants.</p>
-<div class="sourceCode" id="cb16"><pre class="r"><span class="no">df</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/extract_samples.html">extract_samples</a></span>(<span class="no">my_cloudos</span>,
+<div class="sourceCode" id="cb16"><pre class="r"><span class="no">df</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/cb_extract_samples.html">cb_extract_samples</a></span>(<span class="no">my_cloudos</span>,
                       <span class="kw">raw_data</span> <span class="kw">=</span> <span class="no">new_raw_data</span>)
 <span class="no">df</span>
 <span class="co">#&gt;          i ECG..load.0.0 ECG..load.0.1 ECG..load.0.2 ECG..load.0.3</span>

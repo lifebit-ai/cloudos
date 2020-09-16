@@ -12,7 +12,7 @@
 #' @return A dataframe.
 #'
 #' @export
-get_genotypic_table <- function(object,
+cb_get_genotypic_table <- function(object,
                                page_number = 0,
                                page_size = 10,
                                filters = "") {
@@ -61,14 +61,14 @@ get_genotypic_table <- function(object,
 #' @param object A cloudos object. (Required)
 #' See constructor function \code{\link{connect_cloudos}}
 #' @param cohort A cohort object. (Required)
-#' See constructor functions \code{\link{create_cohort}} or \code{\link{load_cohort}}
+#' See constructor functions \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}
 #' @param page_number Number of page. (Optional) Default - 0
 #' @param page_size Number of entries in a page. (Optional) Default - 10
 #'
 #' @return A dataframe.
 #'
 #' @export
-get_samples_table <- function(object,
+cb_get_samples_table <- function(object,
                               cohort,
                               page_number = 0,
                               page_size = 10) {
@@ -144,7 +144,7 @@ get_samples_table <- function(object,
 }
 
 # test
-#df6 <- get_samples_table(object, cohort = cohort_obj)
+#df6 <- cb_get_samples_table(object, cohort = cohort_obj)
 #######################################################################
 
 #' @title Extract participants
@@ -158,7 +158,7 @@ get_samples_table <- function(object,
 #' @return A dataframe.
 #'
 #' @export
-extract_samples <- function(object, raw_data) {
+cb_extract_samples <- function(object, raw_data) {
   url <- paste(object@base_url, "api/v1/cohort/participants/export", sep = "/")
   # TODO work on raw_data - Find an end point that returns this and make a json in R
   r <- httr::POST(url,
