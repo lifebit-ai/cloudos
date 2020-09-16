@@ -1,10 +1,11 @@
 #' cloudos class
 #'
-#' This will create a main object, which will 
+#' This class creates a object which
 #' hold many information related to CloudOS server 
 #' including base URL, authentication and team ID. 
 #' Use of this object will simplify calling every 
 #' other functions which requires to communicate with server.
+#' This can be created using constructor function \code{\link{connect_cloudos}}
 #'
 #' @slot base_url Base URL of the CloudOS server.
 #' @slot auth  An authentication method.
@@ -20,23 +21,25 @@ setClass("cloudos", slots = list(base_url = "character",
                                  team_id = "character")
           )
 
-#' @title Create a cloudos object
+#' @title Connect CloudOS
 #'
-#' @description Creates a cloudos object which saves all login 
-#' and metadata, that can help to connect with cloudos server.
+#' @description Creates a cloudos object which saves all 
+#' authentication methods and metadata, 
+#' that can help to connect with cloudos server.
 #'
-#' @param base_url Base URL of the CloudOS server. (Required)
+#' @param base_url Base URL of the CloudOS server. (Optional) 
+#' Default: https://cloudos.lifebit.ai/ 
 #' @param auth  An authentication method. (Required)
 #' Example - Bearer token or API key.
 #' @param team_id Team ID in CloudOS account. (Required)
 #'
-#' @return A cloudos object.
+#' @return A \linkS4class{cloudos} object.
 #'
 #' @examples
 #' \dontrun{
 #' connect_cloudos(base_url= "https://cloudos.lifebit.ai",
-#'              auth = "Bearer ***token***",
-#'              team_id = "***team_id***")
+#'              auth = "Bearer your_token",
+#'              team_id = "your_team_id")
 #' }
 #' @export
 connect_cloudos <- function(base_url, auth, team_id){
@@ -63,7 +66,7 @@ connect_cloudos <- function(base_url, auth, team_id){
   return(cloudos_class_obj)
 }
 
-# method for cloudos obejct
+# method for cloudos object
 setMethod("show", "cloudos",
           function(object) {
             cat("Base URL: ", object@base_url, "\n")

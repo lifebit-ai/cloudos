@@ -8,7 +8,9 @@
 #' @param cohort_desc New cohort description to be created. (Optional)
 #' @param filters WIP - details will be added.
 #'
-#' @return A dataframe.
+#' @return A \linkS4class{cohort} object.
+#' 
+#' @seealso \code{\link{cb_load_cohort}} for loading a available cohort.
 #'
 #' @examples
 #' \dontrun{
@@ -20,7 +22,7 @@
 cb_create_cohort <- function(cloudos, cohort_name, cohort_desc, filters = "") {
   
   # if no description provided
-  if(!cohort_desc){
+  if(missing(cohort_desc)){
     cohort_desc = list()
   }
   

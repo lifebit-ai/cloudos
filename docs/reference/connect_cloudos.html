@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create a cloudos object — connect_cloudos • cloudos</title>
+<title>Connect CloudOS — connect_cloudos • cloudos</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,10 @@
 
 
 
-<meta property="og:title" content="Create a cloudos object — connect_cloudos" />
-<meta property="og:description" content="Creates a cloudos object which saves all login
-and metadata, that can help to connect with cloudos server." />
+<meta property="og:title" content="Connect CloudOS — connect_cloudos" />
+<meta property="og:description" content="Creates a cloudos object which saves all
+authentication methods and metadata,
+that can help to connect with cloudos server." />
 
 
 
@@ -112,14 +113,15 @@ and metadata, that can help to connect with cloudos server." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create a cloudos object</h1>
+    <h1>Connect CloudOS</h1>
     <small class="dont-index">Source: <a href='https://github.com/lifebit-ai/cloudos/blob/master/R/cloudos_class.R'><code>R/cloudos_class.R</code></a></small>
     <div class="hidden name"><code>connect_cloudos.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Creates a cloudos object which saves all login
-and metadata, that can help to connect with cloudos server.</p>
+    <p>Creates a cloudos object which saves all
+authentication methods and metadata,
+that can help to connect with cloudos server.</p>
     </div>
 
     <pre class="usage"><span class='fu'>connect_cloudos</span>(<span class='no'>base_url</span>, <span class='no'>auth</span>, <span class='no'>team_id</span>)</pre>
@@ -129,7 +131,8 @@ and metadata, that can help to connect with cloudos server.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>base_url</th>
-      <td><p>Base URL of the CloudOS server. (Required)</p></td>
+      <td><p>Base URL of the CloudOS server. (Optional)
+Default: https://cloudos.lifebit.ai/</p></td>
     </tr>
     <tr>
       <th>auth</th>
@@ -144,13 +147,13 @@ Example - Bearer token or API key.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A cloudos object.</p>
+    <p>A <a href='cloudos-class.html'>cloudos</a> object.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='fu'>connect_cloudos</span>(<span class='kw'>base_url</span><span class='kw'>=</span> <span class='st'>"https://cloudos.lifebit.ai"</span>,
-             <span class='kw'>auth</span> <span class='kw'>=</span> <span class='st'>"Bearer ***token***"</span>,
-             <span class='kw'>team_id</span> <span class='kw'>=</span> <span class='st'>"***team_id***"</span>)
+             <span class='kw'>auth</span> <span class='kw'>=</span> <span class='st'>"Bearer your_token"</span>,
+             <span class='kw'>team_id</span> <span class='kw'>=</span> <span class='st'>"your_team_id"</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

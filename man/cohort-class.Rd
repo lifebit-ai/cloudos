@@ -5,11 +5,13 @@
 \alias{cohort-class}
 \title{cohort class}
 \description{
-This will create a cohort object, which will
+This class create a cohort object, which will
 hold many information related to a cohort
 including cohort ID, name, description, filters, tables.
 Use of this object will simplify calling every
 other functions which requires a cohort.
+This can be created using constructor function
+\code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}
 }
 \section{Slots}{
 

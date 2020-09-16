@@ -5,11 +5,12 @@
 \alias{cloudos-class}
 \title{cloudos class}
 \description{
-This will create a main object, which will
+This class creates a object which
 hold many information related to CloudOS server
 including base URL, authentication and team ID.
 Use of this object will simplify calling every
 other functions which requires to communicate with server.
+This can be created using constructor function \code{\link{connect_cloudos}}
 }
 \section{Slots}{
 

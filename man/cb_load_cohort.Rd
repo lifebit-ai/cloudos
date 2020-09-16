@@ -13,9 +13,12 @@ See constructor function \code{\link{connect_cloudos}}}
 \item{cohort_id}{Cohort id (Required)}
 }
 \value{
-A list
+A \linkS4class{cohort} object.
 }
 \description{
 Get all the details about a cohort including
 applied filters.
+}
+\seealso{
+\code{\link{cb_create_cohort}} for creating a new cohort.
 }

@@ -17,7 +17,7 @@ See constructor function \code{\link{connect_cloudos}}}
 \item{filters}{WIP - details will be added.}
 }
 \value{
-A dataframe.
+A \linkS4class{cohort} object.
 }
 \description{
 Creates a new Cohort
@@ -28,4 +28,7 @@ cb_create_cohort(cloudos_obj,
              cohort_name = "my cohort",
              cohort_desc = "my cohort description")
 }
+}
+\seealso{
+\code{\link{cb_load_cohort}} for loading a available cohort.
 }

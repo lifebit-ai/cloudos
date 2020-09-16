@@ -2,12 +2,13 @@
 % Please edit documentation in R/cloudos_class.R
 \name{connect_cloudos}
 \alias{connect_cloudos}
-\title{Create a cloudos object}
+\title{Connect CloudOS}
 \usage{
 connect_cloudos(base_url, auth, team_id)
 }
 \arguments{
-\item{base_url}{Base URL of the CloudOS server. (Required)}
+\item{base_url}{Base URL of the CloudOS server. (Optional)
+Default: https://cloudos.lifebit.ai/}
 
 \item{auth}{An authentication method. (Required)
 Example - Bearer token or API key.}
@@ -15,16 +16,17 @@ Example - Bearer token or API key.}
 \item{team_id}{Team ID in CloudOS account. (Required)}
 }
 \value{
-A cloudos object.
+A \linkS4class{cloudos} object.
 }
 \description{
-Creates a cloudos object which saves all login
-and metadata, that can help to connect with cloudos server.
+Creates a cloudos object which saves all
+authentication methods and metadata,
+that can help to connect with cloudos server.
 }
 \examples{
 \dontrun{
 connect_cloudos(base_url= "https://cloudos.lifebit.ai",
-             auth = "Bearer ***token***",
-             team_id = "***team_id***")
+             auth = "Bearer your_token",
+             team_id = "your_team_id")
 }
 }

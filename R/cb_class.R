@@ -1,10 +1,12 @@
 #' cohort class
 #'
-#' This will create a cohort object, which will 
+#' This class create a cohort object, which will 
 #' hold many information related to a cohort 
 #' including cohort ID, name, description, filters, tables. 
 #' Use of this object will simplify calling every 
 #' other functions which requires a cohort.
+#' This can be created using constructor function 
+#' \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}
 #'
 #' @slot id cohort ID.
 #' @slot name  cohort name.
@@ -46,7 +48,9 @@ setClass("cohort",
 #' See constructor function \code{\link{connect_cloudos}} 
 #' @param cohort_id Cohort id (Required)
 #'
-#' @return A list
+#' @return A \linkS4class{cohort} object.
+#' 
+#' @seealso \code{\link{cb_create_cohort}} for creating a new cohort. 
 #'
 #' @export
 cb_load_cohort <- function(cloudos, cohort_id){
