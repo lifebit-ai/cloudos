@@ -8,7 +8,7 @@ filter_participants(object, cohort, filter_id)
 }
 \arguments{
 \item{object}{A cloudos object. (Required)
-See constructor function \code{\link{cloudos}}}
+See constructor function \code{\link{connect_cloudos}}}
 
 \item{cohort}{A cohort object. (Required)
 See constructor function \code{\link{cohort}}}

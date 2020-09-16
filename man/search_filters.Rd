@@ -8,7 +8,7 @@ search_filters(object, term)
 }
 \arguments{
 \item{object}{A cloudos object. (Required)
-See constructor function \code{\link{cloudos}}}
+See constructor function \code{\link{connect_cloudos}}}
 
 \item{term}{A term to search. (Required)
 Example - "cancer"}

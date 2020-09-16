@@ -8,7 +8,7 @@ filter_metadata(object, filter_id)
 }
 \arguments{
 \item{object}{A cloudos object. (Required)
-See constructor function \code{\link{cloudos}}}
+See constructor function \code{\link{connect_cloudos}}}
 
 \item{filter_id}{A filter ID. (Required)}
 }

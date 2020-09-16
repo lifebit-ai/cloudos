@@ -8,7 +8,7 @@ get_cohort_filters(object, cohort)
 }
 \arguments{
 \item{object}{A cloudos object. (Required)
-See constructor function \code{\link{cloudos}}}
+See constructor function \code{\link{connect_cloudos}}}
 
 \item{cohort}{A cohort object. (Required)
 See constructor function \code{\link{cohort}}}
@@ -17,5 +17,5 @@ See constructor function \code{\link{cohort}}}
 A list of data frame.
 }
 \description{
-Get a list of all the filters accociated with a cohort.
+Get a list of all the filters associated with a cohort.
 }

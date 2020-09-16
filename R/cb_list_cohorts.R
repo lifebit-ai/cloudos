@@ -3,7 +3,7 @@
 #' @description Extracts the data frame with limited cohort data columns.
 #'
 #' @param object A cloudos object. (Required)
-#' See constructor function \code{\link{cloudos}} 
+#' See constructor function \code{\link{connect_cloudos}} 
 #' @param page_number Number of page. (Optional) Default - 0
 #' @param page_size Number of entries in a page. (Optional) Default - 10
 #'

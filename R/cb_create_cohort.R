@@ -3,7 +3,7 @@
 #' @description Creates a new Cohort
 #'
 #' @param object A cloudos object. (Required)
-#' See constructor function \code{\link{cloudos}} 
+#' See constructor function \code{\link{connect_cloudos}}
 #' @param cohort_name New cohort name to be created. (Required)
 #' @param cohort_desc New cohort description to be created. (Required)
 #' @param filters WIP - details will be added.

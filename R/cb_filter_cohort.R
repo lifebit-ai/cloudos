@@ -3,7 +3,7 @@
 #' @description All the cohort filters available in CloudOS.
 #'
 #' @param object A cloudos object. (Required)
-#' See constructor function \code{\link{cloudos}} 
+#' See constructor function \code{\link{connect_cloudos}} 
 #' @param term A term to search. (Required)
 #' Example - "cancer"
 #'
@@ -45,7 +45,7 @@ search_filters <- function(object,
 #' This will return number of samples after phenotype filter applied to a cohort.
 #'
 #' @param object A cloudos object. (Required)
-#' See constructor function \code{\link{cloudos}} 
+#' See constructor function \code{\link{connect_cloudos}} 
 #' @param cohort A cohort object. (Required)
 #' See constructor function \code{\link{cohort}}
 #' @param filter_id A filter ID. (Required)
@@ -84,7 +84,7 @@ filter_samples <- function(object, cohort, filter_id ) {
 #' @description Get a list of all the filters associated with a cohort. 
 #'
 #' @param object A cloudos object. (Required)
-#' See constructor function \code{\link{cloudos}} 
+#' See constructor function \code{\link{connect_cloudos}} 
 #' @param cohort A cohort object. (Required)
 #' See constructor function \code{\link{cohort}}
 #'
@@ -117,7 +117,7 @@ get_cohort_filters <- function(object, cohort){
 #' @description This sums up all the filters and return number participants after applied filter.
 #'
 #' @param object A cloudos object. (Required)
-#' See constructor function \code{\link{cloudos}} 
+#' See constructor function \code{\link{connect_cloudos}} 
 #' @param cohort A cohort object. (Required)
 #' See constructor function \code{\link{cohort}}
 #' @param filter_id A filter ID. (Required)
@@ -160,7 +160,7 @@ filter_participants <-function(object, cohort, filter_id ) {
 #' @description applies filter (genotypic-save). Returns df with cohort and filtered participants
 #'
 #' @param object A cloudos object. (Required)
-#' See constructor function \code{\link{cloudos}} 
+#' See constructor function \code{\link{connect_cloudos}} 
 #' @param cohort A cohort object. (Required)
 #' See constructor function \code{\link{cohort}}
 #' @param filter_id A filter ID. (Required)
@@ -204,7 +204,7 @@ genotypic_save <- function(object, cohort, filter_id ) {
 #' @description Filter metadata of a cohort filter
 #'
 #' @param object A cloudos object. (Required)
-#' See constructor function \code{\link{cloudos}} 
+#' See constructor function \code{\link{connect_cloudos}} 
 #' @param filter_id A filter ID. (Required)
 #'
 #' @return A data frame.

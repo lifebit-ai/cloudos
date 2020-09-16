@@ -8,7 +8,7 @@ create_cohort(object, cohort_name, cohort_desc, filters = "")
 }
 \arguments{
 \item{object}{A cloudos object. (Required)
-See constructor function \code{\link{cloudos}}}
+See constructor function \code{\link{connect_cloudos}}}
 
 \item{cohort_name}{New cohort name to be created. (Required)}
 

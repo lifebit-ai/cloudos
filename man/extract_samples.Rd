@@ -8,7 +8,7 @@ extract_samples(object, raw_data)
 }
 \arguments{
 \item{object}{A cloudos object. (Required)
-See constructor function \code{\link{cloudos}}}
+See constructor function \code{\link{connect_cloudos}}}
 
 \item{raw_data}{A JSON string for selected participants. (Required)}
 }

@@ -1,7 +1,7 @@
 {
-    "total": 514406,
+    "total": 213688,
     "pageSize": 10,
-    "totalPages": 51441,
+    "totalPages": 21369,
     "data": [
         {
             "_id": "5edbdd689d700db709af0c2f",
@@ -11,28 +11,6 @@
             "f34i0a0": 1954,
             "f52i0a0": "September",
             "f5984i0aavg": 65.71052631578948,
-            "f5984i0amin": 0,
-            "f5984i0amax": 270
-        },
-        {
-            "_id": "5edbdd689d700db709af0c3e",
-            "i": "1000048",
-            "f20001i0a0": "chronic myeloid",
-            "f31i0a0": "Female",
-            "f34i0a0": 1950,
-            "f52i0a0": "January",
-            "f5984i0aavg": 59.23684210526316,
-            "f5984i0amin": 0,
-            "f5984i0amax": 195
-        },
-        {
-            "_id": "5edbdd689d700db709af0c2a",
-            "i": "1000063",
-            "f20001i0a0": "chronic myeloid",
-            "f31i0a0": "Female",
-            "f34i0a0": 1944,
-            "f52i0a0": "April",
-            "f5984i0aavg": 65.03508771929825,
             "f5984i0amin": 0,
             "f5984i0amax": 270
         },
@@ -48,17 +26,6 @@
             "f5984i0amax": 195
         },
         {
-            "_id": "5edbdd689d700db709af0c2c",
-            "i": "1000080",
-            "f20001i0a0": "cervical cancer",
-            "f31i0a0": "Female",
-            "f34i0a0": 1941,
-            "f52i0a0": "November",
-            "f5984i0aavg": 61.19298245614035,
-            "f5984i0amin": 0,
-            "f5984i0amax": 270
-        },
-        {
             "_id": "5edbdd689d700db709af0c31",
             "i": "1000095",
             "f20001i0a0": "brain cancer / primary malignant brain tumour",
@@ -68,28 +35,6 @@
             "f5984i0aavg": 68.03508771929825,
             "f5984i0amin": 1,
             "f5984i0amax": 245
-        },
-        {
-            "_id": "5edbdd689d700db709af0c30",
-            "i": "1000096",
-            "f20001i0a0": "respiratory / intrathoracic cancer",
-            "f31i0a0": "Female",
-            "f34i0a0": 1962,
-            "f52i0a0": "February",
-            "f5984i0aavg": 65.14912280701755,
-            "f5984i0amin": 2,
-            "f5984i0amax": 270
-        },
-        {
-            "_id": "5edbdd689d700db709af0c2e",
-            "i": "1000104",
-            "f20001i0a0": "trachea cancer",
-            "f31i0a0": "Female",
-            "f34i0a0": 1954,
-            "f52i0a0": "March",
-            "f5984i0aavg": 61.68421052631579,
-            "f5984i0amin": 0,
-            "f5984i0amax": 270
         },
         {
             "_id": "5edbdd689d700db709af0c38",
@@ -103,15 +48,70 @@
             "f5984i0amax": 270
         },
         {
-            "_id": "5edbdd689d700db709af0c32",
-            "i": "1000161",
-            "f20001i0a0": "mesothelioma",
-            "f31i0a0": "Male",
-            "f34i0a0": 1951,
-            "f52i0a0": "March",
-            "f5984i0aavg": 64.98245614035088,
-            "f5984i0amin": 1,
+            "_id": "5edbdd689d700db709af0c33",
+            "i": "1000184",
+            "f20001i0a0": "non-melanoma skin cancer",
+            "f31i0a0": "Female",
+            "f34i0a0": 1957,
+            "f52i0a0": "January",
+            "f5984i0aavg": 61.48245614035088,
+            "f5984i0amin": 0,
             "f5984i0amax": 270
+        },
+        {
+            "_id": "5edbdd689d700db709af0c37",
+            "i": "1000217",
+            "f20001i0a0": "rodent ulcer",
+            "f31i0a0": "Female",
+            "f34i0a0": 1941,
+            "f52i0a0": "April",
+            "f5984i0aavg": 72.10526315789474,
+            "f5984i0amin": 0,
+            "f5984i0amax": 270
+        },
+        {
+            "_id": "5edbdd689d700db709af0c34",
+            "i": "1000221",
+            "f20001i0a0": "myelofibrosis or myelodysplasia",
+            "f31i0a0": "Female",
+            "f34i0a0": 1945,
+            "f52i0a0": "July",
+            "f5984i0aavg": 65.46491228070175,
+            "f5984i0amin": 0,
+            "f5984i0amax": 245
+        },
+        {
+            "_id": "5edbdd689d700db709af0c39",
+            "i": "1000236",
+            "f20001i0a0": "liver/hepatocellular cancer",
+            "f31i0a0": "Male",
+            "f34i0a0": 1947,
+            "f52i0a0": "July",
+            "f5984i0aavg": 59.42982456140351,
+            "f5984i0amin": 0,
+            "f5984i0amax": 195
+        },
+        {
+            "_id": "5edbdd689d700db709af0c43",
+            "i": "1000259",
+            "f20001i0a0": "meningeal cancer / malignant meningioma",
+            "f31i0a0": "Female",
+            "f34i0a0": 1969,
+            "f52i0a0": "April",
+            "f5984i0aavg": 68.3157894736842,
+            "f5984i0amin": 0,
+            "f5984i0amax": 270
+        },
+        {
+            "_id": "5edbdd689d700db709af0c3f",
+            "i": "1000320",
+            "f20001i0a0": "non-melanoma skin cancer",
+            "f31i0a0": "Female",
+            "f34i0a0": 1960,
+            "f52i0a0": "November",
+            "f5984i0aavg": 64.46491228070175,
+            "f5984i0amin": 3,
+            "f5984i0amax": 245
         }
     ],
     "header": {

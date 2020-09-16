@@ -43,7 +43,7 @@ setClass("cohort",
 #' applied filters.
 #'
 #' @param object A cloudos object. (Required)
-#' See constructor function \code{\link{cloudos}} 
+#' See constructor function \code{\link{connect_cloudos}} 
 #' @param cohort_id Cohort id (Required)
 #'
 #' @return A list

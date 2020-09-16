@@ -4,7 +4,7 @@
 #' Optionally genotypic filters can be applied as well.
 #'
 #' @param object A cloudos object. (Required)
-#' See constructor function \code{\link{cloudos}}
+#' See constructor function \code{\link{connect_cloudos}}
 #' @param page_number Number of page. (Optional) Default - 0
 #' @param page_size Number of entries in a page. (Optional) Default - 10
 #' @param filters WIP - details will be added.
@@ -59,7 +59,7 @@ get_genotypic_table <- function(object,
 #' Optionally phenotypic filters can be applied as well.
 #'
 #' @param object A cloudos object. (Required)
-#' See constructor function \code{\link{cloudos}}
+#' See constructor function \code{\link{connect_cloudos}}
 #' @param cohort A cohort object. (Required)
 #' See constructor function \code{\link{cohort}}
 #' @param page_number Number of page. (Optional) Default - 0
@@ -152,7 +152,7 @@ get_samples_table <- function(object,
 #' @description Extracts selected participants.
 #'
 #' @param object A cloudos object. (Required)
-#' See constructor function \code{\link{cloudos}} 
+#' See constructor function \code{\link{connect_cloudos}} 
 #' @param raw_data A JSON string for selected participants. (Required)
 #'
 #' @return A dataframe.

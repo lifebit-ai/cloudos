@@ -8,7 +8,7 @@ get_genotypic_table(object, page_number = 0, page_size = 10, filters = "")
 }
 \arguments{
 \item{object}{A cloudos object. (Required)
-See constructor function \code{\link{cloudos}}}
+See constructor function \code{\link{connect_cloudos}}}
 
 \item{page_number}{Number of page. (Optional) Default - 0}
 

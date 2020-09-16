@@ -34,12 +34,12 @@ setClass("cloudos", slots = list(base_url = "character",
 #'
 #' @examples
 #' \dontrun{
-#' cloudos(base_url= "https://cloudos.lifebit.ai",
+#' connect_cloudos(base_url= "https://cloudos.lifebit.ai",
 #'              auth = "Bearer ***token***",
 #'              team_id = "***team_id***")
 #' }
 #' @export
-cloudos <- function(base_url, auth, team_id){
+connect_cloudos <- function(base_url, auth, team_id){
   # check type of Authentication method
   if (grepl("apikey", auth)){
     auth_method  = "API Key"

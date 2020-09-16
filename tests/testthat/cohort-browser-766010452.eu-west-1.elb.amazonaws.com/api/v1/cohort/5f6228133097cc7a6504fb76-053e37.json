@@ -1,7 +1,7 @@
 {
-    "_id": "5f327e8c1733200222dc3e8c",
-    "name": "test_2",
-    "description": "some random",
+    "_id": "5f6228133097cc7a6504fb76",
+    "name": "cohort-test-2",
+    "description": "For testing in R-lib",
     "moreFields": [
         {
             "fieldId": 2345,
@@ -10,8 +10,7 @@
             ],
             "value": [
                 -3,
-                -1,
-                0
+                -1
             ],
             "finished": true
         }
@@ -76,8 +75,8 @@
             "instances": [
                 0
             ],
-            "createAt": 1599494546501,
-            "updatedAt": 1599494546501
+            "createAt": 1600269137314,
+            "updatedAt": 1600269137314
         }
     ]
 }
