@@ -4,10 +4,10 @@
 \alias{cb_filter_metadata}
 \title{Filter metadata}
 \usage{
-cb_filter_metadata(object, filter_id)
+cb_filter_metadata(cloudos, filter_id)
 }
 \arguments{
-\item{object}{A cloudos object. (Required)
+\item{cloudos}{A cloudos object. (Required)
 See constructor function \code{\link{connect_cloudos}}}
 
 \item{filter_id}{A filter ID. (Required)}

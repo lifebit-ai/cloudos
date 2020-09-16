@@ -3,7 +3,7 @@
 #' @description Get Genotypic table in a dataframe. 
 #' Optionally genotypic filters can be applied as well.
 #'
-#' @param object A cloudos object. (Required)
+#' @param cloudos A cloudos object. (Required)
 #' See constructor function \code{\link{connect_cloudos}}
 #' @param page_number Number of page. (Optional) Default - 0
 #' @param page_size Number of entries in a page. (Optional) Default - 10
@@ -12,7 +12,7 @@
 #' @return A dataframe.
 #'
 #' @export
-cb_get_genotypic_table <- function(object,
+cb_get_genotypic_table <- function(cloudos,
                                page_number = 0,
                                page_size = 10,
                                filters = "") {
@@ -27,12 +27,12 @@ cb_get_genotypic_table <- function(object,
   #                  "values" = type)
   # filters = list(chr_filt, type_filt)
   
-  url <- paste(object@base_url, "api/v1/cohort/genotypic-data", sep = "/")
+  url <- paste(cloudos@base_url, "api/v1/cohort/genotypic-data", sep = "/")
   r <- httr::POST(url,
-                  httr::add_headers(.headers = c("Authorization" = object@auth,
+                  httr::add_headers(.headers = c("Authorization" = cloudos@auth,
                                                  "accept" = "application/json, text/plain, */*",
                                                  "content-type" = "application/json;charset=UTF-8")),
-                  query = list("teamId" = object@team_id),
+                  query = list("teamId" = cloudos@team_id),
                   body = list("pageNumber" = page_number,
                               "pageSize" = page_size,
                               "filters" = filters),
@@ -58,7 +58,7 @@ cb_get_genotypic_table <- function(object,
 #' @description Get samples (participants) table in a dataframe. 
 #' Optionally phenotypic filters can be applied as well.
 #'
-#' @param object A cloudos object. (Required)
+#' @param cloudos A cloudos object. (Required)
 #' See constructor function \code{\link{connect_cloudos}}
 #' @param cohort A cohort object. (Required)
 #' See constructor functions \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}
@@ -68,7 +68,7 @@ cb_get_genotypic_table <- function(object,
 #' @return A dataframe.
 #'
 #' @export
-cb_get_samples_table <- function(object,
+cb_get_samples_table <- function(cloudos,
                               cohort,
                               page_number = 0,
                               page_size = 10) {
@@ -110,17 +110,17 @@ cb_get_samples_table <- function(object,
   if(missing(cohort)){
     search = list()
   }else{
-    my_cohort <- .get_cohort_info(object, cohort@id)
+    my_cohort <- .get_cohort_info(cloudos, cohort@id)
     search <- .get_search_json(my_cohort)
   }
   
   # make request
-  url <- paste(object@base_url, "api/v1/cohort/participants/search", sep = "/")
+  url <- paste(cloudos@base_url, "api/v1/cohort/participants/search", sep = "/")
   r <- httr::POST(url,
-                  httr::add_headers(.headers = c("Authorization" = object@auth,
+                  httr::add_headers(.headers = c("Authorization" = cloudos@auth,
                                                  "Accept" = "application/json, text/plain, */*",
                                                  "Content-Type" = "application/json;charset=UTF-8")),
-                  query = list("teamId" = object@team_id),
+                  query = list("teamId" = cloudos@team_id),
                   body = list("pageNumber" = page_number,
                               "pageSize" = page_size,
                               "columns" = columns,
@@ -144,25 +144,25 @@ cb_get_samples_table <- function(object,
 }
 
 # test
-#df6 <- cb_get_samples_table(object, cohort = cohort_obj)
+#df6 <- cb_get_samples_table(cloudos, cohort = cohort_obj)
 #######################################################################
 
 #' @title Extract participants
 #'
 #' @description Extracts selected participants.
 #'
-#' @param object A cloudos object. (Required)
+#' @param cloudos A cloudos object. (Required)
 #' See constructor function \code{\link{connect_cloudos}} 
 #' @param raw_data A JSON string for selected participants. (Required)
 #'
 #' @return A dataframe.
 #'
 #' @export
-cb_extract_samples <- function(object, raw_data) {
-  url <- paste(object@base_url, "api/v1/cohort/participants/export", sep = "/")
+cb_extract_samples <- function(cloudos, raw_data) {
+  url <- paste(cloudos@base_url, "api/v1/cohort/participants/export", sep = "/")
   # TODO work on raw_data - Find an end point that returns this and make a json in R
   r <- httr::POST(url,
-                  httr::add_headers(.headers = c("Authorization" = object@auth,
+                  httr::add_headers(.headers = c("Authorization" = cloudos@auth,
                                                  "accept" = "*/*",
                                                  "content-type" = "application/json")),
                   body = raw_data,

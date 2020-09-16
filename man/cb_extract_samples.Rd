@@ -4,10 +4,10 @@
 \alias{cb_extract_samples}
 \title{Extract participants}
 \usage{
-cb_extract_samples(object, raw_data)
+cb_extract_samples(cloudos, raw_data)
 }
 \arguments{
-\item{object}{A cloudos object. (Required)
+\item{cloudos}{A cloudos object. (Required)
 See constructor function \code{\link{connect_cloudos}}}
 
 \item{raw_data}{A JSON string for selected participants. (Required)}

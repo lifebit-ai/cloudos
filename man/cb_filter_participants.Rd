@@ -4,10 +4,10 @@
 \alias{cb_filter_participants}
 \title{Filter participants}
 \usage{
-cb_filter_participants(object, cohort, filter_id)
+cb_filter_participants(cloudos, cohort, filter_id)
 }
 \arguments{
-\item{object}{A cloudos object. (Required)
+\item{cloudos}{A cloudos object. (Required)
 See constructor function \code{\link{connect_cloudos}}}
 
 \item{cohort}{A cohort object. (Required)

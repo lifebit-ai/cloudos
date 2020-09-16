@@ -4,10 +4,10 @@
 \alias{cb_load_cohort}
 \title{Get cohort information}
 \usage{
-cb_load_cohort(object, cohort_id)
+cb_load_cohort(cloudos, cohort_id)
 }
 \arguments{
-\item{object}{A cloudos object. (Required)
+\item{cloudos}{A cloudos object. (Required)
 See constructor function \code{\link{connect_cloudos}}}
 
 \item{cohort_id}{Cohort id (Required)}

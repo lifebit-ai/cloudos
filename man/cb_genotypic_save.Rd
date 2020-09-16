@@ -4,10 +4,10 @@
 \alias{cb_genotypic_save}
 \title{Genotypic save}
 \usage{
-cb_genotypic_save(object, cohort, filter_id)
+cb_genotypic_save(cloudos, cohort, filter_id)
 }
 \arguments{
-\item{object}{A cloudos object. (Required)
+\item{cloudos}{A cloudos object. (Required)
 See constructor function \code{\link{connect_cloudos}}}
 
 \item{cohort}{A cohort object. (Required)

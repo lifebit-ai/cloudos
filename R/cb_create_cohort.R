@@ -2,7 +2,7 @@
 #'
 #' @description Creates a new Cohort
 #'
-#' @param object A cloudos object. (Required)
+#' @param cloudos A cloudos object. (Required)
 #' See constructor function \code{\link{connect_cloudos}}
 #' @param cohort_name New cohort name to be created. (Required)
 #' @param cohort_desc New cohort description to be created. (Optional)
@@ -17,19 +17,19 @@
 #'              cohort_desc = "my cohort description")
 #' }
 #' @export
-cb_create_cohort <- function(object, cohort_name, cohort_desc, filters = "") {
+cb_create_cohort <- function(cloudos, cohort_name, cohort_desc, filters = "") {
   
   # if no description provided
   if(!cohort_desc){
     cohort_desc = list()
   }
   
-  url <- paste(object@base_url, "api/v1/cohort/", sep = "/")
+  url <- paste(cloudos@base_url, "api/v1/cohort/", sep = "/")
   r <- httr::POST(url,
-                  httr::add_headers(.headers = c("Authorization" = object@auth,
+                  httr::add_headers(.headers = c("Authorization" = cloudos@auth,
                                                  "accept" = "application/json, text/plain, */*",
                                                  "content-type" = "application/json;charset=UTF-8")),
-                  query = list("teamId" = object@team_id),
+                  query = list("teamId" = cloudos@team_id),
                   body = list("name" = cohort_name,
                               "description" = cohort_desc, 
                               "moreFilters" = filters), # TODO work on filters - its better to do from UI
@@ -45,7 +45,7 @@ cb_create_cohort <- function(object, cohort_name, cohort_desc, filters = "") {
   # res_df <- do.call(rbind, res)
   # colnames(res_df) <- "details"
   # return a cohort object
-  cohort_obj <- cb_load_cohort(object = object, 
+  cohort_obj <- cb_load_cohort(cloudos = cloudos, 
                             cohort_id = res$`_id`)
   return(cohort_obj)
 }

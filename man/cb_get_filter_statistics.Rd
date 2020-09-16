@@ -4,10 +4,10 @@
 \alias{cb_get_filter_statistics}
 \title{Filter a cohort samples}
 \usage{
-cb_get_filter_statistics(object, cohort, filter_id)
+cb_get_filter_statistics(cloudos, cohort, filter_id)
 }
 \arguments{
-\item{object}{A cloudos object. (Required)
+\item{cloudos}{A cloudos object. (Required)
 See constructor function \code{\link{connect_cloudos}}}
 
 \item{cohort}{A cohort object. (Required)

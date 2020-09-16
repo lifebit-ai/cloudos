@@ -4,10 +4,10 @@
 \alias{cb_get_genotypic_table}
 \title{Get genotypic table}
 \usage{
-cb_get_genotypic_table(object, page_number = 0, page_size = 10, filters = "")
+cb_get_genotypic_table(cloudos, page_number = 0, page_size = 10, filters = "")
 }
 \arguments{
-\item{object}{A cloudos object. (Required)
+\item{cloudos}{A cloudos object. (Required)
 See constructor function \code{\link{connect_cloudos}}}
 
 \item{page_number}{Number of page. (Optional) Default - 0}

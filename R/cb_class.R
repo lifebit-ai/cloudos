@@ -23,11 +23,11 @@ setClass("cohort",
                       more_fields = "list")
          )
 
-.get_cohort_info <- function(object, cohort_id) {
-  url <- paste(object@base_url, "api/v1/cohort", cohort_id, sep = "/")
+.get_cohort_info <- function(cloudos, cohort_id) {
+  url <- paste(cloudos@base_url, "api/v1/cohort", cohort_id, sep = "/")
   r <- httr::GET(url,
-                 httr::add_headers("Authorization" = object@auth),
-                 query = list("teamId" = object@team_id)
+                 httr::add_headers("Authorization" = cloudos@auth),
+                 query = list("teamId" = cloudos@team_id)
   )
   if (!r$status_code == 200) {
     stop("Something went wrong.")
@@ -42,15 +42,15 @@ setClass("cohort",
 #' @description Get all the details about a cohort including 
 #' applied filters.
 #'
-#' @param object A cloudos object. (Required)
+#' @param cloudos A cloudos object. (Required)
 #' See constructor function \code{\link{connect_cloudos}} 
 #' @param cohort_id Cohort id (Required)
 #'
 #' @return A list
 #'
 #' @export
-cb_load_cohort <- function(object, cohort_id){
-  my_cohort <- .get_cohort_info(object = object, 
+cb_load_cohort <- function(cloudos, cohort_id){
+  my_cohort <- .get_cohort_info(cloudos = cloudos, 
                               cohort_id = cohort_id)
   cohort_class_obj <- methods::new("cohort",
                                    id = cohort_id,
