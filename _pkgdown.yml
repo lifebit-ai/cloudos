@@ -5,29 +5,13 @@ authors:
 development:
   mode: auto
 reference:
-- title: "cloudos"
-  desc: "class and functions to interact with cloudos server"
+- title: CloudOS
+  desc: Class and functions to interact with CloudOS-server
   contents:
   - '`cloudos-class`'
-  - '`cloudos`'
-- title: "Cohort Browser"
-  desc: "List and create a cohort"
+  - '`connect_cloudos`'
+- title: Cohort-Browser
+  desc: Class and functions to interact with Cohort-Browser app
   contents:
   - '`cohort-class`'
-  - '`cohort`'
-  - '`cohorts_list`'
-  - '`cb_create_cohort`'
-- title: "Cohort Browser - Tables"
-  desc: "Show tables from Cohort Browser"
-  contents:
-  - '`cb_get_samples_table`'
-  - '`cb_get_genotypic_table`'
-  - '`cb_extract_samples`'
-- title: "Cohort Browser - Filter"
-  desc: "Apply filters to Cohort Browser tables"
-  contents:
-  - '`search_filters`'
-  - '`filter_samples`'
-  - '`cb_filter_participants`'
-  - '`cb_filter_metadata`'
-  - '`cb_genotypic_save`'
+  - starts_with("cb_")

@@ -126,13 +126,13 @@
 <h3 class="hasAnchor">
 <a href="#create-a-cloudos-object" class="anchor"></a>Create a cloudos object</h3>
 <p>This object can be used as input to other functions, which directly requires to communicate with the cloudos server.</p>
-<div class="sourceCode" id="cb4"><pre class="r"><span class="no">my_cloudos</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/cloudos.html">cloudos</a></span>(<span class="kw">base_url</span> <span class="kw">=</span> <span class="no">cb_base_url</span>,
+<div class="sourceCode" id="cb4"><pre class="r"><span class="no">my_cloudos</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu">cloudos</span>(<span class="kw">base_url</span> <span class="kw">=</span> <span class="no">cb_base_url</span>,
                                <span class="kw">auth</span> <span class="kw">=</span> <span class="no">my_auth</span>,
                                <span class="kw">team_id</span> <span class="kw">=</span> <span class="no">my_team_id</span>)
 <span class="no">my_cloudos</span>
 <span class="co">#&gt; Base URL:  http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com </span>
 <span class="co">#&gt; Authentication Method:  Bearer Token </span>
-<span class="co">#&gt; Team ID: 5f046bf6c132dd15fdd1a525</span></pre></div>
+<span class="co">#&gt; Team ID: 5f6228133097cc7a6504fb76</span></pre></div>
 </div>
 <div id="list-cohorts" class="section level3">
 <h3 class="hasAnchor">
@@ -143,7 +143,7 @@
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">cohorts</span>,<span class="fl">5</span>)
 <span class="co">#&gt;                         id        name</span>
 <span class="co">#&gt; 1 5f2ab881b695de55d93024a7        test</span>
-<span class="co">#&gt; 2 5f327e8c1733200222dc3e8c      test_2</span>
+<span class="co">#&gt; 2 5f6228133097cc7a6504fb76      test_2</span>
 <span class="co">#&gt; 3 5f32c2147ca1902e9c5ba45d      test-R</span>
 <span class="co">#&gt; 4 5f32e1687ca1902e9c5ba467 Test cohort</span>
 <span class="co">#&gt; 5 5f32f1407ca1902e9c5ba46e    Cohort-R</span>
@@ -177,9 +177,9 @@
 <h3 class="hasAnchor">
 <a href="#get-a-cohort" class="anchor"></a>Get a cohort</h3>
 <p>Get a available cohort in to a cohort R object.</p>
-<div class="sourceCode" id="cb7"><pre class="r"><span class="no">my_cohort</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/cohort.html">cohort</a></span>(<span class="no">my_cloudos</span>, <span class="kw">cohort_id</span> <span class="kw">=</span> <span class="st">"5f327e8c1733200222dc3e8c"</span>)
+<div class="sourceCode" id="cb7"><pre class="r"><span class="no">my_cohort</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu">cohort</span>(<span class="no">my_cloudos</span>, <span class="kw">cohort_id</span> <span class="kw">=</span> <span class="st">"5f6228133097cc7a6504fb76"</span>)
 <span class="no">my_cohort</span>
-<span class="co">#&gt; Cphort ID:  5f327e8c1733200222dc3e8c </span>
+<span class="co">#&gt; Cphort ID:  5f6228133097cc7a6504fb76 </span>
 <span class="co">#&gt; Cphort Name:  test_2 </span>
 <span class="co">#&gt; Cohort Description:  some random</span></pre></div>
 </div>
@@ -282,7 +282,7 @@
 <div id="search-avaiable-filters" class="section level4">
 <h4 class="hasAnchor">
 <a href="#search-avaiable-filters" class="anchor"></a>Search avaiable filters</h4>
-<div class="sourceCode" id="cb10"><pre class="r"><span class="no">all_filters</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/search_filters.html">search_filters</a></span>(<span class="no">my_cloudos</span>, <span class="kw">term</span> <span class="kw">=</span> <span class="st">"cancer"</span>)
+<div class="sourceCode" id="cb10"><pre class="r"><span class="no">all_filters</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/cb_search_phenotypic_filters.html">cb_search_phenotypic_filters</a></span>(<span class="no">my_cloudos</span>, <span class="kw">term</span> <span class="kw">=</span> <span class="st">"cancer"</span>)
 <span class="co">#&gt; Total number of filters - 29</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">all_filters</span>, <span class="fl">5</span>)
 <span class="co">#&gt;                        _id           categoryPathLevel1 categoryPathLevel2</span>
@@ -411,7 +411,7 @@
 <span class="co">#&gt; 1             40       1</span>
 
 <span class="co"># phenotype filter</span>
-<span class="no">cohort_with_filters</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/filter_samples.html">filter_samples</a></span>(<span class="no">my_cloudos</span>,
+<span class="no">cohort_with_filters</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu">filter_samples</span>(<span class="no">my_cloudos</span>,
                                    <span class="kw">cohort</span> <span class="kw">=</span> <span class="no">my_cohort</span>,
                                    <span class="kw">filter_id</span> <span class="kw">=</span> <span class="no">all_filters</span>[<span class="fl">1</span>,]$<span class="no">id</span>)
 <span class="no">cohort_with_filters</span>
@@ -438,7 +438,7 @@
 
 <span class="no">gs</span>
 <span class="co">#&gt;      cohortId                   markers filters _id                       </span>
-<span class="co">#&gt; data "5f327e8c1733200222dc3e8c" List,0  List,1  "5f4e557faaafb6454ad4a324"</span>
+<span class="co">#&gt; data "5f6228133097cc7a6504fb76" List,0  List,1  "5f4e557faaafb6454ad4a324"</span>
 <span class="co">#&gt;      numberOfParticipants</span>
 <span class="co">#&gt; data 32545</span></pre></div>
 <div class="sourceCode" id="cb14"><pre class="r"><span class="no">df</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/cb_filter_metadata.html">cb_filter_metadata</a></span>(<span class="no">my_cloudos</span>,

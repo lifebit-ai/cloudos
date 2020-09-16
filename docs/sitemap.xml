@@ -4,18 +4,6 @@
     <loc>https://lifebit-ai.github.io/cloudos//index.html</loc>
   </url>
   <url>
-    <loc>https://lifebit-ai.github.io/cloudos//reference/cloudos-class.html</loc>
-  </url>
-  <url>
-    <loc>https://lifebit-ai.github.io/cloudos//reference/cloudos.html</loc>
-  </url>
-  <url>
-    <loc>https://lifebit-ai.github.io/cloudos//reference/cohort-class.html</loc>
-  </url>
-  <url>
-    <loc>https://lifebit-ai.github.io/cloudos//reference/cohort.html</loc>
-  </url>
-  <url>
     <loc>https://lifebit-ai.github.io/cloudos//reference/cb_create_cohort.html</loc>
   </url>
   <url>
@@ -28,13 +16,13 @@
     <loc>https://lifebit-ai.github.io/cloudos//reference/cb_filter_participants.html</loc>
   </url>
   <url>
-    <loc>https://lifebit-ai.github.io/cloudos//reference/filter_samples.html</loc>
-  </url>
-  <url>
     <loc>https://lifebit-ai.github.io/cloudos//reference/cb_genotypic_save.html</loc>
   </url>
   <url>
     <loc>https://lifebit-ai.github.io/cloudos//reference/cb_get_cohort_filters.html</loc>
+  </url>
+  <url>
+    <loc>https://lifebit-ai.github.io/cloudos//reference/cb_get_filter_statistics.html</loc>
   </url>
   <url>
     <loc>https://lifebit-ai.github.io/cloudos//reference/cb_get_genotypic_table.html</loc>
@@ -46,9 +34,21 @@
     <loc>https://lifebit-ai.github.io/cloudos//reference/cb_list_cohorts.html</loc>
   </url>
   <url>
+    <loc>https://lifebit-ai.github.io/cloudos//reference/cb_load_cohort.html</loc>
+  </url>
+  <url>
     <loc>https://lifebit-ai.github.io/cloudos//reference/cb_plot_filters.html</loc>
   </url>
   <url>
-    <loc>https://lifebit-ai.github.io/cloudos//reference/search_filters.html</loc>
+    <loc>https://lifebit-ai.github.io/cloudos//reference/cb_search_phenotypic_filters.html</loc>
+  </url>
+  <url>
+    <loc>https://lifebit-ai.github.io/cloudos//reference/cloudos-class.html</loc>
+  </url>
+  <url>
+    <loc>https://lifebit-ai.github.io/cloudos//reference/cohort-class.html</loc>
+  </url>
+  <url>
+    <loc>https://lifebit-ai.github.io/cloudos//reference/connect_cloudos.html</loc>
   </url>
 </urlset>
