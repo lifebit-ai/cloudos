@@ -11,7 +11,7 @@ get_cohort_filters(object, cohort)
 See constructor function \code{\link{connect_cloudos}}}
 
 \item{cohort}{A cohort object. (Required)
-See constructor function \code{\link{cohort}}}
+See constructor function \code{\link{create_cohort}} or \code{\link{load_cohort}}}
 }
 \value{
 A list of data frame.

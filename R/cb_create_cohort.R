@@ -45,7 +45,7 @@ create_cohort <- function(object, cohort_name, cohort_desc, filters = "") {
   # res_df <- do.call(rbind, res)
   # colnames(res_df) <- "details"
   # return a cohort object
-  cohort_obj <- cohort(object = object, 
-                       cohort_id = res$`_id`)
+  cohort_obj <- load_cohort(object = object, 
+                            cohort_id = res$`_id`)
   return(cohort_obj)
 }

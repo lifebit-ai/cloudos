@@ -49,7 +49,7 @@ setClass("cohort",
 #' @return A list
 #'
 #' @export
-cohort <- function(object, cohort_id){
+load_cohort <- function(object, cohort_id){
   my_cohort <- .get_cohort_info(object = object, 
                               cohort_id = cohort_id)
   cohort_class_obj <- methods::new("cohort",

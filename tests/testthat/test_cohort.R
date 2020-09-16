@@ -4,7 +4,7 @@
 #                         auth = Sys.getenv("cloudos_Bearer_token"),
 #                         team_id = "5f046bf6c132dd15fdd1a525")
 #   # set a dummy cohort object
-#   my_cohort <- cohort(my_cloudos, cohort_id = "5f6228133097cc7a6504fb76")
+#   my_cohort <- load_cohort(my_cloudos, cohort_id = "5f6228133097cc7a6504fb76")
 # 
 #   expect_s4_class(my_cohort, "cohort")
 # })
@@ -17,7 +17,7 @@ with_mock_api({
                           auth = "Bearer token",
                           team_id = "5f046bf6c132dd15fdd1a525")
     # set a cohort object
-    my_cohort <- cohort(my_cloudos, cohort_id = "5f6228133097cc7a6504fb76")
+    my_cohort <- load_cohort(my_cloudos, cohort_id = "5f6228133097cc7a6504fb76")
     
     expect_s4_class(my_cohort, "cohort")
   })

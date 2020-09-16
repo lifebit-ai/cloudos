@@ -11,7 +11,7 @@ genotypic_save(object, cohort, filter_id)
 See constructor function \code{\link{connect_cloudos}}}
 
 \item{cohort}{A cohort object. (Required)
-See constructor function \code{\link{cohort}}}
+See constructor function \code{\link{create_cohort}} or \code{\link{load_cohort}}}
 
 \item{filter_id}{A filter ID. (Required)}
 }

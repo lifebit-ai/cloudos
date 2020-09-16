@@ -11,7 +11,7 @@ get_samples_table(object, cohort, page_number = 0, page_size = 10)
 See constructor function \code{\link{connect_cloudos}}}
 
 \item{cohort}{A cohort object. (Required)
-See constructor function \code{\link{cohort}}}
+See constructor functions \code{\link{create_cohort}} or \code{\link{load_cohort}}}
 
 \item{page_number}{Number of page. (Optional) Default - 0}
 

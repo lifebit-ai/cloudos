@@ -61,7 +61,7 @@ get_genotypic_table <- function(object,
 #' @param object A cloudos object. (Required)
 #' See constructor function \code{\link{connect_cloudos}}
 #' @param cohort A cohort object. (Required)
-#' See constructor function \code{\link{cohort}}
+#' See constructor functions \code{\link{create_cohort}} or \code{\link{load_cohort}}
 #' @param page_number Number of page. (Optional) Default - 0
 #' @param page_size Number of entries in a page. (Optional) Default - 10
 #'

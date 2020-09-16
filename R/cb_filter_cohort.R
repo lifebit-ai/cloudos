@@ -47,7 +47,7 @@ search_filters <- function(object,
 #' @param object A cloudos object. (Required)
 #' See constructor function \code{\link{connect_cloudos}} 
 #' @param cohort A cohort object. (Required)
-#' See constructor function \code{\link{cohort}}
+#' See constructor function \code{\link{create_cohort}} or \code{\link{load_cohort}}
 #' @param filter_id A filter ID. (Required)
 #'
 #' @return A data frame with filters applied.
@@ -86,7 +86,7 @@ filter_samples <- function(object, cohort, filter_id ) {
 #' @param object A cloudos object. (Required)
 #' See constructor function \code{\link{connect_cloudos}} 
 #' @param cohort A cohort object. (Required)
-#' See constructor function \code{\link{cohort}}
+#' See constructor function \code{\link{create_cohort}} or \code{\link{load_cohort}}
 #'
 #' @return A list of data frame.
 #'
@@ -119,7 +119,7 @@ get_cohort_filters <- function(object, cohort){
 #' @param object A cloudos object. (Required)
 #' See constructor function \code{\link{connect_cloudos}} 
 #' @param cohort A cohort object. (Required)
-#' See constructor function \code{\link{cohort}}
+#' See constructor function \code{\link{create_cohort}} or \code{\link{load_cohort}}
 #' @param filter_id A filter ID. (Required)
 #'
 #' @return A data frame with filters applied.
@@ -162,7 +162,7 @@ filter_participants <-function(object, cohort, filter_id ) {
 #' @param object A cloudos object. (Required)
 #' See constructor function \code{\link{connect_cloudos}} 
 #' @param cohort A cohort object. (Required)
-#' See constructor function \code{\link{cohort}}
+#' See constructor function \code{\link{create_cohort}} or \code{\link{load_cohort}}
 #' @param filter_id A filter ID. (Required)
 #'
 #' @return A data frame.
