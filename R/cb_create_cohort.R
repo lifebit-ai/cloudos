@@ -5,7 +5,7 @@
 #' @param object A cloudos object. (Required)
 #' See constructor function \code{\link{connect_cloudos}}
 #' @param cohort_name New cohort name to be created. (Required)
-#' @param cohort_desc New cohort description to be created. (Required)
+#' @param cohort_desc New cohort description to be created. (Optional)
 #' @param filters WIP - details will be added.
 #'
 #' @return A dataframe.
@@ -18,6 +18,12 @@
 #' }
 #' @export
 create_cohort <- function(object, cohort_name, cohort_desc, filters = "") {
+  
+  # if no description provided
+  if(!cohort_desc){
+    cohort_desc = list()
+  }
+  
   url <- paste(object@base_url, "api/v1/cohort/", sep = "/")
   r <- httr::POST(url,
                   httr::add_headers(.headers = c("Authorization" = object@auth,

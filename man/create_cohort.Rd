@@ -12,7 +12,7 @@ See constructor function \code{\link{connect_cloudos}}}
 
 \item{cohort_name}{New cohort name to be created. (Required)}
 
-\item{cohort_desc}{New cohort description to be created. (Required)}
+\item{cohort_desc}{New cohort description to be created. (Optional)}
 
 \item{filters}{WIP - details will be added.}
 }
