@@ -48,7 +48,9 @@ cb_get_genotypic_table <- function(cloudos,
   df <- do.call(rbind, lapply(lapply(df_list, unlist), "[",
                         unique(unlist(c(sapply(df_list,names))))))
   df <- as.data.frame(df)
-  return(df)
+  # remove mongodb _id column
+  df_new <- subset(df, select = (c(-`_id`)))
+  return(df_new)
 }
 
 ####################################################################
@@ -140,7 +142,9 @@ cb_get_samples_table <- function(cloudos,
     df_list[[n]] <- as.data.frame(dta)
   }
   res_df <- dplyr::bind_rows(df_list)
-  return(res_df)
+  # remove mongodb _id column
+  res_df_new <- subset(res_df, select = (c(-`_id`)))
+  return(res_df_new)
 }
 
 # test

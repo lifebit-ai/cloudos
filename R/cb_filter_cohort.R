@@ -24,18 +24,20 @@ cb_search_phenotypic_filters <- function(cloudos,
                               "term" = term))
   if (!r$status_code == 200) {
     stop("Something went wrong.")
-  } else {
-    res <- httr::content(r)
-    filters <- res$filters
-    message("Total number of filters - ", length(filters))
-    # make in to a list
-    filters_list <- list()
-    for (n in 1:length(filters)) {
-      dta <- do.call(cbind, filters[[n]])
-      filters_list[[n]] <- as.data.frame(dta)
-    }
-    filters_df <- dplyr::bind_rows(filters_list)
   }
+  res <- httr::content(r)
+  filters <- res$filters
+  message("Total number of filters - ", length(filters))
+  # make in to a list
+  filters_list <- list()
+  for (n in 1:length(filters)) {
+    dta <- do.call(cbind, filters[[n]])
+    filters_list[[n]] <- as.data.frame(dta)
+  }
+  filters_df <- dplyr::bind_rows(filters_list)
+  # remove mongodb _id column
+  filters_df_new <- subset(filters_df, select = (c(-`_id`)))
+  return(filters_df_new)
 }
 
 
@@ -222,5 +224,7 @@ cb_filter_metadata <- function(cloudos, filter_id) {
   # parse the content
   res <- httr::content(r)
   res_df <- as.data.frame(do.call(cbind, res))
-  return(res_df)
+  # remove mongodb _id column
+  res_df_new <- subset(res_df, select = (c(-`_id`)))
+  return(res_df_new)
 }
