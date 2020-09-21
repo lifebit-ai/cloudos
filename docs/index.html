@@ -11,7 +11,8 @@
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="R Client Library for CloudOS">
+<script src="pkgdown.js"></script><link href="extra.css" rel="stylesheet">
+<meta property="og:title" content="R Client Library for CloudOS">
 <meta property="og:description" content="The CloudOS client library for R makes it easy to interact with 
     CloudOS &lt;https://cloudos.lifebit.ai/&gt; in the R environment for analysis.">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -72,48 +73,32 @@
   <div class="contents col-md-9">
 <div id="cloudos-" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#cloudos-" class="anchor"></a>cloudos <img src="logo/hexlogo.png" align="right" height="140/">
+<a href="#cloudos-" class="anchor"></a>cloudos <img src="reference/figures/logo/hexlogo.png" align="right" height="140/">
 </h1></div>
+<!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- badges: start -->
 
-<p>The ‘CloudOS’ client library for R makes it easy to interact with CloudOS <a href="https://cloudos.lifebit.ai/" class="uri">https://cloudos.lifebit.ai/</a> in the R environment for analysis.</p>
-<ul>
-<li><a href="#installation">Installation</a></li>
-<li>
-<a href="#usage">Usage</a>
-<ul>
-<li><a href="#load-the-cloudos-r-client-library">Load the cloudos R-client library</a></li>
-<li><a href="#setup-essentials">Setup essentials</a></li>
-<li><a href="#create-a-cloudos-object">Create a cloudos object</a></li>
-<li><a href="#list-cohorts">List Cohorts</a></li>
-<li><a href="#create-a-cohort">Create a cohort</a></li>
-<li><a href="#get-a-cohort">Get a cohort</a></li>
-<li><a href="#get-sample-participants-table">Get sample (participants) table</a></li>
-<li><a href="#get-genotypic-table">Get genotypic table</a></li>
-<li><a href="#filtering">Filtering</a></li>
-<li><a href="#additional-for-ui">Additional for UI</a></li>
-</ul>
-</li>
-</ul>
+<p><strong>cloudos</strong> R package makes it easy to interact with Lifebit’s CloudOS <a href="https://cloudos.lifebit.ai/" class="uri">https://cloudos.lifebit.ai/</a> platform in the R environment.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>You can install the released version of cloudos from <a href="https://github.com/lifebit-ai/cloudos/">GitHub</a> at this moment. (Will be listed on <a href="https://CRAN.R-project.org">CRAN</a> as well)</p>
+<p>You can install the released version of <strong>cloudos</strong> from <a href="https://github.com/lifebit-ai/cloudos/">GitHub</a> at this moment. (Will be listed on <a href="https://CRAN.R-project.org">CRAN</a> as well)</p>
 <div class="sourceCode" id="cb1"><pre class="r"><span class="kw">if</span> (!<span class="fu"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="no">remotes</span>)) { <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"remotes"</span>) }
   <span class="kw pkg">remotes</span><span class="kw ns">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span>(<span class="st">"lifebit-ai/cloudos"</span>)</pre></div>
 </div>
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
-<div id="load-the-cloudos-r-client-library" class="section level3">
+<p>Bellow are given the demonstration of how the <strong>cloudos</strong> package can be used.</p>
+<div id="load-the-library" class="section level3">
 <h3 class="hasAnchor">
-<a href="#load-the-cloudos-r-client-library" class="anchor"></a>Load the cloudos R-client library</h3>
+<a href="#load-the-library" class="anchor"></a>Load the library</h3>
 <div class="sourceCode" id="cb2"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">cloudos</span>)</pre></div>
 </div>
-<div id="setup-essentials" class="section level3">
+<div id="setup-login-details" class="section level3">
 <h3 class="hasAnchor">
-<a href="#setup-essentials" class="anchor"></a>Setup essentials</h3>
-<p>Require few cloudos server login details, which will used in next step to create a <code>my_cloudos</code> object</p>
+<a href="#setup-login-details" class="anchor"></a>Setup login details</h3>
+<p>To interact with the cloudos server, it require few login details.</p>
 <p>Note: If no <code>base_url</code> given the default is <a href="https://cloudos.lifebit.ai/" class="uri">https://cloudos.lifebit.ai/</a></p>
 <div class="sourceCode" id="cb3"><pre class="r"><span class="no">cb_base_url</span> <span class="kw">&lt;-</span> <span class="st">"http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com"</span>
 <span class="no">my_auth</span> <span class="kw">&lt;-</span> <span class="st">"Bearer *************************"</span>
@@ -122,181 +107,145 @@
 <span class="no">my_auth</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv</a></span>(<span class="st">"cloudos_Bearer_token"</span>)
 <span class="no">my_team_id</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv</a></span>(<span class="st">"cloudos_team_id"</span>)</pre></div>
 </div>
-<div id="create-a-cloudos-object" class="section level3">
+<div id="connect-to-cloudos" class="section level3">
 <h3 class="hasAnchor">
-<a href="#create-a-cloudos-object" class="anchor"></a>Create a cloudos object</h3>
-<p>This object can be used as input to other functions, which directly requires to communicate with the cloudos server.</p>
-<div class="sourceCode" id="cb4"><pre class="r"><span class="no">my_cloudos</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu">cloudos</span>(<span class="kw">base_url</span> <span class="kw">=</span> <span class="no">cb_base_url</span>,
-                               <span class="kw">auth</span> <span class="kw">=</span> <span class="no">my_auth</span>,
-                               <span class="kw">team_id</span> <span class="kw">=</span> <span class="no">my_team_id</span>)
+<a href="#connect-to-cloudos" class="anchor"></a>Connect to CloudOS</h3>
+<p>Lets create a cloudos object with the login details, which can help us connect to cloudos server.</p>
+<div class="sourceCode" id="cb4"><pre class="r"><span class="no">my_cloudos</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/connect_cloudos.html">connect_cloudos</a></span>(<span class="kw">base_url</span> <span class="kw">=</span> <span class="no">cb_base_url</span>,
+                                       <span class="kw">auth</span> <span class="kw">=</span> <span class="no">my_auth</span>,
+                                       <span class="kw">team_id</span> <span class="kw">=</span> <span class="no">my_team_id</span>)
 <span class="no">my_cloudos</span>
 <span class="co">#&gt; Base URL:  http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com </span>
 <span class="co">#&gt; Authentication Method:  Bearer Token </span>
-<span class="co">#&gt; Team ID: 5f6228133097cc7a6504fb76</span></pre></div>
+<span class="co">#&gt; Team ID: 5f046bf6c132dd15fdd1a525</span></pre></div>
 </div>
+</div>
+<div id="application---cohort-browser" class="section level2">
+<h2 class="hasAnchor">
+<a href="#application---cohort-browser" class="anchor"></a>Application - Cohort Browser</h2>
+<p>Cohort Browser is part of Lifebit’s cloudos offering. Lets explore how to interact with this in R environment.</p>
 <div id="list-cohorts" class="section level3">
 <h3 class="hasAnchor">
 <a href="#list-cohorts" class="anchor"></a>List Cohorts</h3>
-<p>List available cohorts in a workspace.</p>
+<p>To check list of available cohorts in a workspace.</p>
 <div class="sourceCode" id="cb5"><pre class="r"><span class="no">cohorts</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/cb_list_cohorts.html">cb_list_cohorts</a></span>(<span class="no">my_cloudos</span>)
-<span class="co">#&gt; Total number of cohorts found-49. But here is 10. For more, change 'page_number' and 'page_size'</span>
+<span class="co">#&gt; Total number of cohorts found-56. But here is 10. For more, change 'page_number' and 'page_size'</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">cohorts</span>,<span class="fl">5</span>)
-<span class="co">#&gt;                         id        name</span>
-<span class="co">#&gt; 1 5f2ab881b695de55d93024a7        test</span>
-<span class="co">#&gt; 2 5f6228133097cc7a6504fb76      test_2</span>
-<span class="co">#&gt; 3 5f32c2147ca1902e9c5ba45d      test-R</span>
-<span class="co">#&gt; 4 5f32e1687ca1902e9c5ba467 Test cohort</span>
-<span class="co">#&gt; 5 5f32f1407ca1902e9c5ba46e    Cohort-R</span>
+<span class="co">#&gt;                         id               name</span>
+<span class="co">#&gt; 1 5f68c6a0e95ca00b6918a2e9           Cohort-R</span>
+<span class="co">#&gt; 2 5f6228133097cc7a6504fb76      cohort-test-2</span>
+<span class="co">#&gt; 3 5f6227f285aae86f12fa9af9 test-cohort0-r-lib</span>
+<span class="co">#&gt; 4 5f60a9b1cecd166285ffd8a7          dsadasdas</span>
+<span class="co">#&gt; 5 5f5a005708dd6f253b3ab0da            New coh</span>
 <span class="co">#&gt;                                           description number_of_participants</span>
-<span class="co">#&gt; 1                                           test-desc                 414326</span>
-<span class="co">#&gt; 2                                         some random                 514407</span>
-<span class="co">#&gt; 3                                  created from R lib                 600000</span>
-<span class="co">#&gt; 4                 This cohort is for testing purpose.                 600000</span>
-<span class="co">#&gt; 5 This cohort is for testing purpose, created from R.                 600000</span>
+<span class="co">#&gt; 1 This cohort is for testing purpose, created from R.                 644686</span>
+<span class="co">#&gt; 2                                For testing in R-lib                 213688</span>
+<span class="co">#&gt; 3                                   For testing R-lib                 644686</span>
+<span class="co">#&gt; 4                                                                     644686</span>
+<span class="co">#&gt; 5                                                 asd                 644686</span>
 <span class="co">#&gt;   number_of_filters               created_at               updated_at</span>
-<span class="co">#&gt; 1                 1 2020-08-05T13:47:45.826Z 2020-08-14T10:48:37.284Z</span>
-<span class="co">#&gt; 2                 1 2020-08-11T11:18:36.703Z 2020-09-01T13:51:34.560Z</span>
-<span class="co">#&gt; 3                 0 2020-08-11T16:06:44.205Z 2020-08-11T16:06:44.205Z</span>
-<span class="co">#&gt; 4                 0 2020-08-11T18:20:24.356Z 2020-08-11T18:20:24.356Z</span>
-<span class="co">#&gt; 5                 0 2020-08-11T19:28:00.606Z 2020-08-11T19:28:00.606Z</span></pre></div>
+<span class="co">#&gt; 1                 0 2020-09-21T15:28:32.659Z 2020-09-21T15:28:32.659Z</span>
+<span class="co">#&gt; 2                 1 2020-09-16T14:58:27.928Z 2020-09-16T14:59:35.887Z</span>
+<span class="co">#&gt; 3                 0 2020-09-16T14:57:54.643Z 2020-09-16T14:57:54.643Z</span>
+<span class="co">#&gt; 4                 0 2020-09-15T11:46:57.334Z 2020-09-15T11:46:57.334Z</span>
+<span class="co">#&gt; 5                 0 2020-09-10T10:30:47.602Z 2020-09-10T10:30:47.602Z</span></pre></div>
 </div>
 <div id="create-a-cohort" class="section level3">
 <h3 class="hasAnchor">
 <a href="#create-a-cohort" class="anchor"></a>Create a cohort</h3>
-<p>Create a new cohort.</p>
+<p>To create a new cohort.</p>
 <div class="sourceCode" id="cb6"><pre class="r"><span class="no">my_cohort</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/cb_create_cohort.html">cb_create_cohort</a></span>(<span class="no">my_cloudos</span>,
-              <span class="kw">cohort_name</span> <span class="kw">=</span> <span class="st">"Cohort-R"</span>,
-              <span class="kw">cohort_desc</span> <span class="kw">=</span> <span class="st">"This cohort is for testing purpose, created from R."</span>)
-<span class="co">#&gt; Cohort created successfully.</span>
-<span class="no">my_cohort</span>
-<span class="co">#&gt; Cphort ID:  5f4e55799a350d4bb04dd92f </span>
-<span class="co">#&gt; Cphort Name:  Cohort-R </span>
-<span class="co">#&gt; Cohort Description:  This cohort is for testing purpose, created from R.</span></pre></div>
+                                       <span class="kw">cohort_name</span> <span class="kw">=</span> <span class="st">"Cohort-R"</span>,
+                                       <span class="kw">cohort_desc</span> <span class="kw">=</span> <span class="st">"This cohort is for testing purpose, created from R."</span>)
+<span class="no">my_cohort</span></pre></div>
 </div>
 <div id="get-a-cohort" class="section level3">
 <h3 class="hasAnchor">
 <a href="#get-a-cohort" class="anchor"></a>Get a cohort</h3>
-<p>Get a available cohort in to a cohort R object.</p>
-<div class="sourceCode" id="cb7"><pre class="r"><span class="no">my_cohort</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu">cohort</span>(<span class="no">my_cloudos</span>, <span class="kw">cohort_id</span> <span class="kw">=</span> <span class="st">"5f6228133097cc7a6504fb76"</span>)
+<p>Get a available cohort in to a cohort R object. This cohort object can be used in many different other functions.</p>
+<div class="sourceCode" id="cb7"><pre class="r"><span class="no">my_cohort</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/cb_load_cohort.html">cb_load_cohort</a></span>(<span class="kw">cloudos</span> <span class="kw">=</span> <span class="no">my_cloudos</span>,
+                                     <span class="kw">cohort_id</span> <span class="kw">=</span> <span class="st">"5f6228133097cc7a6504fb76"</span>)
 <span class="no">my_cohort</span>
-<span class="co">#&gt; Cphort ID:  5f6228133097cc7a6504fb76 </span>
-<span class="co">#&gt; Cphort Name:  test_2 </span>
-<span class="co">#&gt; Cohort Description:  some random</span></pre></div>
+<span class="co">#&gt; Cohort ID:  5f6228133097cc7a6504fb76 </span>
+<span class="co">#&gt; Cohort Name:  cohort-test-2 </span>
+<span class="co">#&gt; Cohort Description:  For testing in R-lib</span></pre></div>
 </div>
-<div id="get-sample-participants-table" class="section level3">
+<div id="get-samples-table" class="section level3">
 <h3 class="hasAnchor">
-<a href="#get-sample-participants-table" class="anchor"></a>Get sample (participants) table</h3>
-<p>Get all the sample (participants) table for a cohort.</p>
-<div class="sourceCode" id="cb8"><pre class="r"><span class="no">cohort_samples</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/cb_get_samples_table.html">cb_get_samples_table</a></span>(<span class="no">my_cloudos</span>, <span class="no">my_cohort</span>)
+<a href="#get-samples-table" class="anchor"></a>Get samples table</h3>
+<p>Get all the samples (participants) table for a cohort with phenotypic filters applied.</p>
+<div class="sourceCode" id="cb8"><pre class="r"><span class="no">cohort_samples</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/cb_get_samples_table.html">cb_get_samples_table</a></span>(<span class="kw">cloudos</span> <span class="kw">=</span> <span class="no">my_cloudos</span>,
+                                                <span class="kw">cohort</span> <span class="kw">=</span> <span class="no">my_cohort</span>)
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">cohort_samples</span>, <span class="fl">5</span>)
-<span class="co">#&gt;                        _id       i      f20001i0a0 f31i0a0 f34i0a0   f52i0a0</span>
-<span class="co">#&gt; 1 5edbdd689d700db709af0c2f 1000016 cervical cancer    Male    1954 September</span>
-<span class="co">#&gt; 2 5edbdd689d700db709af0c3e 1000048 chronic myeloid  Female    1950   January</span>
-<span class="co">#&gt; 3 5edbdd689d700db709af0c2a 1000063 chronic myeloid  Female    1944     April</span>
-<span class="co">#&gt; 4 5edbdd689d700db709af0c4d 1000068  bladder cancer  Female    1947  November</span>
-<span class="co">#&gt; 5 5edbdd689d700db709af0c2c 1000080 cervical cancer  Female    1941  November</span>
-<span class="co">#&gt;        f5984i0aavg f5984i0amin f5984i0amax</span>
-<span class="co">#&gt; 1 65.7105263157895           0         270</span>
-<span class="co">#&gt; 2 59.2368421052632           0         195</span>
-<span class="co">#&gt; 3 65.0350877192982           0         270</span>
-<span class="co">#&gt; 4 63.9824561403509           0         195</span>
-<span class="co">#&gt; 5 61.1929824561403           0         270</span></pre></div>
+<span class="co">#&gt;         i                                    f20001i0a0 f31i0a0 f34i0a0</span>
+<span class="co">#&gt; 1 1000016                               cervical cancer    Male    1954</span>
+<span class="co">#&gt; 2 1000068                                bladder cancer  Female    1947</span>
+<span class="co">#&gt; 3 1000095 brain cancer / primary malignant brain tumour  Female    1934</span>
+<span class="co">#&gt; 4 1000148           spinal cord or cranial nerve cancer  Female    1946</span>
+<span class="co">#&gt; 5 1000184                      non-melanoma skin cancer  Female    1957</span>
+<span class="co">#&gt;     f52i0a0      f5984i0aavg f5984i0amin f5984i0amax</span>
+<span class="co">#&gt; 1 September 66.8839285714286           2         270</span>
+<span class="co">#&gt; 2  November           65.125           1         195</span>
+<span class="co">#&gt; 3   January 68.0350877192982           1         245</span>
+<span class="co">#&gt; 4     April 65.5178571428571           1         270</span>
+<span class="co">#&gt; 5   January 62.5803571428571           1         270</span></pre></div>
+</div>
+<div id="get-sample-filters-plot" class="section level3">
+<h3 class="hasAnchor">
+<a href="#get-sample-filters-plot" class="anchor"></a>Get sample filters plot</h3>
+<p>Get ggplots for all the applied phenotypic filters for a cohort.</p>
+<p><strong>This is a work in progress feature.</strong></p>
+<div class="sourceCode" id="cb9"><pre class="r"><span class="no">cohort_filters</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/cb_get_cohort_filters.html">cb_get_cohort_filters</a></span>(<span class="kw">cloudos</span> <span class="kw">=</span> <span class="no">my_cloudos</span>,
+                                        <span class="kw">cohort</span> <span class="kw">=</span> <span class="no">my_cohort</span>)
+<span class="no">plot_list</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/cb_plot_filters.html">cb_plot_filters</a></span>(<span class="no">cohort_filters</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggpubr</span>)
+<span class="co">#&gt; Loading required package: ggplot2</span>
+<span class="kw pkg">ggpubr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggpubr/man/ggarrange.html">ggarrange</a></span>(<span class="kw">plotlist</span> <span class="kw">=</span> <span class="no">plot_list</span>)</pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-9-1.png" width="100%"></p>
 </div>
 <div id="get-genotypic-table" class="section level3">
 <h3 class="hasAnchor">
 <a href="#get-genotypic-table" class="anchor"></a>Get genotypic table</h3>
 <p>Get all the genotypic table for a cohort.</p>
-<div class="sourceCode" id="cb9"><pre class="r"><span class="co">#cohort_genotype &lt;- cloudos::cb_get_genotypic_table(my_cloudos, my_cohort)</span>
-<span class="no">cohort_genotype</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/cb_get_genotypic_table.html">cb_get_genotypic_table</a></span>(<span class="no">my_cloudos</span>)
+<div class="sourceCode" id="cb10"><pre class="r"><span class="co">#cohort_genotype &lt;- cloudos::cb_get_genotypic_table(my_cloudos, my_cohort)</span>
+<span class="no">cohort_genotype</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/cb_get_genotypic_table.html">cb_get_genotypic_table</a></span>(<span class="kw">cloudos</span> <span class="kw">=</span> <span class="no">my_cloudos</span>)
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">cohort_genotype</span>, <span class="fl">5</span>)
-<span class="co">#&gt;      _id                        Chromosome Location   Reference Alternative</span>
-<span class="co">#&gt; [1,] "5ef793999b8097fcd1da226a" "10"       "10:93190" "AC"      " "        </span>
-<span class="co">#&gt; [2,] "5ef793719b8097fcd1cea2f3" "10"       "10:93502" "C"       "G"        </span>
-<span class="co">#&gt; [3,] "5ef793719b8097fcd1cea2ff" "10"       "10:93635" "T"       "C"        </span>
-<span class="co">#&gt; [4,] "5ef793999b8097fcd1da2266" "10"       "10:94514" "CTGG"    " "        </span>
-<span class="co">#&gt; [5,] "5ef793999b8097fcd1da2277" "10"       "10:94693" "G"       " "        </span>
-<span class="co">#&gt;      Affimetrix ID Possible allele combination 0 Possible allele combination 1</span>
-<span class="co">#&gt; [1,] "80278591"    "GAC G"                       "0 0"                        </span>
-<span class="co">#&gt; [2,] "52134431"    "C C"                         "0 0"                        </span>
-<span class="co">#&gt; [3,] "3729558"     "T T"                         "0 0"                        </span>
-<span class="co">#&gt; [4,] "52349171"    "CCTGG CCT"                   "C CCTGG"                    </span>
-<span class="co">#&gt; [5,] "80278592"    "AG"                          "0 0"                        </span>
-<span class="co">#&gt;      Possible allele combination 2 index Type        id  cn          </span>
-<span class="co">#&gt; [1,] "G GAC"                       "0"   "Insertion" "1" "zzg_m_10_0"</span>
-<span class="co">#&gt; [2,] "G C"                         "1"   "SNP"       "2" "zzg_m_10_1"</span>
-<span class="co">#&gt; [3,] "C T"                         "2"   "SNP"       "3" "zzg_m_10_2"</span>
-<span class="co">#&gt; [4,] "0 0"                         "3"   "Insertion" "4" "zzg_m_10_3"</span>
-<span class="co">#&gt; [5,] "A A"                         "4"   "SNP"       "5" "zzg_m_10_4"</span>
-<span class="co">#&gt;      &lt;NA&gt;          &lt;NA&gt;          &lt;NA&gt;                &lt;NA&gt;               </span>
-<span class="co">#&gt; [1,] NA            NA            NA                  NA                 </span>
-<span class="co">#&gt; [2,] "rs201177578" "Deleterious" "Possibly Damaging" "Possibly Damaging"</span>
-<span class="co">#&gt; [3,] "rs200242637" "Deleterious" "Benign"            "Benign"           </span>
-<span class="co">#&gt; [4,] NA            NA            NA                  NA                 </span>
-<span class="co">#&gt; [5,] NA            NA            NA                  NA                 </span>
-<span class="co">#&gt;      &lt;NA&gt;      &lt;NA&gt;              &lt;NA&gt;     &lt;NA&gt;          &lt;NA&gt;         </span>
-<span class="co">#&gt; [1,] NA        NA                NA       NA            NA           </span>
-<span class="co">#&gt; [2,] "Unknown" "Disease Causing" "Medium" "Deleterious" "Deleterious"</span>
-<span class="co">#&gt; [3,] "Unknown" "Disease Causing" "Medium" "Tolerated"   "Deleterious"</span>
-<span class="co">#&gt; [4,] NA        NA                NA       NA            NA           </span>
-<span class="co">#&gt; [5,] NA        NA                NA       NA            NA           </span>
-<span class="co">#&gt;      &lt;NA&gt;        &lt;NA&gt;          &lt;NA&gt;  &lt;NA&gt; </span>
-<span class="co">#&gt; [1,] NA          NA            NA    NA   </span>
-<span class="co">#&gt; [2,] "Tolerated" "Deleterious" "542" "244"</span>
-<span class="co">#&gt; [3,] "Tolerated" "Tolerated"   "615" "27" </span>
-<span class="co">#&gt; [4,] NA          NA            NA    NA   </span>
-<span class="co">#&gt; [5,] NA          NA            NA    NA   </span>
-<span class="co">#&gt;      &lt;NA&gt;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          </span>
-<span class="co">#&gt; [1,] NA                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </span>
-<span class="co">#&gt; [2,] "GO CYTOSKELETON ORGANIZATION| GO OOGENESIS| GO MICROTUBULE BASED PROCESS| GO MICROTUBULE CYTOSKELETON ORGANIZATION| GO SEXUAL REPRODUCTION| GO ATOMICAL STRUCTURE MATURATION| GO MITOTIC CELL CYCLE| GO ORGANELLE FISSION| GO CELL MATURATION| GO ORGANELLE ASSEMBLY| GO CELLULAR PROCESS INVOLVED IN REPRODUCTION IN MULTICELLULAR ORGANISM| GO OOCYTE MATURATION| GO OOCYTE DIFFERENTIATION| GO MEIOTIC CELL CYCLE| GO CELL CYCLE| GO MULTI ORGANISM REPRODUCTIVE PROCESS| GO GAMETE GENERATION| GO FEMALE GAMETE GENERATION| GO DEVELOPMENTAL PROCESS INVOLVED IN REPRODUCTION| GO MEIOTIC CELL CYCLE PROCESS| GO SPINDLE ASSEMBLY| GO REPRODUCTION| GO GERM CELL DEVELOPMENT| GO MULTICELLULAR ORGANISM REPRODUCTION| GO DEVELOPMENTAL MATURATION| GO CELL CYCLE PROCESS| GO MICROTUBULE CYTOSKELETON| GO CYTOSKELETAL PART| GO MICROTUBULE| GO SPINDLE| GO GTPASE ACTIVITY| GO HYDROLASE ACTIVITY ACTING ON ACID ANHYDRIDES| GO GUANYL NUCLEOTIDE BINDING| GO RIBONUCLEOTIDE BINDING| GO STRUCTURAL CONSTITUENT OF CYTOSKELETON| GO STRUCTURAL MOLECULE ACTIVITY| GO MEIOTIC SPINDLE ORGANIZATION| GO SPINDLE ORGANIZATION| GO FEMALE MEIOTIC NUCLEAR DIVISION| GO SPINDLE ASSEMBLY INVOLVED IN MEIOSIS| GO MEIOTIC SPINDLE| GO SUPRAMOLECULAR COMPLEX| GO POLYMERIC CYTOSKELETAL FIBER"</span>
-<span class="co">#&gt; [3,] "GO CYTOSKELETON ORGANIZATION| GO OOGENESIS| GO MICROTUBULE BASED PROCESS| GO MICROTUBULE CYTOSKELETON ORGANIZATION| GO SEXUAL REPRODUCTION| GO ATOMICAL STRUCTURE MATURATION| GO MITOTIC CELL CYCLE| GO ORGANELLE FISSION| GO CELL MATURATION| GO ORGANELLE ASSEMBLY| GO CELLULAR PROCESS INVOLVED IN REPRODUCTION IN MULTICELLULAR ORGANISM| GO OOCYTE MATURATION| GO OOCYTE DIFFERENTIATION| GO MEIOTIC CELL CYCLE| GO CELL CYCLE| GO MULTI ORGANISM REPRODUCTIVE PROCESS| GO GAMETE GENERATION| GO FEMALE GAMETE GENERATION| GO DEVELOPMENTAL PROCESS INVOLVED IN REPRODUCTION| GO MEIOTIC CELL CYCLE PROCESS| GO SPINDLE ASSEMBLY| GO REPRODUCTION| GO GERM CELL DEVELOPMENT| GO MULTICELLULAR ORGANISM REPRODUCTION| GO DEVELOPMENTAL MATURATION| GO CELL CYCLE PROCESS| GO MICROTUBULE CYTOSKELETON| GO CYTOSKELETAL PART| GO MICROTUBULE| GO SPINDLE| GO GTPASE ACTIVITY| GO HYDROLASE ACTIVITY ACTING ON ACID ANHYDRIDES| GO GUANYL NUCLEOTIDE BINDING| GO RIBONUCLEOTIDE BINDING| GO STRUCTURAL CONSTITUENT OF CYTOSKELETON| GO STRUCTURAL MOLECULE ACTIVITY| GO MEIOTIC SPINDLE ORGANIZATION| GO SPINDLE ORGANIZATION| GO FEMALE MEIOTIC NUCLEAR DIVISION| GO SPINDLE ASSEMBLY INVOLVED IN MEIOSIS| GO MEIOTIC SPINDLE| GO SUPRAMOLECULAR COMPLEX| GO POLYMERIC CYTOSKELETAL FIBER"</span>
-<span class="co">#&gt; [4,] NA                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </span>
-<span class="co">#&gt; [5,] "GO CYTOSKELETON ORGANIZATION| GO OOGENESIS| GO MICROTUBULE BASED PROCESS| GO MICROTUBULE CYTOSKELETON ORGANIZATION| GO SEXUAL REPRODUCTION| GO ATOMICAL STRUCTURE MATURATION| GO MITOTIC CELL CYCLE| GO ORGANELLE FISSION| GO CELL MATURATION| GO ORGANELLE ASSEMBLY| GO CELLULAR PROCESS INVOLVED IN REPRODUCTION IN MULTICELLULAR ORGANISM| GO OOCYTE MATURATION| GO OOCYTE DIFFERENTIATION| GO MEIOTIC CELL CYCLE| GO CELL CYCLE| GO MULTI ORGANISM REPRODUCTIVE PROCESS| GO GAMETE GENERATION| GO FEMALE GAMETE GENERATION| GO DEVELOPMENTAL PROCESS INVOLVED IN REPRODUCTION| GO MEIOTIC CELL CYCLE PROCESS| GO SPINDLE ASSEMBLY| GO REPRODUCTION| GO GERM CELL DEVELOPMENT| GO MULTICELLULAR ORGANISM REPRODUCTION| GO DEVELOPMENTAL MATURATION| GO CELL CYCLE PROCESS| GO MICROTUBULE CYTOSKELETON| GO CYTOSKELETAL PART| GO MICROTUBULE| GO SPINDLE| GO GTPASE ACTIVITY| GO HYDROLASE ACTIVITY ACTING ON ACID ANHYDRIDES| GO GUANYL NUCLEOTIDE BINDING| GO RIBONUCLEOTIDE BINDING| GO STRUCTURAL CONSTITUENT OF CYTOSKELETON| GO STRUCTURAL MOLECULE ACTIVITY| GO MEIOTIC SPINDLE ORGANIZATION| GO SPINDLE ORGANIZATION| GO FEMALE MEIOTIC NUCLEAR DIVISION| GO SPINDLE ASSEMBLY INVOLVED IN MEIOSIS| GO MEIOTIC SPINDLE| GO SUPRAMOLECULAR COMPLEX| GO POLYMERIC CYTOSKELETAL FIBER"</span>
-<span class="co">#&gt;      &lt;NA&gt;    &lt;NA&gt;                                  &lt;NA&gt;    &lt;NA&gt;    &lt;NA&gt;   </span>
-<span class="co">#&gt; [1,] NA      NA                                    NA      NA      NA     </span>
-<span class="co">#&gt; [2,] "TUBB8" "TUBB8:NM 177987:exon4:cG830C:pG277A" "0.002" "0.787" "0.598"</span>
-<span class="co">#&gt; [3,] "TUBB8" "TUBB8:NM 177987:exon4:cA697G:pM233V" "0.012" "0.01"  "0.043"</span>
-<span class="co">#&gt; [4,] NA      NA                                    NA      NA      NA     </span>
-<span class="co">#&gt; [5,] "TUBB8" NA                                    NA      NA      NA     </span>
-<span class="co">#&gt;      &lt;NA&gt;    &lt;NA&gt; &lt;NA&gt;    &lt;NA&gt;    &lt;NA&gt;    &lt;NA&gt;    &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;   </span>
-<span class="co">#&gt; [1,] NA      NA   NA      NA      NA      NA      NA      NA       NA     </span>
-<span class="co">#&gt; [2,] "0.001" "1"  "2.155" "-1.84" "-4.65" "0.41"  "0.877" "-0.012" "0.561"</span>
-<span class="co">#&gt; [3,] "0"     "1"  "2.105" "-0.18" "-3.33" "0.098" "0.713" "-0.829" "0.183"</span>
-<span class="co">#&gt; [4,] NA      NA   NA      NA      NA      NA      NA      NA       NA     </span>
-<span class="co">#&gt; [5,] NA      NA   NA      NA      NA      NA      NA      NA       NA     </span>
-<span class="co">#&gt;      &lt;NA&gt;     &lt;NA&gt;     &lt;NA&gt;     &lt;NA&gt;   &lt;NA&gt;     &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;</span>
-<span class="co">#&gt; [1,] NA       NA       NA       NA     NA       NA       NA      NA       NA  </span>
-<span class="co">#&gt; [2,] NA       NA       NA       NA     NA       NA       NA      NA       NA  </span>
-<span class="co">#&gt; [3,] "0.0279" "0.0174" "0.0196" "0.04" "0.0194" "0.0573" "0.028" "0.0461" NA  </span>
-<span class="co">#&gt; [4,] NA       NA       NA       NA     NA       NA       NA      NA       NA  </span>
-<span class="co">#&gt; [5,] NA       NA       NA       NA     NA       NA       NA      NA       NA  </span>
-<span class="co">#&gt;      &lt;NA&gt;</span>
-<span class="co">#&gt; [1,] NA  </span>
-<span class="co">#&gt; [2,] NA  </span>
-<span class="co">#&gt; [3,] NA  </span>
-<span class="co">#&gt; [4,] NA  </span>
-<span class="co">#&gt; [5,] NA</span></pre></div>
+<span class="co">#&gt;   index Chromosome    Location Reference Alternative                Gene</span>
+<span class="co">#&gt; 1    12          1 1:100011443         G           T AC118553.2; SLC35A3</span>
+<span class="co">#&gt; 2     2          1 1:100007041         A           G AC118553.2; SLC35A3</span>
+<span class="co">#&gt; 3     1          1 1:100007040         T           G AC118553.2; SLC35A3</span>
+<span class="co">#&gt; 4    13          1 1:100015306         C           A AC118553.2; SLC35A3</span>
+<span class="co">#&gt; 5    14          1 1:100015331         G           A AC118553.2; SLC35A3</span>
+<span class="co">#&gt;           cn</span>
+<span class="co">#&gt; 1 zzg_m_1_12</span>
+<span class="co">#&gt; 2  zzg_m_1_2</span>
+<span class="co">#&gt; 3  zzg_m_1_1</span>
+<span class="co">#&gt; 4 zzg_m_1_13</span>
+<span class="co">#&gt; 5 zzg_m_1_14</span></pre></div>
 </div>
 <div id="filtering" class="section level3">
 <h3 class="hasAnchor">
 <a href="#filtering" class="anchor"></a>Filtering</h3>
-<div id="search-avaiable-filters" class="section level4">
+<div id="search-phenotypic-filters" class="section level4">
 <h4 class="hasAnchor">
-<a href="#search-avaiable-filters" class="anchor"></a>Search avaiable filters</h4>
-<div class="sourceCode" id="cb10"><pre class="r"><span class="no">all_filters</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/cb_search_phenotypic_filters.html">cb_search_phenotypic_filters</a></span>(<span class="no">my_cloudos</span>, <span class="kw">term</span> <span class="kw">=</span> <span class="st">"cancer"</span>)
+<a href="#search-phenotypic-filters" class="anchor"></a>Search phenotypic filters</h4>
+<p>Search for phenotypic filters based on a term.</p>
+<div class="sourceCode" id="cb11"><pre class="r"><span class="no">all_filters</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/cb_search_phenotypic_filters.html">cb_search_phenotypic_filters</a></span>(<span class="kw">cloudos</span> <span class="kw">=</span> <span class="no">my_cloudos</span>,
+                                                     <span class="kw">term</span> <span class="kw">=</span> <span class="st">"cancer"</span>)
 <span class="co">#&gt; Total number of filters - 29</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">all_filters</span>, <span class="fl">5</span>)
-<span class="co">#&gt;                        _id           categoryPathLevel1 categoryPathLevel2</span>
-<span class="co">#&gt; 1 5eb55c78599ae918ebb48f69 UK Biobank Assessment Centre        Touchscreen</span>
-<span class="co">#&gt; 2 5eb55c78599ae918ebb48f6b UK Biobank Assessment Centre        Touchscreen</span>
-<span class="co">#&gt; 3 5eb55c78599ae918ebb48f7d UK Biobank Assessment Centre        Touchscreen</span>
-<span class="co">#&gt; 4 5eb55c78599ae918ebb48fa6 UK Biobank Assessment Centre        Touchscreen</span>
-<span class="co">#&gt; 5 5eb55c78599ae918ebb48fb3 UK Biobank Assessment Centre        Touchscreen</span>
-<span class="co">#&gt;           categoryPathLevel3      categoryPathLevel4   id</span>
-<span class="co">#&gt; 1 Health and medical history        Cancer screening 2345</span>
-<span class="co">#&gt; 2 Health and medical history        Cancer screening 2355</span>
-<span class="co">#&gt; 3 Health and medical history      Medical conditions 2453</span>
-<span class="co">#&gt; 4       Sex-specific factors Female-specific factors 2674</span>
-<span class="co">#&gt; 5       Sex-specific factors Female-specific factors 2684</span>
+<span class="co">#&gt;             categoryPathLevel1 categoryPathLevel2         categoryPathLevel3</span>
+<span class="co">#&gt; 1 UK Biobank Assessment Centre        Touchscreen Health and medical history</span>
+<span class="co">#&gt; 2 UK Biobank Assessment Centre        Touchscreen Health and medical history</span>
+<span class="co">#&gt; 3 UK Biobank Assessment Centre        Touchscreen Health and medical history</span>
+<span class="co">#&gt; 4 UK Biobank Assessment Centre        Touchscreen       Sex-specific factors</span>
+<span class="co">#&gt; 5 UK Biobank Assessment Centre        Touchscreen       Sex-specific factors</span>
+<span class="co">#&gt;        categoryPathLevel4   id</span>
+<span class="co">#&gt; 1        Cancer screening 2345</span>
+<span class="co">#&gt; 2        Cancer screening 2355</span>
+<span class="co">#&gt; 3      Medical conditions 2453</span>
+<span class="co">#&gt; 4 Female-specific factors 2674</span>
+<span class="co">#&gt; 5 Female-specific factors 2684</span>
 <span class="co">#&gt;                                                   name      type</span>
 <span class="co">#&gt; 1                      Ever had bowel cancer screening      bars</span>
 <span class="co">#&gt; 2                   Most recent bowel cancer screening histogram</span>
@@ -375,81 +324,16 @@
 <span class="co">#&gt; 3             42       1</span>
 <span class="co">#&gt; 4             47       1</span>
 <span class="co">#&gt; 5             47       1</span></pre></div>
-</div>
-<div id="phenotype-filtering" class="section level4">
-<h4 class="hasAnchor">
-<a href="#phenotype-filtering" class="anchor"></a>Phenotype filtering</h4>
-<div class="sourceCode" id="cb11"><pre class="r"><span class="co"># lets apply this first filter</span>
-<span class="no">all_filters</span>[<span class="fl">1</span>,]
-<span class="co">#&gt;                        _id           categoryPathLevel1 categoryPathLevel2</span>
-<span class="co">#&gt; 1 5eb55c78599ae918ebb48f69 UK Biobank Assessment Centre        Touchscreen</span>
-<span class="co">#&gt;           categoryPathLevel3 categoryPathLevel4   id</span>
-<span class="co">#&gt; 1 Health and medical history   Cancer screening 2345</span>
-<span class="co">#&gt;                              name type          valueType units instances array</span>
-<span class="co">#&gt; 1 Ever had bowel cancer screening bars Categorical single               4     1</span>
-<span class="co">#&gt;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          description</span>
-<span class="co">#&gt; 1 "ACE touchscreen question ""Have you ever had a screening test for bowel (colorectal) cancer? (Please include tests for blood in the stool/faeces or a colonoscopy or a sigmoidoscopy)"" If the participant activated the Help button they were shown the message:     Screening tests for bowel or colorectal cancer include:  - FOBT (faecal occult blood test) - this is when you    are given a set of cards and asked to smear a part    of your stool on three separate occasions onto the    cards and then return the cards to be tested for    blood.  - Sigmoidoscopy - a tube is used to examine the lower    bowel. This is usually done in a doctor's office    without pain relief.  - Colonoscopy - a long tube is used the examine the    whole large bowel; you would usually have to drink    a large amount of special liquid to prepare the    bowel; and you would be given a sedative medication    for the procedure.     "</span>
-<span class="co">#&gt;   descriptionParticipantsNo descriptionItemNo descriptionStability coding</span>
-<span class="co">#&gt; 1                    501599            572225             Complete 100349</span>
-<span class="co">#&gt;   descriptionCategoryID descriptionItemType descriptionStrata descriptionSexed</span>
-<span class="co">#&gt; 1                100040                Data           Primary           Unisex</span>
-<span class="co">#&gt;                                                      link</span>
-<span class="co">#&gt; 1 http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=2345</span>
-<span class="co">#&gt;                                                                                 instance0Name</span>
-<span class="co">#&gt; 1 Initial assessment visit (2006-2010) at which participants were recruited and consent given</span>
-<span class="co">#&gt;                             instance1Name         instance2Name</span>
-<span class="co">#&gt; 1 First repeat assessment visit (2012-13) Imaging visit (2014+)</span>
-<span class="co">#&gt;                        instance3Name instance4Name instance5Name instance6Name</span>
-<span class="co">#&gt; 1 First repeat imaging visit (2019+)                                          </span>
-<span class="co">#&gt;   instance7Name instance8Name instance9Name instance10Name instance11Name</span>
-<span class="co">#&gt; 1                                                                        </span>
-<span class="co">#&gt;   instance12Name instance13Name instance14Name instance15Name instance16Name</span>
-<span class="co">#&gt; 1                                                                           </span>
-<span class="co">#&gt;   bucket300 bucket500 bucket1000 bucket2500 bucket5000 bucket10000</span>
-<span class="co">#&gt; 1     FALSE     FALSE      FALSE      FALSE      FALSE       FALSE</span>
-<span class="co">#&gt;   orderPhenotype checked</span>
-<span class="co">#&gt; 1             40       1</span>
-
-<span class="co"># phenotype filter</span>
-<span class="no">cohort_with_filters</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu">filter_samples</span>(<span class="no">my_cloudos</span>,
-                                   <span class="kw">cohort</span> <span class="kw">=</span> <span class="no">my_cohort</span>,
-                                   <span class="kw">filter_id</span> <span class="kw">=</span> <span class="no">all_filters</span>[<span class="fl">1</span>,]$<span class="no">id</span>)
-<span class="no">cohort_with_filters</span>
-<span class="co">#&gt;      _id number total  label                 </span>
-<span class="co">#&gt; [1,] -3  32545  600000 "Prefer not to answer"</span>
-<span class="co">#&gt; [2,] -1  181143 600000 "Do not know"         </span>
-<span class="co">#&gt; [3,] 0   300719 600000 "No"                  </span>
-<span class="co">#&gt; [4,] 1   85593  600000 "Yes"</span></pre></div>
-<div class="sourceCode" id="cb12"><pre class="r"><span class="co"># filter participants</span>
-<span class="no">participants_with_fiter</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">:::</span><span class="fu"><a href="reference/cb_filter_participants.html">cb_filter_participants</a></span>(<span class="no">my_cloudos</span>,
-                                                <span class="kw">cohort</span> <span class="kw">=</span> <span class="no">my_cohort</span>,
-                                                <span class="kw">filter_id</span> <span class="kw">=</span> <span class="no">all_filters</span>[<span class="fl">1</span>,]$<span class="no">id</span>)
-
-<span class="no">participants_with_fiter</span>
-<span class="co">#&gt; $total</span>
-<span class="co">#&gt; [1] 644686</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $count</span>
-<span class="co">#&gt; [1] 333264</span></pre></div>
-<div class="sourceCode" id="cb13"><pre class="r"><span class="co"># apply filter (cb_genotypic_save) </span>
-<span class="no">gs</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/cb_genotypic_save.html">cb_genotypic_save</a></span>(<span class="no">my_cloudos</span>,
-                     <span class="kw">cohort</span> <span class="kw">=</span> <span class="no">my_cohort</span>,
-                     <span class="kw">filter_id</span> <span class="kw">=</span> <span class="no">all_filters</span>[<span class="fl">1</span>,]$<span class="no">id</span>)
-
-<span class="no">gs</span>
-<span class="co">#&gt;      cohortId                   markers filters _id                       </span>
-<span class="co">#&gt; data "5f6228133097cc7a6504fb76" List,0  List,1  "5f4e557faaafb6454ad4a324"</span>
-<span class="co">#&gt;      numberOfParticipants</span>
-<span class="co">#&gt; data 32545</span></pre></div>
-<div class="sourceCode" id="cb14"><pre class="r"><span class="no">df</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/cb_filter_metadata.html">cb_filter_metadata</a></span>(<span class="no">my_cloudos</span>,
-                     <span class="kw">filter_id</span> <span class="kw">=</span> <span class="no">all_filters</span>[<span class="fl">1</span>,]$<span class="no">id</span>)
-<span class="no">df</span>
-<span class="co">#&gt;                        _id           categoryPathLevel1 categoryPathLevel2</span>
-<span class="co">#&gt; 1 5eb55c78599ae918ebb48f69 UK Biobank Assessment Centre        Touchscreen</span>
-<span class="co">#&gt;           categoryPathLevel3 categoryPathLevel4   id</span>
-<span class="co">#&gt; 1 Health and medical history   Cancer screening 2345</span>
-<span class="co">#&gt;                              name type          valueType units instances array</span>
-<span class="co">#&gt; 1 Ever had bowel cancer screening bars Categorical single               4     1</span>
+<p>Lets choose one filter from above table</p>
+<div class="sourceCode" id="cb12"><pre class="r"><span class="co"># apply this first row filter</span>
+<span class="no">my_phenotypic_filter</span> <span class="kw">&lt;-</span> <span class="no">all_filters</span>[<span class="fl">1</span>,]
+<span class="no">my_phenotypic_filter</span>
+<span class="co">#&gt;             categoryPathLevel1 categoryPathLevel2         categoryPathLevel3</span>
+<span class="co">#&gt; 1 UK Biobank Assessment Centre        Touchscreen Health and medical history</span>
+<span class="co">#&gt;   categoryPathLevel4   id                            name type</span>
+<span class="co">#&gt; 1   Cancer screening 2345 Ever had bowel cancer screening bars</span>
+<span class="co">#&gt;            valueType units instances array</span>
+<span class="co">#&gt; 1 Categorical single               4     1</span>
 <span class="co">#&gt;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          description</span>
 <span class="co">#&gt; 1 "ACE touchscreen question ""Have you ever had a screening test for bowel (colorectal) cancer? (Please include tests for blood in the stool/faeces or a colonoscopy or a sigmoidoscopy)"" If the participant activated the Help button they were shown the message:     Screening tests for bowel or colorectal cancer include:  - FOBT (faecal occult blood test) - this is when you    are given a set of cards and asked to smear a part    of your stool on three separate occasions onto the    cards and then return the cards to be tested for    blood.  - Sigmoidoscopy - a tube is used to examine the lower    bowel. This is usually done in a doctor's office    without pain relief.  - Colonoscopy - a long tube is used the examine the    whole large bowel; you would usually have to drink    a large amount of special liquid to prepare the    bowel; and you would be given a sedative medication    for the procedure.     "</span>
 <span class="co">#&gt;   descriptionParticipantsNo descriptionItemNo descriptionStability coding</span>
@@ -473,6 +357,50 @@
 <span class="co">#&gt;   orderPhenotype checked</span>
 <span class="co">#&gt; 1             40       1</span></pre></div>
 </div>
+<div id="apply-phenotypic-filter" class="section level4">
+<h4 class="hasAnchor">
+<a href="#apply-phenotypic-filter" class="anchor"></a>Apply phenotypic filter</h4>
+<p>We can get statistic of sample numbers in a cohort for which a filter is applied.</p>
+<div class="sourceCode" id="cb13"><pre class="r"><span class="co"># phenotype filter</span>
+<span class="no">cohort_with_filters</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/cb_get_filter_statistics.html">cb_get_filter_statistics</a></span>(<span class="no">my_cloudos</span>,
+                                     <span class="kw">cohort</span> <span class="kw">=</span> <span class="no">my_cohort</span>,
+                                     <span class="kw">filter_id</span> <span class="kw">=</span> <span class="no">my_phenotypic_filter</span>$<span class="no">id</span>)
+<span class="no">cohort_with_filters</span>
+<span class="co">#&gt; # A tibble: 4 x 4</span>
+<span class="co">#&gt;   `_id` number  total label               </span>
+<span class="co">#&gt;   &lt;int&gt;  &lt;int&gt;  &lt;int&gt; &lt;chr&gt;               </span>
+<span class="co">#&gt; 1    -3  32545 600000 Prefer not to answer</span>
+<span class="co">#&gt; 2    -1 181143 600000 Do not know         </span>
+<span class="co">#&gt; 3     0 300719 600000 No                  </span>
+<span class="co">#&gt; 4     1  85593 600000 Yes</span></pre></div>
+<p>We can get number of total participants after applying a filter.</p>
+<div class="sourceCode" id="cb14"><pre class="r"><span class="co"># filter participants</span>
+<span class="no">total_participants_with_filter</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">:::</span><span class="fu"><a href="reference/cb_filter_participants.html">cb_filter_participants</a></span>(<span class="no">my_cloudos</span>,
+                                                <span class="kw">cohort</span> <span class="kw">=</span> <span class="no">my_cohort</span>,
+                                                <span class="kw">filter_id</span> <span class="kw">=</span> <span class="no">my_phenotypic_filter</span>$<span class="no">id</span>)
+
+<span class="no">total_participants_with_filter</span>
+<span class="co">#&gt; $total</span>
+<span class="co">#&gt; [1] 644686</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $count</span>
+<span class="co">#&gt; [1] 333264</span></pre></div>
+</div>
+<div id="save-a-filter" class="section level4">
+<h4 class="hasAnchor">
+<a href="#save-a-filter" class="anchor"></a>Save a filter</h4>
+<p>Save a filter into the database.</p>
+<div class="sourceCode" id="cb15"><pre class="r"><span class="co"># apply filter (cb_genotypic_save) </span>
+<span class="no">gs</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/cb_genotypic_save.html">cb_genotypic_save</a></span>(<span class="no">my_cloudos</span>,
+                                 <span class="kw">cohort</span> <span class="kw">=</span> <span class="no">my_cohort</span>,
+                                 <span class="kw">filter_id</span> <span class="kw">=</span> <span class="no">my_phenotypic_filter</span>$<span class="no">id</span>)
+
+<span class="no">gs</span>
+<span class="co">#&gt;      cohortId                   markers filters _id                       </span>
+<span class="co">#&gt; data "5f6228133097cc7a6504fb76" List,0  List,1  "5f68e3f7e95ca00b6918a2ed"</span>
+<span class="co">#&gt;      numberOfParticipants</span>
+<span class="co">#&gt; data 32545</span></pre></div>
+</div>
 </div>
 <div id="additional-for-ui" class="section level3">
 <h3 class="hasAnchor">
@@ -482,286 +410,33 @@
 <a href="#get-samples-table-for-selected-rows" class="anchor"></a>Get samples table for selected rows</h4>
 <p>Create a RAW data string. This usually generates after selecting participants on UI. (more information will be added how to create this in R)</p>
 <p>NOTE: This function will be improved <code>raw_data</code> arg is temporary.</p>
-<div class="sourceCode" id="cb15"><pre class="r"><span class="no">new_raw_data</span> <span class="kw">&lt;-</span> <span class="st">'{"columns":[{"id":34,"instance":0,"array":{"type":"exact","value":0}},{"id":31,"instance":0,"array":{"type":"exact","value":0}},{"id":52,"instance":0,"array":{"type":"exact","value":0}},{"id":5984,"instance":0,"array":{"type":"avg"}},{"id":5984,"instance":0,"array":{"type":"min"}},{"id":5984,"instance":0,"array":{"type":"max"}},{"id":20001,"instance":0,"array":{"type":"exact","value":0}}],"ids":["5f185b92bf92ed4d3be9637d","5edbdd689d700db709af0c2f","5f185b91bf92ed4d3be9587e","5f185b91bf92ed4d3be95984","5edbdd689d700db709af0c3e","5edbdd689d700db709af0c2b","5edbdd689d700db709af0c2d","5f185b93bf92ed4d3be982e9","5edbdd689d700db709af0c2a","5edbdd689d700db709af0c4d"],"type":"csv","base_url":"http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com"}'</span></pre></div>
+<div class="sourceCode" id="cb16"><pre class="r"><span class="no">new_raw_data</span> <span class="kw">&lt;-</span> <span class="st">'{"columns":[{"id":34,"instance":0,"array":{"type":"exact","value":0}},{"id":31,"instance":0,"array":{"type":"exact","value":0}},{"id":52,"instance":0,"array":{"type":"exact","value":0}},{"id":5984,"instance":0,"array":{"type":"avg"}},{"id":5984,"instance":0,"array":{"type":"min"}},{"id":5984,"instance":0,"array":{"type":"max"}},{"id":20001,"instance":0,"array":{"type":"exact","value":0}}],"ids":["5f185b92bf92ed4d3be9637d","5edbdd689d700db709af0c2f","5f185b91bf92ed4d3be9587e","5f185b91bf92ed4d3be95984","5edbdd689d700db709af0c3e","5edbdd689d700db709af0c2b","5edbdd689d700db709af0c2d","5f185b93bf92ed4d3be982e9","5edbdd689d700db709af0c2a","5edbdd689d700db709af0c4d"],"type":"csv","base_url":"http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com"}'</span></pre></div>
 <p>Using this above raw data lets extract selected participants.</p>
-<div class="sourceCode" id="cb16"><pre class="r"><span class="no">df</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/cb_extract_samples.html">cb_extract_samples</a></span>(<span class="no">my_cloudos</span>,
+<div class="sourceCode" id="cb17"><pre class="r"><span class="no">df</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/cb_extract_samples.html">cb_extract_samples</a></span>(<span class="no">my_cloudos</span>,
                       <span class="kw">raw_data</span> <span class="kw">=</span> <span class="no">new_raw_data</span>)
 <span class="no">df</span>
-<span class="co">#&gt;          i ECG..load.0.0 ECG..load.0.1 ECG..load.0.2 ECG..load.0.3</span>
-<span class="co">#&gt; 1  1000002            NA            NA            NA            NA</span>
-<span class="co">#&gt; 2  1000016            20            75            55            57</span>
-<span class="co">#&gt; 3  1000020            NA            NA            NA            NA</span>
-<span class="co">#&gt; 4  1000035            NA            NA            NA            NA</span>
-<span class="co">#&gt; 5  1000048           109            51            87            75</span>
-<span class="co">#&gt; 6  1000057           110           112            97            67</span>
-<span class="co">#&gt; 7  1000059            85            99            52            86</span>
-<span class="co">#&gt; 8  1000061            NA            NA            NA            NA</span>
-<span class="co">#&gt; 9  1000063            15            58           130           100</span>
-<span class="co">#&gt; 10 1000068            14           128           128            13</span>
-<span class="co">#&gt;    ECG..load.0.4 ECG..load.0.5 ECG..load.0.6 ECG..load.0.7 ECG..load.0.8</span>
-<span class="co">#&gt; 1             NA            NA            NA            NA            NA</span>
-<span class="co">#&gt; 2            245            22            40            24            83</span>
-<span class="co">#&gt; 3             NA            NA            NA            NA            NA</span>
-<span class="co">#&gt; 4             NA            NA            NA            NA            NA</span>
-<span class="co">#&gt; 5             16            67            12            50            51</span>
-<span class="co">#&gt; 6             14            54            76            57           128</span>
-<span class="co">#&gt; 7             29           108            49           112            99</span>
-<span class="co">#&gt; 8             NA            NA            NA            NA            NA</span>
-<span class="co">#&gt; 9             94           124            74            59           127</span>
-<span class="co">#&gt; 10            94            15             0           106            91</span>
-<span class="co">#&gt;    ECG..load.0.9 ECG..load.0.10 ECG..load.0.11 ECG..load.0.12 ECG..load.0.13</span>
-<span class="co">#&gt; 1             NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 2             93            130             41             19             64</span>
-<span class="co">#&gt; 3             NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 4             NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 5             91             77             75             47             63</span>
-<span class="co">#&gt; 6             88              6             59            195             11</span>
-<span class="co">#&gt; 7             53            245             90             44            132</span>
-<span class="co">#&gt; 8             NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 9             62            102             75             63              0</span>
-<span class="co">#&gt; 10            66             66             66             88            195</span>
-<span class="co">#&gt;    ECG..load.0.14 ECG..load.0.15 ECG..load.0.16 ECG..load.0.17 ECG..load.0.18</span>
-<span class="co">#&gt; 1              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 2              85             87              3             47             88</span>
-<span class="co">#&gt; 3              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 4              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 5             108            116             80             45             93</span>
-<span class="co">#&gt; 6              40             57             46              3             13</span>
-<span class="co">#&gt; 7              97            270             95             57            140</span>
-<span class="co">#&gt; 8              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 9             106             46             91             51             29</span>
-<span class="co">#&gt; 10            136            121             52             48             19</span>
-<span class="co">#&gt;    ECG..load.0.19 ECG..load.0.20 ECG..load.0.21 ECG..load.0.22 ECG..load.0.23</span>
-<span class="co">#&gt; 1              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 2             130             28             96             24             17</span>
-<span class="co">#&gt; 3              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 4              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 5              75              9             72             73             35</span>
-<span class="co">#&gt; 6               9            120             36             21              5</span>
-<span class="co">#&gt; 7              22             30             68            118             38</span>
-<span class="co">#&gt; 8              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 9               5             11             75            112             91</span>
-<span class="co">#&gt; 10             50             29             39             29            115</span>
-<span class="co">#&gt;    ECG..load.0.24 ECG..load.0.25 ECG..load.0.26 ECG..load.0.27 ECG..load.0.28</span>
-<span class="co">#&gt; 1              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 2              38             63              2            108             57</span>
-<span class="co">#&gt; 3              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 4              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 5              31             32             76            128             31</span>
-<span class="co">#&gt; 6              20              9            270            132             74</span>
-<span class="co">#&gt; 7              53             58             80            118            195</span>
-<span class="co">#&gt; 8              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 9             106            108             92             74            121</span>
-<span class="co">#&gt; 10            120            121              5            120            124</span>
-<span class="co">#&gt;    ECG..load.0.29 ECG..load.0.30 ECG..load.0.31 ECG..load.0.32 ECG..load.0.33</span>
-<span class="co">#&gt; 1              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 2             140             85              8             77            112</span>
-<span class="co">#&gt; 3              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 4              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 5              15            100             53              2            116</span>
-<span class="co">#&gt; 6              90            105             97             98              0</span>
-<span class="co">#&gt; 7              18            136             94             92             65</span>
-<span class="co">#&gt; 8              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 9              63              9             26             63             43</span>
-<span class="co">#&gt; 10             95              0             88             76             60</span>
-<span class="co">#&gt;    ECG..load.0.34 ECG..load.0.35 ECG..load.0.36 ECG..load.0.37 ECG..load.0.38</span>
-<span class="co">#&gt; 1              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 2              58             12             24             20             97</span>
-<span class="co">#&gt; 3              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 4              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 5              25            109            195            130             21</span>
-<span class="co">#&gt; 6             115             16             65             54             86</span>
-<span class="co">#&gt; 7             121             54             77            100            124</span>
-<span class="co">#&gt; 8              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 9             105             27            112             30             75</span>
-<span class="co">#&gt; 10             86             84             33             13             92</span>
-<span class="co">#&gt;    ECG..load.0.39 ECG..load.0.40 ECG..load.0.41 ECG..load.0.42 ECG..load.0.43</span>
-<span class="co">#&gt; 1              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 2              30            136             50             70             29</span>
-<span class="co">#&gt; 3              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 4              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 5              31             25             15             99             57</span>
-<span class="co">#&gt; 6              11            136             28            118            118</span>
-<span class="co">#&gt; 7              73             59            108             60              3</span>
-<span class="co">#&gt; 8              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 9             124             20            112             69             41</span>
-<span class="co">#&gt; 10            108             38            118             24             49</span>
-<span class="co">#&gt;    ECG..load.0.44 ECG..load.0.45 ECG..load.0.46 ECG..load.0.47 ECG..load.0.48</span>
-<span class="co">#&gt; 1              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 2             118            104             38             24             23</span>
-<span class="co">#&gt; 3              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 4              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 5              78             37              7             79            130</span>
-<span class="co">#&gt; 6             108             32            106             71             44</span>
-<span class="co">#&gt; 7             130             13             48             83             97</span>
-<span class="co">#&gt; 8              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 9             118             17             54             24            124</span>
-<span class="co">#&gt; 10             28            108             76             21             19</span>
-<span class="co">#&gt;    ECG..load.0.49 ECG..load.0.50 ECG..load.0.51 ECG..load.0.52 ECG..load.0.53</span>
-<span class="co">#&gt; 1              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 2              18              3             62            128             71</span>
-<span class="co">#&gt; 3              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 4              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 5              46            130             91             33             93</span>
-<span class="co">#&gt; 6             270             29            245              3            106</span>
-<span class="co">#&gt; 7              61             77             81             30             53</span>
-<span class="co">#&gt; 8              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 9              48             24             55             57              0</span>
-<span class="co">#&gt; 10             24             95             27              4             51</span>
-<span class="co">#&gt;    ECG..load.0.54 ECG..load.0.55 ECG..load.0.56 ECG..load.0.57 ECG..load.0.58</span>
-<span class="co">#&gt; 1              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 2              33             23              6            104            136</span>
-<span class="co">#&gt; 3              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 4              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 5               2             96             90             50             18</span>
-<span class="co">#&gt; 6              26            105             60             70             44</span>
-<span class="co">#&gt; 7              93             79             77             84             48</span>
-<span class="co">#&gt; 8              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 9              58            127             85             84            110</span>
-<span class="co">#&gt; 10            103             76            118             33             14</span>
-<span class="co">#&gt;    ECG..load.0.59 ECG..load.0.60 ECG..load.0.61 ECG..load.0.62 ECG..load.0.63</span>
-<span class="co">#&gt; 1              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 2               0             18             63            108             47</span>
-<span class="co">#&gt; 3              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 4              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 5              46             28             36              9            195</span>
-<span class="co">#&gt; 6              77            103             62             47             74</span>
-<span class="co">#&gt; 7              32             54             96             40             61</span>
-<span class="co">#&gt; 8              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 9              67             52             43             24            121</span>
-<span class="co">#&gt; 10            105             11             72             91             51</span>
-<span class="co">#&gt;    ECG..load.0.64 ECG..load.0.65 ECG..load.0.66 ECG..load.0.67 ECG..load.0.68</span>
-<span class="co">#&gt; 1              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 2               2            116             58             44            120</span>
-<span class="co">#&gt; 3              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 4              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 5              26             69              3            103             29</span>
-<span class="co">#&gt; 6              17             86             43             75              9</span>
-<span class="co">#&gt; 7              90             44              9            140             19</span>
-<span class="co">#&gt; 8              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 9              96            270              4             26             73</span>
-<span class="co">#&gt; 10             79             92            103             38             82</span>
-<span class="co">#&gt;    ECG..load.0.69 ECG..load.0.70 ECG..load.0.71 ECG..load.0.72 ECG..load.0.73</span>
-<span class="co">#&gt; 1              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 2              77             50             51             18            132</span>
-<span class="co">#&gt; 3              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 4              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 5              77             34             41             26            105</span>
-<span class="co">#&gt; 6              35             82             49             80             93</span>
-<span class="co">#&gt; 7              66             46             27             26            127</span>
-<span class="co">#&gt; 8              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 9              29             28            136             48             75</span>
-<span class="co">#&gt; 10             96             87             34             39             13</span>
-<span class="co">#&gt;    ECG..load.0.74 ECG..load.0.75 ECG..load.0.76 ECG..load.0.77 ECG..load.0.78</span>
-<span class="co">#&gt; 1              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 2             130             96             15             42             45</span>
-<span class="co">#&gt; 3              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 4              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 5              29             81             94              2             71</span>
-<span class="co">#&gt; 6             105             97             65             94              5</span>
-<span class="co">#&gt; 7              96            245            121             83              3</span>
-<span class="co">#&gt; 8              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 9             109              2             24             26             49</span>
-<span class="co">#&gt; 10              1             81              4             83            118</span>
-<span class="co">#&gt;    ECG..load.0.79 ECG..load.0.80 ECG..load.0.81 ECG..load.0.82 ECG..load.0.83</span>
-<span class="co">#&gt; 1              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 2               0             53             13             58             25</span>
-<span class="co">#&gt; 3              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 4              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 5              56             18             18             57             56</span>
-<span class="co">#&gt; 6              22              5             60             51            128</span>
-<span class="co">#&gt; 7              48             50             55             57             51</span>
-<span class="co">#&gt; 8              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 9              36             92             19             24             16</span>
-<span class="co">#&gt; 10              5             44             75            100            109</span>
-<span class="co">#&gt;    ECG..load.0.84 ECG..load.0.85 ECG..load.0.86 ECG..load.0.87 ECG..load.0.88</span>
-<span class="co">#&gt; 1              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 2              23             53            102             76             13</span>
-<span class="co">#&gt; 3              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 4              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 5              38             18              5            136             39</span>
-<span class="co">#&gt; 6              23             52             25             55             79</span>
-<span class="co">#&gt; 7              62              2             76             59             49</span>
-<span class="co">#&gt; 8              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 9              40            127             91            110              5</span>
-<span class="co">#&gt; 10             13             84             49            102             63</span>
-<span class="co">#&gt;    ECG..load.0.89 ECG..load.0.90 ECG..load.0.91 ECG..load.0.92 ECG..load.0.93</span>
-<span class="co">#&gt; 1              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 2              55             54            127             75            270</span>
-<span class="co">#&gt; 3              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 4              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 5               3            116             11             74            110</span>
-<span class="co">#&gt; 6              43              0            128             87             51</span>
-<span class="co">#&gt; 7              56              3             25             61             20</span>
-<span class="co">#&gt; 8              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 9             112             41             82             82             21</span>
-<span class="co">#&gt; 10             35             82             23             92             79</span>
-<span class="co">#&gt;    ECG..load.0.94 ECG..load.0.95 ECG..load.0.96 ECG..load.0.97 ECG..load.0.98</span>
-<span class="co">#&gt; 1              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 2             118             60            127             37             45</span>
-<span class="co">#&gt; 3              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 4              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 5              14             21             60             39             66</span>
-<span class="co">#&gt; 6             120             67             83            103            270</span>
-<span class="co">#&gt; 7             102             61             28             41             55</span>
-<span class="co">#&gt; 8              NA             NA             NA             NA             NA</span>
-<span class="co">#&gt; 9              15             23             76             30             13</span>
-<span class="co">#&gt; 10             38            128             25             81             45</span>
-<span class="co">#&gt;    ECG..load.0.99 ECG..load.0.100 ECG..load.0.101 ECG..load.0.102</span>
-<span class="co">#&gt; 1              NA              NA              NA              NA</span>
-<span class="co">#&gt; 2              19              35              73             106</span>
-<span class="co">#&gt; 3              NA              NA              NA              NA</span>
-<span class="co">#&gt; 4              NA              NA              NA              NA</span>
-<span class="co">#&gt; 5              15             106              15              50</span>
-<span class="co">#&gt; 6              47               8             121              79</span>
-<span class="co">#&gt; 7              40              69             115              51</span>
-<span class="co">#&gt; 8              NA              NA              NA              NA</span>
-<span class="co">#&gt; 9             106              47              14              55</span>
-<span class="co">#&gt; 10             42              62              18               5</span>
-<span class="co">#&gt;    ECG..load.0.103 ECG..load.0.104 ECG..load.0.105 ECG..load.0.106</span>
-<span class="co">#&gt; 1               NA              NA              NA              NA</span>
-<span class="co">#&gt; 2                7              55             116              78</span>
-<span class="co">#&gt; 3               NA              NA              NA              NA</span>
-<span class="co">#&gt; 4               NA              NA              NA              NA</span>
-<span class="co">#&gt; 5               85              48              71              72</span>
-<span class="co">#&gt; 6              109              35              58              28</span>
-<span class="co">#&gt; 7               23             110               1              40</span>
-<span class="co">#&gt; 8               NA              NA              NA              NA</span>
-<span class="co">#&gt; 9               57               6              83              21</span>
-<span class="co">#&gt; 10              44             110               5              62</span>
-<span class="co">#&gt;    ECG..load.0.107 ECG..load.0.108 ECG..load.0.109 ECG..load.0.110</span>
-<span class="co">#&gt; 1               NA              NA              NA              NA</span>
-<span class="co">#&gt; 2               75             270              11              25</span>
-<span class="co">#&gt; 3               NA              NA              NA              NA</span>
-<span class="co">#&gt; 4               NA              NA              NA              NA</span>
-<span class="co">#&gt; 5               53              68               0              97</span>
-<span class="co">#&gt; 6              130             136              85              78</span>
-<span class="co">#&gt; 7               30              66              99              25</span>
-<span class="co">#&gt; 8               NA              NA              NA              NA</span>
-<span class="co">#&gt; 9               97              40              84              56</span>
-<span class="co">#&gt; 10              87              13              74              41</span>
-<span class="co">#&gt;    ECG..load.0.111 ECG..load.0.112 ECG..load.0.113</span>
-<span class="co">#&gt; 1               NA              NA              NA</span>
-<span class="co">#&gt; 2              121             121              83</span>
-<span class="co">#&gt; 3               NA              NA              NA</span>
-<span class="co">#&gt; 4               NA              NA              NA</span>
-<span class="co">#&gt; 5               13              48             105</span>
-<span class="co">#&gt; 6               99              99              91</span>
-<span class="co">#&gt; 7                6              61              29</span>
-<span class="co">#&gt; 8               NA              NA              NA</span>
-<span class="co">#&gt; 9              110              52             124</span>
-<span class="co">#&gt; 10              66             106              48</span>
-<span class="co">#&gt;         Cancer.code..self.reported.0.0    Sex Year.of.birth Month.of.birth</span>
-<span class="co">#&gt; 1                                                        NA               </span>
-<span class="co">#&gt; 2                      cervical cancer   Male          1954      September</span>
-<span class="co">#&gt; 3                                                        NA               </span>
-<span class="co">#&gt; 4                                                        NA               </span>
-<span class="co">#&gt; 5                      chronic myeloid Female          1950        January</span>
-<span class="co">#&gt; 6  metastatic cancer (unknown primary) Female          1942       February</span>
-<span class="co">#&gt; 7           uterine/endometrial cancer Female          1964       December</span>
-<span class="co">#&gt; 8                                                        NA               </span>
-<span class="co">#&gt; 9                      chronic myeloid Female          1944          April</span>
-<span class="co">#&gt; 10                      bladder cancer Female          1947       November</span></pre></div>
+<span class="co">#&gt;          i Year_of_birth    Sex Month_of_birth ECG._load.0.avg ECG._load.0.min</span>
+<span class="co">#&gt; 1  1000002            NA                                    NA              NA</span>
+<span class="co">#&gt; 2  1000016          1954   Male      September        66.88393               2</span>
+<span class="co">#&gt; 3  1000020            NA                                    NA              NA</span>
+<span class="co">#&gt; 4  1000035            NA                                    NA              NA</span>
+<span class="co">#&gt; 5  1000048          1950 Female        January        59.76106               2</span>
+<span class="co">#&gt; 6  1000057          1942 Female       February        74.44643               3</span>
+<span class="co">#&gt; 7  1000059          1964 Female       December        71.14912               1</span>
+<span class="co">#&gt; 8  1000061            NA                                    NA              NA</span>
+<span class="co">#&gt; 9  1000063          1944 Female          April        66.19643               2</span>
+<span class="co">#&gt; 10 1000068          1947 Female       November        65.12500               1</span>
+<span class="co">#&gt;    ECG._load.0.max      Cancer_code._self.reported.0.0</span>
+<span class="co">#&gt; 1               NA                                    </span>
+<span class="co">#&gt; 2              270                     cervical cancer</span>
+<span class="co">#&gt; 3               NA                                    </span>
+<span class="co">#&gt; 4               NA                                    </span>
+<span class="co">#&gt; 5              195                     chronic myeloid</span>
+<span class="co">#&gt; 6              270 metastatic cancer (unknown primary)</span>
+<span class="co">#&gt; 7              270          uterine/endometrial cancer</span>
+<span class="co">#&gt; 8               NA                                    </span>
+<span class="co">#&gt; 9              270                     chronic myeloid</span>
+<span class="co">#&gt; 10             195                      bladder cancer</span></pre></div>
 </div>
 </div>
 </div>
