@@ -14,6 +14,7 @@
 cb_plot_filters <- function(cloudos, cohort){
   
   # TODO use this to get applied filters
+  # TODO get plot names 
   #my_cohort <- .get_cohort_info(cloudos, cohort@id)
   
   filter_list <- cb_get_cohort_filters(cloudos, cohort)
@@ -30,7 +31,7 @@ cb_plot_filters <- function(cloudos, cohort){
     # make the plot
     if(ncol(filter_df) == 4){ # value - bar
       plot_list[[filter_id]] <- ggplot(data=filter_df, aes(x=label, y=number)) +
-        geom_bar(stat="identity") 
+        geom_bar(stat="identity") + coord_flip()
     }else if(ncol(filter_df) == 3){ # range - histogram
       plot_list[[filter_id]] <- ggplot(data=filter_df, aes(x=`_id`, y=number)) +
         geom_bar(stat="identity") + 
