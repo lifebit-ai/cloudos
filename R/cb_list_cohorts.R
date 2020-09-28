@@ -2,7 +2,7 @@
 #'
 #' @description Extracts the data frame with limited cohort data columns.
 #'
-#' @param object A cloudos object. (Required)
+#' @param cloudos A cloudos object. (Required)
 #' See constructor function \code{\link{connect_cloudos}} 
 #' @param page_number Number of page. (Optional) Default - 0
 #' @param page_size Number of entries in a page. (Optional) Default - 10
@@ -14,13 +14,13 @@
 #' cohorts_list(cloudos_obj)
 #' }
 #' @export
-cb_list_cohorts <- function(object,
+cb_list_cohorts <- function(cloudos,
                          page_number = 0,
                          page_size = 10) {
-  url <- paste(object@base_url, "api/v1/cohort", sep = "/")
+  url <- paste(cloudos@base_url, "api/v1/cohort", sep = "/")
   r <- httr::GET(url,
-                 httr::add_headers("Authorization" = object@auth),
-                 query = list("teamId" = object@team_id,
+                 httr::add_headers("Authorization" = cloudos@auth),
+                 query = list("teamId" = cloudos@team_id,
                               "pageNumber" = page_number,
                               "pageSize" = page_size))
   if (!r$status_code == 200) {

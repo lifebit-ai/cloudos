@@ -1,6 +1,8 @@
-#my_cohort <- .get_cohort_info(cloudos, cohort_id)
-#more_fields <- my_cohort$moreFields[[1]]
-#fields <- my_cohort$fields[[1]]
+# my_cohort <- .get_cohort_info(cloudos, cohort_id)
+# more_fields <- my_cohort$moreFields[[3]]
+# fields <- my_cohort$fields[[2]]
+
+# Parameters from - @api {post} /cohort/participants/search Search for participants
 
 .value_filter <- function(more_fields, fields){
   # make a value vector
@@ -12,7 +14,7 @@
   # make search json
   search = list("column" = list("id" = jsonlite::unbox(more_fields$fieldId),
                                 "instance" = more_fields$instance[[1]],
-                                "array" = list("type" = "exact",
+                                "array" = list("type" = "exact", # [exact | any]
                                                "value" = "0")
                                ),
                 "values" = my_values
@@ -22,10 +24,10 @@
 
 .range_filter <- function(more_fields){
   # make search json
-  search = list("column" = list("id" = more_fields$fieldId,
-                                 "instance" = more_fields$instance[[1]],
-                                 "array" = list("type" = "exact",
-                                                "value" = "0")
+  search = list("column" = list("id" = jsonlite::unbox(more_fields$fieldId),
+                                "instance" = more_fields$instance[[1]],
+                                "array" = list("type" = "exact", # [exact | any]
+                                               "value" = "0") # must be >= 0
                                 ),
                 "low" = more_fields$range$from,
                 "high" = more_fields$range$to
@@ -41,41 +43,75 @@
     return(search)
   }
   # make search list for all the fields/filters
-  for(filter_number in 1:length(my_cohort$moreFields)){
-    # check what kind of fileds/filters
-    if(names(my_cohort$moreFields[[filter_number]][3]) == "value"){
-      search_new = .value_filter(my_cohort$moreFields[[filter_number]], 
-                             my_cohort$fields[[filter_number]] )
-    }else if (names(my_cohort$moreFields[[filter_number]][3]) == "range"){
-      search_new = .range_filter(my_cohort$moreFields[[filter_number]])
+  for(filter_number in 1:length(my_cohort$fields)){
+    # the my_cohort list is unordered
+    # per filter get the same fields and moreFields from the list
+    fields <-  my_cohort$fields[[filter_number]]
+    fields_id <- fields$field$id
+    for(j in 1:length(my_cohort$moreFields)){
+      more_fields_id <- my_cohort$moreFields[[j]]$fieldId
+      if(fields_id == more_fields_id){
+        more_fields <- my_cohort$moreFields[[j]]
+      }
+    }
+    # check what kind of fields/filters and get search list
+    if(fields$field$type == "bars"){
+      search_new = .value_filter(more_fields,fields)
+    }else if (fields$field$type == "histogram"){
+      search_new = .range_filter(more_fields)
     }else{
-      stop("Unknown filter type. Accepts 'range' and 'value' only.")
+      stop("Unknown filter type. Accepts 'bar' and 'histogram' only.")
     }
     # create a search list for first time and append a new search list
     if(length(search) == 0){
       search = list(search_new)
     }else{
-      search = list(search, search_new)
+      search = c(search, list(search_new))
     }
   }
   return(search)
 }
 
-#shj <- .get_search_json(my_cohort)
-#shj %>% toJSON()
+############################################################################################
+# Column JOSN
+# TODO work on column - not able to find end-point that returns this information
 
-# cohort_filtered_search = list(list("column" = list("id" = 2345,
-#                                                    "instance" = 0,
-#                                                    "array" = list("type" = "exact",
-#                                                                   "value" = "0")
-#                                                   ),
-#                                                   "values" = c("Prefer not to answer","No")
-#                                   )
-#                               )
-# onpage_filtered_serach = list(list("column" = list("id" = 31,
-#                                                    "instance" = 0,
-#                                                    "array" = list("type" = "exact",
-#                                                                   "value" = "0")
-#                                                    ),
-#                                    "contains"= c("Male")
-# ))
+.get_column_json <- function(){
+  columns <- 
+    list(
+      list("id" = jsonlite::unbox(34),
+           "instance" = 0,
+           "array" = list("type" = "exact",
+                          "value" = 0)
+      ),
+      list("id" = jsonlite::unbox(31),
+           "instance" = 0,
+           "array" = list("type" = "exact",
+                          "value" = 0)
+      ),
+      list("id" = jsonlite::unbox(52),
+           "instance" = 0,
+           "array" = list("type" = "exact",
+                          "value" = 0)
+      ),
+      list("id" = jsonlite::unbox(5984),
+           "instance" = 0,
+           "array" = list("type" = "avg")
+      ),
+      list("id" = jsonlite::unbox(5984),
+           "instance" = 0,
+           "array" = list("type" = "min")
+      ),
+      list("id" = jsonlite::unbox(5984),
+           "instance" = 0,
+           "array" = list("type" = "max")
+      ),
+      list("id" = jsonlite::unbox(20001),
+           "instance" = 0,
+           "array" = list("type" = "exact",
+                          "value" = 0)
+      )
+    )
+  return(columns)
+}
+

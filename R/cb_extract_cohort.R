@@ -74,48 +74,15 @@ cb_get_samples_table <- function(cloudos,
                               cohort,
                               page_number = 0,
                               page_size = 10) {
-  # TODO work on column - not able to find end-point that returns this information
-  columns <- list(list("id" = jsonlite::unbox(34),
-                       "instance" = 0,
-                       "array" = list("type" = "exact",
-                                      "value" = 0)
-                  ),
-                  list("id" = jsonlite::unbox(31),
-                       "instance" = 0,
-                       "array" = list("type" = "exact",
-                                      "value" = 0)
-                  ),
-                  list("id" = jsonlite::unbox(52),
-                       "instance" = 0,
-                       "array" = list("type" = "exact",
-                                      "value" = 0)
-                  ),
-                  list("id" = jsonlite::unbox(5984),
-                       "instance" = 0,
-                       "array" = list("type" = "avg")
-                  ),
-                  list("id" = jsonlite::unbox(5984),
-                       "instance" = 0,
-                       "array" = list("type" = "min")
-                  ),
-                  list("id" = jsonlite::unbox(5984),
-                       "instance" = 0,
-                       "array" = list("type" = "max")
-                  ),
-                  list("id" = jsonlite::unbox(20001),
-                       "instance" = 0,
-                       "array" = list("type" = "exact",
-                                      "value" = 0)
-                  )
-            )
-  
+  # make column json
+  columns <- .get_column_json()
+  # make search json
   if(missing(cohort)){
     search = list()
   }else{
     my_cohort <- .get_cohort_info(cloudos, cohort@id)
     search <- .get_search_json(my_cohort)
   }
-  
   # make request
   url <- paste(cloudos@base_url, "api/v1/cohort/participants/search", sep = "/")
   r <- httr::POST(url,
@@ -127,7 +94,7 @@ cb_get_samples_table <- function(cloudos,
                               "pageSize" = page_size,
                               "columns" = columns,
                               "search" =  search,
-                              "returnTotal" = "false"),
+                              "returnTotal" = FALSE),
                   encode = "json"
   )
   if (!r$status_code == 200) {
