@@ -119,9 +119,7 @@ Get ggplots for all the applied phenotypic filters for a cohort.
 **This is a work in progress feature.**
 
 ```{r}
-cohort_filters <- cb_get_cohort_filters(cloudos = my_cloudos, 
-                                        cohort = my_cohort)
-plot_list <- cb_plot_filters(cohort_filters)
+plot_list <- cloudos::cb_plot_filters(cloudos = my_cloudos, cohort = my_cohort)
 library(ggpubr)
 ggpubr::ggarrange(plotlist = plot_list)
 ```

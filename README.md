@@ -87,14 +87,14 @@ head(cohorts,5)
 #> 4 5f60a9b1cecd166285ffd8a7          dsadasdas
 #> 5 5f5a005708dd6f253b3ab0da            New coh
 #>                                           description number_of_participants
-#> 1 This cohort is for testing purpose, created from R.                 644686
-#> 2                                For testing in R-lib                 213688
+#> 1 This cohort is for testing purpose, created from R.                 414326
+#> 2                                For testing in R-lib                   4434
 #> 3                                   For testing R-lib                 644686
 #> 4                                                                     644686
 #> 5                                                 asd                 644686
 #>   number_of_filters               created_at               updated_at
-#> 1                 0 2020-09-21T15:28:32.659Z 2020-09-21T15:28:32.659Z
-#> 2                 1 2020-09-16T14:58:27.928Z 2020-09-16T14:59:35.887Z
+#> 1                 1 2020-09-21T15:28:32.659Z 2020-09-24T23:02:44.560Z
+#> 2                 4 2020-09-16T14:58:27.928Z 2020-09-28T11:18:31.430Z
 #> 3                 0 2020-09-16T14:57:54.643Z 2020-09-16T14:57:54.643Z
 #> 4                 0 2020-09-15T11:46:57.334Z 2020-09-15T11:46:57.334Z
 #> 5                 0 2020-09-10T10:30:47.602Z 2020-09-10T10:30:47.602Z
@@ -134,18 +134,18 @@ filters applied.
 cohort_samples <- cloudos::cb_get_samples_table(cloudos = my_cloudos, 
                                                 cohort = my_cohort)
 head(cohort_samples, 5)
-#>         i                                    f20001i0a0 f31i0a0 f34i0a0
-#> 1 1000016                               cervical cancer    Male    1954
-#> 2 1000068                                bladder cancer  Female    1947
-#> 3 1000095 brain cancer / primary malignant brain tumour  Female    1934
-#> 4 1000148           spinal cord or cranial nerve cancer  Female    1946
-#> 5 1000184                      non-melanoma skin cancer  Female    1957
-#>     f52i0a0      f5984i0aavg f5984i0amin f5984i0amax
-#> 1 September 66.8839285714286           2         270
-#> 2  November           65.125           1         195
-#> 3   January 68.0350877192982           1         245
-#> 4     April 65.5178571428571           1         270
-#> 5   January 62.5803571428571           1         270
+#>         i               f20001i0a0 f31i0a0 f34i0a0   f52i0a0      f5984i0aavg
+#> 1 1000184 non-melanoma skin cancer  Female    1957   January 62.5803571428571
+#> 2 1001600      nasal cavity cancer  Female    1968 September 68.7105263157895
+#> 3 1002915      nasal cavity cancer  Female    1950     March 58.8495575221239
+#> 4 1004792       parathyroid cancer    Male    1959  November 66.7456140350877
+#> 5 1008748           trachea cancer  Female    1959     April 61.3035714285714
+#>   f5984i0amin f5984i0amax
+#> 1           1         270
+#> 2           1         270
+#> 3           2         270
+#> 4           2         270
+#> 5           2         245
 ```
 
 ### Get sample filters plot
@@ -155,9 +155,7 @@ Get ggplots for all the applied phenotypic filters for a cohort.
 **This is a work in progress feature.**
 
 ``` r
-cohort_filters <- cb_get_cohort_filters(cloudos = my_cloudos, 
-                                        cohort = my_cohort)
-plot_list <- cb_plot_filters(cohort_filters)
+plot_list <- cloudos::cb_plot_filters(cloudos = my_cloudos, cohort = my_cohort)
 library(ggpubr)
 #> Loading required package: ggplot2
 ggpubr::ggarrange(plotlist = plot_list)
@@ -374,7 +372,7 @@ gs <- cloudos::cb_genotypic_save(my_cloudos,
 
 gs
 #>      cohortId                   markers filters _id                       
-#> data "5f6228133097cc7a6504fb76" List,0  List,1  "5f68e3f7e95ca00b6918a2ed"
+#> data "5f6228133097cc7a6504fb76" List,0  List,1  "5f71f02321f68a6f81a060ed"
 #>      numberOfParticipants
 #> data 32545
 ```

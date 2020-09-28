@@ -138,14 +138,14 @@
 <span class="co">#&gt; 4 5f60a9b1cecd166285ffd8a7          dsadasdas</span>
 <span class="co">#&gt; 5 5f5a005708dd6f253b3ab0da            New coh</span>
 <span class="co">#&gt;                                           description number_of_participants</span>
-<span class="co">#&gt; 1 This cohort is for testing purpose, created from R.                 644686</span>
-<span class="co">#&gt; 2                                For testing in R-lib                 213688</span>
+<span class="co">#&gt; 1 This cohort is for testing purpose, created from R.                 414326</span>
+<span class="co">#&gt; 2                                For testing in R-lib                   4434</span>
 <span class="co">#&gt; 3                                   For testing R-lib                 644686</span>
 <span class="co">#&gt; 4                                                                     644686</span>
 <span class="co">#&gt; 5                                                 asd                 644686</span>
 <span class="co">#&gt;   number_of_filters               created_at               updated_at</span>
-<span class="co">#&gt; 1                 0 2020-09-21T15:28:32.659Z 2020-09-21T15:28:32.659Z</span>
-<span class="co">#&gt; 2                 1 2020-09-16T14:58:27.928Z 2020-09-16T14:59:35.887Z</span>
+<span class="co">#&gt; 1                 1 2020-09-21T15:28:32.659Z 2020-09-24T23:02:44.560Z</span>
+<span class="co">#&gt; 2                 4 2020-09-16T14:58:27.928Z 2020-09-28T11:18:31.430Z</span>
 <span class="co">#&gt; 3                 0 2020-09-16T14:57:54.643Z 2020-09-16T14:57:54.643Z</span>
 <span class="co">#&gt; 4                 0 2020-09-15T11:46:57.334Z 2020-09-15T11:46:57.334Z</span>
 <span class="co">#&gt; 5                 0 2020-09-10T10:30:47.602Z 2020-09-10T10:30:47.602Z</span></pre></div>
@@ -177,27 +177,25 @@
 <div class="sourceCode" id="cb8"><pre class="r"><span class="no">cohort_samples</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/cb_get_samples_table.html">cb_get_samples_table</a></span>(<span class="kw">cloudos</span> <span class="kw">=</span> <span class="no">my_cloudos</span>,
                                                 <span class="kw">cohort</span> <span class="kw">=</span> <span class="no">my_cohort</span>)
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">cohort_samples</span>, <span class="fl">5</span>)
-<span class="co">#&gt;         i                                    f20001i0a0 f31i0a0 f34i0a0</span>
-<span class="co">#&gt; 1 1000016                               cervical cancer    Male    1954</span>
-<span class="co">#&gt; 2 1000068                                bladder cancer  Female    1947</span>
-<span class="co">#&gt; 3 1000095 brain cancer / primary malignant brain tumour  Female    1934</span>
-<span class="co">#&gt; 4 1000148           spinal cord or cranial nerve cancer  Female    1946</span>
-<span class="co">#&gt; 5 1000184                      non-melanoma skin cancer  Female    1957</span>
-<span class="co">#&gt;     f52i0a0      f5984i0aavg f5984i0amin f5984i0amax</span>
-<span class="co">#&gt; 1 September 66.8839285714286           2         270</span>
-<span class="co">#&gt; 2  November           65.125           1         195</span>
-<span class="co">#&gt; 3   January 68.0350877192982           1         245</span>
-<span class="co">#&gt; 4     April 65.5178571428571           1         270</span>
-<span class="co">#&gt; 5   January 62.5803571428571           1         270</span></pre></div>
+<span class="co">#&gt;         i               f20001i0a0 f31i0a0 f34i0a0   f52i0a0      f5984i0aavg</span>
+<span class="co">#&gt; 1 1000184 non-melanoma skin cancer  Female    1957   January 62.5803571428571</span>
+<span class="co">#&gt; 2 1001600      nasal cavity cancer  Female    1968 September 68.7105263157895</span>
+<span class="co">#&gt; 3 1002915      nasal cavity cancer  Female    1950     March 58.8495575221239</span>
+<span class="co">#&gt; 4 1004792       parathyroid cancer    Male    1959  November 66.7456140350877</span>
+<span class="co">#&gt; 5 1008748           trachea cancer  Female    1959     April 61.3035714285714</span>
+<span class="co">#&gt;   f5984i0amin f5984i0amax</span>
+<span class="co">#&gt; 1           1         270</span>
+<span class="co">#&gt; 2           1         270</span>
+<span class="co">#&gt; 3           2         270</span>
+<span class="co">#&gt; 4           2         270</span>
+<span class="co">#&gt; 5           2         245</span></pre></div>
 </div>
 <div id="get-sample-filters-plot" class="section level3">
 <h3 class="hasAnchor">
 <a href="#get-sample-filters-plot" class="anchor"></a>Get sample filters plot</h3>
 <p>Get ggplots for all the applied phenotypic filters for a cohort.</p>
 <p><strong>This is a work in progress feature.</strong></p>
-<div class="sourceCode" id="cb9"><pre class="r"><span class="no">cohort_filters</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/cb_get_cohort_filters.html">cb_get_cohort_filters</a></span>(<span class="kw">cloudos</span> <span class="kw">=</span> <span class="no">my_cloudos</span>,
-                                        <span class="kw">cohort</span> <span class="kw">=</span> <span class="no">my_cohort</span>)
-<span class="no">plot_list</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/cb_plot_filters.html">cb_plot_filters</a></span>(<span class="no">cohort_filters</span>)
+<div class="sourceCode" id="cb9"><pre class="r"><span class="no">plot_list</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/cb_plot_filters.html">cb_plot_filters</a></span>(<span class="kw">cloudos</span> <span class="kw">=</span> <span class="no">my_cloudos</span>, <span class="kw">cohort</span> <span class="kw">=</span> <span class="no">my_cohort</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggpubr</span>)
 <span class="co">#&gt; Loading required package: ggplot2</span>
 <span class="kw pkg">ggpubr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggpubr/man/ggarrange.html">ggarrange</a></span>(<span class="kw">plotlist</span> <span class="kw">=</span> <span class="no">plot_list</span>)</pre></div>
@@ -397,7 +395,7 @@
 
 <span class="no">gs</span>
 <span class="co">#&gt;      cohortId                   markers filters _id                       </span>
-<span class="co">#&gt; data "5f6228133097cc7a6504fb76" List,0  List,1  "5f68e3f7e95ca00b6918a2ed"</span>
+<span class="co">#&gt; data "5f6228133097cc7a6504fb76" List,0  List,1  "5f71f02321f68a6f81a060ed"</span>
 <span class="co">#&gt;      numberOfParticipants</span>
 <span class="co">#&gt; data 32545</span></pre></div>
 </div>
