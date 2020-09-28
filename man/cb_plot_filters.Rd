@@ -4,13 +4,17 @@
 \alias{cb_plot_filters}
 \title{Plot filters}
 \usage{
-cb_plot_filters(filter_list)
+cb_plot_filters(cloudos, cohort)
 }
 \arguments{
-\item{filter_list}{The output of \code{\link{cb_get_cohort_filters}} (Required)}
+\item{cloudos}{A cloudos object. (Required)
+See constructor function \code{\link{connect_cloudos}}}
+
+\item{cohort}{A cohort object. (Required)
+See constructor function \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}}
 }
 \value{
-A list
+A list of ggplot objects
 }
 \description{
 Get a list of ggplot objects, each plot having one filter.

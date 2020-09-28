@@ -4,10 +4,10 @@
 \alias{cb_list_cohorts}
 \title{List cohorts}
 \usage{
-cb_list_cohorts(object, page_number = 0, page_size = 10)
+cb_list_cohorts(cloudos, page_number = 0, page_size = 10)
 }
 \arguments{
-\item{object}{A cloudos object. (Required)
+\item{cloudos}{A cloudos object. (Required)
 See constructor function \code{\link{connect_cloudos}}}
 
 \item{page_number}{Number of page. (Optional) Default - 0}
