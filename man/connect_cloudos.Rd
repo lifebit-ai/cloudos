@@ -10,8 +10,8 @@ connect_cloudos(base_url, auth, team_id)
 \item{base_url}{Base URL of the CloudOS server. (Optional)
 Default: https://cloudos.lifebit.ai/}
 
-\item{auth}{An authentication method. (Required)
-Example - Bearer token or API key.}
+\item{auth}{An authentication method - An API key or a Bearer token. (Required)
+For getting the API Key check on workspace settings, under Lifebit API tab.}
 
 \item{team_id}{Team ID in CloudOS account. (Required)}
 }
@@ -26,7 +26,7 @@ that can help to connect with cloudos server.
 \examples{
 \dontrun{
 connect_cloudos(base_url= "https://cloudos.lifebit.ai",
-             auth = "Bearer your_token",
+             auth = "your_apikey",
              team_id = "your_team_id")
 }
 }

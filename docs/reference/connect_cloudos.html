@@ -126,7 +126,7 @@ authentication methods and metadata,
 that can help to connect with cloudos server.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>connect_cloudos</span>(<span class='no'>base_url</span>, <span class='no'>auth</span>, <span class='no'>team_id</span>)</pre>
+    <pre class="usage"><span class='fu'>connect_cloudos</span><span class='op'>(</span><span class='va'>base_url</span>, <span class='va'>auth</span>, <span class='va'>team_id</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -138,8 +138,8 @@ Default: https://cloudos.lifebit.ai/</p></td>
     </tr>
     <tr>
       <th>auth</th>
-      <td><p>An authentication method. (Required)
-Example - Bearer token or API key.</p></td>
+      <td><p>An authentication method - An API key or a Bearer token. (Required)
+For getting the API Key check on workspace settings, under Lifebit API tab.</p></td>
     </tr>
     <tr>
       <th>team_id</th>
@@ -152,11 +152,12 @@ Example - Bearer token or API key.</p></td>
     <p>A <a href='cloudos-class.html'>cloudos</a> object.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'>connect_cloudos</span>(<span class='kw'>base_url</span><span class='kw'>=</span> <span class='st'>"https://cloudos.lifebit.ai"</span>,
-             <span class='kw'>auth</span> <span class='kw'>=</span> <span class='st'>"Bearer your_token"</span>,
-             <span class='kw'>team_id</span> <span class='kw'>=</span> <span class='st'>"your_team_id"</span>)
-}</div></pre>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'>connect_cloudos</span><span class='op'>(</span>base_url<span class='op'>=</span> <span class='st'>"https://cloudos.lifebit.ai"</span>,
+             auth <span class='op'>=</span> <span class='st'>"your_apikey"</span>,
+             team_id <span class='op'>=</span> <span class='st'>"your_team_id"</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -172,7 +173,7 @@ Example - Bearer token or API key.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

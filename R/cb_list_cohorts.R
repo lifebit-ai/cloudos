@@ -19,7 +19,7 @@ cb_list_cohorts <- function(cloudos,
                          page_size = 10) {
   url <- paste(cloudos@base_url, "api/v1/cohort", sep = "/")
   r <- httr::GET(url,
-                 httr::add_headers("Authorization" = cloudos@auth),
+                 .get_httr_headers(cloudos@auth),
                  query = list("teamId" = cloudos@team_id,
                               "pageNumber" = page_number,
                               "pageSize" = page_size))

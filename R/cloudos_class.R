@@ -8,17 +8,17 @@
 #' This can be created using constructor function \code{\link{connect_cloudos}}
 #'
 #' @slot base_url Base URL of the CloudOS server.
-#' @slot auth  An authentication method.
+#' @slot auth Authentication.
 #' @slot auth_method Which authentication method being used.
 #' @slot team_id Team ID in CloudOS account.
 #'
 #' @name cloudos-class
 #' @rdname cloudos-class
 #' @export
-setClass("cloudos", slots = list(base_url = "character",
-                                 auth = "character",
-                                 auth_method = "character",
-                                 team_id = "character")
+setClass("cloudos", slots = c(base_url = "character",
+                             auth = "character", # httr "request" class
+                             auth_method = "character",
+                             team_id = "character")
           )
 
 #' @title Connect CloudOS
@@ -29,8 +29,8 @@ setClass("cloudos", slots = list(base_url = "character",
 #'
 #' @param base_url Base URL of the CloudOS server. (Optional) 
 #' Default: https://cloudos.lifebit.ai/ 
-#' @param auth  An authentication method. (Required)
-#' Example - Bearer token or API key.
+#' @param auth  An authentication method - An API key or a Bearer token. (Required)
+#' For getting the API Key check on workspace settings, under Lifebit API tab.
 #' @param team_id Team ID in CloudOS account. (Required)
 #'
 #' @return A \linkS4class{cloudos} object.
@@ -38,23 +38,25 @@ setClass("cloudos", slots = list(base_url = "character",
 #' @examples
 #' \dontrun{
 #' connect_cloudos(base_url= "https://cloudos.lifebit.ai",
-#'              auth = "Bearer your_token",
+#'              auth = "your_apikey",
 #'              team_id = "your_team_id")
 #' }
 #' @export
 connect_cloudos <- function(base_url, auth, team_id){
-  # check type of Authentication method
-  if (grepl("apikey", auth)){
-    auth_method  = "API Key"
-  }else if (grepl("Bearer", auth)){
-    auth_method = "Bearer Token"
-  }else{
-    stop("Please mention an authentication starts with apikey/Bearer")
+  
+  if(missing(auth)){
+    stop("Please mention an authentication - Private Lifebit API key")
   }
   
   # check if base URL is given if not use default
   if(missing(base_url)){
     base_url = "https://cloudos.lifebit.ai/"
+  }
+  
+  if (grepl("Bearer", auth)){
+    auth_method = "Bearer Token"
+  }else{
+    auth_method  = "API Key" # default
   }
   
   cloudos_class_obj <- methods::new("cloudos",
@@ -74,3 +76,17 @@ setMethod("show", "cloudos",
             cat("Team ID:", object@team_id, "\n")
           }
 )
+
+.get_httr_headers <- function(auth){
+  # check type of Authentication method
+  if (grepl("Bearer", auth)){
+    headers <- httr::add_headers(.headers = c("Authorization" = auth,
+                                              "Accept" = "application/json, text/plain, */*",
+                                              "Content-Type" = "application/json;charset=UTF-8"))
+  }else{
+    headers <- httr::add_headers(.headers = c("apikey" = auth,
+                                              "Accept" = "application/json, text/plain, */*",
+                                              "Content-Type" = "application/json;charset=UTF-8"))
+  }
+  return(headers)
+}

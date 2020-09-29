@@ -17,7 +17,7 @@ This can be created using constructor function \code{\link{connect_cloudos}}
 \describe{
 \item{\code{base_url}}{Base URL of the CloudOS server.}
 
-\item{\code{auth}}{An authentication method.}
+\item{\code{auth}}{Authentication.}
 
 \item{\code{auth_method}}{Which authentication method being used.}
 

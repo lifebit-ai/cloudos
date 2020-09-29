@@ -51,11 +51,11 @@ Note: If no `base_url` given the default is https://cloudos.lifebit.ai/
 
 ```{r}
 cb_base_url <- "http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com"
-my_auth <- "Bearer *************************"
-my_team_id <- "***************************"
+my_auth <- "your_apikey"
+my_team_id <- "your_team_id"
 # OR from environment variable stored in a ~/.Renviron file
-my_auth <- Sys.getenv("cloudos_Bearer_token")
-my_team_id <- Sys.getenv("cloudos_team_id")
+my_auth <- Sys.getenv("test_cloudos_apikey")
+my_team_id <- Sys.getenv("test_cloudos_team_id")
 ```
 
 ### Connect to CloudOS

@@ -83,8 +83,9 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>You can install the released version of <strong>cloudos</strong> from <a href="https://github.com/lifebit-ai/cloudos/">GitHub</a> at this moment. (Will be listed on <a href="https://CRAN.R-project.org">CRAN</a> as well)</p>
-<div class="sourceCode" id="cb1"><pre class="r"><span class="kw">if</span> (!<span class="fu"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="no">remotes</span>)) { <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"remotes"</span>) }
-  <span class="kw pkg">remotes</span><span class="kw ns">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span>(<span class="st">"lifebit-ai/cloudos"</span>)</pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="https://remotes.r-lib.org">remotes</a></span><span class="op">)</span><span class="op">)</span> <span class="op">{</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span> <span class="op">}</span>
+  <span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"lifebit-ai/cloudos"</span><span class="op">)</span></pre></div>
 </div>
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
@@ -93,30 +94,33 @@
 <div id="load-the-library" class="section level3">
 <h3 class="hasAnchor">
 <a href="#load-the-library" class="anchor"></a>Load the library</h3>
-<div class="sourceCode" id="cb2"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">cloudos</span>)</pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/lifebit-ai/cloudos">cloudos</a></span><span class="op">)</span></pre></div>
 </div>
 <div id="setup-login-details" class="section level3">
 <h3 class="hasAnchor">
 <a href="#setup-login-details" class="anchor"></a>Setup login details</h3>
 <p>To interact with the cloudos server, it require few login details.</p>
 <p>Note: If no <code>base_url</code> given the default is <a href="https://cloudos.lifebit.ai/" class="uri">https://cloudos.lifebit.ai/</a></p>
-<div class="sourceCode" id="cb3"><pre class="r"><span class="no">cb_base_url</span> <span class="kw">&lt;-</span> <span class="st">"http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com"</span>
-<span class="no">my_auth</span> <span class="kw">&lt;-</span> <span class="st">"Bearer *************************"</span>
-<span class="no">my_team_id</span> <span class="kw">&lt;-</span> <span class="st">"***************************"</span>
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="va">cb_base_url</span> <span class="op">&lt;-</span> <span class="st">"http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com"</span>
+<span class="va">my_auth</span> <span class="op">&lt;-</span> <span class="st">"your_apikey"</span>
+<span class="va">my_team_id</span> <span class="op">&lt;-</span> <span class="st">"your_team_id"</span>
 <span class="co"># OR from environment variable stored in a ~/.Renviron file</span>
-<span class="no">my_auth</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv</a></span>(<span class="st">"cloudos_Bearer_token"</span>)
-<span class="no">my_team_id</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv</a></span>(<span class="st">"cloudos_team_id"</span>)</pre></div>
+<span class="va">my_auth</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv</a></span><span class="op">(</span><span class="st">"test_cloudos_apikey"</span><span class="op">)</span>
+<span class="va">my_team_id</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv</a></span><span class="op">(</span><span class="st">"test_cloudos_team_id"</span><span class="op">)</span></pre></div>
 </div>
 <div id="connect-to-cloudos" class="section level3">
 <h3 class="hasAnchor">
 <a href="#connect-to-cloudos" class="anchor"></a>Connect to CloudOS</h3>
 <p>Lets create a cloudos object with the login details, which can help us connect to cloudos server.</p>
-<div class="sourceCode" id="cb4"><pre class="r"><span class="no">my_cloudos</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/connect_cloudos.html">connect_cloudos</a></span>(<span class="kw">base_url</span> <span class="kw">=</span> <span class="no">cb_base_url</span>,
-                                       <span class="kw">auth</span> <span class="kw">=</span> <span class="no">my_auth</span>,
-                                       <span class="kw">team_id</span> <span class="kw">=</span> <span class="no">my_team_id</span>)
-<span class="no">my_cloudos</span>
+<div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="va">my_cloudos</span> <span class="op">&lt;-</span> <span class="fu">cloudos</span><span class="fu">::</span><span class="fu"><a href="reference/connect_cloudos.html">connect_cloudos</a></span><span class="op">(</span>base_url <span class="op">=</span> <span class="va">cb_base_url</span>,
+                                       auth <span class="op">=</span> <span class="va">my_auth</span>,
+                                       team_id <span class="op">=</span> <span class="va">my_team_id</span><span class="op">)</span>
+<span class="va">my_cloudos</span>
 <span class="co">#&gt; Base URL:  http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com </span>
-<span class="co">#&gt; Authentication Method:  Bearer Token </span>
+<span class="co">#&gt; Authentication Method:  API Key </span>
 <span class="co">#&gt; Team ID: 5f046bf6c132dd15fdd1a525</span></pre></div>
 </div>
 </div>
@@ -128,44 +132,47 @@
 <h3 class="hasAnchor">
 <a href="#list-cohorts" class="anchor"></a>List Cohorts</h3>
 <p>To check list of available cohorts in a workspace.</p>
-<div class="sourceCode" id="cb5"><pre class="r"><span class="no">cohorts</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/cb_list_cohorts.html">cb_list_cohorts</a></span>(<span class="no">my_cloudos</span>)
-<span class="co">#&gt; Total number of cohorts found-56. But here is 10. For more, change 'page_number' and 'page_size'</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">cohorts</span>,<span class="fl">5</span>)
-<span class="co">#&gt;                         id               name</span>
-<span class="co">#&gt; 1 5f68c6a0e95ca00b6918a2e9           Cohort-R</span>
-<span class="co">#&gt; 2 5f6228133097cc7a6504fb76      cohort-test-2</span>
-<span class="co">#&gt; 3 5f6227f285aae86f12fa9af9 test-cohort0-r-lib</span>
-<span class="co">#&gt; 4 5f60a9b1cecd166285ffd8a7          dsadasdas</span>
-<span class="co">#&gt; 5 5f5a005708dd6f253b3ab0da            New coh</span>
+<div class="sourceCode" id="cb5"><pre class="downlit">
+<span class="va">cohorts</span> <span class="op">&lt;-</span> <span class="fu">cloudos</span><span class="fu">::</span><span class="fu"><a href="reference/cb_list_cohorts.html">cb_list_cohorts</a></span><span class="op">(</span><span class="va">my_cloudos</span><span class="op">)</span>
+<span class="co">#&gt; Total number of cohorts found-57. But here is 10. For more, change 'page_number' and 'page_size'</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">cohorts</span>,<span class="fl">5</span><span class="op">)</span>
+<span class="co">#&gt;                         id                name</span>
+<span class="co">#&gt; 1 5f73456e79721e542d5bea37 Cohort-R-to-compare</span>
+<span class="co">#&gt; 2 5f68c6a0e95ca00b6918a2e9            Cohort-R</span>
+<span class="co">#&gt; 3 5f6228133097cc7a6504fb76       cohort-test-2</span>
+<span class="co">#&gt; 4 5f6227f285aae86f12fa9af9  test-cohort0-r-lib</span>
+<span class="co">#&gt; 5 5f60a9b1cecd166285ffd8a7           dsadasdas</span>
 <span class="co">#&gt;                                           description number_of_participants</span>
-<span class="co">#&gt; 1 This cohort is for testing purpose, created from R.                 414326</span>
-<span class="co">#&gt; 2                                For testing in R-lib                   4434</span>
-<span class="co">#&gt; 3                                   For testing R-lib                 644686</span>
-<span class="co">#&gt; 4                                                                     644686</span>
-<span class="co">#&gt; 5                                                 asd                 644686</span>
+<span class="co">#&gt; 1                                                                     185674</span>
+<span class="co">#&gt; 2 This cohort is for testing purpose, created from R.                 336107</span>
+<span class="co">#&gt; 3                                For testing in R-lib                   4434</span>
+<span class="co">#&gt; 4                                   For testing R-lib                 644686</span>
+<span class="co">#&gt; 5                                                                     644686</span>
 <span class="co">#&gt;   number_of_filters               created_at               updated_at</span>
-<span class="co">#&gt; 1                 1 2020-09-21T15:28:32.659Z 2020-09-24T23:02:44.560Z</span>
-<span class="co">#&gt; 2                 4 2020-09-16T14:58:27.928Z 2020-09-28T11:18:31.430Z</span>
-<span class="co">#&gt; 3                 0 2020-09-16T14:57:54.643Z 2020-09-16T14:57:54.643Z</span>
-<span class="co">#&gt; 4                 0 2020-09-15T11:46:57.334Z 2020-09-15T11:46:57.334Z</span>
-<span class="co">#&gt; 5                 0 2020-09-10T10:30:47.602Z 2020-09-10T10:30:47.602Z</span></pre></div>
+<span class="co">#&gt; 1                 3 2020-09-29T14:32:14.048Z 2020-09-29T14:52:13.228Z</span>
+<span class="co">#&gt; 2                 3 2020-09-21T15:28:32.659Z 2020-09-29T14:52:03.252Z</span>
+<span class="co">#&gt; 3                 4 2020-09-16T14:58:27.928Z 2020-09-28T11:18:31.430Z</span>
+<span class="co">#&gt; 4                 0 2020-09-16T14:57:54.643Z 2020-09-16T14:57:54.643Z</span>
+<span class="co">#&gt; 5                 0 2020-09-15T11:46:57.334Z 2020-09-15T11:46:57.334Z</span></pre></div>
 </div>
 <div id="create-a-cohort" class="section level3">
 <h3 class="hasAnchor">
 <a href="#create-a-cohort" class="anchor"></a>Create a cohort</h3>
 <p>To create a new cohort.</p>
-<div class="sourceCode" id="cb6"><pre class="r"><span class="no">my_cohort</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/cb_create_cohort.html">cb_create_cohort</a></span>(<span class="no">my_cloudos</span>,
-                                       <span class="kw">cohort_name</span> <span class="kw">=</span> <span class="st">"Cohort-R"</span>,
-                                       <span class="kw">cohort_desc</span> <span class="kw">=</span> <span class="st">"This cohort is for testing purpose, created from R."</span>)
-<span class="no">my_cohort</span></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit">
+<span class="va">my_cohort</span> <span class="op">&lt;-</span> <span class="fu">cloudos</span><span class="fu">::</span><span class="fu"><a href="reference/cb_create_cohort.html">cb_create_cohort</a></span><span class="op">(</span><span class="va">my_cloudos</span>,
+                                       cohort_name <span class="op">=</span> <span class="st">"Cohort-R"</span>,
+                                       cohort_desc <span class="op">=</span> <span class="st">"This cohort is for testing purpose, created from R."</span><span class="op">)</span>
+<span class="va">my_cohort</span></pre></div>
 </div>
 <div id="get-a-cohort" class="section level3">
 <h3 class="hasAnchor">
 <a href="#get-a-cohort" class="anchor"></a>Get a cohort</h3>
 <p>Get a available cohort in to a cohort R object. This cohort object can be used in many different other functions.</p>
-<div class="sourceCode" id="cb7"><pre class="r"><span class="no">my_cohort</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/cb_load_cohort.html">cb_load_cohort</a></span>(<span class="kw">cloudos</span> <span class="kw">=</span> <span class="no">my_cloudos</span>,
-                                     <span class="kw">cohort_id</span> <span class="kw">=</span> <span class="st">"5f6228133097cc7a6504fb76"</span>)
-<span class="no">my_cohort</span>
+<div class="sourceCode" id="cb7"><pre class="downlit">
+<span class="va">my_cohort</span> <span class="op">&lt;-</span> <span class="fu">cloudos</span><span class="fu">::</span><span class="fu"><a href="reference/cb_load_cohort.html">cb_load_cohort</a></span><span class="op">(</span>cloudos <span class="op">=</span> <span class="va">my_cloudos</span>, 
+                                     cohort_id <span class="op">=</span> <span class="st">"5f6228133097cc7a6504fb76"</span><span class="op">)</span>
+<span class="va">my_cohort</span>
 <span class="co">#&gt; Cohort ID:  5f6228133097cc7a6504fb76 </span>
 <span class="co">#&gt; Cohort Name:  cohort-test-2 </span>
 <span class="co">#&gt; Cohort Description:  For testing in R-lib</span></pre></div>
@@ -174,9 +181,10 @@
 <h3 class="hasAnchor">
 <a href="#get-samples-table" class="anchor"></a>Get samples table</h3>
 <p>Get all the samples (participants) table for a cohort with phenotypic filters applied.</p>
-<div class="sourceCode" id="cb8"><pre class="r"><span class="no">cohort_samples</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/cb_get_samples_table.html">cb_get_samples_table</a></span>(<span class="kw">cloudos</span> <span class="kw">=</span> <span class="no">my_cloudos</span>,
-                                                <span class="kw">cohort</span> <span class="kw">=</span> <span class="no">my_cohort</span>)
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">cohort_samples</span>, <span class="fl">5</span>)
+<div class="sourceCode" id="cb8"><pre class="downlit">
+<span class="va">cohort_samples</span> <span class="op">&lt;-</span> <span class="fu">cloudos</span><span class="fu">::</span><span class="fu"><a href="reference/cb_get_samples_table.html">cb_get_samples_table</a></span><span class="op">(</span>cloudos <span class="op">=</span> <span class="va">my_cloudos</span>, 
+                                                cohort <span class="op">=</span> <span class="va">my_cohort</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">cohort_samples</span>, <span class="fl">5</span><span class="op">)</span>
 <span class="co">#&gt;         i               f20001i0a0 f31i0a0 f34i0a0   f52i0a0      f5984i0aavg</span>
 <span class="co">#&gt; 1 1000184 non-melanoma skin cancer  Female    1957   January 62.5803571428571</span>
 <span class="co">#&gt; 2 1001600      nasal cavity cancer  Female    1968 September 68.7105263157895</span>
@@ -195,19 +203,21 @@
 <a href="#get-sample-filters-plot" class="anchor"></a>Get sample filters plot</h3>
 <p>Get ggplots for all the applied phenotypic filters for a cohort.</p>
 <p><strong>This is a work in progress feature.</strong></p>
-<div class="sourceCode" id="cb9"><pre class="r"><span class="no">plot_list</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/cb_plot_filters.html">cb_plot_filters</a></span>(<span class="kw">cloudos</span> <span class="kw">=</span> <span class="no">my_cloudos</span>, <span class="kw">cohort</span> <span class="kw">=</span> <span class="no">my_cohort</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggpubr</span>)
+<div class="sourceCode" id="cb9"><pre class="downlit">
+<span class="va">plot_list</span> <span class="op">&lt;-</span> <span class="fu">cloudos</span><span class="fu">::</span><span class="fu"><a href="reference/cb_plot_filters.html">cb_plot_filters</a></span><span class="op">(</span>cloudos <span class="op">=</span> <span class="va">my_cloudos</span>, cohort <span class="op">=</span> <span class="va">my_cohort</span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rpkgs.datanovia.com/ggpubr/">ggpubr</a></span><span class="op">)</span>
 <span class="co">#&gt; Loading required package: ggplot2</span>
-<span class="kw pkg">ggpubr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggpubr/man/ggarrange.html">ggarrange</a></span>(<span class="kw">plotlist</span> <span class="kw">=</span> <span class="no">plot_list</span>)</pre></div>
+<span class="fu">ggpubr</span><span class="fu">::</span><span class="fu"><a href="https://rpkgs.datanovia.com/ggpubr/reference/ggarrange.html">ggarrange</a></span><span class="op">(</span>plotlist <span class="op">=</span> <span class="va">plot_list</span><span class="op">)</span></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-9-1.png" width="100%"></p>
 </div>
 <div id="get-genotypic-table" class="section level3">
 <h3 class="hasAnchor">
 <a href="#get-genotypic-table" class="anchor"></a>Get genotypic table</h3>
 <p>Get all the genotypic table for a cohort.</p>
-<div class="sourceCode" id="cb10"><pre class="r"><span class="co">#cohort_genotype &lt;- cloudos::cb_get_genotypic_table(my_cloudos, my_cohort)</span>
-<span class="no">cohort_genotype</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/cb_get_genotypic_table.html">cb_get_genotypic_table</a></span>(<span class="kw">cloudos</span> <span class="kw">=</span> <span class="no">my_cloudos</span>)
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">cohort_genotype</span>, <span class="fl">5</span>)
+<div class="sourceCode" id="cb10"><pre class="downlit">
+<span class="co">#cohort_genotype &lt;- cloudos::cb_get_genotypic_table(my_cloudos, my_cohort)</span>
+<span class="va">cohort_genotype</span> <span class="op">&lt;-</span> <span class="fu">cloudos</span><span class="fu">::</span><span class="fu"><a href="reference/cb_get_genotypic_table.html">cb_get_genotypic_table</a></span><span class="op">(</span>cloudos <span class="op">=</span> <span class="va">my_cloudos</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">cohort_genotype</span>, <span class="fl">5</span><span class="op">)</span>
 <span class="co">#&gt;   index Chromosome    Location Reference Alternative                Gene</span>
 <span class="co">#&gt; 1    12          1 1:100011443         G           T AC118553.2; SLC35A3</span>
 <span class="co">#&gt; 2     2          1 1:100007041         A           G AC118553.2; SLC35A3</span>
@@ -228,10 +238,11 @@
 <h4 class="hasAnchor">
 <a href="#search-phenotypic-filters" class="anchor"></a>Search phenotypic filters</h4>
 <p>Search for phenotypic filters based on a term.</p>
-<div class="sourceCode" id="cb11"><pre class="r"><span class="no">all_filters</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/cb_search_phenotypic_filters.html">cb_search_phenotypic_filters</a></span>(<span class="kw">cloudos</span> <span class="kw">=</span> <span class="no">my_cloudos</span>,
-                                                     <span class="kw">term</span> <span class="kw">=</span> <span class="st">"cancer"</span>)
+<div class="sourceCode" id="cb11"><pre class="downlit">
+<span class="va">all_filters</span> <span class="op">&lt;-</span> <span class="fu">cloudos</span><span class="fu">::</span><span class="fu"><a href="reference/cb_search_phenotypic_filters.html">cb_search_phenotypic_filters</a></span><span class="op">(</span>cloudos <span class="op">=</span> <span class="va">my_cloudos</span>, 
+                                                     term <span class="op">=</span> <span class="st">"cancer"</span><span class="op">)</span>
 <span class="co">#&gt; Total number of filters - 29</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">all_filters</span>, <span class="fl">5</span>)
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">all_filters</span>, <span class="fl">5</span><span class="op">)</span>
 <span class="co">#&gt;             categoryPathLevel1 categoryPathLevel2         categoryPathLevel3</span>
 <span class="co">#&gt; 1 UK Biobank Assessment Centre        Touchscreen Health and medical history</span>
 <span class="co">#&gt; 2 UK Biobank Assessment Centre        Touchscreen Health and medical history</span>
@@ -323,9 +334,10 @@
 <span class="co">#&gt; 4             47       1</span>
 <span class="co">#&gt; 5             47       1</span></pre></div>
 <p>Lets choose one filter from above table</p>
-<div class="sourceCode" id="cb12"><pre class="r"><span class="co"># apply this first row filter</span>
-<span class="no">my_phenotypic_filter</span> <span class="kw">&lt;-</span> <span class="no">all_filters</span>[<span class="fl">1</span>,]
-<span class="no">my_phenotypic_filter</span>
+<div class="sourceCode" id="cb12"><pre class="downlit">
+<span class="co"># apply this first row filter</span>
+<span class="va">my_phenotypic_filter</span> <span class="op">&lt;-</span> <span class="va">all_filters</span><span class="op">[</span><span class="fl">1</span>,<span class="op">]</span>
+<span class="va">my_phenotypic_filter</span>
 <span class="co">#&gt;             categoryPathLevel1 categoryPathLevel2         categoryPathLevel3</span>
 <span class="co">#&gt; 1 UK Biobank Assessment Centre        Touchscreen Health and medical history</span>
 <span class="co">#&gt;   categoryPathLevel4   id                            name type</span>
@@ -359,11 +371,12 @@
 <h4 class="hasAnchor">
 <a href="#apply-phenotypic-filter" class="anchor"></a>Apply phenotypic filter</h4>
 <p>We can get statistic of sample numbers in a cohort for which a filter is applied.</p>
-<div class="sourceCode" id="cb13"><pre class="r"><span class="co"># phenotype filter</span>
-<span class="no">cohort_with_filters</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/cb_get_filter_statistics.html">cb_get_filter_statistics</a></span>(<span class="no">my_cloudos</span>,
-                                     <span class="kw">cohort</span> <span class="kw">=</span> <span class="no">my_cohort</span>,
-                                     <span class="kw">filter_id</span> <span class="kw">=</span> <span class="no">my_phenotypic_filter</span>$<span class="no">id</span>)
-<span class="no">cohort_with_filters</span>
+<div class="sourceCode" id="cb13"><pre class="downlit">
+<span class="co"># phenotype filter</span>
+<span class="va">cohort_with_filters</span> <span class="op">&lt;-</span> <span class="fu">cloudos</span><span class="fu">::</span><span class="fu"><a href="reference/cb_get_filter_statistics.html">cb_get_filter_statistics</a></span><span class="op">(</span><span class="va">my_cloudos</span>, 
+                                     cohort <span class="op">=</span> <span class="va">my_cohort</span>, 
+                                     filter_id <span class="op">=</span> <span class="va">my_phenotypic_filter</span><span class="op">$</span><span class="va">id</span><span class="op">)</span>
+<span class="va">cohort_with_filters</span>
 <span class="co">#&gt; # A tibble: 4 x 4</span>
 <span class="co">#&gt;   `_id` number  total label               </span>
 <span class="co">#&gt;   &lt;int&gt;  &lt;int&gt;  &lt;int&gt; &lt;chr&gt;               </span>
@@ -372,12 +385,13 @@
 <span class="co">#&gt; 3     0 300719 600000 No                  </span>
 <span class="co">#&gt; 4     1  85593 600000 Yes</span></pre></div>
 <p>We can get number of total participants after applying a filter.</p>
-<div class="sourceCode" id="cb14"><pre class="r"><span class="co"># filter participants</span>
-<span class="no">total_participants_with_filter</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">:::</span><span class="fu"><a href="reference/cb_filter_participants.html">cb_filter_participants</a></span>(<span class="no">my_cloudos</span>,
-                                                <span class="kw">cohort</span> <span class="kw">=</span> <span class="no">my_cohort</span>,
-                                                <span class="kw">filter_id</span> <span class="kw">=</span> <span class="no">my_phenotypic_filter</span>$<span class="no">id</span>)
-
-<span class="no">total_participants_with_filter</span>
+<div class="sourceCode" id="cb14"><pre class="downlit">
+<span class="co"># filter participants</span>
+<span class="va">total_participants_with_filter</span> <span class="op">&lt;-</span> <span class="fu">cloudos</span><span class="fu">:::</span><span class="fu"><a href="reference/cb_filter_participants.html">cb_filter_participants</a></span><span class="op">(</span><span class="va">my_cloudos</span>,
+                                                cohort <span class="op">=</span> <span class="va">my_cohort</span>, 
+                                                filter_id <span class="op">=</span> <span class="va">my_phenotypic_filter</span><span class="op">$</span><span class="va">id</span><span class="op">)</span>
+ 
+<span class="va">total_participants_with_filter</span>
 <span class="co">#&gt; $total</span>
 <span class="co">#&gt; [1] 644686</span>
 <span class="co">#&gt; </span>
@@ -388,14 +402,15 @@
 <h4 class="hasAnchor">
 <a href="#save-a-filter" class="anchor"></a>Save a filter</h4>
 <p>Save a filter into the database.</p>
-<div class="sourceCode" id="cb15"><pre class="r"><span class="co"># apply filter (cb_genotypic_save) </span>
-<span class="no">gs</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/cb_genotypic_save.html">cb_genotypic_save</a></span>(<span class="no">my_cloudos</span>,
-                                 <span class="kw">cohort</span> <span class="kw">=</span> <span class="no">my_cohort</span>,
-                                 <span class="kw">filter_id</span> <span class="kw">=</span> <span class="no">my_phenotypic_filter</span>$<span class="no">id</span>)
+<div class="sourceCode" id="cb15"><pre class="downlit">
+<span class="co"># apply filter (cb_genotypic_save) </span>
+<span class="va">gs</span> <span class="op">&lt;-</span> <span class="fu">cloudos</span><span class="fu">::</span><span class="fu"><a href="reference/cb_genotypic_save.html">cb_genotypic_save</a></span><span class="op">(</span><span class="va">my_cloudos</span>,
+                                 cohort <span class="op">=</span> <span class="va">my_cohort</span>,
+                                 filter_id <span class="op">=</span> <span class="va">my_phenotypic_filter</span><span class="op">$</span><span class="va">id</span><span class="op">)</span>
 
-<span class="no">gs</span>
+<span class="va">gs</span>
 <span class="co">#&gt;      cohortId                   markers filters _id                       </span>
-<span class="co">#&gt; data "5f6228133097cc7a6504fb76" List,0  List,1  "5f71f02321f68a6f81a060ed"</span>
+<span class="co">#&gt; data "5f6228133097cc7a6504fb76" List,0  List,1  "5f736a5fb62bd653c6ec5168"</span>
 <span class="co">#&gt;      numberOfParticipants</span>
 <span class="co">#&gt; data 32545</span></pre></div>
 </div>
@@ -408,11 +423,13 @@
 <a href="#get-samples-table-for-selected-rows" class="anchor"></a>Get samples table for selected rows</h4>
 <p>Create a RAW data string. This usually generates after selecting participants on UI. (more information will be added how to create this in R)</p>
 <p>NOTE: This function will be improved <code>raw_data</code> arg is temporary.</p>
-<div class="sourceCode" id="cb16"><pre class="r"><span class="no">new_raw_data</span> <span class="kw">&lt;-</span> <span class="st">'{"columns":[{"id":34,"instance":0,"array":{"type":"exact","value":0}},{"id":31,"instance":0,"array":{"type":"exact","value":0}},{"id":52,"instance":0,"array":{"type":"exact","value":0}},{"id":5984,"instance":0,"array":{"type":"avg"}},{"id":5984,"instance":0,"array":{"type":"min"}},{"id":5984,"instance":0,"array":{"type":"max"}},{"id":20001,"instance":0,"array":{"type":"exact","value":0}}],"ids":["5f185b92bf92ed4d3be9637d","5edbdd689d700db709af0c2f","5f185b91bf92ed4d3be9587e","5f185b91bf92ed4d3be95984","5edbdd689d700db709af0c3e","5edbdd689d700db709af0c2b","5edbdd689d700db709af0c2d","5f185b93bf92ed4d3be982e9","5edbdd689d700db709af0c2a","5edbdd689d700db709af0c4d"],"type":"csv","base_url":"http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com"}'</span></pre></div>
+<div class="sourceCode" id="cb16"><pre class="downlit">
+<span class="va">new_raw_data</span> <span class="op">&lt;-</span> <span class="st">'{"columns":[{"id":34,"instance":0,"array":{"type":"exact","value":0}},{"id":31,"instance":0,"array":{"type":"exact","value":0}},{"id":52,"instance":0,"array":{"type":"exact","value":0}},{"id":5984,"instance":0,"array":{"type":"avg"}},{"id":5984,"instance":0,"array":{"type":"min"}},{"id":5984,"instance":0,"array":{"type":"max"}},{"id":20001,"instance":0,"array":{"type":"exact","value":0}}],"ids":["5f185b92bf92ed4d3be9637d","5edbdd689d700db709af0c2f","5f185b91bf92ed4d3be9587e","5f185b91bf92ed4d3be95984","5edbdd689d700db709af0c3e","5edbdd689d700db709af0c2b","5edbdd689d700db709af0c2d","5f185b93bf92ed4d3be982e9","5edbdd689d700db709af0c2a","5edbdd689d700db709af0c4d"],"type":"csv","base_url":"http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com"}'</span></pre></div>
 <p>Using this above raw data lets extract selected participants.</p>
-<div class="sourceCode" id="cb17"><pre class="r"><span class="no">df</span> <span class="kw">&lt;-</span> <span class="kw pkg">cloudos</span><span class="kw ns">::</span><span class="fu"><a href="reference/cb_extract_samples.html">cb_extract_samples</a></span>(<span class="no">my_cloudos</span>,
-                      <span class="kw">raw_data</span> <span class="kw">=</span> <span class="no">new_raw_data</span>)
-<span class="no">df</span>
+<div class="sourceCode" id="cb17"><pre class="downlit">
+<span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">cloudos</span><span class="fu">::</span><span class="fu"><a href="reference/cb_extract_samples.html">cb_extract_samples</a></span><span class="op">(</span><span class="va">my_cloudos</span>,
+                      raw_data <span class="op">=</span> <span class="va">new_raw_data</span><span class="op">)</span>
+<span class="va">df</span>
 <span class="co">#&gt;          i Year_of_birth    Sex Month_of_birth ECG._load.0.avg ECG._load.0.min</span>
 <span class="co">#&gt; 1  1000002            NA                                    NA              NA</span>
 <span class="co">#&gt; 2  1000016          1954   Male      September        66.88393               2</span>
@@ -481,7 +498,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

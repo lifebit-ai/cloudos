@@ -29,9 +29,7 @@ cb_get_genotypic_table <- function(cloudos,
   
   url <- paste(cloudos@base_url, "api/v1/cohort/genotypic-data", sep = "/")
   r <- httr::POST(url,
-                  httr::add_headers(.headers = c("Authorization" = cloudos@auth,
-                                                 "accept" = "application/json, text/plain, */*",
-                                                 "content-type" = "application/json;charset=UTF-8")),
+                  .get_httr_headers(cloudos@auth),
                   query = list("teamId" = cloudos@team_id),
                   body = list("pageNumber" = page_number,
                               "pageSize" = page_size,
@@ -86,9 +84,7 @@ cb_get_samples_table <- function(cloudos,
   # make request
   url <- paste(cloudos@base_url, "api/v1/cohort/participants/search", sep = "/")
   r <- httr::POST(url,
-                  httr::add_headers(.headers = c("Authorization" = cloudos@auth,
-                                                 "Accept" = "application/json, text/plain, */*",
-                                                 "Content-Type" = "application/json;charset=UTF-8")),
+                  .get_httr_headers(cloudos@auth),
                   query = list("teamId" = cloudos@team_id),
                   body = list("pageNumber" = page_number,
                               "pageSize" = page_size,
@@ -133,9 +129,7 @@ cb_extract_samples <- function(cloudos, raw_data) {
   url <- paste(cloudos@base_url, "api/v1/cohort/participants/export", sep = "/")
   # TODO work on raw_data - Find an end point that returns this and make a json in R
   r <- httr::POST(url,
-                  httr::add_headers(.headers = c("Authorization" = cloudos@auth,
-                                                 "accept" = "*/*",
-                                                 "content-type" = "application/json")),
+                  .get_httr_headers(cloudos@auth),
                   body = raw_data,
                   encode = "json"
   )

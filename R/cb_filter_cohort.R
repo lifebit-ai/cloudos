@@ -19,7 +19,7 @@ cb_search_phenotypic_filters <- function(cloudos,
                            term){
   url <- paste(cloudos@base_url, "api/v1/cohort/fields_search", sep = "/")
   r <- httr::GET(url,
-                 httr::add_headers("Authorization" = cloudos@auth),
+                 .get_httr_headers(cloudos@auth),
                  query = list("teamId" = cloudos@team_id,
                               "term" = term))
   if (!r$status_code == 200) {
@@ -64,9 +64,7 @@ cb_get_filter_statistics <- function(cloudos, cohort, filter_id ) {
   # make request
   url <- paste(cloudos@base_url, "api/v1/cohort/filter", filter_id, "data", sep = "/")
   r <- httr::POST(url,
-                  httr::add_headers(.headers = c("Authorization" = cloudos@auth,
-                                                 "Accept" = "application/json, text/plain, */*",
-                                                 "Content-Type" = "application/json;charset=UTF-8")),
+                  .get_httr_headers(cloudos@auth),
                   query = list("teamId" = cloudos@team_id),
                   body = jsonlite::toJSON(r_body),
                   encode = "raw"
@@ -140,9 +138,7 @@ cb_filter_participants <-function(cloudos, cohort, filter_id ) {
   # make request
   url <- paste(cloudos@base_url, "api/v1/cohort/filter/participants", sep = "/")
   r <- httr::POST(url,
-                  httr::add_headers(.headers = c("Authorization" = cloudos@auth,
-                                                 "Accept" = "application/json, text/plain, */*",
-                                                 "Content-Type" = "application/json;charset=UTF-8")),
+                  .get_httr_headers(cloudos@auth),
                   query = list("teamId" = cloudos@team_id),
                   body = jsonlite::toJSON(r_body),
                   encode = "raw"
@@ -184,9 +180,7 @@ cb_genotypic_save <- function(cloudos, cohort, filter_id ) {
   # make request
   url <- paste(cloudos@base_url, "api/v1/cohort/genotypic-save", sep = "/")
   r <- httr::POST(url,
-                  httr::add_headers(.headers = c("Authorization" = cloudos@auth,
-                                                 "Accept" = "application/json, text/plain, */*",
-                                                 "Content-Type" = "application/json;charset=UTF-8")),
+                  .get_httr_headers(cloudos@auth),
                   query = list("teamId" = cloudos@team_id),
                   body = jsonlite::toJSON(r_body),
                   encode = "raw"
@@ -215,7 +209,7 @@ cb_genotypic_save <- function(cloudos, cohort, filter_id ) {
 cb_filter_metadata <- function(cloudos, filter_id) {
   url <- paste(cloudos@base_url, "api/v1/cohort/filter", filter_id, "metadata", sep = "/")
   r <- httr::GET(url,
-                 httr::add_headers("Authorization" = cloudos@auth),
+                 .get_httr_headers(cloudos@auth),
                  query = list("teamId" = cloudos@team_id)
   )
   if (!r$status_code == 200) {
