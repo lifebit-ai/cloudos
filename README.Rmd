@@ -116,7 +116,7 @@ head(cohort_samples, 5)
 
 Get ggplots for all the applied phenotypic filters for a cohort. 
 
-**This is a work in progress feature.**
+As this based on ggplot objects, this can be modified further. 
 
 ```{r}
 plot_list <- cloudos::cb_plot_filters(cloudos = my_cloudos, cohort = my_cohort)
@@ -124,6 +124,27 @@ library(ggpubr)
 ggpubr::ggarrange(plotlist = plot_list)
 ```
 
+Individual plots
+
+```{r}
+plot_list[[1]]
+```
+
+```{r}
+plot_list[[2]]
+```
+
+Covert ggplot objects to plotly elements (just for demonstration purpose, in markdown plotly don't support.)
+
+```{r, eval=F}
+p1 <- plotly::ggplotly(plot_list$filter_id_34)
+p1
+```
+
+```{r, eval=F}
+p2 <- plotly::ggplotly(plot_list$filter_id_2345)
+p2
+```
 
 ### Get genotypic table
 

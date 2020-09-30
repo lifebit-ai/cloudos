@@ -152,16 +152,47 @@ head(cohort_samples, 5)
 
 Get ggplots for all the applied phenotypic filters for a cohort.
 
-**This is a work in progress feature.**
+As this based on ggplot objects, this can be modified further.
 
 ``` r
 plot_list <- cloudos::cb_plot_filters(cloudos = my_cloudos, cohort = my_cohort)
+#> Warning: Ignoring unknown parameters: binwidth, bins, pad
+#> Warning: Continuous limits supplied to discrete scale.
+#> Did you mean `limits = factor(...)` or `scale_*_continuous()`?
+#> Warning: Ignoring unknown parameters: binwidth, bins, pad
 library(ggpubr)
 #> Loading required package: ggplot2
 ggpubr::ggarrange(plotlist = plot_list)
 ```
 
 <img src="man/figures/README-unnamed-chunk-9-1.png" width="100%" />
+
+Individual plots
+
+``` r
+plot_list[[1]]
+```
+
+<img src="man/figures/README-unnamed-chunk-10-1.png" width="100%" />
+
+``` r
+plot_list[[2]]
+```
+
+<img src="man/figures/README-unnamed-chunk-11-1.png" width="100%" />
+
+Covert ggplot objects to plotly elements (just for demonstration
+purpose, in markdown plotly don’t support.)
+
+``` r
+p1 <- plotly::ggplotly(plot_list$filter_id_34)
+p1
+```
+
+``` r
+p2 <- plotly::ggplotly(plot_list$filter_id_2345)
+p2
+```
 
 ### Get genotypic table
 
@@ -372,7 +403,7 @@ gs <- cloudos::cb_genotypic_save(my_cloudos,
 
 gs
 #>      cohortId                   markers filters _id                       
-#> data "5f6228133097cc7a6504fb76" List,0  List,1  "5f736a5fb62bd653c6ec5168"
+#> data "5f6228133097cc7a6504fb76" List,0  List,1  "5f74b3dd79721e542d5beaab"
 #>      numberOfParticipants
 #> data 32545
 ```

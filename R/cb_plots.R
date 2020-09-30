@@ -9,6 +9,7 @@
 #'
 #' @return A list of ggplot objects
 #' @import ggplot2
+#' @import dplyr
 #'
 #' @export
 cb_plot_filters <- function(cloudos, cohort){
@@ -32,7 +33,7 @@ cb_plot_filters <- function(cloudos, cohort){
       # and then plot
       if(names(filter_df_list[i]) == fields_id){
         # check the type of filter
-        if(ncol(filter_df) == 4){ # value - bar
+        if(ncol(filter_df) == 4){ ############################## value - bar
           # to make sure we getting morefileds for same filter as fields
           for(j in 1:length(my_cohort$moreFields)){
             more_fields_id <- my_cohort$moreFields[[j]]$fieldId
@@ -45,15 +46,25 @@ cb_plot_filters <- function(cloudos, cohort){
           plot_list[[filter_id]] <- ggplot(data=filter_df, aes(x=label, y=number, fill = label)) +
             geom_bar(stat="identity") + coord_flip() + 
             labs(title= fields_name) + 
-            scale_fill_manual(values =  filtered_values_colour)
-        }else if(ncol(filter_df) == 3){ # range - histogram
-          # TODO use this to get applied filters on the plot
-          # morefileds
-          # more_fields <-  my_cohort$moreFields[[filter_number]]
-          # range <- more_fields$range
+            scale_fill_manual(values =  filtered_values_colour) + 
+            theme(legend.position="none")
+        }else if(ncol(filter_df) == 3){ ############################### range - histogram
+          # to make sure we getting morefileds for same filter as fields
+          for(j in 1:length(my_cohort$moreFields)){
+            more_fields_id <- my_cohort$moreFields[[j]]$fieldId
+            if(fields_id == more_fields_id){
+              more_fields <- my_cohort$moreFields[[j]]
+            }
+          }
+          # take only the data required from the dataframe
+          filter_df_sel <- subset(filter_df, select = -c(total))
+          names(filter_df_sel) <- c("range", "number")
+          # get a dataframe with colours based on applied filters
+          filtered_range_colour_df <- .filtered_range_colour_df(df = filter_df_sel, more_fields = more_fields)
           # plot
-          plot_list[[filter_id]] <- ggplot(data=filter_df, aes(x=`_id`, y=number)) +
-            geom_bar(stat="identity") + 
+          plot_list[[filter_id]] <- ggplot(data=filtered_range_colour_df, aes(x=range, y=number)) +
+            geom_histogram(stat="identity", fill= filtered_range_colour_df$color_value) + 
+            scale_x_discrete(limits = filtered_range_colour_df$range) +
             theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + 
             labs(title= fields_name) +
             xlab(label = "range")
@@ -89,5 +100,16 @@ cb_plot_filters <- function(cloudos, cohort){
   return(my_value_color)
 }
 
+.filtered_range_colour_df <- function(more_fields, df){
+  
+  range_from <- more_fields$range$from
+  range_to <- more_fields$range$to
+  new_df <- df %>% 
+    mutate(color_value = case_when(range > range_from & range < range_to ~ "green",
+                                    TRUE ~ "lightgreen"))
+  
+  return(new_df)
+}
+
 # ggplot exposed objects, mark them as global
-utils::globalVariables(c("label", "number", "_id"))
+utils::globalVariables(c("label", "number", "_id", "total"))

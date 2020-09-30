@@ -202,19 +202,37 @@
 <h3 class="hasAnchor">
 <a href="#get-sample-filters-plot" class="anchor"></a>Get sample filters plot</h3>
 <p>Get ggplots for all the applied phenotypic filters for a cohort.</p>
-<p><strong>This is a work in progress feature.</strong></p>
+<p>As this based on ggplot objects, this can be modified further.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit">
 <span class="va">plot_list</span> <span class="op">&lt;-</span> <span class="fu">cloudos</span><span class="fu">::</span><span class="fu"><a href="reference/cb_plot_filters.html">cb_plot_filters</a></span><span class="op">(</span>cloudos <span class="op">=</span> <span class="va">my_cloudos</span>, cohort <span class="op">=</span> <span class="va">my_cohort</span><span class="op">)</span>
+<span class="co">#&gt; Warning: Ignoring unknown parameters: binwidth, bins, pad</span>
+<span class="co">#&gt; Warning: Continuous limits supplied to discrete scale.</span>
+<span class="co">#&gt; Did you mean `limits = factor(...)` or `scale_*_continuous()`?</span>
+<span class="co">#&gt; Warning: Ignoring unknown parameters: binwidth, bins, pad</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rpkgs.datanovia.com/ggpubr/">ggpubr</a></span><span class="op">)</span>
 <span class="co">#&gt; Loading required package: ggplot2</span>
 <span class="fu">ggpubr</span><span class="fu">::</span><span class="fu"><a href="https://rpkgs.datanovia.com/ggpubr/reference/ggarrange.html">ggarrange</a></span><span class="op">(</span>plotlist <span class="op">=</span> <span class="va">plot_list</span><span class="op">)</span></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-9-1.png" width="100%"></p>
+<p>Individual plots</p>
+<div class="sourceCode" id="cb10"><pre class="downlit">
+<span class="va">plot_list</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-10-1.png" width="100%"></p>
+<div class="sourceCode" id="cb11"><pre class="downlit">
+<span class="va">plot_list</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-11-1.png" width="100%"></p>
+<p>Covert ggplot objects to plotly elements (just for demonstration purpose, in markdown plotly don’t support.)</p>
+<div class="sourceCode" id="cb12"><pre class="downlit">
+<span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu">plotly</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/plotly/man/ggplotly.html">ggplotly</a></span><span class="op">(</span><span class="va">plot_list</span><span class="op">$</span><span class="va">filter_id_34</span><span class="op">)</span>
+<span class="va">p1</span></pre></div>
+<div class="sourceCode" id="cb13"><pre class="downlit">
+<span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu">plotly</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/plotly/man/ggplotly.html">ggplotly</a></span><span class="op">(</span><span class="va">plot_list</span><span class="op">$</span><span class="va">filter_id_2345</span><span class="op">)</span>
+<span class="va">p2</span></pre></div>
 </div>
 <div id="get-genotypic-table" class="section level3">
 <h3 class="hasAnchor">
 <a href="#get-genotypic-table" class="anchor"></a>Get genotypic table</h3>
 <p>Get all the genotypic table for a cohort.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit">
+<div class="sourceCode" id="cb14"><pre class="downlit">
 <span class="co">#cohort_genotype &lt;- cloudos::cb_get_genotypic_table(my_cloudos, my_cohort)</span>
 <span class="va">cohort_genotype</span> <span class="op">&lt;-</span> <span class="fu">cloudos</span><span class="fu">::</span><span class="fu"><a href="reference/cb_get_genotypic_table.html">cb_get_genotypic_table</a></span><span class="op">(</span>cloudos <span class="op">=</span> <span class="va">my_cloudos</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">cohort_genotype</span>, <span class="fl">5</span><span class="op">)</span>
@@ -238,7 +256,7 @@
 <h4 class="hasAnchor">
 <a href="#search-phenotypic-filters" class="anchor"></a>Search phenotypic filters</h4>
 <p>Search for phenotypic filters based on a term.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit">
+<div class="sourceCode" id="cb15"><pre class="downlit">
 <span class="va">all_filters</span> <span class="op">&lt;-</span> <span class="fu">cloudos</span><span class="fu">::</span><span class="fu"><a href="reference/cb_search_phenotypic_filters.html">cb_search_phenotypic_filters</a></span><span class="op">(</span>cloudos <span class="op">=</span> <span class="va">my_cloudos</span>, 
                                                      term <span class="op">=</span> <span class="st">"cancer"</span><span class="op">)</span>
 <span class="co">#&gt; Total number of filters - 29</span>
@@ -334,7 +352,7 @@
 <span class="co">#&gt; 4             47       1</span>
 <span class="co">#&gt; 5             47       1</span></pre></div>
 <p>Lets choose one filter from above table</p>
-<div class="sourceCode" id="cb12"><pre class="downlit">
+<div class="sourceCode" id="cb16"><pre class="downlit">
 <span class="co"># apply this first row filter</span>
 <span class="va">my_phenotypic_filter</span> <span class="op">&lt;-</span> <span class="va">all_filters</span><span class="op">[</span><span class="fl">1</span>,<span class="op">]</span>
 <span class="va">my_phenotypic_filter</span>
@@ -371,7 +389,7 @@
 <h4 class="hasAnchor">
 <a href="#apply-phenotypic-filter" class="anchor"></a>Apply phenotypic filter</h4>
 <p>We can get statistic of sample numbers in a cohort for which a filter is applied.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit">
+<div class="sourceCode" id="cb17"><pre class="downlit">
 <span class="co"># phenotype filter</span>
 <span class="va">cohort_with_filters</span> <span class="op">&lt;-</span> <span class="fu">cloudos</span><span class="fu">::</span><span class="fu"><a href="reference/cb_get_filter_statistics.html">cb_get_filter_statistics</a></span><span class="op">(</span><span class="va">my_cloudos</span>, 
                                      cohort <span class="op">=</span> <span class="va">my_cohort</span>, 
@@ -385,7 +403,7 @@
 <span class="co">#&gt; 3     0 300719 600000 No                  </span>
 <span class="co">#&gt; 4     1  85593 600000 Yes</span></pre></div>
 <p>We can get number of total participants after applying a filter.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit">
+<div class="sourceCode" id="cb18"><pre class="downlit">
 <span class="co"># filter participants</span>
 <span class="va">total_participants_with_filter</span> <span class="op">&lt;-</span> <span class="fu">cloudos</span><span class="fu">:::</span><span class="fu"><a href="reference/cb_filter_participants.html">cb_filter_participants</a></span><span class="op">(</span><span class="va">my_cloudos</span>,
                                                 cohort <span class="op">=</span> <span class="va">my_cohort</span>, 
@@ -402,7 +420,7 @@
 <h4 class="hasAnchor">
 <a href="#save-a-filter" class="anchor"></a>Save a filter</h4>
 <p>Save a filter into the database.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit">
+<div class="sourceCode" id="cb19"><pre class="downlit">
 <span class="co"># apply filter (cb_genotypic_save) </span>
 <span class="va">gs</span> <span class="op">&lt;-</span> <span class="fu">cloudos</span><span class="fu">::</span><span class="fu"><a href="reference/cb_genotypic_save.html">cb_genotypic_save</a></span><span class="op">(</span><span class="va">my_cloudos</span>,
                                  cohort <span class="op">=</span> <span class="va">my_cohort</span>,
@@ -410,7 +428,7 @@
 
 <span class="va">gs</span>
 <span class="co">#&gt;      cohortId                   markers filters _id                       </span>
-<span class="co">#&gt; data "5f6228133097cc7a6504fb76" List,0  List,1  "5f736a5fb62bd653c6ec5168"</span>
+<span class="co">#&gt; data "5f6228133097cc7a6504fb76" List,0  List,1  "5f74b3dd79721e542d5beaab"</span>
 <span class="co">#&gt;      numberOfParticipants</span>
 <span class="co">#&gt; data 32545</span></pre></div>
 </div>
@@ -423,10 +441,10 @@
 <a href="#get-samples-table-for-selected-rows" class="anchor"></a>Get samples table for selected rows</h4>
 <p>Create a RAW data string. This usually generates after selecting participants on UI. (more information will be added how to create this in R)</p>
 <p>NOTE: This function will be improved <code>raw_data</code> arg is temporary.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit">
+<div class="sourceCode" id="cb20"><pre class="downlit">
 <span class="va">new_raw_data</span> <span class="op">&lt;-</span> <span class="st">'{"columns":[{"id":34,"instance":0,"array":{"type":"exact","value":0}},{"id":31,"instance":0,"array":{"type":"exact","value":0}},{"id":52,"instance":0,"array":{"type":"exact","value":0}},{"id":5984,"instance":0,"array":{"type":"avg"}},{"id":5984,"instance":0,"array":{"type":"min"}},{"id":5984,"instance":0,"array":{"type":"max"}},{"id":20001,"instance":0,"array":{"type":"exact","value":0}}],"ids":["5f185b92bf92ed4d3be9637d","5edbdd689d700db709af0c2f","5f185b91bf92ed4d3be9587e","5f185b91bf92ed4d3be95984","5edbdd689d700db709af0c3e","5edbdd689d700db709af0c2b","5edbdd689d700db709af0c2d","5f185b93bf92ed4d3be982e9","5edbdd689d700db709af0c2a","5edbdd689d700db709af0c4d"],"type":"csv","base_url":"http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com"}'</span></pre></div>
 <p>Using this above raw data lets extract selected participants.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit">
+<div class="sourceCode" id="cb21"><pre class="downlit">
 <span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">cloudos</span><span class="fu">::</span><span class="fu"><a href="reference/cb_extract_samples.html">cb_extract_samples</a></span><span class="op">(</span><span class="va">my_cloudos</span>,
                       raw_data <span class="op">=</span> <span class="va">new_raw_data</span><span class="op">)</span>
 <span class="va">df</span>
