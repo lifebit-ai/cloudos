@@ -116,7 +116,7 @@ head(cohort_samples, 5)
 
 Get ggplots for all the applied phenotypic filters for a cohort. 
 
-As this based on ggplot objects, this can be modified further. 
+As this based on ggplot objects, this can be customised further. 
 
 ```{r}
 plot_list <- cloudos::cb_plot_filters(cloudos = my_cloudos, cohort = my_cohort)

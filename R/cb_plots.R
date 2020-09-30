@@ -47,7 +47,8 @@ cb_plot_filters <- function(cloudos, cohort){
             geom_bar(stat="identity") + coord_flip() + 
             labs(title= fields_name) + 
             scale_fill_manual(values =  filtered_values_colour) + 
-            theme(legend.position="none")
+            theme_bw() + 
+            theme(legend.position="none") 
         }else if(ncol(filter_df) == 3){ ############################### range - histogram
           # to make sure we getting morefileds for same filter as fields
           for(j in 1:length(my_cohort$moreFields)){
@@ -67,7 +68,8 @@ cb_plot_filters <- function(cloudos, cohort){
             scale_x_discrete(limits = filtered_range_colour_df$range) +
             theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + 
             labs(title= fields_name) +
-            xlab(label = "range")
+            xlab(label = "range") + 
+            theme_bw()
         }else{
           stop("Unknown filter type. Accepts 'bar' and 'histogram' only.")
         }
