@@ -31,20 +31,27 @@ cb_plot_filters <- function(cloudos, cohort){
       # get the one filter dataframe which matches with cohort
       # and then plot
       if(names(filter_df_list[i]) == fields_id){
-        # make the plot
+        # check the type of filter
         if(ncol(filter_df) == 4){ # value - bar
-          # TODO use this to get applied filters on the plot
-          # morefileds
-          # more_fields <-  my_cohort$moreFields[[filter_number]]
-          # value <- 
-          plot_list[[filter_id]] <- ggplot(data=filter_df, aes(x=label, y=number)) +
+          # to make sure we getting morefileds for same filter as fields
+          for(j in 1:length(my_cohort$moreFields)){
+            more_fields_id <- my_cohort$moreFields[[j]]$fieldId
+            if(fields_id == more_fields_id){
+              more_fields <- my_cohort$moreFields[[j]]
+            }
+          }
+          filtered_values_colour <- .filtered_values_colour(more_fields, fields)
+          # plot
+          plot_list[[filter_id]] <- ggplot(data=filter_df, aes(x=label, y=number, fill = label)) +
             geom_bar(stat="identity") + coord_flip() + 
-            labs(title= fields_name)
+            labs(title= fields_name) + 
+            scale_fill_manual(values =  filtered_values_colour)
         }else if(ncol(filter_df) == 3){ # range - histogram
           # TODO use this to get applied filters on the plot
           # morefileds
           # more_fields <-  my_cohort$moreFields[[filter_number]]
           # range <- more_fields$range
+          # plot
           plot_list[[filter_id]] <- ggplot(data=filter_df, aes(x=`_id`, y=number)) +
             geom_bar(stat="identity") + 
             theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + 
@@ -57,6 +64,29 @@ cb_plot_filters <- function(cloudos, cohort){
     }
   }
   return(plot_list)
+}
+
+.filtered_values_colour <- function(more_fields, fields){
+  # make a value vector
+  my_values <- c()
+  for(i in 1:length(more_fields$value)){
+    value_id <- as.numeric(more_fields$value[[i]][1])
+    my_values <- c(my_values, fields$field$values[[as.character(value_id)]])
+  }
+  all_values <- c()
+  for(i in 1:length(fields$field$values)){
+    all_values <- c(all_values, fields$field$values[[i]])
+  }
+  # generate the colour vector
+  my_value_color <- c()
+  for(i in all_values){
+      if(i %in% my_values){
+        my_value_color <- c(my_value_color, "green")
+      }else{
+        my_value_color <- c(my_value_color, "lightgreen")
+    }
+  }
+  return(my_value_color)
 }
 
 # ggplot exposed objects, mark them as global
