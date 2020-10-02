@@ -1,6 +1,10 @@
 ---
-output: github_document
+output: 
+  github_document:
+    #toc: true
 ---
+
+# cloudos <img src="man/figures/logo/hexlogo.png" align="right" height=140/>
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -13,18 +17,16 @@ knitr::opts_chunk$set(
 )
 ```
 
-# cloudos
-
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![R build status](https://github.com/lifebit-ai/cloudos/workflows/R-CMD-check/badge.svg)](https://github.com/lifebit-ai/cloudos/actions)
 <!-- badges: end -->
 
-The 'CloudOS' client library for R makes it easy to interact with CloudOS <https://cloudos.lifebit.ai/> in the R environment for analysis.
+**cloudos** R package makes it easy to interact with Lifebit's CloudOS <https://cloudos.lifebit.ai/> platform in the R environment.
 
 ## Installation
 
-You can install the released version of cloudos from [GitHub](https://github.com/lifebit-ai/cloudos/) at this moment. (Will be listed on  [CRAN](https://CRAN.R-project.org) as well)
+You can install the released version of **cloudos** from [GitHub](https://github.com/lifebit-ai/cloudos/) at this moment. (Will be listed on  [CRAN](https://CRAN.R-project.org) as well)
 
 ```{r, eval=FALSE}
 if (!require(remotes)) { install.packages("remotes") }
@@ -33,49 +35,190 @@ if (!require(remotes)) { install.packages("remotes") }
 
 ## Usage
 
-### Load the cloudos R-client library
+Bellow are given the demonstration of how the **cloudos** package can be used.
+
+### Load the library
 
 ```{r}
 library(cloudos)
 ```
 
-### Setup essentials 
+### Setup login details
+
+To interact with the cloudos server, it require few login details.
+
+Note: If no `base_url` given the default is https://cloudos.lifebit.ai/
 
 ```{r}
 cb_base_url <- "http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com"
-my_auth <- "*************************"
-my_team_id <- "***************************"
+my_auth <- "your_apikey"
+my_team_id <- "your_team_id"
+# OR from environment variable stored in a ~/.Renviron file
+my_auth <- Sys.getenv("test_cloudos_apikey")
+my_team_id <- Sys.getenv("test_cloudos_team_id")
 ```
 
-```{r secrets, echo=FALSE}
-my_auth <- Sys.getenv("cloudos_Bearer_token")
-my_team_id <- Sys.getenv("cloudos_team_id")
+### Connect to CloudOS
+
+Lets create a cloudos object with the login details, which can help us connect to cloudos server.
+
+```{r}
+my_cloudos <- cloudos::connect_cloudos(base_url = cb_base_url,
+                                       auth = my_auth,
+                                       team_id = my_team_id)
+my_cloudos
+```
+## Application - Cohort Browser
+
+Cohort Browser is part of Lifebit's cloudos offering. Lets explore how to interact with this in R environment.
+
+### List Cohorts
+
+To check list of available cohorts in a workspace.
+
+```{r}
+cohorts <- cloudos::cb_list_cohorts(my_cloudos)
+head(cohorts,5)
 ```
 
 ### Create a cohort
 
-```{r}
-cloudos::create_cohort(base_url = cb_base_url,
-              auth = my_auth,
-              team_id = my_team_id,
-              cohort_name = "Cohort-R",
-              cohort_desc = "This cohort is for testing purpose, created from R.")
+To create a new cohort. 
+
+```{r, eval=F}
+my_cohort <- cloudos::cb_create_cohort(my_cloudos,
+                                       cohort_name = "Cohort-R",
+                                       cohort_desc = "This cohort is for testing purpose, created from R.")
+my_cohort
 ```
 
-### List Cohorts
+### Get a cohort
 
-List available cohorts in a workspace.
+Get a available cohort in to a cohort R object. This cohort object can be used in many different other functions.
 
 ```{r}
-cohorts <- cloudos::list_cohorts(base_url = cb_base_url,
-                        auth = my_auth,
-                        team_id = my_team_id)
-kableExtra::kable(cohorts)
+my_cohort <- cloudos::cb_load_cohort(cloudos = my_cloudos, 
+                                     cohort_id = "5f6228133097cc7a6504fb76")
+my_cohort
 ```
 
-### Extract participants
+### Get samples table
+
+Get all the samples (participants) table for a cohort with phenotypic filters applied.
+
+```{r}
+cohort_samples <- cloudos::cb_get_samples_table(cloudos = my_cloudos, 
+                                                cohort = my_cohort)
+head(cohort_samples, 5)
+```
+
+### Get sample filters plot
+
+Get ggplots for all the applied phenotypic filters for a cohort. 
+
+As this based on ggplot objects, this can be customised further. 
+
+```{r}
+plot_list <- cloudos::cb_plot_filters(cloudos = my_cloudos, cohort = my_cohort)
+library(ggpubr)
+ggpubr::ggarrange(plotlist = plot_list)
+```
+
+Individual plots
+
+```{r}
+plot_list[[1]]
+```
+
+```{r}
+plot_list[[2]]
+```
+
+Covert ggplot objects to plotly elements (just for demonstration purpose, in markdown plotly don't support.)
+
+```{r, eval=F}
+p1 <- plotly::ggplotly(plot_list$filter_id_34)
+p1
+```
+
+```{r, eval=F}
+p2 <- plotly::ggplotly(plot_list$filter_id_2345)
+p2
+```
+
+### Get genotypic table
+
+Get all the genotypic table for a cohort.
+
+```{r}
+#cohort_genotype <- cloudos::cb_get_genotypic_table(my_cloudos, my_cohort)
+cohort_genotype <- cloudos::cb_get_genotypic_table(cloudos = my_cloudos)
+head(cohort_genotype, 5)
+```
+
+### Filtering
+
+#### Search phenotypic filters
+
+Search for phenotypic filters based on a term.
+
+```{r}
+all_filters <- cloudos::cb_search_phenotypic_filters(cloudos = my_cloudos, 
+                                                     term = "cancer")
+head(all_filters, 5)
+```
+Lets choose one filter from above table
+
+```{r}
+# apply this first row filter
+my_phenotypic_filter <- all_filters[1,]
+my_phenotypic_filter
+```
+
+#### Apply phenotypic filter
+
+We can get statistic of sample numbers in a cohort for which a filter is applied.
+
+```{r}
+# phenotype filter
+cohort_with_filters <- cloudos::cb_get_filter_statistics(my_cloudos, 
+                                     cohort = my_cohort, 
+                                     filter_id = my_phenotypic_filter$id)
+cohort_with_filters
+```
+
+We can get number of total participants after applying a filter.
+
+```{r}
+# filter participants
+total_participants_with_filter <- cloudos:::cb_filter_participants(my_cloudos,
+                                                cohort = my_cohort, 
+                                                filter_id = my_phenotypic_filter$id)
+ 
+total_participants_with_filter
+```
+#### Save a filter
+
+Save a filter into the database.
+
+```{r}
+# apply filter (cb_genotypic_save) 
+gs <- cloudos::cb_genotypic_save(my_cloudos,
+                                 cohort = my_cohort,
+                                 filter_id = my_phenotypic_filter$id)
+
+gs
+```
+
+
+
+### Additional for UI
+
+#### Get samples table for selected rows
 
 Create a RAW data string. This usually generates after selecting participants on UI. (more information will be added how to create this in R)
+
+NOTE: This function will be improved `raw_data` arg is temporary. 
 
 ```{r}
 new_raw_data <- '{"columns":[{"id":34,"instance":0,"array":{"type":"exact","value":0}},{"id":31,"instance":0,"array":{"type":"exact","value":0}},{"id":52,"instance":0,"array":{"type":"exact","value":0}},{"id":5984,"instance":0,"array":{"type":"avg"}},{"id":5984,"instance":0,"array":{"type":"min"}},{"id":5984,"instance":0,"array":{"type":"max"}},{"id":20001,"instance":0,"array":{"type":"exact","value":0}}],"ids":["5f185b92bf92ed4d3be9637d","5edbdd689d700db709af0c2f","5f185b91bf92ed4d3be9587e","5f185b91bf92ed4d3be95984","5edbdd689d700db709af0c3e","5edbdd689d700db709af0c2b","5edbdd689d700db709af0c2d","5f185b93bf92ed4d3be982e9","5edbdd689d700db709af0c2a","5edbdd689d700db709af0c4d"],"type":"csv","base_url":"http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com"}'
@@ -84,11 +227,8 @@ new_raw_data <- '{"columns":[{"id":34,"instance":0,"array":{"type":"exact","valu
 Using this above raw data lets extract selected participants.
 
 ```{r}
-df <- cloudos::extract_participants(base_url= cb_base_url, 
-                      auth = my_auth,
+df <- cloudos::cb_extract_samples(my_cloudos,
                       raw_data = new_raw_data)
-
-
-kableExtra::kable(df)
+df
 ```
 

@@ -4,3 +4,14 @@ authors:
     href: https://lifebit.ai
 development:
   mode: auto
+reference:
+- title: CloudOS
+  desc: Class and functions to interact with CloudOS-server
+  contents:
+  - '`cloudos-class`'
+  - '`connect_cloudos`'
+- title: Cohort-Browser
+  desc: Class and functions to interact with Cohort-Browser app
+  contents:
+  - '`cohort-class`'
+  - starts_with("cb_")

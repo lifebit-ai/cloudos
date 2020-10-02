@@ -1,0 +1,283 @@
+{
+    "_id": "5f6228133097cc7a6504fb76",
+    "name": "cohort-test-2",
+    "description": "For testing in R-lib",
+    "moreFields": [
+        {
+            "fieldId": 2345,
+            "instance": [
+                0
+            ],
+            "value": [
+                -3,
+                -1
+            ],
+            "finished": true
+        },
+        {
+            "fieldId": 20095,
+            "instance": [
+                0
+            ],
+            "value": [
+                1,
+                3
+            ],
+            "finished": true
+        },
+        {
+            "fieldId": 40005,
+            "instance": [
+                0
+            ],
+            "range": {
+                "from": "1992-08-28",
+                "to": "1998-12-27"
+            },
+            "finished": true
+        },
+        {
+            "fieldId": 34,
+            "instance": [
+                0
+            ],
+            "range": {
+                "from": 1941,
+                "to": 1969
+            },
+            "finished": true
+        }
+    ],
+    "fields": [
+        {
+            "field": {
+                "_id": "5eb55c78599ae918ebb48e10",
+                "categoryPathLevel1": "Population characteristics",
+                "categoryPathLevel2": "Baseline characteristics",
+                "id": 34,
+                "name": "Year of birth",
+                "type": "histogram",
+                "valueType": "Integer",
+                "units": "years",
+                "instances": 1,
+                "array": 1,
+                "description": "Year of birth of participant. Acquired from central registry; updated by participant.",
+                "descriptionParticipantsNo": 502506,
+                "descriptionItemNo": 502506,
+                "descriptionStability": "Complete",
+                "coding": "",
+                "descriptionCategoryID": "100094",
+                "descriptionItemType": "Data",
+                "descriptionStrata": "Primary",
+                "descriptionSexed": "Unisex",
+                "link": "http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=34",
+                "instance0Name": "",
+                "instance1Name": "",
+                "instance2Name": "",
+                "instance3Name": "",
+                "instance4Name": "",
+                "instance5Name": "",
+                "instance6Name": "",
+                "instance7Name": "",
+                "instance8Name": "",
+                "instance9Name": "",
+                "instance10Name": "",
+                "instance11Name": "",
+                "instance12Name": "",
+                "instance13Name": "",
+                "instance14Name": "",
+                "instance15Name": "",
+                "instance16Name": "",
+                "bucket300": false,
+                "bucket500": false,
+                "bucket1000": false,
+                "bucket2500": false,
+                "bucket5000": false,
+                "bucket10000": false,
+                "orderPhenotype": 3,
+                "checked": 1
+            },
+            "instances": [
+                0
+            ],
+            "createAt": 1601399792797,
+            "updatedAt": 1601399792797
+        },
+        {
+            "field": {
+                "_id": "5eb55c78599ae918ebb48f69",
+                "categoryPathLevel1": "UK Biobank Assessment Centre",
+                "categoryPathLevel2": "Touchscreen",
+                "categoryPathLevel3": "Health and medical history",
+                "categoryPathLevel4": "Cancer screening",
+                "id": 2345,
+                "name": "Ever had bowel cancer screening",
+                "type": "bars",
+                "valueType": "Categorical single",
+                "units": "",
+                "instances": 4,
+                "array": 1,
+                "description": "\"ACE touchscreen question \"\"Have you ever had a screening test for bowel (colorectal) cancer? (Please include tests for blood in the stool/faeces or a colonoscopy or a sigmoidoscopy)\"\" If the participant activated the Help button they were shown the message:     Screening tests for bowel or colorectal cancer include:  - FOBT (faecal occult blood test) - this is when you    are given a set of cards and asked to smear a part    of your stool on three separate occasions onto the    cards and then return the cards to be tested for    blood.  - Sigmoidoscopy - a tube is used to examine the lower    bowel. This is usually done in a doctor's office    without pain relief.  - Colonoscopy - a long tube is used the examine the    whole large bowel; you would usually have to drink    a large amount of special liquid to prepare the    bowel; and you would be given a sedative medication    for the procedure.     \"",
+                "descriptionParticipantsNo": 501599,
+                "descriptionItemNo": 572225,
+                "descriptionStability": "Complete",
+                "coding": "100349",
+                "descriptionCategoryID": "100040",
+                "descriptionItemType": "Data",
+                "descriptionStrata": "Primary",
+                "descriptionSexed": "Unisex",
+                "link": "http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=2345",
+                "instance0Name": "Initial assessment visit (2006-2010) at which participants were recruited and consent given",
+                "instance1Name": "First repeat assessment visit (2012-13)",
+                "instance2Name": "Imaging visit (2014+)",
+                "instance3Name": "First repeat imaging visit (2019+)",
+                "instance4Name": "",
+                "instance5Name": "",
+                "instance6Name": "",
+                "instance7Name": "",
+                "instance8Name": "",
+                "instance9Name": "",
+                "instance10Name": "",
+                "instance11Name": "",
+                "instance12Name": "",
+                "instance13Name": "",
+                "instance14Name": "",
+                "instance15Name": "",
+                "instance16Name": "",
+                "bucket300": false,
+                "bucket500": false,
+                "bucket1000": false,
+                "bucket2500": false,
+                "bucket5000": false,
+                "bucket10000": false,
+                "orderPhenotype": 40,
+                "values": {
+                    "0": "No",
+                    "1": "Yes",
+                    "-1": "Do not know",
+                    "-3": "Prefer not to answer"
+                },
+                "checked": 1
+            },
+            "instances": [
+                0
+            ],
+            "createAt": 1601399792797,
+            "updatedAt": 1601399792797
+        },
+        {
+            "field": {
+                "_id": "5eb55c87599ae918ebb49e1b",
+                "categoryPathLevel1": "Online follow-up",
+                "categoryPathLevel2": "Diet by 24-hour recall",
+                "categoryPathLevel3": "Alcoholic beverages yesterday",
+                "id": 20095,
+                "name": "Size of white wine glass drunk",
+                "type": "bars",
+                "valueType": "Categorical multiple",
+                "units": "",
+                "instances": 5,
+                "array": 3,
+                "description": "This field indicates the size(s) of white wine glass the participant consumed yesterday. The data is an amalgamation of 3 individual tick boxes which were asked if the participant indicated they consumed white wine.",
+                "descriptionParticipantsNo": 47036,
+                "descriptionItemNo": 65482,
+                "descriptionStability": "Complete",
+                "coding": "82",
+                "descriptionCategoryID": "100100",
+                "descriptionItemType": "Data",
+                "descriptionStrata": "Derived",
+                "descriptionSexed": "Unisex",
+                "link": "http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=20095",
+                "instance0Name": "Conducted in assessment centre; April 2009 to September 2010.",
+                "instance1Name": "On-line cycle 1; February 2011 to April 2011.",
+                "instance2Name": "On-line cycle 2; June 2011 to September 2011.",
+                "instance3Name": "On-line cycle 3; October 2011 to December 2011.",
+                "instance4Name": "On-line cycle 4; April 2012 to June 2012.",
+                "instance5Name": "",
+                "instance6Name": "",
+                "instance7Name": "",
+                "instance8Name": "",
+                "instance9Name": "",
+                "instance10Name": "",
+                "instance11Name": "",
+                "instance12Name": "",
+                "instance13Name": "",
+                "instance14Name": "",
+                "instance15Name": "",
+                "instance16Name": "",
+                "bucket300": false,
+                "bucket500": false,
+                "bucket1000": false,
+                "bucket2500": false,
+                "bucket5000": false,
+                "bucket10000": false,
+                "orderPhenotype": 166,
+                "values": {
+                    "1": "small (125ml)",
+                    "2": "medium (175ml)",
+                    "3": "large (250ml)"
+                },
+                "checked": 0
+            },
+            "instances": [
+                0
+            ],
+            "createAt": 1601399792797,
+            "updatedAt": 1601399792797
+        },
+        {
+            "field": {
+                "_id": "5eb55c8a599ae918ebb4a22a",
+                "categoryPathLevel1": "Health-related outcomes",
+                "categoryPathLevel2": "Cancer register",
+                "id": 40005,
+                "name": "Date of cancer diagnosis",
+                "type": "histogram",
+                "valueType": "Date",
+                "units": "",
+                "instances": 17,
+                "array": 1,
+                "description": "Date of cancer diagnosis; acquired from central registry.  Note that data from the most recent 12-18 months is still accruing (i.e. it is not complete).   The events/dates are indexed in the order in which they are received and processed by UK Biobank rather than in their own chronological order.",
+                "descriptionParticipantsNo": 89766,
+                "descriptionItemNo": 118715,
+                "descriptionStability": "Accruing",
+                "coding": "",
+                "descriptionCategoryID": "100092",
+                "descriptionItemType": "Data",
+                "descriptionStrata": "Primary",
+                "descriptionSexed": "Unisex",
+                "link": "http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=40005",
+                "instance0Name": "0",
+                "instance1Name": "1",
+                "instance2Name": "2",
+                "instance3Name": "3",
+                "instance4Name": "4",
+                "instance5Name": "5",
+                "instance6Name": "6",
+                "instance7Name": "7",
+                "instance8Name": "8",
+                "instance9Name": "9",
+                "instance10Name": "10",
+                "instance11Name": "11",
+                "instance12Name": "12",
+                "instance13Name": "13",
+                "instance14Name": "14",
+                "instance15Name": "15",
+                "instance16Name": "16",
+                "bucket300": true,
+                "bucket500": true,
+                "bucket1000": true,
+                "bucket2500": true,
+                "bucket5000": true,
+                "bucket10000": true,
+                "orderPhenotype": 224,
+                "checked": 0
+            },
+            "instances": [
+                0
+            ],
+            "createAt": 1601399792797,
+            "updatedAt": 1601399792797
+        }
+    ]
+}
