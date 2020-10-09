@@ -59,6 +59,9 @@ connect_cloudos <- function(base_url, auth, team_id){
     auth_method  = "API Key" # default
   }
   
+  # remove the tailing slash
+  base_url = sub("/$","",base_url)
+  
   cloudos_class_obj <- methods::new("cloudos",
                                    base_url = base_url,
                                    auth_method = auth_method,

@@ -50,7 +50,7 @@ To interact with the cloudos server, it require few login details.
 Note: If no `base_url` given the default is https://cloudos.lifebit.ai/
 
 ```{r}
-cb_base_url <- "http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com"
+cb_base_url <- "http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com/api"
 my_auth <- "your_apikey"
 my_team_id <- "your_team_id"
 # OR from environment variable stored in a ~/.Renviron file

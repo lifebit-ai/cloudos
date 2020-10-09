@@ -26,7 +26,7 @@ setClass("cohort",
          )
 
 .get_cohort_info <- function(cloudos, cohort_id) {
-  url <- paste(cloudos@base_url, "api/v1/cohort", cohort_id, sep = "/")
+  url <- paste(cloudos@base_url, "v1/cohort", cohort_id, sep = "/")
   r <- httr::GET(url,
                  .get_httr_headers(cloudos@auth),
                  query = list("teamId" = cloudos@team_id)

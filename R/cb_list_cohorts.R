@@ -17,7 +17,7 @@
 cb_list_cohorts <- function(cloudos,
                          page_number = 0,
                          page_size = 10) {
-  url <- paste(cloudos@base_url, "api/v1/cohort", sep = "/")
+  url <- paste(cloudos@base_url, "v1/cohort", sep = "/")
   r <- httr::GET(url,
                  .get_httr_headers(cloudos@auth),
                  query = list("teamId" = cloudos@team_id,

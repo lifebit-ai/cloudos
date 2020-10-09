@@ -27,7 +27,7 @@ cb_get_genotypic_table <- function(cloudos,
   #                  "values" = type)
   # filters = list(chr_filt, type_filt)
   
-  url <- paste(cloudos@base_url, "api/v1/cohort/genotypic-data", sep = "/")
+  url <- paste(cloudos@base_url, "v1/cohort/genotypic-data", sep = "/")
   r <- httr::POST(url,
                   .get_httr_headers(cloudos@auth),
                   query = list("teamId" = cloudos@team_id),
@@ -82,7 +82,7 @@ cb_get_samples_table <- function(cloudos,
     search <- .get_search_json(my_cohort)
   }
   # make request
-  url <- paste(cloudos@base_url, "api/v1/cohort/participants/search", sep = "/")
+  url <- paste(cloudos@base_url, "v1/cohort/participants/search", sep = "/")
   r <- httr::POST(url,
                   .get_httr_headers(cloudos@auth),
                   query = list("teamId" = cloudos@team_id),
@@ -126,7 +126,7 @@ cb_get_samples_table <- function(cloudos,
 #'
 #' @export
 cb_extract_samples <- function(cloudos, raw_data) {
-  url <- paste(cloudos@base_url, "api/v1/cohort/participants/export", sep = "/")
+  url <- paste(cloudos@base_url, "v1/cohort/participants/export", sep = "/")
   # TODO work on raw_data - Find an end point that returns this and make a json in R
   r <- httr::POST(url,
                   .get_httr_headers(cloudos@auth),
