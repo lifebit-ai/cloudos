@@ -106,7 +106,7 @@ cb_get_samples_table <- function(cloudos,
   }
   res_df <- dplyr::bind_rows(df_list)
   # remove mongodb _id column
-  res_df_new <- subset(res_df, select = (c(-`_id`)))
+  res_df_new <- subset(res_df, select = -c(`_id`))
   return(res_df_new)
 }
 
