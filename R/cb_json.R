@@ -74,7 +74,7 @@
 
 ############################################################################################
 # Column JOSN
-# TODO work on column - not able to find end-point that returns this information
+# TODO work on column - At this point NO end-point that returns this information, there are cards
 
 .get_column_json <- function(){
   columns <- 

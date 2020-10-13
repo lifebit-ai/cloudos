@@ -88,7 +88,7 @@ cb_get_samples_table <- function(cloudos,
                   query = list("teamId" = cloudos@team_id),
                   body = list("pageNumber" = page_number,
                               "pageSize" = page_size,
-                              "columns" = columns,
+                              #"columns" = columns, # TODO
                               "search" =  search,
                               "returnTotal" = FALSE),
                   encode = "json"
