@@ -100,9 +100,9 @@ cb_get_samples_table <- function(cloudos,
   res <- httr::content(r)
   # into a dataframe
   df_list <- list()
-  for (n in 1:length(res$data)) {
-    dta <- do.call(cbind, res$data[[n]])
-    df_list[[n]] <- as.data.frame(dta)
+  for (n in res$data) {
+    dta <- do.call(cbind, n)
+    df_list <- c(df_list, list(as.data.frame(dta)))
   }
   res_df <- dplyr::bind_rows(df_list)
   # remove mongodb _id column
