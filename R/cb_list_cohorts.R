@@ -4,8 +4,7 @@
 #'
 #' @param cloudos A cloudos object. (Required)
 #' See constructor function \code{\link{connect_cloudos}} 
-#' @param page_number Number of page. (Optional) Default - 0
-#' @param page_size Number of entries in a page. (Optional) Default - 10
+#' @param size Number of cohort entries from database. (Optional) Default - 10
 #'
 #' @return A data frame with available cohorts.
 #'
@@ -15,25 +14,26 @@
 #' }
 #' @export
 cb_list_cohorts <- function(cloudos,
-                         page_number = 0,
-                         page_size = 10) {
+                            size = 10) {
   url <- paste(cloudos@base_url, "v1/cohort", sep = "/")
   r <- httr::GET(url,
                  .get_httr_headers(cloudos@auth),
                  query = list("teamId" = cloudos@team_id,
-                              "pageNumber" = page_number,
-                              "pageSize" = page_size))
+                              "pageNumber" = 0,
+                              "pageSize" = size))
   if (!r$status_code == 200) {
     stop("No cohorts found. Or not able to connect with server.")
   }
   # parse the content
   res <- httr::content(r)
-  message("Total number of cohorts found-", res$total, 
-          ". But here is 10. For more, change 'page_number' and 'page_size'")
+  if(size == 10){
+    message("Total number of cohorts found-", res$total, 
+            ". But here shows-",  size," as default. For more, change size = ", res$total, " to get all.") 
+  }
   cohorts <- res$cohorts
   # make in to a list
   cohorts_list <- list()
-  for (n in 1:page_size) {
+  for (n in 1:length(cohorts)) {
     dta <- data.frame(id = cohorts[[n]]$`_id`,
                       name = cohorts[[n]]$`name`,
                       description = cohorts[[n]]$`description`,
