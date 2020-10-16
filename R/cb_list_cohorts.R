@@ -41,7 +41,7 @@ cb_list_cohorts <- function(cloudos,
     
     dta <- data.frame(id = cohorts[[n]]$`_id`,
                       name = cohorts[[n]]$name,
-                      description = cohorts[[n]]$description,
+                      description = description,
                       number_of_participants = cohorts[[n]]$numberOfParticipants,
                       number_of_filters = cohorts[[n]]$numberOfFilters,
                       created_at = cohorts[[n]]$createdAt,
