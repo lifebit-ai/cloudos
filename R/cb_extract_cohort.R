@@ -92,7 +92,7 @@ cb_get_samples_table <- function(cloudos,
                                   #"columns" = columns, # TODO
                                   "search" =  search,
                                   "returnTotal" = FALSE),
-                              auto_unbox = F),
+                              auto_unbox = T),
                   encode = "raw"
   )
   if (!r$status_code == 200) {
