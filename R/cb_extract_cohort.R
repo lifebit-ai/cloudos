@@ -86,12 +86,14 @@ cb_get_samples_table <- function(cloudos,
   r <- httr::POST(url,
                   .get_httr_headers(cloudos@auth),
                   query = list("teamId" = cloudos@team_id),
-                  body = list("pageNumber" = page_number,
-                              "pageSize" = page_size,
-                              #"columns" = columns, # TODO
-                              "search" =  search,
-                              "returnTotal" = FALSE),
-                  encode = "json"
+                  body = jsonlite::toJSON(
+                              list("pageNumber" = page_number,
+                                  "pageSize" = page_size,
+                                  #"columns" = columns, # TODO
+                                  "search" =  search,
+                                  "returnTotal" = FALSE),
+                              auto_unbox = F),
+                  encode = "raw"
   )
   if (!r$status_code == 200) {
     stop("Something went wrong. Not able to create a cohort")
