@@ -8,7 +8,7 @@
   # make a value vector
   my_values <- c()
   for(i in 1:length(more_fields$value)){
-    value_id <- more_fields$value[[i]][1]
+    value_id <- as.character(more_fields$value[[i]][1])
     field_value <- fields$field$values[[value_id]]
     if(is.null(field_value)) field_value <- value_id
     my_values <- c(my_values, field_value)
