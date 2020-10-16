@@ -8,8 +8,10 @@
   # make a value vector
   my_values <- c()
   for(i in 1:length(more_fields$value)){
-    value_id <- as.numeric(more_fields$value[[i]][1])
-    my_values <- c(my_values, fields$field$values[[as.character(value_id)]])
+    value_id <- more_fields$value[[i]][1]
+    field_value <- fields$field$values[[value_id]]
+    if(is.null(field_value)) field_value <- value_id
+    my_values <- c(my_values, field_value)
   }
   # make search json
   search = list("column" = list("id" = jsonlite::unbox(more_fields$fieldId),
