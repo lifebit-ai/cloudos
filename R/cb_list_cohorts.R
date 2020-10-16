@@ -34,13 +34,18 @@ cb_list_cohorts <- function(cloudos,
   # make in to a list
   cohorts_list <- list()
   for (n in 1:length(cohorts)) {
+    
+    # For empty description backend returns two things NULL and ""
+    description = cohorts[[n]]$description
+    if(is.null(description)) description = "" # change everything to ""
+    
     dta <- data.frame(id = cohorts[[n]]$`_id`,
-                      name = cohorts[[n]]$`name`,
-                      description = cohorts[[n]]$`description`,
-                      number_of_participants = cohorts[[n]]$`numberOfParticipants`,
-                      number_of_filters = cohorts[[n]]$`numberOfFilters`,
-                      created_at = cohorts[[n]]$`createdAt`,
-                      updated_at = cohorts[[n]]$`updatedAt`)
+                      name = cohorts[[n]]$name,
+                      description = cohorts[[n]]$description,
+                      number_of_participants = cohorts[[n]]$numberOfParticipants,
+                      number_of_filters = cohorts[[n]]$numberOfFilters,
+                      created_at = cohorts[[n]]$createdAt,
+                      updated_at = cohorts[[n]]$updatedAt)
     cohorts_list[[n]] <- dta
     # filter
     # cohorts[[1]]$`filters`
