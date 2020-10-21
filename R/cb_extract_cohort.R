@@ -27,7 +27,7 @@ cb_get_genotypic_table <- function(cloudos,
   #                  "values" = type)
   # filters = list(chr_filt, type_filt)
   
-  url <- paste(cloudos@base_url, "api/v1/cohort/genotypic-data", sep = "/")
+  url <- paste(cloudos@base_url, "v1/cohort/genotypic-data", sep = "/")
   r <- httr::POST(url,
                   .get_httr_headers(cloudos@auth),
                   query = list("teamId" = cloudos@team_id),
@@ -82,16 +82,18 @@ cb_get_samples_table <- function(cloudos,
     search <- .get_search_json(my_cohort)
   }
   # make request
-  url <- paste(cloudos@base_url, "api/v1/cohort/participants/search", sep = "/")
+  url <- paste(cloudos@base_url, "v1/cohort/participants/search", sep = "/")
   r <- httr::POST(url,
                   .get_httr_headers(cloudos@auth),
                   query = list("teamId" = cloudos@team_id),
-                  body = list("pageNumber" = page_number,
-                              "pageSize" = page_size,
-                              "columns" = columns,
-                              "search" =  search,
-                              "returnTotal" = FALSE),
-                  encode = "json"
+                  body = jsonlite::toJSON(
+                              list("pageNumber" = page_number,
+                                  "pageSize" = page_size,
+                                  #"columns" = columns, # TODO
+                                  "search" =  search,
+                                  "returnTotal" = FALSE),
+                              auto_unbox = T),
+                  encode = "raw"
   )
   if (!r$status_code == 200) {
     stop("Something went wrong. Not able to create a cohort")
@@ -100,13 +102,13 @@ cb_get_samples_table <- function(cloudos,
   res <- httr::content(r)
   # into a dataframe
   df_list <- list()
-  for (n in 1:length(res$data)) {
-    dta <- do.call(cbind, res$data[[n]])
-    df_list[[n]] <- as.data.frame(dta)
+  for (n in res$data) {
+    dta <- do.call(cbind, n)
+    df_list <- c(df_list, list(as.data.frame(dta)))
   }
   res_df <- dplyr::bind_rows(df_list)
   # remove mongodb _id column
-  res_df_new <- subset(res_df, select = (c(-`_id`)))
+  res_df_new <- subset(res_df, select = -c(`_id`))
   return(res_df_new)
 }
 
@@ -126,7 +128,7 @@ cb_get_samples_table <- function(cloudos,
 #'
 #' @export
 cb_extract_samples <- function(cloudos, raw_data) {
-  url <- paste(cloudos@base_url, "api/v1/cohort/participants/export", sep = "/")
+  url <- paste(cloudos@base_url, "v1/cohort/participants/export", sep = "/")
   # TODO work on raw_data - Find an end point that returns this and make a json in R
   r <- httr::POST(url,
                   .get_httr_headers(cloudos@auth),

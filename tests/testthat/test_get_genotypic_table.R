@@ -1,6 +1,6 @@
 # capture_requests({
 #   # set a dummy cloudos credentials
-#   my_cloudos <- connect_cloudos(base_url = "http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com",
+#   my_cloudos <- connect_cloudos(base_url = "http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com/api/",
 #                         auth = Sys.getenv("test_cloudos_apikey"),
 #                         team_id = "5f046bf6c132dd15fdd1a525")
 #   # test
@@ -12,8 +12,8 @@ with_mock_api({
   test_that("Get a genotypic table", {
     
     # set a dummy cloudos credentials
-    my_cloudos <- connect_cloudos(base_url = "http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com",
-                          auth = "Bearer token",
+    my_cloudos <- connect_cloudos(base_url = "http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com/api/",
+                          auth = "apikey",
                           team_id = "5f046bf6c132dd15fdd1a525")
     # test
     genotypic_table <- cb_get_genotypic_table(my_cloudos)

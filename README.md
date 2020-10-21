@@ -44,7 +44,7 @@ Note: If no `base_url` given the default is
 <https://cloudos.lifebit.ai/>
 
 ``` r
-cb_base_url <- "http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com"
+cb_base_url <- "http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com/api"
 my_auth <- "your_apikey"
 my_team_id <- "your_team_id"
 # OR from environment variable stored in a ~/.Renviron file
@@ -62,7 +62,7 @@ my_cloudos <- cloudos::connect_cloudos(base_url = cb_base_url,
                                        auth = my_auth,
                                        team_id = my_team_id)
 my_cloudos
-#> Base URL:  http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com 
+#> Base URL:  http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com/api 
 #> Authentication Method:  API Key 
 #> Team ID: 5f046bf6c132dd15fdd1a525
 ```
@@ -78,26 +78,26 @@ To check list of available cohorts in a workspace.
 
 ``` r
 cohorts <- cloudos::cb_list_cohorts(my_cloudos)
-#> Total number of cohorts found-57. But here is 10. For more, change 'page_number' and 'page_size'
+#> Total number of cohorts found-58. But here is 10. For more, change 'page_number' and 'page_size'
 head(cohorts,5)
 #>                         id                name
-#> 1 5f73456e79721e542d5bea37 Cohort-R-to-compare
-#> 2 5f68c6a0e95ca00b6918a2e9            Cohort-R
-#> 3 5f6228133097cc7a6504fb76       cohort-test-2
-#> 4 5f6227f285aae86f12fa9af9  test-cohort0-r-lib
-#> 5 5f60a9b1cecd166285ffd8a7           dsadasdas
+#> 1 5f75a6fad160a62557e313a0      cb-stress-test
+#> 2 5f73456e79721e542d5bea37 Cohort-R-to-compare
+#> 3 5f68c6a0e95ca00b6918a2e9            Cohort-R
+#> 4 5f6228133097cc7a6504fb76       cohort-test-2
+#> 5 5f6227f285aae86f12fa9af9  test-cohort0-r-lib
 #>                                           description number_of_participants
-#> 1                                                                     185674
-#> 2 This cohort is for testing purpose, created from R.                 336107
-#> 3                                For testing in R-lib                   4434
-#> 4                                   For testing R-lib                 644686
-#> 5                                                                     644686
+#> 1                                                                     481862
+#> 2                                                                       2329
+#> 3 This cohort is for testing purpose, created from R.                 486709
+#> 4                                For testing in R-lib                   4434
+#> 5                                   For testing R-lib                 644686
 #>   number_of_filters               created_at               updated_at
-#> 1                 3 2020-09-29T14:32:14.048Z 2020-09-29T14:52:13.228Z
-#> 2                 3 2020-09-21T15:28:32.659Z 2020-09-29T14:52:03.252Z
-#> 3                 4 2020-09-16T14:58:27.928Z 2020-09-28T11:18:31.430Z
-#> 4                 0 2020-09-16T14:57:54.643Z 2020-09-16T14:57:54.643Z
-#> 5                 0 2020-09-15T11:46:57.334Z 2020-09-15T11:46:57.334Z
+#> 1                 1 2020-10-01T09:52:58.011Z 2020-10-09T09:14:51.125Z
+#> 2                 3 2020-09-29T14:32:14.048Z 2020-10-09T08:42:06.218Z
+#> 3                 4 2020-09-21T15:28:32.659Z 2020-10-12T10:00:47.866Z
+#> 4                 4 2020-09-16T14:58:27.928Z 2020-09-28T11:18:31.430Z
+#> 5                 0 2020-09-16T14:57:54.643Z 2020-09-16T14:57:54.643Z
 ```
 
 ### Create a cohort
@@ -403,7 +403,7 @@ gs <- cloudos::cb_genotypic_save(my_cloudos,
 
 gs
 #>      cohortId                   markers filters _id                       
-#> data "5f6228133097cc7a6504fb76" List,0  List,1  "5f74bf4f79721e542d5beaad"
+#> data "5f6228133097cc7a6504fb76" List,0  List,1  "5f85a59e85a15b32eee7a173"
 #>      numberOfParticipants
 #> data 32545
 ```
@@ -428,26 +428,26 @@ Using this above raw data lets extract selected participants.
 df <- cloudos::cb_extract_samples(my_cloudos,
                       raw_data = new_raw_data)
 df
-#>          i Year_of_birth    Sex Month_of_birth ECG._load.0.avg ECG._load.0.min
-#> 1  1000002            NA                                    NA              NA
-#> 2  1000016          1954   Male      September        66.88393               2
-#> 3  1000020            NA                                    NA              NA
-#> 4  1000035            NA                                    NA              NA
-#> 5  1000048          1950 Female        January        59.76106               2
-#> 6  1000057          1942 Female       February        74.44643               3
-#> 7  1000059          1964 Female       December        71.14912               1
-#> 8  1000061            NA                                    NA              NA
-#> 9  1000063          1944 Female          April        66.19643               2
-#> 10 1000068          1947 Female       November        65.12500               1
-#>    ECG._load.0.max      Cancer_code._self.reported.0.0
-#> 1               NA                                    
-#> 2              270                     cervical cancer
-#> 3               NA                                    
-#> 4               NA                                    
-#> 5              195                     chronic myeloid
-#> 6              270 metastatic cancer (unknown primary)
-#> 7              270          uterine/endometrial cancer
-#> 8               NA                                    
-#> 9              270                     chronic myeloid
-#> 10             195                      bladder cancer
+#>          i Year_of_birth.0.0 Sex.0.0 Month_of_birth.0.0 ECG._load.0.avg
+#> 1  1000002                NA                                         NA
+#> 2  1000016              1954    Male          September        66.88393
+#> 3  1000020                NA                                         NA
+#> 4  1000035                NA                                         NA
+#> 5  1000048              1950  Female            January        59.76106
+#> 6  1000057              1942  Female           February        74.44643
+#> 7  1000059              1964  Female           December        71.14912
+#> 8  1000061                NA                                         NA
+#> 9  1000063              1944  Female              April        66.19643
+#> 10 1000068              1947  Female           November        65.12500
+#>    ECG._load.0.min ECG._load.0.max      Cancer_code._self.reported.0.0
+#> 1               NA              NA                                    
+#> 2                2             270                     cervical cancer
+#> 3               NA              NA                                    
+#> 4               NA              NA                                    
+#> 5                2             195                     chronic myeloid
+#> 6                3             270 metastatic cancer (unknown primary)
+#> 7                1             270          uterine/endometrial cancer
+#> 8               NA              NA                                    
+#> 9                2             270                     chronic myeloid
+#> 10               1             195                      bladder cancer
 ```
