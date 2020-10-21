@@ -26,7 +26,7 @@ cb_create_cohort <- function(cloudos, cohort_name, cohort_desc, filters = "") {
     cohort_desc = list()
   }
   
-  url <- paste(cloudos@base_url, "api/v1/cohort/", sep = "/")
+  url <- paste(cloudos@base_url, "v1/cohort/", sep = "/")
   r <- httr::POST(url,
                   .get_httr_headers(cloudos@auth),
                   query = list("teamId" = cloudos@team_id),

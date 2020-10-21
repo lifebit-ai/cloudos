@@ -4,15 +4,13 @@
 \alias{cb_list_cohorts}
 \title{List cohorts}
 \usage{
-cb_list_cohorts(cloudos, page_number = 0, page_size = 10)
+cb_list_cohorts(cloudos, size = 10)
 }
 \arguments{
 \item{cloudos}{A cloudos object. (Required)
 See constructor function \code{\link{connect_cloudos}}}
 
-\item{page_number}{Number of page. (Optional) Default - 0}
-
-\item{page_size}{Number of entries in a page. (Optional) Default - 10}
+\item{size}{Number of cohort entries from database. (Optional) Default - 10}
 }
 \value{
 A data frame with available cohorts.

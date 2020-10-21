@@ -17,7 +17,7 @@
 #' @export
 cb_search_phenotypic_filters <- function(cloudos,
                            term){
-  url <- paste(cloudos@base_url, "api/v1/cohort/fields_search", sep = "/")
+  url <- paste(cloudos@base_url, "v1/cohort/fields_search", sep = "/")
   r <- httr::GET(url,
                  .get_httr_headers(cloudos@auth),
                  query = list("teamId" = cloudos@team_id,
@@ -62,7 +62,7 @@ cb_get_filter_statistics <- function(cloudos, cohort, filter_id ) {
                  "cohortId" = cohort@id
                  )
   # make request
-  url <- paste(cloudos@base_url, "api/v1/cohort/filter", filter_id, "data", sep = "/")
+  url <- paste(cloudos@base_url, "v1/cohort/filter", filter_id, "data", sep = "/")
   r <- httr::POST(url,
                   .get_httr_headers(cloudos@auth),
                   query = list("teamId" = cloudos@team_id),
@@ -136,7 +136,7 @@ cb_filter_participants <-function(cloudos, cohort, filter_id ) {
   "cohortId" = cohort@id
   )
   # make request
-  url <- paste(cloudos@base_url, "api/v1/cohort/filter/participants", sep = "/")
+  url <- paste(cloudos@base_url, "v1/cohort/filter/participants", sep = "/")
   r <- httr::POST(url,
                   .get_httr_headers(cloudos@auth),
                   query = list("teamId" = cloudos@team_id),
@@ -178,7 +178,7 @@ cb_genotypic_save <- function(cloudos, cohort, filter_id ) {
                  "cohortId" = cohort@id
   )
   # make request
-  url <- paste(cloudos@base_url, "api/v1/cohort/genotypic-save", sep = "/")
+  url <- paste(cloudos@base_url, "v1/cohort/genotypic-save", sep = "/")
   r <- httr::POST(url,
                   .get_httr_headers(cloudos@auth),
                   query = list("teamId" = cloudos@team_id),
@@ -207,7 +207,7 @@ cb_genotypic_save <- function(cloudos, cohort, filter_id ) {
 #'
 #' @export
 cb_filter_metadata <- function(cloudos, filter_id) {
-  url <- paste(cloudos@base_url, "api/v1/cohort/filter", filter_id, "metadata", sep = "/")
+  url <- paste(cloudos@base_url, "v1/cohort/filter", filter_id, "metadata", sep = "/")
   r <- httr::GET(url,
                  .get_httr_headers(cloudos@auth),
                  query = list("teamId" = cloudos@team_id)

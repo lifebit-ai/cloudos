@@ -47,7 +47,7 @@ cb_plot_filters <- function(cloudos, cohort){
             geom_bar(stat="identity") + coord_flip() + 
             labs(title= fields_name) + 
             scale_fill_manual(values =  filtered_values_colour) + 
-            theme_bw() + 
+            theme_classic() + 
             theme(legend.position="none") 
         }else if(ncol(filter_df) == 3){ ############################### range - histogram
           # to make sure we getting morefileds for same filter as fields
@@ -66,10 +66,12 @@ cb_plot_filters <- function(cloudos, cohort){
           plot_list[[filter_id]] <- ggplot(data=filtered_range_colour_df, aes(x=range, y=number)) +
             geom_histogram(stat="identity", fill= filtered_range_colour_df$color_value) + 
             scale_x_discrete(limits = filtered_range_colour_df$range) +
-            theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + 
+            theme_classic() +
+            theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1), 
+                  panel.grid.major.x = element_blank(),
+                  panel.grid.major.y = element_line( size=.1, color="black")) + 
             labs(title= fields_name) +
-            xlab(label = "range") + 
-            theme_bw()
+            xlab(label = "range")
         }else{
           stop("Unknown filter type. Accepts 'bar' and 'histogram' only.")
         }
@@ -78,6 +80,10 @@ cb_plot_filters <- function(cloudos, cohort){
   }
   return(plot_list)
 }
+
+# cloudos colour code 
+# selected filters - #94C3C1 (bit darker bluegreen)
+# Unselested filters - #C8EAD6 (light green)
 
 .filtered_values_colour <- function(more_fields, fields){
   # make a value vector
@@ -94,9 +100,9 @@ cb_plot_filters <- function(cloudos, cohort){
   my_value_color <- c()
   for(i in all_values){
       if(i %in% my_values){
-        my_value_color <- c(my_value_color, "green")
+        my_value_color <- c(my_value_color, "#94C3C1")
       }else{
-        my_value_color <- c(my_value_color, "lightgreen")
+        my_value_color <- c(my_value_color, "#C8EAD6")
     }
   }
   return(my_value_color)
@@ -107,8 +113,8 @@ cb_plot_filters <- function(cloudos, cohort){
   range_from <- more_fields$range$from
   range_to <- more_fields$range$to
   new_df <- df %>% 
-    mutate(color_value = case_when(range > range_from & range < range_to ~ "green",
-                                    TRUE ~ "lightgreen"))
+    mutate(color_value = case_when(range > range_from & range < range_to ~ "#94C3C1",
+                                    TRUE ~ "#C8EAD6"))
   
   return(new_df)
 }
