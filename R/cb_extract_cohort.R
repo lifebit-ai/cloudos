@@ -78,22 +78,20 @@ cb_get_samples_table <- function(cloudos,
   if(missing(cohort)){
     search = list()
   }else{
-    my_cohort <- .get_cohort_info(cloudos, cohort@id)
-    search <- .get_search_json(my_cohort)
+    my_cohort_info <- .get_cohort_info(cloudos, cohort@id)
+    search <- .get_search_json(my_cohort_info)
   }
   # make request
   url <- paste(cloudos@base_url, "v1/cohort/participants/search", sep = "/")
   r <- httr::POST(url,
                   .get_httr_headers(cloudos@auth),
                   query = list("teamId" = cloudos@team_id),
-                  body = jsonlite::toJSON(
-                              list("pageNumber" = page_number,
-                                  "pageSize" = page_size,
-                                  #"columns" = columns, # TODO
-                                  "search" =  search,
-                                  "returnTotal" = FALSE),
-                              auto_unbox = T),
-                  encode = "raw"
+                  body = list("pageNumber" = page_number,
+                              "pageSize" = page_size,
+                              #"columns" = columns,
+                              "search" =  search,
+                              "returnTotal" = FALSE),
+                  encode = "json"
   )
   if (!r$status_code == 200) {
     stop("Something went wrong. Not able to create a cohort")
@@ -107,6 +105,9 @@ cb_get_samples_table <- function(cloudos,
     df_list <- c(df_list, list(as.data.frame(dta)))
   }
   res_df <- dplyr::bind_rows(df_list)
+  if(length(res_df) == 0){
+    stop("Couldn't able to retrive the dataframe, something wrong with the cohort filters.")
+  }
   # remove mongodb _id column
   res_df_new <- subset(res_df, select = -c(`_id`))
   return(res_df_new)
