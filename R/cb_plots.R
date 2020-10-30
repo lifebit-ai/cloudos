@@ -62,7 +62,7 @@ cb_plot_filters <- function(cloudos, cohort){
           filter_df_sel <- subset(filter_df, select = -c(total))
           names(filter_df_sel) <- c("range", "number")
           # get a dataframe with colours based on applied filters
-          filtered_range_colour_df <- .filtered_range_colour_df(df = filter_df_sel, more_fields = more_fields)
+          filtered_range_colour_df <- .filtered_range_colour_df(filter_df = filter_df_sel, more_fields = more_fields)
           # plot
           plot_list[[filter_id]] <- ggplot(data=filtered_range_colour_df, aes(x=range, y=number)) +
             geom_histogram(stat="identity", fill= filtered_range_colour_df$color_value) + 
