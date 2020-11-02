@@ -50,7 +50,7 @@ To interact with the cloudos server, it require few login details.
 Note: If no `base_url` given the default is https://cloudos.lifebit.ai/
 
 ```{r}
-cb_base_url <- "http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com/api"
+cb_base_url <- "http://cohort-browser-dev-110043291.eu-west-1.elb.amazonaws.com/api"
 my_auth <- "your_apikey"
 my_team_id <- "your_team_id"
 # OR from environment variable stored in a ~/.Renviron file
@@ -98,7 +98,7 @@ Get a available cohort in to a cohort R object. This cohort object can be used i
 
 ```{r}
 my_cohort <- cloudos::cb_load_cohort(cloudos = my_cloudos, 
-                                     cohort_id = "5f6228133097cc7a6504fb76")
+                                     cohort_id = "5f9af3793dd2dc6091cd17cd")
 my_cohort
 ```
 

@@ -15,9 +15,10 @@
   }
   # make search json
   search = list("column" = list("id" = jsonlite::unbox(more_fields$fieldId),
-                                "instance" = more_fields$instance[[1]],
-                                "array" = list("type" = "exact", # [exact | any]
-                                               "value" = "0")
+                                "instance" = jsonlite::unbox(more_fields$instance[[1]]),
+                                "array" = list("type" = jsonlite::unbox("any"))
+                                # "array" = list("type" = "exact", # [exact | any]
+                                #                "value" = "0")
                                ),
                 "values" = my_values
                 )
@@ -27,9 +28,10 @@
 .range_filter <- function(more_fields){
   # make search json
   search = list("column" = list("id" = jsonlite::unbox(more_fields$fieldId),
-                                "instance" = more_fields$instance[[1]],
-                                "array" = list("type" = "exact", # [exact | any]
-                                               "value" = "0") # must be >= 0
+                                "instance" = jsonlite::unbox(more_fields$instance[[1]]),
+                                "array" = list("type" = jsonlite::unbox("any"))
+                                # "array" = list("type" = "exact", # [exact | any]
+                                #                "value" = "0") # must be >= 0
                                 ),
                 "low" = more_fields$range$from,
                 "high" = more_fields$range$to

@@ -78,8 +78,8 @@ cb_get_samples_table <- function(cloudos,
   if(missing(cohort)){
     search = list()
   }else{
-    my_cohort <- .get_cohort_info(cloudos, cohort@id)
-    search <- .get_search_json(my_cohort)
+    my_cohort_info <- .get_cohort_info(cloudos, cohort@id)
+    search <- .get_search_json(my_cohort_info)
   }
   # make request
   url <- paste(cloudos@base_url, "v1/cohort/participants/search", sep = "/")
@@ -87,12 +87,12 @@ cb_get_samples_table <- function(cloudos,
                   .get_httr_headers(cloudos@auth),
                   query = list("teamId" = cloudos@team_id),
                   body = jsonlite::toJSON(
-                              list("pageNumber" = page_number,
-                                  "pageSize" = page_size,
-                                  #"columns" = columns, # TODO
-                                  "search" =  search,
-                                  "returnTotal" = FALSE),
-                              auto_unbox = T),
+                    list("pageNumber" = page_number,
+                         "pageSize" = page_size,
+                         #"columns" = columns, # TODO
+                         "search" =  search,
+                         "returnTotal" = FALSE),
+                    auto_unbox = F),
                   encode = "raw"
   )
   if (!r$status_code == 200) {
@@ -107,13 +107,28 @@ cb_get_samples_table <- function(cloudos,
     df_list <- c(df_list, list(as.data.frame(dta)))
   }
   res_df <- dplyr::bind_rows(df_list)
+  
+  # check if the dataframe is retrieved properly
+  if(length(res_df) == 0){
+    stop("Couldn't able to retrive the dataframe, something wrong with the cohort filters.")
+  }
+  
   # remove mongodb _id column
   res_df_new <- subset(res_df, select = -c(`_id`))
+  
+  # get column names
+  columns_names <- c("EID") # EID is constant for all case
+  for (n in res$header$columns) {
+    dta <- n$field$name
+    columns_names <- c(columns_names, dta)
+  }
+  
+  # rename the dataframe with column names
+  colnames(res_df_new) <- columns_names
+  
   return(res_df_new)
 }
 
-# test
-#df6 <- cb_get_samples_table(cloudos, cohort = cohort_obj)
 #######################################################################
 
 #' @title Extract participants
