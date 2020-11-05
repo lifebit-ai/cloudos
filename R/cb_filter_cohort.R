@@ -162,17 +162,18 @@ cb_filter_participants <-function(cloudos, cohort, filter_id ) {
 #' @param cohort A cohort object. (Required)
 #' See constructor function \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}
 #' @param filter_id A filter ID. (Required)
+#' @param filter_values A vector of filter values
 #'
 #' @return A data frame.
 #'
 #' @export
-cb_genotypic_save <- function(cloudos, cohort, filter_id ) {
+cb_genotypic_save <- function(cloudos, cohort, filter_id, filter_values ) {
   # prepare request body
   # TODO: remove the hard-coded filters
   r_body <- list("ids" = list(),
                  "moreFilters" = list(list("fieldId" = filter_id,
                                            "instance" = c(0),
-                                           "value" = c(-3)
+                                           "value" = filter_values
                  )
                  ),
                  "cohortId" = cohort@id
