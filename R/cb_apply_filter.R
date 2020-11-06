@@ -1,30 +1,37 @@
-.build_filter_body <- function(filter_id, filter_range, filter_values) {
-  if (!missing(filter_range) && missing(filter_values)){
-    filter_list <- list("moreFilters" = list(list("fieldId" = jsonlite::unbox(filter_id),
-                                                  "instance" = c(0),
-                                                  "range" = list("from" = jsonlite::unbox(filter_range[1]),
-                                                                 "to" = jsonlite::unbox(filter_range[2])
-                                                  )
-    )
-    )
-    )
+# example 
+# for a range filter 
+# .build_filter_body(filter_query = list("22" = list("from" = "2015-05-13", "to" = "2016-04-29")))
+# for a value filter 
+# .build_filter_body(filter_query = list ("50" = c("Father", "Mother")))
+# for multiple filters 
+# .build_filter_body(filter_query = list("22" = list("from" = "2015-05-13", "to" = "2016-04-29"), "50" = c("Father", "Mother")))
+
+.build_filter_body <- function(filter_query) {
+  
+  filter_list_all <- c()
+  for(n in 1:length(filter_query)){
+    filter <- filter_query[[n]]
+    filter_id <- as.numeric(names(filter_query)[n])
+    if(is.list(filter)){
+      #print("range")
+      filter_list <- list(list("fieldId" = jsonlite::unbox(filter_id),
+                                                    "instance" = c(0),
+                                                    "range" = list("from" = jsonlite::unbox(filter$from),
+                                                                   "to" = jsonlite::unbox(filter$to)
+                                                    )))
+      }
+    if(!is.list(filter)){
+      #print("value")
+      filter_list <- list(list("fieldId" = jsonlite::unbox(filter_id),
+                                                    "instance" = c(0),
+                                                    "value" = filter
+      ))
+      }
+    filter_list_all <- c(filter_list_all, filter_list)
   }
-  if (!missing(filter_values) && missing(filter_range)){
-    filter_list <- list("moreFilters" = list(list("fieldId" = jsonlite::unbox(filter_id),
-                                                  "instance" = c(0),
-                                                  "value" = filter_values
-    )
-    )
-    )
-  }
-  if (missing(filter_values) && missing(filter_range)){
-    filter_list <- list("moreFilters" = list(list("fieldId" = jsonlite::unbox(filter_id),
-                                                  "instance" = c(0),
-                                                  "value" = "")
-    )
-    )
-  }
-  return(filter_list)
+  
+  filter_body <- list("moreFilters" = filter_list_all)
+  return(filter_body)
 }
 
 #' @title Apply a Filter
@@ -35,26 +42,20 @@
 #' See constructor function \code{\link{connect_cloudos}} 
 #' @param cohort A cohort object. (Required)
 #' See constructor function \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}
-#' @param filter_id A filter ID. (Required)
-#' @param filter_range A two element vector of filter with start and end.
-#' @param filter_values A vector of filter values.
-#'
-#' @return A data frame.
+#' @param filter_query Phenotypic filter query. 
+#' 
+#' @return A confirmation string.
+#' 
+#' @examples
+#' \dontrun{
+#' cb_apply_filter(cloudos = my_cloudos,
+#'                cohort = my_cohort,
+#'                filter_query = list("22" = list("from" = "2015-05-13", "to" = "2016-04-29"), "50" = c("Father", "Mother")))
 #'
 #' @export
-cb_apply_filter <- function(cloudos, cohort, filter_id, filter_range, filter_values) {
-  
-  if (!missing(filter_values)){
-    r_body <- .build_filter_body(filter_id =  filter_id, filter_values = filter_values)
-  }
-
-  if (!missing(filter_range)){
-    r_body <- .build_filter_body(filter_id = filter_id, filter_range = filter_range)
-  }
-
-  if (missing(filter_values) && missing(filter_range)){
-    r_body <- .build_filter_body(filter_id = filter_id)
-  }
+cb_apply_filter <- function(cloudos, cohort, filter_query) {
+  # prepare request body
+  r_body <- .build_filter_body(filter_query)
 
   # make request
   url <- paste(cloudos@base_url, "v1/cohort", cohort@id, "filters", sep = "/")
@@ -80,26 +81,20 @@ cb_apply_filter <- function(cloudos, cohort, filter_id, filter_range, filter_val
 #' See constructor function \code{\link{connect_cloudos}} 
 #' @param cohort A cohort object. (Required)
 #' See constructor function \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}
-#' @param filter_id A filter ID. (Required)
-#' @param filter_range A two element vector of filter with start and end.
-#' @param filter_values A vector of filter values.
+#' @param filter_query Phenotypic filter query. 
 #'
 #' @return A data frame.
+#' 
+#' @examples
+#' \dontrun{
+#' cb_apply_filter_dry_run(cloudos = my_cloudos,
+#'                cohort = my_cohort,
+#'                filter_query = list("22" = list("from" = "2015-05-13", "to" = "2016-04-29"), "50" = c("Father", "Mother")))
 #'
 #' @export
 cb_apply_filter_dry_run <- function(cloudos, cohort, filter_id,  filter_range, filter_values ) {
   # prepare request body
-  if (!missing(filter_values)){
-    r_body <- .build_filter_body(filter_id =  filter_id, filter_values = filter_values)
-  }
-  
-  if (!missing(filter_range)){
-    r_body <- .build_filter_body(filter_id = filter_id, filter_range = filter_range)
-  }
-  
-  if (missing(filter_values) && missing(filter_range)){
-    r_body <- .build_filter_body(filter_id = filter_id)
-  }
+  r_body <- .build_filter_body(filter_query)
 
   # add additional content
   r_body[["ids"]] = list()
