@@ -112,40 +112,6 @@ cohort_samples <- cloudos::cb_get_samples_table(cloudos = my_cloudos,
 head(cohort_samples, 5)
 ```
 
-### Get sample filters plot
-
-Get ggplots for all the applied phenotypic filters for a cohort. 
-
-As this based on ggplot objects, this can be customised further. 
-
-```{r}
-plot_list <- cloudos::cb_plot_filters(cloudos = my_cloudos, cohort = my_cohort)
-library(ggpubr)
-ggpubr::ggarrange(plotlist = plot_list)
-```
-
-Individual plots
-
-```{r}
-plot_list[[1]]
-```
-
-```{r}
-plot_list[[2]]
-```
-
-Covert ggplot objects to plotly elements (just for demonstration purpose, in markdown plotly don't support.)
-
-```{r, eval=F}
-p1 <- plotly::ggplotly(plot_list$filter_id_34)
-p1
-```
-
-```{r, eval=F}
-p2 <- plotly::ggplotly(plot_list$filter_id_2345)
-p2
-```
-
 ### Get genotypic table
 
 Get all the genotypic table for a cohort.
@@ -156,7 +122,7 @@ cohort_genotype <- cloudos::cb_get_genotypic_table(cloudos = my_cloudos)
 head(cohort_genotype, 5)
 ```
 
-### Filtering
+### Explore Filters
 
 #### Search phenotypic filters
 
@@ -197,19 +163,124 @@ total_participants_with_filter <- cloudos:::cb_filter_participants(my_cloudos,
  
 total_participants_with_filter
 ```
-#### Save a filter
+
+### Apply and Save a filter
 
 Save a filter into the database.
 
-```{r}
-# apply filter (cb_genotypic_save) 
-gs <- cloudos::cb_genotypic_save(my_cloudos,
-                                 cohort = my_cohort,
-                                 filter_id = my_phenotypic_filter$id)
+For this a `filter_query` is required.
 
-gs
+`filter_query` is a list of different **phenotypic filter** quires.
+
+Steps to find phenotypic filters - 
+
+- Use `cb_search_phenotypic_filters()` to find a filter based on a term.
+- At this time you will be having phenotypic filter id of your choice.
+- Check the available filter values/range using `cb_get_filter_statistics()`
+- Now use this information to make your `filter_query`
+
+There are two possible type of `filter_query`
+
+- Range based
+- Value based
+
+**Range based**
+
+For filter_id = 22
+
+```{r, eval = F}
+# A tibble: 1,880 x 3
+   `_id`      number total
+   <chr>       <int> <int>
+ 1 1938-12-25      1 44660
+ 2 1998-07-07      1 44660
+ 3 2000-12-04      1 44660
+ 4 2003-12-24      1 44660
+ 5 2004-07-20      1 44660
+ 6 2004-10-21      1 44660
+ 7 2004-11-01      1 44660
+ 8 2004-11-03      1 44660
+ 9 2005-01-07      1 44660
+10 2005-02-27      1 44660
+# … with 1,870 more rows
 ```
 
+To make a range based query - `filter_query = list("22" = list("from" = "2015-05-13", "to" = "2016-04-29")`
+
+Here `"22"` is the filter_id and you need to provide the range as a list with `from` and `to`.
+
+**Value based**
+
+For filter_id = 50
+
+```{r, eval = F}
+# A tibble: 25 x 3
+   `_id`                             number total
+   <chr>                              <int> <int>
+ 1 Daughter                             135 19187
+ 2 Father                              6864 19187
+ 3 First Cousin Once Removed             11 19187
+ 4 Full Sibling                        1876 19187
+ 5 Half Sibling with a shared Father      4 19187
+ 6 Half Sibling with a shared Mother     79 19187
+ 7 Maternal Aunt                         49 19187
+ 8 Maternal Cousin Brother               12 19187
+ 9 Maternal Cousin Sister                34 19187
+10 Maternal Grandfather                  36 19187
+11 Maternal Grandmother                  68 19187
+12 Maternal Uncle                        27 19187
+13 Mother                              9649 19187
+14 Other                                114 19187
+```
+
+To make a value based query <- `filter_query = list("50" = c("Father", "Mother"))`
+
+Here `"50"` is filter_id and `c("Father", "Mother")` is a vector of values. 
+
+If you have multiple `filter_query` you can combine them with separated by a coma `,` inside the list. Such as `filter_query = list(filter_query_1, filter_query_2)`
+
+Check the bellow example for the complete function call.
+
+```{r, eval=F}
+cb_apply_filter(cloudos = my_cloudos,
+                cohort = my_cohort,
+                filter_query = list("22" = list("from" = "2015-05-13", "to" = "2016-04-29"), "50" = c("Father", "Mother")))
+
+```
+
+### Get sample filters plot
+
+Get ggplots for all the applied phenotypic filters for a cohort. 
+
+As this based on ggplot objects, this can be customised further. 
+
+```{r}
+plot_list <- cloudos::cb_plot_filters(cloudos = my_cloudos, cohort = my_cohort)
+library(ggpubr)
+ggpubr::ggarrange(plotlist = plot_list)
+```
+
+Individual plots
+
+```{r}
+plot_list[[1]]
+```
+
+```{r}
+plot_list[[2]]
+```
+
+Covert ggplot objects to plotly elements (just for demonstration purpose, in markdown plotly don't support.)
+
+```{r, eval=F}
+p1 <- plotly::ggplotly(plot_list$filter_id_34)
+p1
+```
+
+```{r, eval=F}
+p2 <- plotly::ggplotly(plot_list$filter_id_2345)
+p2
+```
 
 
 ### Additional for UI
@@ -226,9 +297,8 @@ new_raw_data <- '{"columns":[{"id":34,"instance":0,"array":{"type":"exact","valu
 
 Using this above raw data lets extract selected participants.
 
-```{r}
+```{r, eval=F}
 df <- cloudos::cb_extract_samples(my_cloudos,
                       raw_data = new_raw_data)
-df
 ```
 
