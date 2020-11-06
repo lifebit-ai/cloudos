@@ -92,7 +92,7 @@ cb_apply_filter <- function(cloudos, cohort, filter_query) {
 #'                filter_query = list("22" = list("from" = "2015-05-13", "to" = "2016-04-29"), "50" = c("Father", "Mother")))
 #'
 #' @export
-cb_apply_filter_dry_run <- function(cloudos, cohort, filter_id,  filter_range, filter_values ) {
+cb_apply_filter_dry_run <- function(cloudos, cohort, filter_query) {
   # prepare request body
   r_body <- .build_filter_body(filter_query)
 
