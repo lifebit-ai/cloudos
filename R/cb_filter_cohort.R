@@ -153,49 +153,6 @@ cb_filter_participants <-function(cloudos, cohort, filter_id ) {
   return(res)
 }
 #####################################################################################################
-#' @title Genotypic save
-#'
-#' @description applies filter (genotypic-save). Returns df with cohort and filtered participants
-#'
-#' @param cloudos A cloudos object. (Required)
-#' See constructor function \code{\link{connect_cloudos}} 
-#' @param cohort A cohort object. (Required)
-#' See constructor function \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}
-#' @param filter_id A filter ID. (Required)
-#' @param filter_values A vector of filter values
-#'
-#' @return A data frame.
-#'
-#' @export
-cb_genotypic_save <- function(cloudos, cohort, filter_id, filter_values ) {
-  # prepare request body
-  # TODO: remove the hard-coded filters
-  r_body <- list("ids" = list(),
-                 "moreFilters" = list(list("fieldId" = filter_id,
-                                           "instance" = c(0),
-                                           "value" = filter_values
-                 )
-                 ),
-                 "cohortId" = cohort@id
-  )
-  # make request
-  url <- paste(cloudos@base_url, "v1/cohort/genotypic-save", sep = "/")
-  r <- httr::POST(url,
-                  .get_httr_headers(cloudos@auth),
-                  query = list("teamId" = cloudos@team_id),
-                  body = jsonlite::toJSON(r_body),
-                  encode = "raw"
-  )
-  if (!r$status_code == 200) {
-    stop("Something went wrong. Not able to create a cohort")
-  }
-  # parse the content
-  res <- httr::content(r)
-  # into a dataframe
-  res_df <- do.call(rbind, res)
-  return(res_df)
-}
-
 #' @title Filter metadata
 #'
 #' @description Filter metadata of a cohort filter
