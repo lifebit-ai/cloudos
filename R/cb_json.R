@@ -80,7 +80,16 @@
 # Column JOSN
 # TODO work on column - At this point NO end-point that returns this information, there are cards
 
-.get_column_json <- function(){
+.get_column_json <- function(my_cohort){
+  # create an empty list
+  cohort_columns = list()
+  # check if at all the cohort have filed or send an empty list
+  if(length(my_cohort$columns) == 0){
+    return(cohort_columns)
+  }
+  
+  
+  
   columns <- 
     list(
       list("id" = jsonlite::unbox(34),
