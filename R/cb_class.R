@@ -13,6 +13,7 @@
 #' @slot desc cohort description.
 #' @slot fields Filters.
 #' @slot more_fields Filter related information.
+#' @slot columns All the columns
 #'
 #' @name cohort-class
 #' @rdname cohort-class
@@ -22,7 +23,8 @@ setClass("cohort",
                       name = "character",
                       desc = "character",
                       fields = "list",
-                      more_fields = "list")
+                      more_fields = "list",
+                      columns = "list")
          )
 
 .get_cohort_info <- function(cloudos, cohort_id) {
@@ -61,7 +63,8 @@ cb_load_cohort <- function(cloudos, cohort_id){
                                    name = my_cohort$name,
                                    desc = my_cohort$description,
                                    fields = my_cohort$fields,
-                                   more_fields = my_cohort$moreFields
+                                   more_fields = my_cohort$moreFields,
+                                   columns = my_cohort$columns
                                    )
   return(cohort_class_obj)
 }
@@ -72,5 +75,6 @@ setMethod("show", "cohort",
             cat("Cohort ID: ", object@id, "\n")
             cat("Cohort Name: ", object@name, "\n")
             cat("Cohort Description: ", object@desc, "\n")
+            cat("Number of filters applied: ", length(object@fields), "\n")
           }
 )
