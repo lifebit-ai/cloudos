@@ -73,7 +73,7 @@ cb_get_samples_table <- function(cloudos,
                               page_number = 0,
                               page_size = 10) {
   # make column json
-  columns <- .get_column_json()
+  #columns <- .get_column_json()
   # make search json
   if(missing(cohort)){
     search = list()
