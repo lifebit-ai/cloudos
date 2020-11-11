@@ -88,43 +88,19 @@
     return(cohort_columns)
   }
   
-  
-  
-  columns <- 
-    list(
-      list("id" = jsonlite::unbox(34),
-           "instance" = 0,
-           "array" = list("type" = "exact",
-                          "value" = 0)
-      ),
-      list("id" = jsonlite::unbox(31),
-           "instance" = 0,
-           "array" = list("type" = "exact",
-                          "value" = 0)
-      ),
-      list("id" = jsonlite::unbox(52),
-           "instance" = 0,
-           "array" = list("type" = "exact",
-                          "value" = 0)
-      ),
-      list("id" = jsonlite::unbox(5984),
-           "instance" = 0,
-           "array" = list("type" = "avg")
-      ),
-      list("id" = jsonlite::unbox(5984),
-           "instance" = 0,
-           "array" = list("type" = "min")
-      ),
-      list("id" = jsonlite::unbox(5984),
-           "instance" = 0,
-           "array" = list("type" = "max")
-      ),
-      list("id" = jsonlite::unbox(20001),
-           "instance" = 0,
-           "array" = list("type" = "exact",
-                          "value" = 0)
-      )
+  for(col in my_cohort$columns){
+    col_temp = list("id" = col$id,
+                    "instance" = col$instance,
+                    "array" = col$array # make sure toJSON(auto_unbox = T)
     )
-  return(columns)
+    # create a list for first time and append a new list
+    if(length(cohort_columns) == 0){
+      cohort_columns = list(col_temp)
+    }else{
+      cohort_columns = c(cohort_columns, list(col_temp))
+    } 
+  }
+  
+  return(cohort_columns)
 }
 
