@@ -25,7 +25,11 @@ cb_search_phenotypic_filters <- function(cloudos,
   stop_for_status(r, task = NULL)
   res <- httr::content(r)
   filters <- res$filters
-  message("Total number of filters - ", length(filters))
+  
+  if(length(filters) == 0) stop(message("No phenotypic filters found with - ", term ))
+  
+  message("Total number of phenotypic filters found - ", length(filters))
+  
   # make in to a list
   filters_list <- list()
   for (n in 1:length(filters)) {
