@@ -56,6 +56,10 @@ setClass("cohort",
 cb_load_cohort <- function(cloudos, cohort_id){
   my_cohort <- .get_cohort_info(cloudos = cloudos, 
                               cohort_id = cohort_id)
+  
+  # For empty description backend returns two things NULL and ""
+  if(is.null(my_cohort$description)) my_cohort$description = "" # change everything to ""
+  
   cohort_class_obj <- methods::new("cohort",
                                    id = cohort_id,
                                    name = my_cohort$name,
