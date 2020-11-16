@@ -21,7 +21,7 @@ cb_list_cohorts <- function(cloudos,
                  query = list("teamId" = cloudos@team_id,
                               "pageNumber" = 0,
                               "pageSize" = size))
-  stop_for_status(r, task = "list cohorts")
+  httr::stop_for_status(r, task = "list cohorts")
   # parse the content
   res <- httr::content(r)
   if(size == 10){

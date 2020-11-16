@@ -65,7 +65,7 @@ cb_apply_filter <- function(cloudos, cohort, filter_query) {
                   body = jsonlite::toJSON(r_body),
                   encode = "raw"
   )
-  stop_for_status(r, task = NULL)
+  httr::stop_for_status(r, task = NULL)
   # parse the content
   res <- httr::content(r)
   return(message("Filtter applied sucessfully, Current number of Participants - ", res$numberOfParticipants))
@@ -106,7 +106,7 @@ cb_apply_filter_dry_run <- function(cloudos, cohort, filter_query) {
                   body = jsonlite::toJSON(r_body),
                   encode = "raw"
   )
-  stop_for_status(r, task = NULL)
+  httr::stop_for_status(r, task = NULL)
   # parse the content
   res <- httr::content(r)
   # into a dataframe

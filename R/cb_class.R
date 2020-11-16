@@ -33,7 +33,7 @@ setClass("cohort",
                  .get_httr_headers(cloudos@auth),
                  query = list("teamId" = cloudos@team_id)
   )
-  stop_for_status(r, task = NULL)
+  httr::stop_for_status(r, task = NULL)
   # parse the content
   res <- httr::content(r)
   return(res)

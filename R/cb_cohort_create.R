@@ -35,7 +35,7 @@ cb_create_cohort <- function(cloudos, cohort_name, cohort_desc, filters = "") {
                               "moreFilters" = filters), # TODO work on filters - its better to do from UI
                   encode = "json"
   )
-  stop_for_status(r, task = "create a cohort")
+  httr::stop_for_status(r, task = "create a cohort")
   # parse the content
   message("Cohort created successfully.")
   res <- httr::content(r)
