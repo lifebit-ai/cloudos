@@ -21,9 +21,7 @@ cb_list_cohorts <- function(cloudos,
                  query = list("teamId" = cloudos@team_id,
                               "pageNumber" = 0,
                               "pageSize" = size))
-  if (!r$status_code == 200) {
-    stop("No cohorts found. Or not able to connect with server.")
-  }
+  stop_for_status(r, task = "list cohorts")
   # parse the content
   res <- httr::content(r)
   if(size == 10){

@@ -65,9 +65,7 @@ cb_apply_filter <- function(cloudos, cohort, filter_query) {
                   body = jsonlite::toJSON(r_body),
                   encode = "raw"
   )
-  if (!r$status_code == 200) {
-    stop("Something went wrong. Not able to create a cohort")
-  }
+  stop_for_status(r, task = NULL)
   # parse the content
   res <- httr::content(r)
   return(message("Filtter applied sucessfully, Current number of Participants - ", res$numberOfParticipants))
@@ -108,9 +106,7 @@ cb_apply_filter_dry_run <- function(cloudos, cohort, filter_query) {
                   body = jsonlite::toJSON(r_body),
                   encode = "raw"
   )
-  if (!r$status_code == 200) {
-    stop("Something went wrong. Not able to create a cohort")
-  }
+  stop_for_status(r, task = NULL)
   # parse the content
   res <- httr::content(r)
   # into a dataframe

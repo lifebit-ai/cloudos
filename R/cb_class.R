@@ -33,9 +33,7 @@ setClass("cohort",
                  .get_httr_headers(cloudos@auth),
                  query = list("teamId" = cloudos@team_id)
   )
-  if (!r$status_code == 200) {
-    stop("Something went wrong.")
-  }
+  stop_for_status(r, task = NULL)
   # parse the content
   res <- httr::content(r)
   return(res)
