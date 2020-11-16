@@ -36,9 +36,7 @@ cb_get_genotypic_table <- function(cloudos,
                               "filters" = filters),
                   encode = "json"
   )
-  if (!r$status_code == 200) {
-    stop("Something went wrong.")
-  }
+  httr::stop_for_status(r, task = NULL)
   # parse the content
   res <- httr::content(r)
   df_list <- res$participants
@@ -96,9 +94,7 @@ cb_get_samples_table <- function(cloudos,
                     auto_unbox = T),
                   encode = "raw"
   )
-  if (!r$status_code == 200) {
-    stop("Something went wrong. Not able to create a cohort")
-  }
+  httr::stop_for_status(r, task = NULL)
   # parse the content
   res <- httr::content(r)
   # into a dataframe
@@ -154,9 +150,7 @@ cb_extract_samples <- function(cloudos, raw_data) {
                   body = raw_data,
                   encode = "json"
   )
-  if (!r$status_code == 200) {
-    stop("Something went wrong.")
-  }
+  httr::stop_for_status(r, task = NULL)
   # parse the content
   res <- httr::content(r, as = "text")
   df <- utils::read.csv(textConnection(res))
