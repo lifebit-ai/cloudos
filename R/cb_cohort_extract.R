@@ -36,9 +36,7 @@ cb_get_genotypic_table <- function(cloudos,
                               "filters" = filters),
                   encode = "json"
   )
-  if (!r$status_code == 200) {
-    stop("Something went wrong.")
-  }
+  httr::stop_for_status(r, task = NULL)
   # parse the content
   res <- httr::content(r)
   df_list <- res$participants
@@ -72,14 +70,15 @@ cb_get_samples_table <- function(cloudos,
                               cohort,
                               page_number = 0,
                               page_size = 10) {
-  # make column json
-  columns <- .get_column_json()
-  # make search json
+
+  # make json body
   if(missing(cohort)){
     search = list()
+    columns = list()
   }else{
     my_cohort_info <- .get_cohort_info(cloudos, cohort@id)
     search <- .get_search_json(my_cohort_info)
+    columns <- .get_column_json(my_cohort_info)
   }
   # make request
   url <- paste(cloudos@base_url, "v1/cohort/participants/search", sep = "/")
@@ -89,21 +88,19 @@ cb_get_samples_table <- function(cloudos,
                   body = jsonlite::toJSON(
                     list("pageNumber" = page_number,
                          "pageSize" = page_size,
-                         #"columns" = columns, # TODO
+                         "columns" = columns,
                          "search" =  search,
                          "returnTotal" = FALSE),
-                    auto_unbox = F),
+                    auto_unbox = T),
                   encode = "raw"
   )
-  if (!r$status_code == 200) {
-    stop("Something went wrong. Not able to create a cohort")
-  }
+  httr::stop_for_status(r, task = NULL)
   # parse the content
   res <- httr::content(r)
   # into a dataframe
   df_list <- list()
   for (n in res$data) {
-    dta <- do.call(cbind, n)
+    dta <- rbind(n)
     df_list <- c(df_list, list(as.data.frame(dta)))
   }
   res_df <- dplyr::bind_rows(df_list)
@@ -125,6 +122,9 @@ cb_get_samples_table <- function(cloudos,
   
   # rename the dataframe with column names
   colnames(res_df_new) <- columns_names
+  
+  # rename rownames
+  rownames(res_df_new) <- 1:page_size
   
   return(res_df_new)
 }
@@ -150,9 +150,7 @@ cb_extract_samples <- function(cloudos, raw_data) {
                   body = raw_data,
                   encode = "json"
   )
-  if (!r$status_code == 200) {
-    stop("Something went wrong.")
-  }
+  httr::stop_for_status(r, task = NULL)
   # parse the content
   res <- httr::content(r, as = "text")
   df <- utils::read.csv(textConnection(res))
