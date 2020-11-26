@@ -4,7 +4,14 @@
 \alias{cb_apply_filter}
 \title{Apply a Filter}
 \usage{
-cb_apply_filter(cloudos, cohort, filter_query)
+cb_apply_filter(
+  cloudos,
+  cohort,
+  filter_query,
+  column_ids,
+  keep_existing_filter = TRUE,
+  keep_existing_columns = TRUE
+)
 }
 \arguments{
 \item{cloudos}{A cloudos object. (Required)
@@ -14,6 +21,12 @@ See constructor function \code{\link{connect_cloudos}}}
 See constructor function \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}}
 
 \item{filter_query}{Phenotypic filter query.}
+
+\item{column_ids}{Filter IDs as column in the table}
+
+\item{keep_existing_filter}{If wants to keep existing filters (Default: TRUE)}
+
+\item{keep_existing_columns}{If wants to keep existing columns (Default: TRUE)}
 }
 \value{
 A confirmation string.
