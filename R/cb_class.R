@@ -13,6 +13,7 @@
 #' @slot desc cohort description.
 #' @slot fields Filters.
 #' @slot more_fields Filter related information.
+#' @slot columns All the columns
 #'
 #' @name cohort-class
 #' @rdname cohort-class
@@ -22,7 +23,8 @@ setClass("cohort",
                       name = "character",
                       desc = "character",
                       fields = "list",
-                      more_fields = "list")
+                      more_fields = "list",
+                      columns = "list")
          )
 
 .get_cohort_info <- function(cloudos, cohort_id) {
@@ -31,9 +33,7 @@ setClass("cohort",
                  .get_httr_headers(cloudos@auth),
                  query = list("teamId" = cloudos@team_id)
   )
-  if (!r$status_code == 200) {
-    stop("Something went wrong.")
-  }
+  httr::stop_for_status(r, task = NULL)
   # parse the content
   res <- httr::content(r)
   return(res)
@@ -56,12 +56,17 @@ setClass("cohort",
 cb_load_cohort <- function(cloudos, cohort_id){
   my_cohort <- .get_cohort_info(cloudos = cloudos, 
                               cohort_id = cohort_id)
+  
+  # For empty description backend returns two things NULL and ""
+  if(is.null(my_cohort$description)) my_cohort$description = "" # change everything to ""
+  
   cohort_class_obj <- methods::new("cohort",
                                    id = cohort_id,
                                    name = my_cohort$name,
                                    desc = my_cohort$description,
                                    fields = my_cohort$fields,
-                                   more_fields = my_cohort$moreFields
+                                   more_fields = my_cohort$moreFields,
+                                   columns = my_cohort$columns
                                    )
   return(cohort_class_obj)
 }
@@ -72,5 +77,6 @@ setMethod("show", "cohort",
             cat("Cohort ID: ", object@id, "\n")
             cat("Cohort Name: ", object@name, "\n")
             cat("Cohort Description: ", object@desc, "\n")
+            cat("Number of filters applied: ", length(object@fields), "\n")
           }
 )
