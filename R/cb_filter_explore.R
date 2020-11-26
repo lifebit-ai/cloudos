@@ -22,12 +22,14 @@ cb_search_phenotypic_filters <- function(cloudos,
                  .get_httr_headers(cloudos@auth),
                  query = list("teamId" = cloudos@team_id,
                               "term" = term))
-  if (!r$status_code == 200) {
-    stop("Something went wrong.")
-  }
+  httr::stop_for_status(r, task = NULL)
   res <- httr::content(r)
   filters <- res$filters
-  message("Total number of filters - ", length(filters))
+  
+  if(length(filters) == 0) stop(message("No phenotypic filters found with - ", term ))
+  
+  message("Total number of phenotypic filters found - ", length(filters))
+  
   # make in to a list
   filters_list <- list()
   for (n in 1:length(filters)) {
@@ -69,9 +71,7 @@ cb_get_filter_statistics <- function(cloudos, cohort, filter_id ) {
                   body = jsonlite::toJSON(r_body),
                   encode = "raw"
   )
-  if (!r$status_code == 200) {
-    stop("Something went wrong. Not able to create a cohort")
-  }
+  httr::stop_for_status(r, task = NULL)
   # parse the content
   res <- httr::content(r)
   # into a dataframe
@@ -143,9 +143,7 @@ cb_filter_participants <-function(cloudos, cohort, filter_id ) {
                   body = jsonlite::toJSON(r_body),
                   encode = "raw"
   )
-  if (!r$status_code == 200) {
-    stop("Something went wrong. Not able to create a cohort")
-  }
+  httr::stop_for_status(r, task = NULL)
   # parse the content
   res <- httr::content(r)
   # into a dataframe
@@ -170,9 +168,7 @@ cb_filter_metadata <- function(cloudos, filter_id) {
                  .get_httr_headers(cloudos@auth),
                  query = list("teamId" = cloudos@team_id)
   )
-  if (!r$status_code == 200) {
-    stop("Something went wrong.")
-  }
+  httr::stop_for_status(r, task = NULL)
   # parse the content
   res <- httr::content(r)
   res_df <- as.data.frame(do.call(cbind, res))

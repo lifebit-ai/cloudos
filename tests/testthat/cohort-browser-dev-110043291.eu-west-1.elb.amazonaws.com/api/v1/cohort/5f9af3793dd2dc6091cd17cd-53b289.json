@@ -320,18 +320,85 @@
                 "instance15Name": "",
                 "instance16Name": ""
             }
+        },
+        {
+            "id": 70,
+            "instance": 0,
+            "array": {
+                "type": "all",
+                "value": 0
+            },
+            "field": {
+                "_id": "5f8f1dbbaaeccb0065837594",
+                "bucket500": false,
+                "bucket1000": false,
+                "bucket2500": false,
+                "bucket5000": false,
+                "bucket300": false,
+                "bucket10000": false,
+                "categoryPathLevel1": "COVID",
+                "id": 70,
+                "instances": 1,
+                "name": "Acute flag",
+                "type": "bars",
+                "Sorting": "",
+                "valueType": "Categorical multiple",
+                "units": "",
+                "coding": "14",
+                "description": "Set true (1) if the requesting organisation is from an organisation known to provide acute (emergency) care otherwise not true (0).",
+                "descriptionParticipantsNo": "6647",
+                "link": "",
+                "array": 26,
+                "descriptionStability": "",
+                "descriptionCategoryID": "",
+                "descriptionItemType": "",
+                "descriptionStrata": "Main 100k Programme",
+                "descriptionSexed": "",
+                "orderPhenotype": "",
+                "instance0Name": "",
+                "instance1Name": "",
+                "instance2Name": "",
+                "instance3Name": "",
+                "instance4Name": "",
+                "instance5Name": "",
+                "instance6Name": "",
+                "instance7Name": "",
+                "instance8Name": "",
+                "instance9Name": "",
+                "instance10Name": "",
+                "instance11Name": "",
+                "instance12Name": "",
+                "instance13Name": "",
+                "instance14Name": "",
+                "instance15Name": "",
+                "instance16Name": "",
+                "values": {
+                    "0": "FALSE",
+                    "1": "TRUE"
+                }
+            }
         }
     ],
     "moreFields": [
         {
-            "fieldId": 206,
+            "fieldId": 22,
+            "instance": [
+                0
+            ],
+            "range": {
+                "from": "2015-05-25",
+                "to": "2016-04-07"
+            },
+            "finished": true
+        },
+        {
+            "fieldId": 50,
             "instance": [
                 0
             ],
             "value": [
-                "Cardiovascular disorders",
-                "Dermatological disorders",
-                "Dysmorphic and congenital abnormality syndromes"
+                "Father",
+                "Mother"
             ],
             "finished": true
         }
@@ -339,27 +406,26 @@
     "fields": [
         {
             "field": {
-                "_id": "5f8f1dbbaaeccb0065837666",
+                "_id": "5f8f1dbbaaeccb00658375c0",
                 "bucket500": false,
                 "bucket1000": false,
                 "bucket2500": false,
                 "bucket5000": false,
                 "bucket300": false,
                 "bucket10000": false,
-                "categoryPathLevel1": "Rare disease",
-                "categoryPathLevel2": "Participant disease",
-                "id": 206,
+                "categoryPathLevel1": "Basic characteristics",
+                "id": 22,
                 "instances": 1,
-                "name": "Disease group",
-                "type": "bars",
-                "Sorting": "",
-                "valueType": "Categorical multiple",
+                "name": "Date of consent",
+                "type": "histogram",
+                "Sorting": "ASC_date",
+                "valueType": "Date",
                 "units": "",
                 "coding": "",
-                "description": "Top-level classification of rare diseases (project specific)",
-                "descriptionParticipantsNo": "39913",
+                "description": "Date of the clinical event or observation being reported e.g. date biopsy was taken",
+                "descriptionParticipantsNo": "89132",
                 "link": "https://cnfl.extge.co.uk/pages/viewpage.action?pageId=147659370",
-                "array": 5,
+                "array": 1,
                 "descriptionStability": "",
                 "descriptionCategoryID": "",
                 "descriptionItemType": "",
@@ -387,8 +453,60 @@
             "instances": [
                 0
             ],
-            "createAt": 1604069383405,
-            "updatedAt": 1604069383405
+            "createAt": 1605084837878,
+            "updatedAt": 1605084837878
+        },
+        {
+            "field": {
+                "_id": "5f8f1dbbaaeccb00658375db",
+                "bucket500": false,
+                "bucket1000": false,
+                "bucket2500": false,
+                "bucket5000": false,
+                "bucket300": false,
+                "bucket10000": false,
+                "categoryPathLevel1": "Basic characteristics",
+                "id": 50,
+                "instances": 1,
+                "name": "Biological relationship to proband",
+                "type": "bars",
+                "Sorting": "",
+                "valueType": "Categorical multiple",
+                "units": "",
+                "coding": "",
+                "description": "Biological Relationship to Proband",
+                "descriptionParticipantsNo": "89132",
+                "link": "https://cnfl.extge.co.uk/pages/viewpage.action?pageId=147659370",
+                "array": 1,
+                "descriptionStability": "",
+                "descriptionCategoryID": "",
+                "descriptionItemType": "",
+                "descriptionStrata": "Main 100k Programme",
+                "descriptionSexed": "",
+                "orderPhenotype": "",
+                "instance0Name": "",
+                "instance1Name": "",
+                "instance2Name": "",
+                "instance3Name": "",
+                "instance4Name": "",
+                "instance5Name": "",
+                "instance6Name": "",
+                "instance7Name": "",
+                "instance8Name": "",
+                "instance9Name": "",
+                "instance10Name": "",
+                "instance11Name": "",
+                "instance12Name": "",
+                "instance13Name": "",
+                "instance14Name": "",
+                "instance15Name": "",
+                "instance16Name": ""
+            },
+            "instances": [
+                0
+            ],
+            "createAt": 1605084837878,
+            "updatedAt": 1605084837878
         }
     ]
 }

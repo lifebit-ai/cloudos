@@ -25,5 +25,7 @@ This can be created using constructor function
 \item{\code{fields}}{Filters.}
 
 \item{\code{more_fields}}{Filter related information.}
+
+\item{\code{columns}}{All the columns}
 }}
 
