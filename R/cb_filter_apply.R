@@ -113,7 +113,7 @@ cb_apply_filter <- function(cloudos,
                             keep_existing_columns = TRUE) {
   
   # get info about existing columns and fields
-  my_cohort_info <- .get_cohort_info(cloudos = cloudos, cohort_id = cohort_id)
+  my_cohort_info <- .get_cohort_info(cloudos = cloudos, cohort_id = cohort@id)
   
   # cohort columns
   all_columns <- c()
