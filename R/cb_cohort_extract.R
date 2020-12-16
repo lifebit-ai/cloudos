@@ -27,14 +27,16 @@ cb_get_genotypic_table <- function(cloudos,
   #                  "values" = type)
   # filters = list(chr_filt, type_filt)
   
+  r_body <- list("pageNumber" = jsonlite::unbox(page_number),
+                 "pageSize" = jsonlite::unbox(page_size),
+                 "filters" = filters)
+  
   url <- paste(cloudos@base_url, "v1/cohort/genotypic-data", sep = "/")
   r <- httr::POST(url,
                   .get_httr_headers(cloudos@auth),
                   query = list("teamId" = cloudos@team_id),
-                  body = list("pageNumber" = page_number,
-                              "pageSize" = page_size,
-                              "filters" = filters),
-                  encode = "json"
+                  body = jsonlite::toJSON(r_body),
+                  encode = "raw"
   )
   httr::stop_for_status(r, task = NULL)
   # parse the content
@@ -47,6 +49,16 @@ cb_get_genotypic_table <- function(cloudos,
   # remove mongodb _id column
   df_new <- subset(df, select = (c(-`_id`)))
   return(df_new)
+}
+
+genotype_filters <- function(geno_filters_query){
+  genotype_filters_list <- c()
+  for(i in 1:length(geno_filters_query)){
+    filters <- list(list("columnHeader" = jsonlite::unbox(names(geno_filters_query)[i]),
+                         "filterType" = jsonlite::unbox("Text"),
+                         "values" = geno_filters_query[[i]]
+                      ))
+  }
 }
 
 ####################################################################
