@@ -5,31 +5,38 @@
 #'
 #' @param cloudos A cloudos object. (Required)
 #' See constructor function \code{\link{connect_cloudos}}
+#' @param cohort A cohort object. (Required)
+#' See constructor functions \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}
 #' @param page_number Number of page. (Optional) Default - 0
 #' @param page_size Number of entries in a page. (Optional) Default - 10
-#' @param filters WIP - details will be added.
+#' @param geno_filters_query Genotypic filter query (Optional)
 #'
 #' @return A dataframe.
+#' 
+#' @example
+#' \dontrun{
+#' cb_get_genotypic_table(cloudos = my_cloudos,
+#'                cohort = my_cohort,
+#'                geno_filters_query = list("chromosome" = c("1", "7"))
+#' }
 #'
 #' @export
 cb_get_genotypic_table <- function(cloudos,
-                               page_number = 0,
-                               page_size = 10,
-                               filters = "") {
-  # TODO work on filter, they are not getting saved
-  # so it is not possible to retrieve cohort related genotypic table.
-  # chromosome filter
-  # chr_filt = list("columnHeader" = "Chromosome",
-  #                 "filterType" = "Text",
-  #                 "values" = chr)
-  # type_filt = list("columnHeader" = "Type",
-  #                  "filterType" = "Text",
-  #                  "values" = type)
-  # filters = list(chr_filt, type_filt)
+                                   cohort,
+                                   page_number = 0,
+                                   page_size = 10,
+                                   geno_filters_query) {
+  # TODO cohort object is not being used ATM,
+  # because from BE it is not implemented to retrieve cohort related genotypic
+  
+  genotypic_filters = ""
+  if(!missing(geno_filters_query)){
+    genotypic_filters <- .get_genotypic_filters_query(geno_filters_query)
+  }
   
   r_body <- list("pageNumber" = jsonlite::unbox(page_number),
                  "pageSize" = jsonlite::unbox(page_size),
-                 "filters" = filters)
+                 "filters" = genotypic_filters)
   
   url <- paste(cloudos@base_url, "v1/cohort/genotypic-data", sep = "/")
   r <- httr::POST(url,
@@ -51,14 +58,16 @@ cb_get_genotypic_table <- function(cloudos,
   return(df_new)
 }
 
-genotype_filters <- function(geno_filters_query){
-  genotype_filters_list <- c()
+.get_genotypic_filters_query <- function(geno_filters_query){
+  genotypic_filters_list <- c()
   for(i in 1:length(geno_filters_query)){
     filters <- list(list("columnHeader" = jsonlite::unbox(names(geno_filters_query)[i]),
                          "filterType" = jsonlite::unbox("Text"),
                          "values" = geno_filters_query[[i]]
                       ))
   }
+  genotypic_filters_list <- c(genotypic_filters_list, filters)
+  return(genotypic_filters_list)
 }
 
 ####################################################################
