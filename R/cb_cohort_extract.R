@@ -18,16 +18,19 @@
 #' cb_get_genotypic_table(cloudos = my_cloudos,
 #'                cohort = my_cohort,
 #'                geno_filters_query = list("chromosome" = c("1", "7"))
+#'                )
 #' }
 #'
 #' @export
 cb_get_genotypic_table <- function(cloudos,
                                    cohort,
-                                   page_number = 0,
-                                   page_size = 10,
+                                   size = 10,
                                    geno_filters_query) {
   # TODO cohort object is not being used ATM,
   # because from BE it is not implemented to retrieve cohort related genotypic
+  
+  page_number = 0
+  page_size = size
   
   genotypic_filters = ""
   if(!missing(geno_filters_query)){
@@ -48,26 +51,43 @@ cb_get_genotypic_table <- function(cloudos,
   httr::stop_for_status(r, task = NULL)
   # parse the content
   res <- httr::content(r)
+  .total_row_size_message(res)
   df_list <- res$participants
   # https://www.r-bloggers.com/r-combining-vectors-or-data-frames-of-unequal-length-into-one-data-frame/
   df <- do.call(rbind, lapply(lapply(df_list, unlist), "[",
                         unique(unlist(c(sapply(df_list,names))))))
   df <- as.data.frame(df)
+  
+  # check if the dataframe is retrieved properly
+  if(length(df) == 0){
+    stop("Couldn't able to retrive the dataframe, something wrong with the genotypic filters.")
+  }
+  
   # remove mongodb _id column
   df_new <- subset(df, select = (c(-`_id`)))
   return(df_new)
 }
 
 .get_genotypic_filters_query <- function(geno_filters_query){
-  genotypic_filters_list <- c()
+  genotypic_filters_list <- list()
   for(i in 1:length(geno_filters_query)){
     filters <- list(list("columnHeader" = jsonlite::unbox(names(geno_filters_query)[i]),
                          "filterType" = jsonlite::unbox("Text"),
                          "values" = geno_filters_query[[i]]
                       ))
+    genotypic_filters_list <- c(genotypic_filters_list, filters)
   }
-  genotypic_filters_list <- c(genotypic_filters_list, filters)
   return(genotypic_filters_list)
+}
+
+#' @param res The res <- httr::content(r) content
+.total_row_size_message <-  function(res){
+  if(res$total){
+    message(paste("Total number of rows found", res$total, 
+                  "You can use 'size' to mention how many rows you want to extract.",
+                  "Default size = 10",
+                  sep = " "))
+  }
 }
 
 ####################################################################
