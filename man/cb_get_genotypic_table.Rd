@@ -4,13 +4,7 @@
 \alias{cb_get_genotypic_table}
 \title{Get genotypic table}
 \usage{
-cb_get_genotypic_table(
-  cloudos,
-  cohort,
-  page_number = 0,
-  page_size = 10,
-  geno_filters_query
-)
+cb_get_genotypic_table(cloudos, cohort, size = 10, geno_filters_query)
 }
 \arguments{
 \item{cloudos}{A cloudos object. (Required)
@@ -19,9 +13,7 @@ See constructor function \code{\link{connect_cloudos}}}
 \item{cohort}{A cohort object. (Required)
 See constructor functions \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}}
 
-\item{page_number}{Number of page. (Optional) Default - 0}
-
-\item{page_size}{Number of entries in a page. (Optional) Default - 10}
+\item{size}{Number of entries from database. (Optional) Default - 10 (Optional)}
 
 \item{geno_filters_query}{Genotypic filter query (Optional)}
 }
