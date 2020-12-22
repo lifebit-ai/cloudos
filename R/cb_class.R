@@ -27,11 +27,12 @@ setClass("cohort",
                       columns = "list")
          )
 
-.get_cohort_info <- function(cloudos, cohort_id) {
-  url <- paste(cloudos@base_url, "v1/cohort", cohort_id, sep = "/")
+.get_cohort_info <- function(cohort_id) {
+  cloudos <- .check_and_load_all_cloudos_env_var()
+  url <- paste(cloudos$base_url, "v1/cohort", cohort_id, sep = "/")
   r <- httr::GET(url,
-                 .get_httr_headers(cloudos@auth),
-                 query = list("teamId" = cloudos@team_id)
+                 .get_httr_headers(cloudos$token),
+                 query = list("teamId" = cloudos$team_id)
   )
   httr::stop_for_status(r, task = NULL)
   # parse the content
@@ -44,8 +45,6 @@ setClass("cohort",
 #' @description Get all the details about a cohort including 
 #' applied filters.
 #'
-#' @param cloudos A cloudos object. (Required)
-#' See constructor function \code{\link{connect_cloudos}} 
 #' @param cohort_id Cohort id (Required)
 #'
 #' @return A \linkS4class{cohort} object.
@@ -53,9 +52,8 @@ setClass("cohort",
 #' @seealso \code{\link{cb_create_cohort}} for creating a new cohort. 
 #'
 #' @export
-cb_load_cohort <- function(cloudos, cohort_id){
-  my_cohort <- .get_cohort_info(cloudos = cloudos, 
-                              cohort_id = cohort_id)
+cb_load_cohort <- function(cohort_id){
+  my_cohort <- .get_cohort_info(cohort_id = cohort_id)
   
   # For empty description backend returns two things NULL and ""
   if(is.null(my_cohort$description)) my_cohort$description = "" # change everything to ""

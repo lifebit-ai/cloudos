@@ -4,12 +4,9 @@
 \alias{cb_get_genotypic_table}
 \title{Get genotypic table}
 \usage{
-cb_get_genotypic_table(cloudos, cohort, size = 10, geno_filters_query)
+cb_get_genotypic_table(cohort, size = 10, geno_filters_query)
 }
 \arguments{
-\item{cloudos}{A cloudos object. (Required)
-See constructor function \code{\link{connect_cloudos}}}
-
 \item{cohort}{A cohort object. (Required)
 See constructor functions \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}}
 

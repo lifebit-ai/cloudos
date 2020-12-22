@@ -1,0 +1,28 @@
+---
+title: "Configure CloudOS"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Configure CloudOS}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+The cloudos functions will be need set of cloudos configurations for able to connect to API. Lets see different ways of R package will try to find those configurations.
+
+1. From Environment variable
+2. From cloudos configuration file
+
+First thing this R-package will look for environment variables - `CLOUDOS_BASEURL`, `CLOUDOS_TOKEN`, `CLOUDOS_TEAMID` and if not found it will try to read from `~/.cloudos/config`.
+
+Two ways to set cloudos environment variables
+
+1. Add them to `~/.Renviron`, which will load the environment variables on beginning of the R-session
+2. Use the function `cloudos_configure()`, which will create a `~/.cloudos/config` (Recommended way if you using multiple cloudos clients)
+

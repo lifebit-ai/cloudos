@@ -2,23 +2,21 @@
 #'
 #' @description Extracts the data frame with limited cohort data columns.
 #'
-#' @param cloudos A cloudos object. (Required)
-#' See constructor function \code{\link{connect_cloudos}} 
 #' @param size Number of cohort entries from database. (Optional) Default - 10
 #'
 #' @return A data frame with available cohorts.
 #'
 #' @examples
 #' \dontrun{
-#' cohorts_list(cloudos_obj)
+#' cohorts_list()
 #' }
 #' @export
-cb_list_cohorts <- function(cloudos,
-                            size = 10) {
-  url <- paste(cloudos@base_url, "v1/cohort", sep = "/")
+cb_list_cohorts <- function(size = 10) {
+  cloudos <- .check_and_load_all_cloudos_env_var()
+  url <- paste(cloudos$base_url, "v1/cohort", sep = "/")
   r <- httr::GET(url,
-                 .get_httr_headers(cloudos@auth),
-                 query = list("teamId" = cloudos@team_id,
+                 .get_httr_headers(cloudos$token),
+                 query = list("teamId" = cloudos$team_id,
                               "pageNumber" = 0,
                               "pageSize" = size))
   httr::stop_for_status(r, task = "list cohorts")
