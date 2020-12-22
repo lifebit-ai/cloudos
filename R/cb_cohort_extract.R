@@ -7,8 +7,7 @@
 #' See constructor function \code{\link{connect_cloudos}}
 #' @param cohort A cohort object. (Required)
 #' See constructor functions \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}
-#' @param page_number Number of page. (Optional) Default - 0
-#' @param page_size Number of entries in a page. (Optional) Default - 10
+#' @param size Number of entries from database. (Optional) Default - 10 (Optional)
 #' @param geno_filters_query Genotypic filter query (Optional)
 #'
 #' @return A dataframe.
