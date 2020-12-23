@@ -39,38 +39,31 @@ library(cloudos)
 #> For Documentation visit - http://lifebit-ai.github.io/cloudos 
 #> This package is under activate development. If you found any issues, 
 #> Please reach out here - https://github.com/lifebit-ai/cloudos/issues
+library(knitr) # For better visualization of wide dataframes in this README examples
+library(magrittr) # For pipe
 ```
 
-### Setup login details
+### Configure CloudOS
 
-To interact with the cloudos server, it require few login details.
+The cloudos functions will be need set of cloudos configurations for
+able to connect to API. Lets see different ways of R package will try to
+find those configurations.
 
-Note: If no `base_url` given the default is
-<https://cloudos.lifebit.ai/>
+1.  From Environment variable
+2.  From cloudos configuration file
 
-``` r
-cb_base_url <- "http://cohort-browser-dev-110043291.eu-west-1.elb.amazonaws.com/api"
-my_auth <- "your_apikey"
-my_team_id <- "your_team_id"
-# OR from environment variable stored in a ~/.Renviron file
-my_auth <- Sys.getenv("test_cloudos_apikey")
-my_team_id <- Sys.getenv("test_cloudos_team_id")
-```
+First thing this R-package will look for environment variables -
+`CLOUDOS_BASEURL`, `CLOUDOS_TOKEN`, `CLOUDOS_TEAMID` and if not found it
+will try to read from `~/.cloudos/config`.
 
-### Connect to CloudOS
+Three ways to set cloudos environment variables
 
-Lets create a cloudos object with the login details, which can help us
-connect to cloudos server.
-
-``` r
-my_cloudos <- cloudos::connect_cloudos(base_url = cb_base_url,
-                                       auth = my_auth,
-                                       team_id = my_team_id)
-my_cloudos
-#> Base URL:  http://cohort-browser-dev-110043291.eu-west-1.elb.amazonaws.com/api 
-#> Authentication Method:  API Key 
-#> Team ID: 5f7c8696d6ea46288645a89f
-```
+1.  Add them to `~/.Renviron`, which will load the environment variables
+    on beginning of the R-session
+2.  Add them using `Sys.setenv(ENV_VAR = "env_var_value")`
+3.  Use the function `cloudos_configure()`, which will create a
+    `~/.cloudos/config` (Recommended way if you using multiple cloudos
+    clients)
 
 ## Application - Cohort Browser
 
@@ -82,31 +75,31 @@ to interact with this in R environment.
 To check list of available cohorts in a workspace.
 
 ``` r
-cohorts <- cloudos::cb_list_cohorts(my_cloudos)
-#> Total number of cohorts found-31. But here shows-10 as default. For more, change size = 31 to get all.
-head(cohorts,5)
-#>                         id        name description number_of_participants
-#> 1 5f9c5b9213eba60b7174c366         GEL                              44667
-#> 2 5f9af7273dd2dc6091cd17d0     damian1                                 46
-#> 3 5f9af3793dd2dc6091cd17cd cb_demo_new                               4967
-#> 4 5f993a52f8fb2c57d1813c2a        demo                               5537
-#> 5 5f9842e1c4c923364b3fac42          f1                              20920
-#>   number_of_filters               created_at               updated_at
-#> 1                 0 2020-10-30T18:29:38.429Z 2020-10-30T18:29:38.429Z
-#> 2                 1 2020-10-29T17:08:55.919Z 2020-11-02T14:50:28.176Z
-#> 3                 2 2020-10-29T16:53:13.954Z 2020-11-06T15:18:48.902Z
-#> 4                 1 2020-10-28T09:30:58.858Z 2020-11-04T08:44:40.448Z
-#> 5                 1 2020-10-27T15:55:13.675Z 2020-10-27T15:55:26.120Z
+cohorts <- cb_list_cohorts()
+#> Total number of cohorts found-78. But here shows-10 as default. For more, change size = 78 to get all.
+cohorts %>% kable()
 ```
+
+| id                       | name            | description      | number\_of\_participants | number\_of\_filters | created\_at              | updated\_at              |
+| :----------------------- | :-------------- | :--------------- | -----------------------: | ------------------: | :----------------------- | :----------------------- |
+| 5fd9da48e3da655a4836e0aa | damian3         |                  |                    44667 |                   0 | 2020-12-16T09:58:32.942Z | 2020-12-16T09:58:32.942Z |
+| 5fd8c234e34ec6186fe45d35 | Test Alberto 53 | Test description |                        4 |                  11 | 2020-12-15T14:03:32.394Z | 2020-12-16T17:01:27.225Z |
+| 5fd88a13afc7200a2965d282 | Test Alberto 52 | Test description |                     2884 |                   2 | 2020-12-15T10:04:03.684Z | 2020-12-15T10:04:03.684Z |
+| 5fd88972fb156109dbf8b9d4 | Test Alberto 51 | Test description |                     2884 |                   2 | 2020-12-15T10:01:22.801Z | 2020-12-15T10:01:22.801Z |
+| 5fd888db775c6a099fdf6636 | Test Alberto 50 | Test description |                     2884 |                   2 | 2020-12-15T09:58:51.433Z | 2020-12-15T09:58:51.433Z |
+| 5fd888097eb89a08eda68335 | Test Alberto 49 | Test description |                        0 |                   0 | 2020-12-15T09:55:21.831Z | 2020-12-15T14:22:15.293Z |
+| 5fd8877fc2a78908b6d4083e | Test Alberto 48 | Test description |                     2884 |                   2 | 2020-12-15T09:53:03.775Z | 2020-12-15T09:53:03.775Z |
+| 5fd8848ac56f6f0826d583d2 | Test Alberto 47 | Test description |                     2884 |                   2 | 2020-12-15T09:40:26.083Z | 2020-12-15T09:40:26.083Z |
+| 5fd8832d4c827107921d83a7 | Test Alberto 46 | Test description |                     2884 |                   2 | 2020-12-15T09:34:37.947Z | 2020-12-15T09:34:37.947Z |
+| 5fd882f594d869074efde02c | Test Alberto 45 | Test description |                     2884 |                   2 | 2020-12-15T09:33:41.180Z | 2020-12-15T09:33:41.180Z |
 
 ### Create a cohort
 
 To create a new cohort.
 
 ``` r
-my_cohort <- cloudos::cb_create_cohort(my_cloudos,
-                                       cohort_name = "Cohort-R",
-                                       cohort_desc = "This cohort is for testing purpose, created from R.")
+my_cohort <- cb_create_cohort(cohort_name = "Cohort-R",
+                             cohort_desc = "This cohort is for testing purpose, created from R.")
 my_cohort
 ```
 
@@ -116,12 +109,12 @@ Get a available cohort in to a cohort R object. This cohort object can
 be used in many different other functions.
 
 ``` r
-my_cohort <- cloudos::cb_load_cohort(cloudos = my_cloudos, 
-                                     cohort_id = "5f9af3793dd2dc6091cd17cd")
+my_cohort <- cb_load_cohort(cohort_id = "5f9af3793dd2dc6091cd17cd")
 my_cohort
 #> Cohort ID:  5f9af3793dd2dc6091cd17cd 
 #> Cohort Name:  cb_demo_new 
-#> Cohort Description:
+#> Cohort Description:   
+#> Number of filters applied:  2
 ```
 
 ### Get samples table
@@ -130,80 +123,46 @@ Get all the samples (participants) table for a cohort with phenotypic
 filters applied.
 
 ``` r
-cohort_samples <- cloudos::cb_get_samples_table(cloudos = my_cloudos, 
-                                                cohort = my_cohort)
-head(cohort_samples, 5)
-#>       EID     Programme         Handling gmc Year of birth
-#> 1 1000002 Rare Diseases        West Midlands          1982
-#> 2 1000020 Rare Diseases         North Thames          1970
-#> 3 1000035 Rare Diseases South West Peninsula          1944
-#> 4 1000061 Rare Diseases         North Thames          1971
-#> 5 1000522 Rare Diseases Yorkshire and Humber          1990
-#>         Participant ethnic category Participant karyotypic sex Participant type
-#> 1                    White: British                         Xy         Relative
-#> 2                        Not Stated                    Unknown         Relative
-#> 3            Mixed: White and Asian               Not Supplied         Relative
-#> 4                        Not Stated               Not Supplied         Relative
-#> 5 White: Any other White background               Not Supplied         Relative
+cohort_samples <- cb_get_samples_table(cohort = my_cohort)
+cohort_samples %>% kable()
 ```
+
+| EID     | Programme     | Year of birth | Participant ethnic category                 | Participant karyotypic sex | Participant type | Acute flag | Biological relationship to proband |
+| :------ | :------------ | :------------ | :------------------------------------------ | :------------------------- | :--------------- | :--------- | :--------------------------------- |
+| 1000020 | Rare Diseases | 1970          | Not Stated                                  | Unknown                    | Relative         | Mother     | NULL                               |
+| 1000522 | Rare Diseases | 1990          | White: Any other White background           | Not Supplied               | Relative         | Mother     | NULL                               |
+| 100079  | Rare Diseases | 1967          | White: British                              | Not Supplied               | Relative         | Mother     | NULL                               |
+| 100084  | Rare Diseases | 1953          | Other Ethnic Groups: Any other ethnic group | Not Supplied               | Relative         | Mother     | NULL                               |
+| 1001429 | Rare Diseases | 1981          | White: British                              | Not Supplied               | Relative         | Mother     | NULL                               |
+| 100245  | Rare Diseases | 2001          | White: British                              | Unknown                    | Relative         | Mother     | NULL                               |
+| 1002999 | Rare Diseases | 1970          | White: British                              | Not Supplied               | Relative         | Father     | NULL                               |
+| 1003149 | Rare Diseases | 1986          | White: British                              | Not Supplied               | Relative         | Father     | NULL                               |
+| 1003363 | Rare Diseases | 1947          | White: British                              | Not Supplied               | Relative         | Mother     | NULL                               |
+| 1003649 | Rare Diseases | 1982          | White: British                              | Not Supplied               | Relative         | Father     | NULL                               |
 
 ### Get genotypic table
 
 Get all the genotypic table for a cohort.
 
 ``` r
-#cohort_genotype <- cloudos::cb_get_genotypic_table(my_cloudos, my_cohort)
-cohort_genotype <- cloudos::cb_get_genotypic_table(cloudos = my_cloudos)
-head(cohort_genotype, 5)
-#>   Chromosome   Location Reference Alternative Affimetrix ID
-#> 1         10   10:93190        AC                  80278591
-#> 2         10   10:94514      CTGG                  52349171
-#> 3         10   10:94693         G                  80278592
-#> 4         10  10:370955         C           T      89014745
-#> 5         10 10:1058556         A           G      92042600
-#>   Possible allele combination 0 Possible allele combination 1
-#> 1                         GAC G                           0 0
-#> 2                     CCTGG CCT                       C CCTGG
-#> 3                            AG                           0 0
-#> 4                           0 0                           C C
-#> 5                           A A                           0 0
-#>   Possible allele combination 2 index      Type  id           cn
-#> 1                         G GAC     0 Insertion   1   zzg_m_10_0
-#> 2                           0 0     3 Insertion   4   zzg_m_10_3
-#> 3                           A A     4       SNP   5   zzg_m_10_4
-#> 4                           T C    68       SNP  69  zzg_m_10_68
-#> 5                           G A   301       SNP 302 zzg_m_10_301
-#>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       NA
-#> 1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   <NA>
-#> 2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   <NA>
-#> 3                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           GO CYTOSKELETON ORGANIZATION| GO OOGENESIS| GO MICROTUBULE BASED PROCESS| GO MICROTUBULE CYTOSKELETON ORGANIZATION| GO SEXUAL REPRODUCTION| GO ATOMICAL STRUCTURE MATURATION| GO MITOTIC CELL CYCLE| GO ORGANELLE FISSION| GO CELL MATURATION| GO ORGANELLE ASSEMBLY| GO CELLULAR PROCESS INVOLVED IN REPRODUCTION IN MULTICELLULAR ORGANISM| GO OOCYTE MATURATION| GO OOCYTE DIFFERENTIATION| GO MEIOTIC CELL CYCLE| GO CELL CYCLE| GO MULTI ORGANISM REPRODUCTIVE PROCESS| GO GAMETE GENERATION| GO FEMALE GAMETE GENERATION| GO DEVELOPMENTAL PROCESS INVOLVED IN REPRODUCTION| GO MEIOTIC CELL CYCLE PROCESS| GO SPINDLE ASSEMBLY| GO REPRODUCTION| GO GERM CELL DEVELOPMENT| GO MULTICELLULAR ORGANISM REPRODUCTION| GO DEVELOPMENTAL MATURATION| GO CELL CYCLE PROCESS| GO MICROTUBULE CYTOSKELETON| GO CYTOSKELETAL PART| GO MICROTUBULE| GO SPINDLE| GO GTPASE ACTIVITY| GO HYDROLASE ACTIVITY ACTING ON ACID ANHYDRIDES| GO GUANYL NUCLEOTIDE BINDING| GO RIBONUCLEOTIDE BINDING| GO STRUCTURAL CONSTITUENT OF CYTOSKELETON| GO STRUCTURAL MOLECULE ACTIVITY| GO MEIOTIC SPINDLE ORGANIZATION| GO SPINDLE ORGANIZATION| GO FEMALE MEIOTIC NUCLEAR DIVISION| GO SPINDLE ASSEMBLY INVOLVED IN MEIOSIS| GO MEIOTIC SPINDLE| GO SUPRAMOLECULAR COMPLEX| GO POLYMERIC CYTOSKELETAL FIBER
-#> 4                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   <NA>
-#> 5 GO NEGATIVE REGULATION OF PROTEIN MODIFICATION BY SMALL PROTEIN CONJUGATION OR REMOVAL| GO RIBOSOME BIOGENESIS| GO REGULATION OF KISE ACTIVITY| GO NEGATIVE REGULATION OF LOCOMOTION| GO PROTEIN MODIFICATION BY SMALL PROTEIN CONJUGATION OR REMOVAL| GO OSTEOBLAST DIFFERENTIATION| GO NEGATIVE REGULATION OF CELL CELL ADHESION| GO RR METABOLIC PROCESS| GO REGULATION OF TRANSFERASE ACTIVITY| GO CELL MOTILITY| GO CELL CELL ADHESION| GO NCR PROCESSING| GO PROTEIN STABILIZATION| GO MATURATION OF LSU RR| GO REGULATION OF PROTEIN MODIFICATION BY SMALL PROTEIN CONJUGATION OR REMOVAL| GO NCR METABOLIC PROCESS| GO PROTEIN PHOSPHORYLATION| GO NEGATIVE REGULATION OF MOLECULAR FUNCTION| GO REGULATION OF CELL CYCLE| GO LOCOMOTION| GO REGULATION OF PROTEIN STABILITY| GO NEGATIVE REGULATION OF BINDING| GO OSSIFICATION| GO REGULATION OF CELL CELL ADHESION| GO RIBONUCLEOPROTEIN COMPLEX BIOGENESIS| GO CELL CYCLE| GO REGULATION OF CYCLIN DEPENDENT PROTEIN KISE ACTIVITY| GO REGULATION OF CELL ADHESION| GO NEGATIVE REGULATION OF PROTEIN METABOLIC PROCESS| GO REGULATION OF PROTEIN MODIFICATION PROCESS| GO REGULATION OF D REPLICATION| GO NEGATIVE REGULATION OF CELL ADHESION| GO REGULATION OF CELLULAR COMPONENT MOVEMENT| GO REGULATION OF PROTEIN SERINE THREONINE KISE ACTIVITY| GO REGULATION OF BINDING| GO RIBOSOMAL LARGE SUBUNIT BIOGENESIS| GO NEGATIVE REGULATION OF D REPLICATION| GO REGULATION OF PHOSPHORUS METABOLIC PROCESS| GO NEGATIVE REGULATION OF PROTEIN MODIFICATION PROCESS| GO BIOLOGICAL ADHESION| GO D REPLICATION| GO NUCLEAR ENVELOPE| GO PERINUCLEAR REGION OF CYTOPLASM| GO ENVELOPE| GO GOLGI APPARATUS| GO NUCLEOLUS| GO NUCLEAR MEMBRANE| GO GTPASE ACTIVITY| GO HYDROLASE ACTIVITY ACTING ON ACID ANHYDRIDES| GO GUANYL NUCLEOTIDE BINDING| GO RIBONUCLEOTIDE BINDING| GO R BINDING| GO MATURATION OF LSU RR FROM TRICISTRONIC RR TRANSCRIPT SSU RR 5 8S RR LSU RR | GO NEGATIVE REGULATION OF CELL POPULATION PROLIFERATION| GO NEGATIVE REGULATION OF BIOSYNTHETIC PROCESS| GO R METABOLIC PROCESS| GO PROTEIN MODIFICATION BY SMALL PROTEIN CONJUGATION| GO REGULATION OF CELL POPULATION PROLIFERATION| GO NEGATIVE REGULATION OF CELL MOTILITY
-#>     NA.1     NA.2 NA.3 NA.4 NA.5 NA.6 NA.7      NA.8 NA.9     NA.10  NA.11
-#> 1   <NA>     <NA> <NA> <NA> <NA> <NA> <NA>      <NA> <NA>      <NA>   <NA>
-#> 2   <NA>     <NA> <NA> <NA> <NA> <NA> <NA>      <NA> <NA>      <NA>   <NA>
-#> 3  TUBB8     <NA> <NA> <NA> <NA> <NA> <NA>      <NA> <NA>      <NA>   <NA>
-#> 4  DIP2C 3.23e-05    0    0    0    0    0 6.666e-05    0      <NA>   <NA>
-#> 5 GTPBP4     <NA> <NA> <NA> <NA> <NA> <NA>      <NA> <NA> Tolerated Benign
-#>    NA.12       NA.13           NA.14   NA.15     NA.16   NA.17     NA.18
-#> 1   <NA>        <NA>            <NA>    <NA>      <NA>    <NA>      <NA>
-#> 2   <NA>        <NA>            <NA>    <NA>      <NA>    <NA>      <NA>
-#> 3   <NA>        <NA>            <NA>    <NA>      <NA>    <NA>      <NA>
-#> 4   <NA>        <NA>            <NA>    <NA>      <NA>    <NA>      <NA>
-#> 5 Benign Deleterious Disease Causing Neutral Tolerated Neutral Tolerated
-#>       NA.19 NA.20 NA.21                                  NA.22 NA.23 NA.24
-#> 1      <NA>  <NA>  <NA>                                   <NA>  <NA>  <NA>
-#> 2      <NA>  <NA>  <NA>                                   <NA>  <NA>  <NA>
-#> 3      <NA>  <NA>  <NA>                                   <NA>  <NA>  <NA>
-#> 4      <NA>  <NA>  <NA>                                   <NA>  <NA>  <NA>
-#> 5 Tolerated  1062   239 GTPBP4:NM 012341:exon14:cA1496G:pK499R     1     0
-#>   NA.25 NA.26 NA.27 NA.28 NA.29 NA.30 NA.31 NA.32  NA.33 NA.34
-#> 1  <NA>  <NA>  <NA>  <NA>  <NA>  <NA>  <NA>  <NA>   <NA>  <NA>
-#> 2  <NA>  <NA>  <NA>  <NA>  <NA>  <NA>  <NA>  <NA>   <NA>  <NA>
-#> 3  <NA>  <NA>  <NA>  <NA>  <NA>  <NA>  <NA>  <NA>   <NA>  <NA>
-#> 4  <NA>  <NA>  <NA>  <NA>  <NA>  <NA>  <NA>  <NA>   <NA>  <NA>
-#> 5 0.001     0 0.999   0.4  1.64  1.18 0.867 0.216 -1.069 0.037
+#cohort_genotype <- cb_get_genotypic_table(my_cohort)
+cohort_genotype <- cb_get_genotypic_table(cohort = my_cohort)
+#> Total number of rows found 805357 You can use 'size' to mention how many rows you want to extract. Default size = 10
+cohort_genotype %>% kable()
 ```
+
+| Chromosome | Location  | Reference | Alternative | Affimetrix ID | Possible allele combination 0 | Possible allele combination 1 | Possible allele combination 2 | index | Type      | id | cn            | NA          | NA.1        | NA.2              | NA.3              | NA.4    | NA.5            | NA.6   | NA.7        | NA.8        | NA.9      | NA.10       | NA.11 | NA.12 | NA.13                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | NA.14          | NA.15                               | NA.16 | NA.17 | NA.18 | NA.19 | NA.20 | NA.21 | NA.22  | NA.23  | NA.24 | NA.25 | NA.26   | NA.27 | NA.28  | NA.29  | NA.30  | NA.31  | NA.32  | NA.33  | NA.34  | NA.35  | NA.36 | NA.37     |
+| :--------- | :-------- | :-------- | :---------- | :------------ | :---------------------------- | :---------------------------- | :---------------------------- | :---- | :-------- | :- | :------------ | :---------- | :---------- | :---------------- | :---------------- | :------ | :-------------- | :----- | :---------- | :---------- | :-------- | :---------- | :---- | :---- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :------------- | :---------------------------------- | :---- | :---- | :---- | :---- | :---- | :---- | :----- | :----- | :---- | :---- | :------ | :---- | :----- | :----- | :----- | :----- | :----- | :----- | :----- | :----- | :---- | :-------- |
+| 10         | 10:93190  | AC        |             | 80278591      | GAC G                         | 0 0                           | G GAC                         | 0     | Insertion | 1  | zzg\_m\_10\_0 | NA          | NA          | NA                | NA                | NA      | NA              | NA     | NA          | NA          | NA        | NA          | NA    | NA    | NA                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | NA             | NA                                  | NA    | NA    | NA    | NA    | NA    | NA    | NA     | NA     | NA    | NA    | NA      | NA    | NA     | NA     | NA     | NA     | NA     | NA     | NA     | NA     | NA    | NA        |
+| 10         | 10:93502  | C         | G           | 52134431      | C C                           | 0 0                           | G C                           | 1     | SNP       | 2  | zzg\_m\_10\_1 | rs201177578 | Deleterious | Possibly Damaging | Possibly Damaging | Unknown | Disease Causing | Medium | Deleterious | Deleterious | Tolerated | Deleterious | 542   | 244   | GO CYTOSKELETON ORGANIZATION| GO OOGENESIS| GO MICROTUBULE BASED PROCESS| GO MICROTUBULE CYTOSKELETON ORGANIZATION| GO SEXUAL REPRODUCTION| GO ATOMICAL STRUCTURE MATURATION| GO MITOTIC CELL CYCLE| GO ORGANELLE FISSION| GO CELL MATURATION| GO ORGANELLE ASSEMBLY| GO CELLULAR PROCESS INVOLVED IN REPRODUCTION IN MULTICELLULAR ORGANISM| GO OOCYTE MATURATION| GO OOCYTE DIFFERENTIATION| GO MEIOTIC CELL CYCLE| GO CELL CYCLE| GO MULTI ORGANISM REPRODUCTIVE PROCESS| GO GAMETE GENERATION| GO FEMALE GAMETE GENERATION| GO DEVELOPMENTAL PROCESS INVOLVED IN REPRODUCTION| GO MEIOTIC CELL CYCLE PROCESS| GO SPINDLE ASSEMBLY| GO REPRODUCTION| GO GERM CELL DEVELOPMENT| GO MULTICELLULAR ORGANISM REPRODUCTION| GO DEVELOPMENTAL MATURATION| GO CELL CYCLE PROCESS| GO MICROTUBULE CYTOSKELETON| GO CYTOSKELETAL PART| GO MICROTUBULE| GO SPINDLE| GO GTPASE ACTIVITY| GO HYDROLASE ACTIVITY ACTING ON ACID ANHYDRIDES| GO GUANYL NUCLEOTIDE BINDING| GO RIBONUCLEOTIDE BINDING| GO STRUCTURAL CONSTITUENT OF CYTOSKELETON| GO STRUCTURAL MOLECULE ACTIVITY| GO MEIOTIC SPINDLE ORGANIZATION| GO SPINDLE ORGANIZATION| GO FEMALE MEIOTIC NUCLEAR DIVISION| GO SPINDLE ASSEMBLY INVOLVED IN MEIOSIS| GO MEIOTIC SPINDLE| GO SUPRAMOLECULAR COMPLEX| GO POLYMERIC CYTOSKELETAL FIBER                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | TUBB8          | TUBB8:NM 177987:exon4:cG830C:pG277A | 0.002 | 0.787 | 0.598 | 0.001 | 1     | 2.155 | \-1.84 | \-4.65 | 0.41  | 0.877 | \-0.012 | 0.561 | NA     | NA     | NA     | NA     | NA     | NA     | NA     | NA     | NA    | NA        |
+| 10         | 10:93635  | T         | C           | 3729558       | T T                           | 0 0                           | C T                           | 2     | SNP       | 3  | zzg\_m\_10\_2 | rs200242637 | Deleterious | Benign            | Benign            | Unknown | Disease Causing | Medium | Tolerated   | Deleterious | Tolerated | Tolerated   | 615   | 27    | GO CYTOSKELETON ORGANIZATION| GO OOGENESIS| GO MICROTUBULE BASED PROCESS| GO MICROTUBULE CYTOSKELETON ORGANIZATION| GO SEXUAL REPRODUCTION| GO ATOMICAL STRUCTURE MATURATION| GO MITOTIC CELL CYCLE| GO ORGANELLE FISSION| GO CELL MATURATION| GO ORGANELLE ASSEMBLY| GO CELLULAR PROCESS INVOLVED IN REPRODUCTION IN MULTICELLULAR ORGANISM| GO OOCYTE MATURATION| GO OOCYTE DIFFERENTIATION| GO MEIOTIC CELL CYCLE| GO CELL CYCLE| GO MULTI ORGANISM REPRODUCTIVE PROCESS| GO GAMETE GENERATION| GO FEMALE GAMETE GENERATION| GO DEVELOPMENTAL PROCESS INVOLVED IN REPRODUCTION| GO MEIOTIC CELL CYCLE PROCESS| GO SPINDLE ASSEMBLY| GO REPRODUCTION| GO GERM CELL DEVELOPMENT| GO MULTICELLULAR ORGANISM REPRODUCTION| GO DEVELOPMENTAL MATURATION| GO CELL CYCLE PROCESS| GO MICROTUBULE CYTOSKELETON| GO CYTOSKELETAL PART| GO MICROTUBULE| GO SPINDLE| GO GTPASE ACTIVITY| GO HYDROLASE ACTIVITY ACTING ON ACID ANHYDRIDES| GO GUANYL NUCLEOTIDE BINDING| GO RIBONUCLEOTIDE BINDING| GO STRUCTURAL CONSTITUENT OF CYTOSKELETON| GO STRUCTURAL MOLECULE ACTIVITY| GO MEIOTIC SPINDLE ORGANIZATION| GO SPINDLE ORGANIZATION| GO FEMALE MEIOTIC NUCLEAR DIVISION| GO SPINDLE ASSEMBLY INVOLVED IN MEIOSIS| GO MEIOTIC SPINDLE| GO SUPRAMOLECULAR COMPLEX| GO POLYMERIC CYTOSKELETAL FIBER                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | TUBB8          | TUBB8:NM 177987:exon4:cA697G:pM233V | 0.012 | 0.01  | 0.043 | 0     | 1     | 2.105 | \-0.18 | \-3.33 | 0.098 | 0.713 | \-0.829 | 0.183 | 0.0279 | 0.0174 | 0.0196 | 0.04   | 0.0194 | 0.0573 | 0.028  | 0.0461 | NA    | NA        |
+| 10         | 10:94514  | CTGG      |             | 52349171      | CCTGG CCT                     | C CCTGG                       | 0 0                           | 3     | Insertion | 4  | zzg\_m\_10\_3 | NA          | NA          | NA                | NA                | NA      | NA              | NA     | NA          | NA          | NA        | NA          | NA    | NA    | NA                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | NA             | NA                                  | NA    | NA    | NA    | NA    | NA    | NA    | NA     | NA     | NA    | NA    | NA      | NA    | NA     | NA     | NA     | NA     | NA     | NA     | NA     | NA     | NA    | NA        |
+| 10         | 10:94693  | G         |             | 80278592      | AG                            | 0 0                           | A A                           | 4     | SNP       | 5  | zzg\_m\_10\_4 | NA          | NA          | NA                | NA                | NA      | NA              | NA     | NA          | NA          | NA        | NA          | NA    | NA    | GO CYTOSKELETON ORGANIZATION| GO OOGENESIS| GO MICROTUBULE BASED PROCESS| GO MICROTUBULE CYTOSKELETON ORGANIZATION| GO SEXUAL REPRODUCTION| GO ATOMICAL STRUCTURE MATURATION| GO MITOTIC CELL CYCLE| GO ORGANELLE FISSION| GO CELL MATURATION| GO ORGANELLE ASSEMBLY| GO CELLULAR PROCESS INVOLVED IN REPRODUCTION IN MULTICELLULAR ORGANISM| GO OOCYTE MATURATION| GO OOCYTE DIFFERENTIATION| GO MEIOTIC CELL CYCLE| GO CELL CYCLE| GO MULTI ORGANISM REPRODUCTIVE PROCESS| GO GAMETE GENERATION| GO FEMALE GAMETE GENERATION| GO DEVELOPMENTAL PROCESS INVOLVED IN REPRODUCTION| GO MEIOTIC CELL CYCLE PROCESS| GO SPINDLE ASSEMBLY| GO REPRODUCTION| GO GERM CELL DEVELOPMENT| GO MULTICELLULAR ORGANISM REPRODUCTION| GO DEVELOPMENTAL MATURATION| GO CELL CYCLE PROCESS| GO MICROTUBULE CYTOSKELETON| GO CYTOSKELETAL PART| GO MICROTUBULE| GO SPINDLE| GO GTPASE ACTIVITY| GO HYDROLASE ACTIVITY ACTING ON ACID ANHYDRIDES| GO GUANYL NUCLEOTIDE BINDING| GO RIBONUCLEOTIDE BINDING| GO STRUCTURAL CONSTITUENT OF CYTOSKELETON| GO STRUCTURAL MOLECULE ACTIVITY| GO MEIOTIC SPINDLE ORGANIZATION| GO SPINDLE ORGANIZATION| GO FEMALE MEIOTIC NUCLEAR DIVISION| GO SPINDLE ASSEMBLY INVOLVED IN MEIOSIS| GO MEIOTIC SPINDLE| GO SUPRAMOLECULAR COMPLEX| GO POLYMERIC CYTOSKELETAL FIBER                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | TUBB8          | NA                                  | NA    | NA    | NA    | NA    | NA    | NA    | NA     | NA     | NA    | NA    | NA      | NA    | NA     | NA     | NA     | NA     | NA     | NA     | NA     | NA     | NA    | NA        |
+| 10         | 10:95844  | C         | T           | 35481805      | C C                           | T C                           | 0 0                           | 5     | SNP       | 6  | zzg\_m\_10\_5 | rs117205301 | NA          | NA                | NA                | NA      | NA              | NA     | NA          | NA          | NA        | NA          | NA    | NA    | GO CYTOSKELETON ORGANIZATION| GO OOGENESIS| GO MICROTUBULE BASED PROCESS| GO MICROTUBULE CYTOSKELETON ORGANIZATION| GO SEXUAL REPRODUCTION| GO ATOMICAL STRUCTURE MATURATION| GO MITOTIC CELL CYCLE| GO ORGANELLE FISSION| GO CELL MATURATION| GO ORGANELLE ASSEMBLY| GO CELLULAR PROCESS INVOLVED IN REPRODUCTION IN MULTICELLULAR ORGANISM| GO OOCYTE MATURATION| GO OOCYTE DIFFERENTIATION| GO MEIOTIC CELL CYCLE| GO CELL CYCLE| GO MULTI ORGANISM REPRODUCTIVE PROCESS| GO GAMETE GENERATION| GO FEMALE GAMETE GENERATION| GO DEVELOPMENTAL PROCESS INVOLVED IN REPRODUCTION| GO MEIOTIC CELL CYCLE PROCESS| GO SPINDLE ASSEMBLY| GO REPRODUCTION| GO GERM CELL DEVELOPMENT| GO MULTICELLULAR ORGANISM REPRODUCTION| GO DEVELOPMENTAL MATURATION| GO CELL CYCLE PROCESS| GO MICROTUBULE CYTOSKELETON| GO CYTOSKELETAL PART| GO MICROTUBULE| GO SPINDLE| GO GTPASE ACTIVITY| GO HYDROLASE ACTIVITY ACTING ON ACID ANHYDRIDES| GO GUANYL NUCLEOTIDE BINDING| GO RIBONUCLEOTIDE BINDING| GO STRUCTURAL CONSTITUENT OF CYTOSKELETON| GO STRUCTURAL MOLECULE ACTIVITY| GO MEIOTIC SPINDLE ORGANIZATION| GO SPINDLE ORGANIZATION| GO FEMALE MEIOTIC NUCLEAR DIVISION| GO SPINDLE ASSEMBLY INVOLVED IN MEIOSIS| GO MEIOTIC SPINDLE| GO SUPRAMOLECULAR COMPLEX| GO POLYMERIC CYTOSKELETAL FIBER                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | TUBB8          | NA                                  | NA    | NA    | NA    | NA    | NA    | NA    | NA     | NA     | NA    | NA    | NA      | NA    | 0.0242 | 0.0085 | 0.0155 | 0.0199 | 0.0025 | 0.0218 | 0.0367 | 0.0275 | T T   | 0.0364263 |
+| 10         | 10:110655 | C         | T           | 2365062       | T C                           | 0 0                           | C C                           | 6     | SNP       | 7  | zzg\_m\_10\_6 | rs78253668  | NA          | NA                | NA                | NA      | NA              | NA     | NA          | NA          | NA        | NA          | NA    | NA    | GO CYTOSKELETON ORGANIZATION| GO OOGENESIS| GO MICROTUBULE BASED PROCESS| GO MICROTUBULE CYTOSKELETON ORGANIZATION| GO SEXUAL REPRODUCTION| GO ATOMICAL STRUCTURE MATURATION| GO MITOTIC CELL CYCLE| GO ORGANELLE FISSION| GO CELL MATURATION| GO ORGANELLE ASSEMBLY| GO CELLULAR PROCESS INVOLVED IN REPRODUCTION IN MULTICELLULAR ORGANISM| GO OOCYTE MATURATION| GO OOCYTE DIFFERENTIATION| GO MEIOTIC CELL CYCLE| GO CELL CYCLE| GO MULTI ORGANISM REPRODUCTIVE PROCESS| GO GAMETE GENERATION| GO FEMALE GAMETE GENERATION| GO DEVELOPMENTAL PROCESS INVOLVED IN REPRODUCTION| GO MEIOTIC CELL CYCLE PROCESS| GO SPINDLE ASSEMBLY| GO REPRODUCTION| GO GERM CELL DEVELOPMENT| GO MULTICELLULAR ORGANISM REPRODUCTION| GO DEVELOPMENTAL MATURATION| GO CELL CYCLE PROCESS| GO MICROTUBULE CYTOSKELETON| GO CYTOSKELETAL PART| GO MICROTUBULE| GO SPINDLE| GO GTPASE ACTIVITY| GO HYDROLASE ACTIVITY ACTING ON ACID ANHYDRIDES| GO GUANYL NUCLEOTIDE BINDING| GO RIBONUCLEOTIDE BINDING| GO STRUCTURAL CONSTITUENT OF CYTOSKELETON| GO STRUCTURAL MOLECULE ACTIVITY| GO MEIOTIC SPINDLE ORGANIZATION| GO SPINDLE ORGANIZATION| GO FEMALE MEIOTIC NUCLEAR DIVISION| GO SPINDLE ASSEMBLY INVOLVED IN MEIOSIS| GO MEIOTIC SPINDLE| GO SUPRAMOLECULAR COMPLEX| GO POLYMERIC CYTOSKELETAL FIBER; GO CHROMOSOME ORGANIZATION| GO D TEMPLATED TRANSCRIPTION ELONGATION| GO REGULATION OF MAPK CASCADE| GO REGULATION OF STRESS ACTIVATED PROTEIN KISE SIGLING CASCADE| GO I KAPPAB KISE NF KAPPAB SIGLING| GO DEFENSE RESPONSE TO VIRUS| GO EXTRINSIC APOPTOTIC SIGLING PATHWAY| GO REGULATION OF INTRACELLULAR SIGL TRANSDUCTION| GO NEGATIVE REGULATION OF MAPK CASCADE| GO NEGATIVE REGULATION OF INTRACELLULAR SIGL TRANSDUCTION| GO DEFENSE RESPONSE| GO NEGATIVE REGULATION OF EXTRINSIC APOPTOTIC SIGLING PATHWAY| GO REGULATION OF TRANSCRIPTION ELONGATION FROM R POLYMERASE II PROMOTER| GO DEFENSE RESPONSE TO OTHER ORGANISM| GO APOPTOTIC SIGLING PATHWAY| GO TRANSCRIPTION ELONGATION FROM R POLYMERASE II PROMOTER| GO JNK CASCADE| GO REGULATION OF EXTRINSIC APOPTOTIC SIGLING PATHWAY| GO NEGATIVE REGULATION OF PHOSPHORUS METABOLIC PROCESS| GO REGULATION OF RESPONSE TO STRESS| GO PROTEIN PHOSPHORYLATION| GO CHROMATIN ORGANIZATION| GO NEGATIVE REGULATION OF CELL DEATH| GO NEGATIVE REGULATION OF I KAPPAB KISE NF KAPPAB SIGLING| GO INTERSPECIES INTERACTION BETWEEN ORGANISMS| GO CELL CYCLE| GO NEGATIVE REGULATION OF JNK CASCADE| GO NEGATIVE REGULATION OF APOPTOTIC SIGLING PATHWAY| GO NEGATIVE REGULATION OF STRESS ACTIVATED PROTEIN KISE SIGLING CASCADE| GO REGULATION OF CELLULAR RESPONSE TO STRESS| GO REGULATION OF CELL DEATH| GO NEGATIVE REGULATION OF RESPONSE TO STIMULUS| GO NEGATIVE REGULATION OF PHOSPHORYLATION| GO NEGATIVE REGULATION OF PROTEIN METABOLIC PROCESS| GO RESPONSE TO BIOTIC STIMULUS| GO REGULATION OF PROTEIN MODIFICATION PROCESS| GO SIGL TRANSDUCTION BY PROTEIN PHOSPHORYLATION| GO STRESS ACTIVATED PROTEIN KISE SIGLING CASCADE| GO REGULATION OF PHOSPHORUS METABOLIC PROCESS| GO RESPONSE TO VIRUS| GO NEGATIVE REGULATION OF PROTEIN MODIFICATION PROCESS| GO REGULATION OF D TEMPLATED TRANSCRIPTION ELONGATION| GO IMMUNE EFFECTOR PROCESS| GO REGULATION OF APOPTOTIC SIGLING PATHWAY| GO CHROMOSOME| GO HISTONE BINDING| GO METHYLATED HISTONE BINDING| GO DOUBLE STRANDED D BINDING| GO TRANSITION METAL ION BINDING| GO ZINC ION BINDING| GO TRANSCRIPTION COREPRESSOR ACTIVITY| GO APOPTOTIC PROCESS| GO NEGATIVE REGULATION OF BIOSYNTHETIC PROCESS| GO NEGATIVE REGULATION OF SIGLING| GO NEGATIVE REGULATION OF R BIOSYNTHETIC PROCESS| GO TRANSCRIPTION COREGULATOR ACTIVITY| GO MODIFICATION DEPENDENT PROTEIN BINDING | TUBB8; ZMYND11 | NA                                  | NA    | NA    | NA    | NA    | NA    | NA    | NA     | NA     | NA    | NA    | NA      | NA    | 0.2678 | 0.1517 | 0.195  | 0.2881 | 0.254  | 0.3489 | 0.3203 | 0.2916 | T T   | 0.315864  |
+| 10         | 10:111955 | A         | G           | 2380802       | A A                           | G A                           | G G                           | 7     | SNP       | 8  | zzg\_m\_10\_7 | rs7909677   | NA          | NA                | NA                | NA      | NA              | NA     | NA          | NA          | NA        | NA          | NA    | NA    | GO CYTOSKELETON ORGANIZATION| GO OOGENESIS| GO MICROTUBULE BASED PROCESS| GO MICROTUBULE CYTOSKELETON ORGANIZATION| GO SEXUAL REPRODUCTION| GO ATOMICAL STRUCTURE MATURATION| GO MITOTIC CELL CYCLE| GO ORGANELLE FISSION| GO CELL MATURATION| GO ORGANELLE ASSEMBLY| GO CELLULAR PROCESS INVOLVED IN REPRODUCTION IN MULTICELLULAR ORGANISM| GO OOCYTE MATURATION| GO OOCYTE DIFFERENTIATION| GO MEIOTIC CELL CYCLE| GO CELL CYCLE| GO MULTI ORGANISM REPRODUCTIVE PROCESS| GO GAMETE GENERATION| GO FEMALE GAMETE GENERATION| GO DEVELOPMENTAL PROCESS INVOLVED IN REPRODUCTION| GO MEIOTIC CELL CYCLE PROCESS| GO SPINDLE ASSEMBLY| GO REPRODUCTION| GO GERM CELL DEVELOPMENT| GO MULTICELLULAR ORGANISM REPRODUCTION| GO DEVELOPMENTAL MATURATION| GO CELL CYCLE PROCESS| GO MICROTUBULE CYTOSKELETON| GO CYTOSKELETAL PART| GO MICROTUBULE| GO SPINDLE| GO GTPASE ACTIVITY| GO HYDROLASE ACTIVITY ACTING ON ACID ANHYDRIDES| GO GUANYL NUCLEOTIDE BINDING| GO RIBONUCLEOTIDE BINDING| GO STRUCTURAL CONSTITUENT OF CYTOSKELETON| GO STRUCTURAL MOLECULE ACTIVITY| GO MEIOTIC SPINDLE ORGANIZATION| GO SPINDLE ORGANIZATION| GO FEMALE MEIOTIC NUCLEAR DIVISION| GO SPINDLE ASSEMBLY INVOLVED IN MEIOSIS| GO MEIOTIC SPINDLE| GO SUPRAMOLECULAR COMPLEX| GO POLYMERIC CYTOSKELETAL FIBER; GO CHROMOSOME ORGANIZATION| GO D TEMPLATED TRANSCRIPTION ELONGATION| GO REGULATION OF MAPK CASCADE| GO REGULATION OF STRESS ACTIVATED PROTEIN KISE SIGLING CASCADE| GO I KAPPAB KISE NF KAPPAB SIGLING| GO DEFENSE RESPONSE TO VIRUS| GO EXTRINSIC APOPTOTIC SIGLING PATHWAY| GO REGULATION OF INTRACELLULAR SIGL TRANSDUCTION| GO NEGATIVE REGULATION OF MAPK CASCADE| GO NEGATIVE REGULATION OF INTRACELLULAR SIGL TRANSDUCTION| GO DEFENSE RESPONSE| GO NEGATIVE REGULATION OF EXTRINSIC APOPTOTIC SIGLING PATHWAY| GO REGULATION OF TRANSCRIPTION ELONGATION FROM R POLYMERASE II PROMOTER| GO DEFENSE RESPONSE TO OTHER ORGANISM| GO APOPTOTIC SIGLING PATHWAY| GO TRANSCRIPTION ELONGATION FROM R POLYMERASE II PROMOTER| GO JNK CASCADE| GO REGULATION OF EXTRINSIC APOPTOTIC SIGLING PATHWAY| GO NEGATIVE REGULATION OF PHOSPHORUS METABOLIC PROCESS| GO REGULATION OF RESPONSE TO STRESS| GO PROTEIN PHOSPHORYLATION| GO CHROMATIN ORGANIZATION| GO NEGATIVE REGULATION OF CELL DEATH| GO NEGATIVE REGULATION OF I KAPPAB KISE NF KAPPAB SIGLING| GO INTERSPECIES INTERACTION BETWEEN ORGANISMS| GO CELL CYCLE| GO NEGATIVE REGULATION OF JNK CASCADE| GO NEGATIVE REGULATION OF APOPTOTIC SIGLING PATHWAY| GO NEGATIVE REGULATION OF STRESS ACTIVATED PROTEIN KISE SIGLING CASCADE| GO REGULATION OF CELLULAR RESPONSE TO STRESS| GO REGULATION OF CELL DEATH| GO NEGATIVE REGULATION OF RESPONSE TO STIMULUS| GO NEGATIVE REGULATION OF PHOSPHORYLATION| GO NEGATIVE REGULATION OF PROTEIN METABOLIC PROCESS| GO RESPONSE TO BIOTIC STIMULUS| GO REGULATION OF PROTEIN MODIFICATION PROCESS| GO SIGL TRANSDUCTION BY PROTEIN PHOSPHORYLATION| GO STRESS ACTIVATED PROTEIN KISE SIGLING CASCADE| GO REGULATION OF PHOSPHORUS METABOLIC PROCESS| GO RESPONSE TO VIRUS| GO NEGATIVE REGULATION OF PROTEIN MODIFICATION PROCESS| GO REGULATION OF D TEMPLATED TRANSCRIPTION ELONGATION| GO IMMUNE EFFECTOR PROCESS| GO REGULATION OF APOPTOTIC SIGLING PATHWAY| GO CHROMOSOME| GO HISTONE BINDING| GO METHYLATED HISTONE BINDING| GO DOUBLE STRANDED D BINDING| GO TRANSITION METAL ION BINDING| GO ZINC ION BINDING| GO TRANSCRIPTION COREPRESSOR ACTIVITY| GO APOPTOTIC PROCESS| GO NEGATIVE REGULATION OF BIOSYNTHETIC PROCESS| GO NEGATIVE REGULATION OF SIGLING| GO NEGATIVE REGULATION OF R BIOSYNTHETIC PROCESS| GO TRANSCRIPTION COREGULATOR ACTIVITY| GO MODIFICATION DEPENDENT PROTEIN BINDING | TUBB8; ZMYND11 | NA                                  | NA    | NA    | NA    | NA    | NA    | NA    | NA     | NA     | NA    | NA    | NA      | NA    | 0.0634 | 0.0352 | 0.0465 | 0.0265 | 0.066  | 0.0785 | 0.0786 | 0.0519 | 0 0   | 0.0843255 |
+| 10         | 10:119812 | C         | T           | 2473215       | T T                           | C C                           | T C                           | 8     | SNP       | 9  | zzg\_m\_10\_8 | rs11253280  | NA          | NA                | NA                | NA      | NA              | NA     | NA          | NA          | NA        | NA          | NA    | NA    | GO CYTOSKELETON ORGANIZATION| GO OOGENESIS| GO MICROTUBULE BASED PROCESS| GO MICROTUBULE CYTOSKELETON ORGANIZATION| GO SEXUAL REPRODUCTION| GO ATOMICAL STRUCTURE MATURATION| GO MITOTIC CELL CYCLE| GO ORGANELLE FISSION| GO CELL MATURATION| GO ORGANELLE ASSEMBLY| GO CELLULAR PROCESS INVOLVED IN REPRODUCTION IN MULTICELLULAR ORGANISM| GO OOCYTE MATURATION| GO OOCYTE DIFFERENTIATION| GO MEIOTIC CELL CYCLE| GO CELL CYCLE| GO MULTI ORGANISM REPRODUCTIVE PROCESS| GO GAMETE GENERATION| GO FEMALE GAMETE GENERATION| GO DEVELOPMENTAL PROCESS INVOLVED IN REPRODUCTION| GO MEIOTIC CELL CYCLE PROCESS| GO SPINDLE ASSEMBLY| GO REPRODUCTION| GO GERM CELL DEVELOPMENT| GO MULTICELLULAR ORGANISM REPRODUCTION| GO DEVELOPMENTAL MATURATION| GO CELL CYCLE PROCESS| GO MICROTUBULE CYTOSKELETON| GO CYTOSKELETAL PART| GO MICROTUBULE| GO SPINDLE| GO GTPASE ACTIVITY| GO HYDROLASE ACTIVITY ACTING ON ACID ANHYDRIDES| GO GUANYL NUCLEOTIDE BINDING| GO RIBONUCLEOTIDE BINDING| GO STRUCTURAL CONSTITUENT OF CYTOSKELETON| GO STRUCTURAL MOLECULE ACTIVITY| GO MEIOTIC SPINDLE ORGANIZATION| GO SPINDLE ORGANIZATION| GO FEMALE MEIOTIC NUCLEAR DIVISION| GO SPINDLE ASSEMBLY INVOLVED IN MEIOSIS| GO MEIOTIC SPINDLE| GO SUPRAMOLECULAR COMPLEX| GO POLYMERIC CYTOSKELETAL FIBER; GO CHROMOSOME ORGANIZATION| GO D TEMPLATED TRANSCRIPTION ELONGATION| GO REGULATION OF MAPK CASCADE| GO REGULATION OF STRESS ACTIVATED PROTEIN KISE SIGLING CASCADE| GO I KAPPAB KISE NF KAPPAB SIGLING| GO DEFENSE RESPONSE TO VIRUS| GO EXTRINSIC APOPTOTIC SIGLING PATHWAY| GO REGULATION OF INTRACELLULAR SIGL TRANSDUCTION| GO NEGATIVE REGULATION OF MAPK CASCADE| GO NEGATIVE REGULATION OF INTRACELLULAR SIGL TRANSDUCTION| GO DEFENSE RESPONSE| GO NEGATIVE REGULATION OF EXTRINSIC APOPTOTIC SIGLING PATHWAY| GO REGULATION OF TRANSCRIPTION ELONGATION FROM R POLYMERASE II PROMOTER| GO DEFENSE RESPONSE TO OTHER ORGANISM| GO APOPTOTIC SIGLING PATHWAY| GO TRANSCRIPTION ELONGATION FROM R POLYMERASE II PROMOTER| GO JNK CASCADE| GO REGULATION OF EXTRINSIC APOPTOTIC SIGLING PATHWAY| GO NEGATIVE REGULATION OF PHOSPHORUS METABOLIC PROCESS| GO REGULATION OF RESPONSE TO STRESS| GO PROTEIN PHOSPHORYLATION| GO CHROMATIN ORGANIZATION| GO NEGATIVE REGULATION OF CELL DEATH| GO NEGATIVE REGULATION OF I KAPPAB KISE NF KAPPAB SIGLING| GO INTERSPECIES INTERACTION BETWEEN ORGANISMS| GO CELL CYCLE| GO NEGATIVE REGULATION OF JNK CASCADE| GO NEGATIVE REGULATION OF APOPTOTIC SIGLING PATHWAY| GO NEGATIVE REGULATION OF STRESS ACTIVATED PROTEIN KISE SIGLING CASCADE| GO REGULATION OF CELLULAR RESPONSE TO STRESS| GO REGULATION OF CELL DEATH| GO NEGATIVE REGULATION OF RESPONSE TO STIMULUS| GO NEGATIVE REGULATION OF PHOSPHORYLATION| GO NEGATIVE REGULATION OF PROTEIN METABOLIC PROCESS| GO RESPONSE TO BIOTIC STIMULUS| GO REGULATION OF PROTEIN MODIFICATION PROCESS| GO SIGL TRANSDUCTION BY PROTEIN PHOSPHORYLATION| GO STRESS ACTIVATED PROTEIN KISE SIGLING CASCADE| GO REGULATION OF PHOSPHORUS METABOLIC PROCESS| GO RESPONSE TO VIRUS| GO NEGATIVE REGULATION OF PROTEIN MODIFICATION PROCESS| GO REGULATION OF D TEMPLATED TRANSCRIPTION ELONGATION| GO IMMUNE EFFECTOR PROCESS| GO REGULATION OF APOPTOTIC SIGLING PATHWAY| GO CHROMOSOME| GO HISTONE BINDING| GO METHYLATED HISTONE BINDING| GO DOUBLE STRANDED D BINDING| GO TRANSITION METAL ION BINDING| GO ZINC ION BINDING| GO TRANSCRIPTION COREPRESSOR ACTIVITY| GO APOPTOTIC PROCESS| GO NEGATIVE REGULATION OF BIOSYNTHETIC PROCESS| GO NEGATIVE REGULATION OF SIGLING| GO NEGATIVE REGULATION OF R BIOSYNTHETIC PROCESS| GO TRANSCRIPTION COREGULATOR ACTIVITY| GO MODIFICATION DEPENDENT PROTEIN BINDING | TUBB8; ZMYND11 | NA                                  | NA    | NA    | NA    | NA    | NA    | NA    | NA     | NA     | NA    | NA    | NA      | NA    | 0.4425 | 0.4947 | 0.3077 | 0.3699 | 0.3674 | 0.4488 | 0.4306 | 0.4063 | 0 0   | 0.444643  |
+| 10         | 10:122109 | C         | T           | 2502714       | C C                           | T T                           | T C                           | 9     | SNP       | 10 | zzg\_m\_10\_9 | rs7093061   | NA          | NA                | NA                | NA      | NA              | NA     | NA          | NA          | NA        | NA          | NA    | NA    | GO CYTOSKELETON ORGANIZATION| GO OOGENESIS| GO MICROTUBULE BASED PROCESS| GO MICROTUBULE CYTOSKELETON ORGANIZATION| GO SEXUAL REPRODUCTION| GO ATOMICAL STRUCTURE MATURATION| GO MITOTIC CELL CYCLE| GO ORGANELLE FISSION| GO CELL MATURATION| GO ORGANELLE ASSEMBLY| GO CELLULAR PROCESS INVOLVED IN REPRODUCTION IN MULTICELLULAR ORGANISM| GO OOCYTE MATURATION| GO OOCYTE DIFFERENTIATION| GO MEIOTIC CELL CYCLE| GO CELL CYCLE| GO MULTI ORGANISM REPRODUCTIVE PROCESS| GO GAMETE GENERATION| GO FEMALE GAMETE GENERATION| GO DEVELOPMENTAL PROCESS INVOLVED IN REPRODUCTION| GO MEIOTIC CELL CYCLE PROCESS| GO SPINDLE ASSEMBLY| GO REPRODUCTION| GO GERM CELL DEVELOPMENT| GO MULTICELLULAR ORGANISM REPRODUCTION| GO DEVELOPMENTAL MATURATION| GO CELL CYCLE PROCESS| GO MICROTUBULE CYTOSKELETON| GO CYTOSKELETAL PART| GO MICROTUBULE| GO SPINDLE| GO GTPASE ACTIVITY| GO HYDROLASE ACTIVITY ACTING ON ACID ANHYDRIDES| GO GUANYL NUCLEOTIDE BINDING| GO RIBONUCLEOTIDE BINDING| GO STRUCTURAL CONSTITUENT OF CYTOSKELETON| GO STRUCTURAL MOLECULE ACTIVITY| GO MEIOTIC SPINDLE ORGANIZATION| GO SPINDLE ORGANIZATION| GO FEMALE MEIOTIC NUCLEAR DIVISION| GO SPINDLE ASSEMBLY INVOLVED IN MEIOSIS| GO MEIOTIC SPINDLE| GO SUPRAMOLECULAR COMPLEX| GO POLYMERIC CYTOSKELETAL FIBER; GO CHROMOSOME ORGANIZATION| GO D TEMPLATED TRANSCRIPTION ELONGATION| GO REGULATION OF MAPK CASCADE| GO REGULATION OF STRESS ACTIVATED PROTEIN KISE SIGLING CASCADE| GO I KAPPAB KISE NF KAPPAB SIGLING| GO DEFENSE RESPONSE TO VIRUS| GO EXTRINSIC APOPTOTIC SIGLING PATHWAY| GO REGULATION OF INTRACELLULAR SIGL TRANSDUCTION| GO NEGATIVE REGULATION OF MAPK CASCADE| GO NEGATIVE REGULATION OF INTRACELLULAR SIGL TRANSDUCTION| GO DEFENSE RESPONSE| GO NEGATIVE REGULATION OF EXTRINSIC APOPTOTIC SIGLING PATHWAY| GO REGULATION OF TRANSCRIPTION ELONGATION FROM R POLYMERASE II PROMOTER| GO DEFENSE RESPONSE TO OTHER ORGANISM| GO APOPTOTIC SIGLING PATHWAY| GO TRANSCRIPTION ELONGATION FROM R POLYMERASE II PROMOTER| GO JNK CASCADE| GO REGULATION OF EXTRINSIC APOPTOTIC SIGLING PATHWAY| GO NEGATIVE REGULATION OF PHOSPHORUS METABOLIC PROCESS| GO REGULATION OF RESPONSE TO STRESS| GO PROTEIN PHOSPHORYLATION| GO CHROMATIN ORGANIZATION| GO NEGATIVE REGULATION OF CELL DEATH| GO NEGATIVE REGULATION OF I KAPPAB KISE NF KAPPAB SIGLING| GO INTERSPECIES INTERACTION BETWEEN ORGANISMS| GO CELL CYCLE| GO NEGATIVE REGULATION OF JNK CASCADE| GO NEGATIVE REGULATION OF APOPTOTIC SIGLING PATHWAY| GO NEGATIVE REGULATION OF STRESS ACTIVATED PROTEIN KISE SIGLING CASCADE| GO REGULATION OF CELLULAR RESPONSE TO STRESS| GO REGULATION OF CELL DEATH| GO NEGATIVE REGULATION OF RESPONSE TO STIMULUS| GO NEGATIVE REGULATION OF PHOSPHORYLATION| GO NEGATIVE REGULATION OF PROTEIN METABOLIC PROCESS| GO RESPONSE TO BIOTIC STIMULUS| GO REGULATION OF PROTEIN MODIFICATION PROCESS| GO SIGL TRANSDUCTION BY PROTEIN PHOSPHORYLATION| GO STRESS ACTIVATED PROTEIN KISE SIGLING CASCADE| GO REGULATION OF PHOSPHORUS METABOLIC PROCESS| GO RESPONSE TO VIRUS| GO NEGATIVE REGULATION OF PROTEIN MODIFICATION PROCESS| GO REGULATION OF D TEMPLATED TRANSCRIPTION ELONGATION| GO IMMUNE EFFECTOR PROCESS| GO REGULATION OF APOPTOTIC SIGLING PATHWAY| GO CHROMOSOME| GO HISTONE BINDING| GO METHYLATED HISTONE BINDING| GO DOUBLE STRANDED D BINDING| GO TRANSITION METAL ION BINDING| GO ZINC ION BINDING| GO TRANSCRIPTION COREPRESSOR ACTIVITY| GO APOPTOTIC PROCESS| GO NEGATIVE REGULATION OF BIOSYNTHETIC PROCESS| GO NEGATIVE REGULATION OF SIGLING| GO NEGATIVE REGULATION OF R BIOSYNTHETIC PROCESS| GO TRANSCRIPTION COREGULATOR ACTIVITY| GO MODIFICATION DEPENDENT PROTEIN BINDING | TUBB8; ZMYND11 | NA                                  | NA    | NA    | NA    | NA    | NA    | NA    | NA     | NA     | NA    | NA    | NA      | NA    | 0.2538 | 0.1036 | 0.2734 | 0.3514 | 0.0961 | 0.282  | 0.3489 | 0.3077 | 0 0   | 0.35744   |
 
 ### Explore Filters
 
@@ -212,108 +171,29 @@ head(cohort_genotype, 5)
 Search for phenotypic filters based on a term.
 
 ``` r
-all_filters <- cloudos::cb_search_phenotypic_filters(cloudos = my_cloudos, 
-                                                     term = "cancer")
-#> Total number of filters - 4
-head(all_filters, 5)
-#>   bucket500 bucket1000 bucket2500 bucket5000 bucket300 bucket10000
-#> 1     FALSE      FALSE      FALSE      FALSE     FALSE       FALSE
-#> 2     FALSE      FALSE      FALSE      FALSE     FALSE       FALSE
-#> 3     FALSE      FALSE      FALSE      FALSE     FALSE       FALSE
-#> 4     FALSE      FALSE      FALSE      FALSE     FALSE       FALSE
-#>   categoryPathLevel1  categoryPathLevel2  id instances
-#> 1             Cancer Participant disease 177         1
-#> 2             Cancer Participant disease 178         1
-#> 3             Cancer  Participant Tumour 190         1
-#> 4             Cancer  Participant Tumour 272         1
-#>                               name        type Sorting            valueType
-#> 1          Cancer disease sub type        bars         Categorical multiple
-#> 2              Cancer disease type        bars         Categorical multiple
-#> 3                 Cancer tumour sk text_search                         Text
-#> 4 Pancreatic cancer clinical stage        bars         Categorical multiple
-#>   units coding
-#> 1             
-#> 2             
-#> 3             
-#> 4             
-#>                                                                                                                                                                                                                                                                                    description
-#> 1                                                                                                                                                                                             The subtype of the cancer in question, recorded against a limited set of supplied enumerations. 
-#> 2                                                                                                                                                                                                                          The cancer type of the tumour sample submitted to Genomics England.
-#> 3                                                                                                                                                                                                                                    Database identifier for a participant's registered tumour
-#> 4 COSD UG14560, UPPER GI - STAGING - PANCREAS. Description: 'Clinically agreed stage based on radiological findings of tumour extent in order to offer treatment recommendations. The category selected depends on tumour location within the pancreas and the arterial or venous involvement.
-#>   descriptionParticipantsNo
-#> 1                     17404
-#> 2                     17404
-#> 3                      9561
-#> 4                      9561
-#>                                                              link array
-#> 1 https://cnfl.extge.co.uk/pages/viewpage.action?pageId=147659370     4
-#> 2 https://cnfl.extge.co.uk/pages/viewpage.action?pageId=147659370     4
-#> 3 https://cnfl.extge.co.uk/pages/viewpage.action?pageId=147659370     5
-#> 4 https://cnfl.extge.co.uk/pages/viewpage.action?pageId=147659370     5
-#>   descriptionStability descriptionCategoryID descriptionItemType
-#> 1                                                               
-#> 2                                                               
-#> 3                                                               
-#> 4                                                               
-#>     descriptionStrata descriptionSexed orderPhenotype instance0Name
-#> 1 Main 100k Programme                                              
-#> 2 Main 100k Programme                                              
-#> 3 Main 100k Programme                                              
-#> 4 Main 100k Programme                                              
-#>   instance1Name instance2Name instance3Name instance4Name instance5Name
-#> 1                                                                      
-#> 2                                                                      
-#> 3                                                                      
-#> 4                                                                      
-#>   instance6Name instance7Name instance8Name instance9Name instance10Name
-#> 1                                                                       
-#> 2                                                                       
-#> 3                                                                       
-#> 4                                                                       
-#>   instance11Name instance12Name instance13Name instance14Name instance15Name
-#> 1                                                                           
-#> 2                                                                           
-#> 3                                                                           
-#> 4                                                                           
-#>   instance16Name
-#> 1               
-#> 2               
-#> 3               
-#> 4
+all_filters <- cb_search_phenotypic_filters(term = "cancer")
+#> Total number of phenotypic filters found - 4
+all_filters %>% kable()
 ```
+
+| bucket500 | bucket1000 | bucket2500 | bucket5000 | bucket300 | bucket10000 | categoryPathLevel1 | categoryPathLevel2  | id  | instances | name                             | type         | Sorting | valueType            | units | coding | description                                                                                                                                                                                                                                                                                  | descriptionParticipantsNo | link                                                              | array | descriptionStability | descriptionCategoryID | descriptionItemType | descriptionStrata   | descriptionSexed | orderPhenotype | instance0Name | instance1Name | instance2Name | instance3Name | instance4Name | instance5Name | instance6Name | instance7Name | instance8Name | instance9Name | instance10Name | instance11Name | instance12Name | instance13Name | instance14Name | instance15Name | instance16Name |
+| :-------- | :--------- | :--------- | :--------- | :-------- | :---------- | :----------------- | :------------------ | :-- | :-------- | :------------------------------- | :----------- | :------ | :------------------- | :---- | :----- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------ | :---------------------------------------------------------------- | :---- | :------------------- | :-------------------- | :------------------ | :------------------ | :--------------- | :------------- | :------------ | :------------ | :------------ | :------------ | :------------ | :------------ | :------------ | :------------ | :------------ | :------------ | :------------- | :------------- | :------------- | :------------- | :------------- | :------------- | :------------- |
+| FALSE     | FALSE      | FALSE      | FALSE      | FALSE     | FALSE       | Cancer             | Participant disease | 177 | 1         | Cancer disease sub type          | bars         |         | Categorical multiple |       |        | The subtype of the cancer in question, recorded against a limited set of supplied enumerations.                                                                                                                                                                                              | 17404                     | <https://cnfl.extge.co.uk/pages/viewpage.action?pageId=147659370> | 4     |                      |                       |                     | Main 100k Programme |                  |                |               |               |               |               |               |               |               |               |               |               |                |                |                |                |                |                |                |
+| FALSE     | FALSE      | FALSE      | FALSE      | FALSE     | FALSE       | Cancer             | Participant disease | 178 | 1         | Cancer disease type              | bars         |         | Categorical multiple |       |        | The cancer type of the tumour sample submitted to Genomics England.                                                                                                                                                                                                                          | 17404                     | <https://cnfl.extge.co.uk/pages/viewpage.action?pageId=147659370> | 4     |                      |                       |                     | Main 100k Programme |                  |                |               |               |               |               |               |               |               |               |               |               |                |                |                |                |                |                |                |
+| FALSE     | FALSE      | FALSE      | FALSE      | FALSE     | FALSE       | Cancer             | Participant Tumour  | 190 | 1         | Cancer tumour sk                 | text\_search |         | Text                 |       |        | Database identifier for a participant’s registered tumour                                                                                                                                                                                                                                    | 9561                      | <https://cnfl.extge.co.uk/pages/viewpage.action?pageId=147659370> | 5     |                      |                       |                     | Main 100k Programme |                  |                |               |               |               |               |               |               |               |               |               |               |                |                |                |                |                |                |                |
+| FALSE     | FALSE      | FALSE      | FALSE      | FALSE     | FALSE       | Cancer             | Participant Tumour  | 272 | 1         | Pancreatic cancer clinical stage | bars         |         | Categorical multiple |       |        | COSD UG14560, UPPER GI - STAGING - PANCREAS. Description: ’Clinically agreed stage based on radiological findings of tumour extent in order to offer treatment recommendations. The category selected depends on tumour location within the pancreas and the arterial or venous involvement. | 9561                      | <https://cnfl.extge.co.uk/pages/viewpage.action?pageId=147659370> | 5     |                      |                       |                     | Main 100k Programme |                  |                |               |               |               |               |               |               |               |               |               |               |                |                |                |                |                |                |                |
 
 Lets choose one filter from above table
 
 ``` r
 # apply this first row filter
 my_phenotypic_filter <- all_filters[1,]
-my_phenotypic_filter
-#>   bucket500 bucket1000 bucket2500 bucket5000 bucket300 bucket10000
-#> 1     FALSE      FALSE      FALSE      FALSE     FALSE       FALSE
-#>   categoryPathLevel1  categoryPathLevel2  id instances                    name
-#> 1             Cancer Participant disease 177         1 Cancer disease sub type
-#>   type Sorting            valueType units coding
-#> 1 bars         Categorical multiple             
-#>                                                                                        description
-#> 1 The subtype of the cancer in question, recorded against a limited set of supplied enumerations. 
-#>   descriptionParticipantsNo
-#> 1                     17404
-#>                                                              link array
-#> 1 https://cnfl.extge.co.uk/pages/viewpage.action?pageId=147659370     4
-#>   descriptionStability descriptionCategoryID descriptionItemType
-#> 1                                                               
-#>     descriptionStrata descriptionSexed orderPhenotype instance0Name
-#> 1 Main 100k Programme                                              
-#>   instance1Name instance2Name instance3Name instance4Name instance5Name
-#> 1                                                                      
-#>   instance6Name instance7Name instance8Name instance9Name instance10Name
-#> 1                                                                       
-#>   instance11Name instance12Name instance13Name instance14Name instance15Name
-#> 1                                                                           
-#>   instance16Name
-#> 1
+my_phenotypic_filter %>% kable()
 ```
+
+| bucket500 | bucket1000 | bucket2500 | bucket5000 | bucket300 | bucket10000 | categoryPathLevel1 | categoryPathLevel2  | id  | instances | name                    | type | Sorting | valueType            | units | coding | description                                                                                     | descriptionParticipantsNo | link                                                              | array | descriptionStability | descriptionCategoryID | descriptionItemType | descriptionStrata   | descriptionSexed | orderPhenotype | instance0Name | instance1Name | instance2Name | instance3Name | instance4Name | instance5Name | instance6Name | instance7Name | instance8Name | instance9Name | instance10Name | instance11Name | instance12Name | instance13Name | instance14Name | instance15Name | instance16Name |
+| :-------- | :--------- | :--------- | :--------- | :-------- | :---------- | :----------------- | :------------------ | :-- | :-------- | :---------------------- | :--- | :------ | :------------------- | :---- | :----- | :---------------------------------------------------------------------------------------------- | :------------------------ | :---------------------------------------------------------------- | :---- | :------------------- | :-------------------- | :------------------ | :------------------ | :--------------- | :------------- | :------------ | :------------ | :------------ | :------------ | :------------ | :------------ | :------------ | :------------ | :------------ | :------------ | :------------- | :------------- | :------------- | :------------- | :------------- | :------------- | :------------- |
+| FALSE     | FALSE      | FALSE      | FALSE      | FALSE     | FALSE       | Cancer             | Participant disease | 177 | 1         | Cancer disease sub type | bars |         | Categorical multiple |       |        | The subtype of the cancer in question, recorded against a limited set of supplied enumerations. | 17404                     | <https://cnfl.extge.co.uk/pages/viewpage.action?pageId=147659370> | 4     |                      |                       |                     | Main 100k Programme |                  |                |               |               |               |               |               |               |               |               |               |               |                |                |                |                |                |                |                |
 
 #### Apply phenotypic filter
 
@@ -322,32 +202,104 @@ applied.
 
 ``` r
 # phenotype filter
-cohort_with_filters <- cloudos::cb_get_filter_statistics(my_cloudos, 
-                                     cohort = my_cohort, 
+cohort_with_filters <- cb_get_filter_statistics(cohort = my_cohort, 
                                      filter_id = my_phenotypic_filter$id)
-cohort_with_filters
-#> # A tibble: 85 x 3
-#>    `_id`                               number total
-#>    <chr>                                <int> <int>
-#>  1 (All) Acute Lymphoblastic Leukaemia     46  4449
-#>  2 (Aml) Acute Myeloid Leukaemia           55  4449
-#>  3 Acral Lentiginous                        1  4449
-#>  4 Adamantinoma Of Bone                     7  4449
-#>  5 Adenocarcinoma                         982  4449
-#>  6 Anaplastic Astrocytoma                  11  4449
-#>  7 Anaplastic Oligodendroglioma             5  4449
-#>  8 Angiosarcoma                             3  4449
-#>  9 Biliary Adenocarcinoma                   1  4449
-#> 10 Carcinosarcoma                          12  4449
-#> # … with 75 more rows
+cohort_with_filters %>% kable()
 ```
+
+| \_id                                              | number | total |
+| :------------------------------------------------ | -----: | ----: |
+| (All) Acute Lymphoblastic Leukaemia               |     46 |  4449 |
+| (Aml) Acute Myeloid Leukaemia                     |     55 |  4449 |
+| Acral Lentiginous                                 |      1 |  4449 |
+| Adamantinoma Of Bone                              |      7 |  4449 |
+| Adenocarcinoma                                    |    982 |  4449 |
+| Anaplastic Astrocytoma                            |     11 |  4449 |
+| Anaplastic Oligodendroglioma                      |      5 |  4449 |
+| Angiosarcoma                                      |      3 |  4449 |
+| Biliary Adenocarcinoma                            |      1 |  4449 |
+| Carcinosarcoma                                    |     12 |  4449 |
+| Childhood Other                                   |     20 |  4449 |
+| Cholangiocarcinoma                                |      9 |  4449 |
+| Chordoma                                          |      8 |  4449 |
+| Chromophobe                                       |      6 |  4449 |
+| Chronic Lymphocytic Leukaemia                     |     55 |  4449 |
+| Chronic Myeloid Leukaemia                         |     14 |  4449 |
+| Classical Seminoma                                |      3 |  4449 |
+| Clear Cell Adenocarcinoma                         |      4 |  4449 |
+| Clear Cell Carcinoma                              |    154 |  4449 |
+| Conventional Chondrosarcoma                       |     19 |  4449 |
+| Dedifferentiated Chondrosarcoma                   |      4 |  4449 |
+| Dedifferentiated Liposarcoma                      |     12 |  4449 |
+| Diffuse Astrocytoma                               |      9 |  4449 |
+| Diffuse Large B-Cell Lymphoma                     |      6 |  4449 |
+| Ductal                                            |    483 |  4449 |
+| Embryonal Carcinoma                               |      1 |  4449 |
+| Endometrioid Carcinoma                            |    112 |  4449 |
+| Extraskeletal Chondrosarcoma                      |      3 |  4449 |
+| Gastric Adenocarcinoma                            |     10 |  4449 |
+| Germ Cell Tumour                                  |      2 |  4449 |
+| Glioblastoma                                      |     66 |  4449 |
+| Granulosa Cell Tumour                             |      2 |  4449 |
+| Haematological Malignancy Unclassified            |      1 |  4449 |
+| Hepatocellular Carcinoma                          |      7 |  4449 |
+| High Grade Lymphoma Nos                           |      3 |  4449 |
+| High Grade Serous Carcinoma                       |     84 |  4449 |
+| Hpv Negative Oropharyngeal Cancer                 |     27 |  4449 |
+| Hpv Positive Oropharyngeal Cancer                 |      5 |  4449 |
+| Large Cell                                        |      7 |  4449 |
+| Leiomyosarcoma From All Sites                     |     36 |  4449 |
+| Lobular                                           |    100 |  4449 |
+| Low Grade Fibromyxoid Sarcoma                     |      3 |  4449 |
+| Low Grade Serous Adenocarcinoma                   |      8 |  4449 |
+| Medullary                                         |      2 |  4449 |
+| Mesothelioma                                      |      7 |  4449 |
+| Mixed Tumour Type                                 |     22 |  4449 |
+| Mucinous Carcinoma                                |     17 |  4449 |
+| Multiple Myeloma                                  |     17 |  4449 |
+| Myelodysplastic Syndrome (High Risk)              |      4 |  4449 |
+| Myleoproliferative Neoplasms                      |     14 |  4449 |
+| Myxofibrosarcoma                                  |     35 |  4449 |
+| Myxoid Liposarcoma                                |      3 |  4449 |
+| Myxoinflammatory Fibroblastic Sarcoma             |      1 |  4449 |
+| Neuroblastoma (Nos)                               |      3 |  4449 |
+| Neuroendocrine                                    |      6 |  4449 |
+| Neuroendocrine Carcinoma                          |     19 |  4449 |
+| Nodular                                           |     18 |  4449 |
+| Non Specified Renal Carcinoma                     |     30 |  4449 |
+| Non-Hodgkins B Cell Lymphoma Low / Moderate Grade |      9 |  4449 |
+| Not Available                                     |    120 |  4449 |
+| Oligodendroglioma                                 |      5 |  4449 |
+| Oncocytic                                         |     10 |  4449 |
+| Other                                             |    350 |  4449 |
+| Paediatric Malignant Glioma                       |      2 |  4449 |
+| Pancreatic Adenocarcinoma                         |     31 |  4449 |
+| Pancreatic Neuroendocrine Carcinoma               |      4 |  4449 |
+| Papillary                                         |      3 |  4449 |
+| Papillary Type 1                                  |     19 |  4449 |
+| Papillary Type 2                                  |      6 |  4449 |
+| Pituitary Carcinoma                               |      2 |  4449 |
+| Pleomorphic Sarcoma                               |     21 |  4449 |
+| Primary Conventional Osteosarcoma                 |      8 |  4449 |
+| Rhabdomyosarcoma                                  |      1 |  4449 |
+| Sarcoma Nos                                       |      4 |  4449 |
+| Serous Carcinoma                                  |     22 |  4449 |
+| Small Cell                                        |     11 |  4449 |
+| Squamous Cell                                     |    125 |  4449 |
+| Superficial Spreading                             |      7 |  4449 |
+| Synovial Sarcoma - Monophasic And Biphasic        |     16 |  4449 |
+| T-Cell Lymphoma                                   |      2 |  4449 |
+| Tubular / Cribform                                |      4 |  4449 |
+| Unknown                                           |   1035 |  4449 |
+| Urothelial (In Situ)                              |     14 |  4449 |
+| Urothelial Carcinoma                              |     12 |  4449 |
+| Uveal Melanoma                                    |      2 |  4449 |
 
 We can get number of total participants after applying a filter.
 
 ``` r
 # filter participants
-total_participants_with_filter <- cloudos:::cb_filter_participants(my_cloudos,
-                                                cohort = my_cohort, 
+total_participants_with_filter <- cb_filter_participants(cohort = my_cohort, 
                                                 filter_id = my_phenotypic_filter$id)
  
 total_participants_with_filter
@@ -444,9 +396,9 @@ list(filter_query_1, filter_query_2)`
 Check the bellow example for the complete function call.
 
 ``` r
-cb_apply_filter(cloudos = my_cloudos,
-                cohort = my_cohort,
-                filter_query = list("22" = list("from" = "2015-05-13", "to" = "2016-04-29"), "50" = c("Father", "Mother")))
+cb_apply_filter(cohort = my_cohort,
+                filter_query = list("22" = list("from" = "2015-05-13", "to" = "2016-04-29"),
+                                    "50" = c("Father", "Mother")))
 ```
 
 ### Get sample filters plot
@@ -456,14 +408,14 @@ Get ggplots for all the applied phenotypic filters for a cohort.
 As this based on ggplot objects, this can be customised further.
 
 ``` r
-plot_list <- cloudos::cb_plot_filters(cloudos = my_cloudos, cohort = my_cohort)
+plot_list <- cb_plot_filters(cohort = my_cohort)
 #> Warning: Ignoring unknown parameters: binwidth, bins, pad
 library(ggpubr)
 #> Loading required package: ggplot2
 ggpubr::ggarrange(plotlist = plot_list)
 ```
 
-<img src="man/figures/README-unnamed-chunk-17-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-15-1.png" width="100%" />
 
 Individual plots
 
@@ -471,13 +423,13 @@ Individual plots
 plot_list[[1]]
 ```
 
-<img src="man/figures/README-unnamed-chunk-18-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-16-1.png" width="100%" />
 
 ``` r
 plot_list[[2]]
 ```
 
-<img src="man/figures/README-unnamed-chunk-19-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-17-1.png" width="100%" />
 
 Covert ggplot objects to plotly elements (just for demonstration
 purpose, in markdown plotly don’t support.)
@@ -490,25 +442,4 @@ p1
 ``` r
 p2 <- plotly::ggplotly(plot_list$filter_id_2345)
 p2
-```
-
-### Additional for UI
-
-#### Get samples table for selected rows
-
-Create a RAW data string. This usually generates after selecting
-participants on UI. (more information will be added how to create this
-in R)
-
-NOTE: This function will be improved `raw_data` arg is temporary.
-
-``` r
-new_raw_data <- '{"columns":[{"id":34,"instance":0,"array":{"type":"exact","value":0}},{"id":31,"instance":0,"array":{"type":"exact","value":0}},{"id":52,"instance":0,"array":{"type":"exact","value":0}},{"id":5984,"instance":0,"array":{"type":"avg"}},{"id":5984,"instance":0,"array":{"type":"min"}},{"id":5984,"instance":0,"array":{"type":"max"}},{"id":20001,"instance":0,"array":{"type":"exact","value":0}}],"ids":["5f185b92bf92ed4d3be9637d","5edbdd689d700db709af0c2f","5f185b91bf92ed4d3be9587e","5f185b91bf92ed4d3be95984","5edbdd689d700db709af0c3e","5edbdd689d700db709af0c2b","5edbdd689d700db709af0c2d","5f185b93bf92ed4d3be982e9","5edbdd689d700db709af0c2a","5edbdd689d700db709af0c4d"],"type":"csv","base_url":"http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com"}'
-```
-
-Using this above raw data lets extract selected participants.
-
-``` r
-df <- cloudos::cb_extract_samples(my_cloudos,
-                      raw_data = new_raw_data)
 ```

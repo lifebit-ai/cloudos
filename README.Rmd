@@ -41,6 +41,8 @@ Bellow are given the demonstration of how the **cloudos** package can be used.
 
 ```{r}
 library(cloudos)
+library(knitr) # For better visualization of wide dataframes in this README examples
+library(magrittr) # For pipe
 ```
 
 ### Configure CloudOS
@@ -69,7 +71,7 @@ To check list of available cohorts in a workspace.
 
 ```{r}
 cohorts <- cb_list_cohorts()
-head(cohorts,5)
+cohorts %>% kable()
 ```
 
 ### Create a cohort
@@ -97,7 +99,7 @@ Get all the samples (participants) table for a cohort with phenotypic filters ap
 
 ```{r}
 cohort_samples <- cb_get_samples_table(cohort = my_cohort)
-head(cohort_samples, 5)
+cohort_samples %>% kable()
 ```
 
 ### Get genotypic table
@@ -107,7 +109,7 @@ Get all the genotypic table for a cohort.
 ```{r}
 #cohort_genotype <- cb_get_genotypic_table(my_cohort)
 cohort_genotype <- cb_get_genotypic_table(cohort = my_cohort)
-head(cohort_genotype, 5)
+cohort_genotype %>% kable()
 ```
 
 ### Explore Filters
@@ -118,14 +120,14 @@ Search for phenotypic filters based on a term.
 
 ```{r}
 all_filters <- cb_search_phenotypic_filters(term = "cancer")
-head(all_filters, 5)
+all_filters %>% kable()
 ```
 Lets choose one filter from above table
 
 ```{r}
 # apply this first row filter
 my_phenotypic_filter <- all_filters[1,]
-my_phenotypic_filter
+my_phenotypic_filter %>% kable()
 ```
 
 #### Apply phenotypic filter
@@ -136,7 +138,7 @@ We can get statistic of sample numbers in a cohort for which a filter is applied
 # phenotype filter
 cohort_with_filters <- cb_get_filter_statistics(cohort = my_cohort, 
                                      filter_id = my_phenotypic_filter$id)
-cohort_with_filters
+cohort_with_filters %>% kable()
 ```
 
 We can get number of total participants after applying a filter.
