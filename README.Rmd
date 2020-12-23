@@ -71,7 +71,7 @@ To check list of available cohorts in a workspace.
 
 ```{r}
 cohorts <- cb_list_cohorts()
-cohorts %>% kable()
+cohorts %>% head(n=5) %>% kable()
 ```
 
 ### Create a cohort
@@ -99,7 +99,7 @@ Get all the samples (participants) table for a cohort with phenotypic filters ap
 
 ```{r}
 cohort_samples <- cb_get_samples_table(cohort = my_cohort)
-cohort_samples %>% kable()
+cohort_samples %>% head(n=5) %>% kable()
 ```
 
 ### Get genotypic table
@@ -109,7 +109,7 @@ Get all the genotypic table for a cohort.
 ```{r}
 #cohort_genotype <- cb_get_genotypic_table(my_cohort)
 cohort_genotype <- cb_get_genotypic_table(cohort = my_cohort)
-cohort_genotype %>% kable()
+cohort_genotype %>% head(n=5) %>% kable()
 ```
 
 ### Explore Filters
@@ -120,7 +120,7 @@ Search for phenotypic filters based on a term.
 
 ```{r}
 all_filters <- cb_search_phenotypic_filters(term = "cancer")
-all_filters %>% kable()
+all_filters %>% head(n=5) %>% kable()
 ```
 Lets choose one filter from above table
 
@@ -138,7 +138,7 @@ We can get statistic of sample numbers in a cohort for which a filter is applied
 # phenotype filter
 cohort_with_filters <- cb_get_filter_statistics(cohort = my_cohort, 
                                      filter_id = my_phenotypic_filter$id)
-cohort_with_filters %>% kable()
+cohort_with_filters %>% head(n=10) %>% kable()
 ```
 
 We can get number of total participants after applying a filter.
@@ -235,7 +235,7 @@ cb_apply_filter(cohort = my_cohort,
 
 ```
 
-### Get sample filters plot
+### Get sample filters plot (experimental)
 
 Get ggplots for all the applied phenotypic filters for a cohort. 
 
@@ -269,3 +269,12 @@ p2 <- plotly::ggplotly(plot_list$filter_id_2345)
 p2
 ```
 
+## Additional notes
+
+This package is under activate development. If you found any issues, Please reach out here - https://github.com/lifebit-ai/cloudos/issues 
+
+For Documentation visit - http://lifebit-ai.github.io/cloudos 
+
+## License
+
+MIT © [Lifebit](https://lifebit.ai/)
