@@ -24,7 +24,7 @@ cloudos_conf_file <- "~/.cloudos/config"
 
 .check_and_load_all_cloudos_env_var <- function(){
   all_cloudos_env_var <- c()
-  all_cloudos_env_var$base_url <- .check_cloudos_env_var('CLOUDOS_BASEURL')
+  all_cloudos_env_var$base_url <- sub("/$","", .check_cloudos_env_var('CLOUDOS_BASEURL')) # remove the tailing slash
   all_cloudos_env_var$token <- .check_cloudos_env_var('CLOUDOS_TOKEN')
   all_cloudos_env_var$team_id <- .check_cloudos_env_var('CLOUDOS_TEAMID')
   return(all_cloudos_env_var)
