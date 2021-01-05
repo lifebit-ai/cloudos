@@ -30,6 +30,11 @@ cloudos_conf_file <- "~/.cloudos/config"
   return(all_cloudos_env_var)
 }
 
+#' @title whoami
+#'
+#' @description To check the current configuration
+#' 
+#' @export
 cloudos_whoami <- function(){
   .check_and_load_all_cloudos_env_var()
   message(
@@ -41,6 +46,16 @@ cloudos_whoami <- function(){
   )
 }
 
+#' @title Configure cloudos
+#'
+#' @description On a system for the first time the cloudos configuration needed to be done.
+#' This function can help do that. 
+#'
+#' @param base_url Base URL for cloudos
+#' @param token API key or token
+#' @param team_id team/workspace ID
+#' 
+#' @export
 cloudos_configure <- function(base_url, token, team_id){
   
   if(file.exists(cloudos_conf_file)){
