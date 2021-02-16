@@ -24,6 +24,7 @@ cb_get_genotypic_table <- function(cohort,
   # TODO cohort object is not being used ATM,
   # because from BE it is not implemented to retrieve cohort related genotypic
   
+  if(size == 0) stop("size can't be 0")
   page_number = 0
   page_size = size
   
@@ -105,6 +106,7 @@ cb_get_samples_table <- function(cohort,
                               page_number = 0,
                               page_size = 10) {
 
+  if(page_size == 0) stop("page_size can't be 0")
   # make json body
   if(missing(cohort)){
     search = list()
