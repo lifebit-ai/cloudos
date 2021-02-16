@@ -4,12 +4,9 @@
 \alias{cb_get_samples_table}
 \title{Get samples table}
 \usage{
-cb_get_samples_table(cloudos, cohort, page_number = 0, page_size = 10)
+cb_get_samples_table(cohort, page_number = 0, page_size = 10)
 }
 \arguments{
-\item{cloudos}{A cloudos object. (Required)
-See constructor function \code{\link{connect_cloudos}}}
-
 \item{cohort}{A cohort object. (Required)
 See constructor functions \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}}
 

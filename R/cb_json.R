@@ -1,4 +1,4 @@
-# my_cohort <- .get_cohort_info(cloudos, cohort_id)
+# my_cohort <- .get_cohort_info(cohort_id)
 # more_fields <- my_cohort$moreFields[[3]]
 # fields <- my_cohort$fields[[2]]
 

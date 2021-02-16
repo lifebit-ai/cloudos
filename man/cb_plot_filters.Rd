@@ -4,12 +4,9 @@
 \alias{cb_plot_filters}
 \title{Plot filters}
 \usage{
-cb_plot_filters(cloudos, cohort)
+cb_plot_filters(cohort)
 }
 \arguments{
-\item{cloudos}{A cloudos object. (Required)
-See constructor function \code{\link{connect_cloudos}}}
-
 \item{cohort}{A cohort object. (Required)
 See constructor function \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}}
 }

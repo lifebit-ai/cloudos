@@ -4,12 +4,9 @@
 \alias{cb_list_cohorts}
 \title{List cohorts}
 \usage{
-cb_list_cohorts(cloudos, size = 10)
+cb_list_cohorts(size = 10)
 }
 \arguments{
-\item{cloudos}{A cloudos object. (Required)
-See constructor function \code{\link{connect_cloudos}}}
-
 \item{size}{Number of cohort entries from database. (Optional) Default - 10}
 }
 \value{
@@ -20,6 +17,6 @@ Extracts the data frame with limited cohort data columns.
 }
 \examples{
 \dontrun{
-cohorts_list(cloudos_obj)
+cohorts_list()
 }
 }

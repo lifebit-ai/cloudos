@@ -87,8 +87,6 @@
 #'
 #' @description Applies filter and updates/saves the cohort from database.
 #'
-#' @param cloudos A cloudos object. (Required)
-#' See constructor function \code{\link{connect_cloudos}} 
 #' @param cohort A cohort object. (Required)
 #' See constructor function \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}
 #' @param filter_query Phenotypic filter query. 
@@ -100,20 +98,18 @@
 #' 
 #' @examples
 #' \dontrun{
-#' cb_apply_filter(cloudos = my_cloudos,
-#'                cohort = my_cohort,
+#' cb_apply_filter(cohort = my_cohort,
 #'                filter_query = list("22" = list("from" = "2015-05-13", "to" = "2016-04-29"), "50" = c("Father", "Mother")))
 #'
 #' @export
-cb_apply_filter <- function(cloudos, 
-                            cohort, 
+cb_apply_filter <- function(cohort, 
                             filter_query,
                             column_ids,
                             keep_existing_filter = TRUE,
                             keep_existing_columns = TRUE) {
   
   # get info about existing columns and fields
-  my_cohort_info <- .get_cohort_info(cloudos = cloudos, cohort_id = cohort@id)
+  my_cohort_info <- .get_cohort_info(cohort_id = cohort@id)
   
   # cohort columns
   all_columns <- c()
@@ -139,11 +135,12 @@ cb_apply_filter <- function(cloudos,
   r_body <- list("columns" = all_columns,
                  "moreFilters" = all_filters)
 
+  cloudos <- .check_and_load_all_cloudos_env_var()
   # make request
-  url <- paste(cloudos@base_url, "v1/cohort", cohort@id, "filters", sep = "/")
+  url <- paste(cloudos$base_url, "v1/cohort", cohort@id, "filters", sep = "/")
   r <- httr::PUT(url,
-                  .get_httr_headers(cloudos@auth),
-                  query = list("teamId" = cloudos@team_id),
+                  .get_httr_headers(cloudos$token),
+                  query = list("teamId" = cloudos$team_id),
                   body = jsonlite::toJSON(r_body),
                   encode = "raw"
   )
@@ -157,8 +154,6 @@ cb_apply_filter <- function(cloudos,
 #'
 #' @description This doesn't update the database but mimic \code{\link{cb_apply_filter}}
 #'
-#' @param cloudos A cloudos object. (Required)
-#' See constructor function \code{\link{connect_cloudos}} 
 #' @param cohort A cohort object. (Required)
 #' See constructor function \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}
 #' @param filter_query Phenotypic filter query. 
@@ -167,12 +162,11 @@ cb_apply_filter <- function(cloudos,
 #' 
 #' @examples
 #' \dontrun{
-#' cb_apply_filter_dry_run(cloudos = my_cloudos,
-#'                cohort = my_cohort,
+#' cb_apply_filter_dry_run(cohort = my_cohort,
 #'                filter_query = list("22" = list("from" = "2015-05-13", "to" = "2016-04-29"), "50" = c("Father", "Mother")))
 #'
 #' @export
-cb_apply_filter_dry_run <- function(cloudos, cohort, filter_query) {
+cb_apply_filter_dry_run <- function(cohort, filter_query) {
   # prepare request body
   r_body <- list("moreFilters" = .build_filter_body(filter_query))
 
@@ -180,11 +174,12 @@ cb_apply_filter_dry_run <- function(cloudos, cohort, filter_query) {
   r_body[["ids"]] = list()
   r_body[["cohortId"]] = cohort@id
 
+  cloudos <- .check_and_load_all_cloudos_env_var()
   # make request
-  url <- paste(cloudos@base_url, "v1/cohort/genotypic-save", sep = "/")
+  url <- paste(cloudos$base_url, "v1/cohort/genotypic-save", sep = "/")
   r <- httr::POST(url,
-                  .get_httr_headers(cloudos@auth),
-                  query = list("teamId" = cloudos@team_id),
+                  .get_httr_headers(cloudos$token),
+                  query = list("teamId" = cloudos$team_id),
                   body = jsonlite::toJSON(r_body),
                   encode = "raw"
   )
