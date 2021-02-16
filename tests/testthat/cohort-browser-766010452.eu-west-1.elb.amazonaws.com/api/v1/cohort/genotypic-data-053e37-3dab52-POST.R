@@ -1,0 +1,17 @@
+structure(list(url = "http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com/api/v1/cohort/genotypic-data?teamId=5f046bf6c132dd15fdd1a525", 
+    status_code = 404L, headers = structure(list(date = "Thu, 17 Dec 2020 15:47:31 GMT", 
+        `content-type` = "text/html", `content-length` = "178", 
+        connection = "keep-alive", server = "nginx/1.14.0 (Ubuntu)"), class = c("insensitive", 
+    "list")), all_headers = list(list(status = 404L, version = "HTTP/1.1", 
+        headers = structure(list(date = "Thu, 17 Dec 2020 15:47:31 GMT", 
+            `content-type` = "text/html", `content-length` = "178", 
+            connection = "keep-alive", server = "nginx/1.14.0 (Ubuntu)"), class = c("insensitive", 
+        "list")))), cookies = structure(list(domain = logical(0), 
+        flag = logical(0), path = logical(0), secure = logical(0), 
+        expiration = structure(numeric(0), class = c("POSIXct", 
+        "POSIXt")), name = logical(0), value = logical(0)), row.names = integer(0), class = "data.frame"), 
+    content = charToRaw("<html>\r\n<head><title>404 Not Found</title></head>\r\n<body bgcolor=\"white\">\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>nginx/1.14.0 (Ubuntu)</center>\r\n</body>\r\n</html>\r\n"), 
+    date = structure(1608220051, class = c("POSIXct", "POSIXt"
+    ), tzone = "GMT"), times = c(redirect = 0, namelookup = 0.061641, 
+    connect = 0.240646, pretransfer = 0.240775, starttransfer = 0.420379, 
+    total = 0.420422)), class = "response")
