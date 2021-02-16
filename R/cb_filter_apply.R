@@ -1,11 +1,3 @@
-# example 
-# for a range filter 
-# .build_filter_body(filter_query = list("22" = list("from" = "2015-05-13", "to" = "2016-04-29")))
-# for a value filter 
-# .build_filter_body(filter_query = list ("50" = c("Father", "Mother")))
-# for multiple filters 
-# .build_filter_body(filter_query = list("22" = list("from" = "2015-05-13", "to" = "2016-04-29"), "50" = c("Father", "Mother")))
-
 .build_filter_body <- function(filter_query) {
   
   filter_list_all <- c()
