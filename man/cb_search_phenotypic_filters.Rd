@@ -4,12 +4,9 @@
 \alias{cb_search_phenotypic_filters}
 \title{List available filters}
 \usage{
-cb_search_phenotypic_filters(cloudos, term)
+cb_search_phenotypic_filters(term)
 }
 \arguments{
-\item{cloudos}{A cloudos object. (Required)
-See constructor function \code{\link{connect_cloudos}}}
-
 \item{term}{A term to search. (Required)
 Example - "cancer"}
 }
@@ -21,7 +18,6 @@ All the cohort filters available in CloudOS.
 }
 \examples{
 \dontrun{
-cb_search_phenotypic_filters(cloudos,
-             term = "cancer")
+cb_search_phenotypic_filters(term = "cancer")
 }
 }

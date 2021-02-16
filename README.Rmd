@@ -41,33 +41,26 @@ Bellow are given the demonstration of how the **cloudos** package can be used.
 
 ```{r}
 library(cloudos)
+library(knitr) # For better visualization of wide dataframes in this README examples
+library(magrittr) # For pipe
 ```
 
-### Setup login details
+### Configure CloudOS
 
-To interact with the cloudos server, it require few login details.
+The cloudos functions will be need set of cloudos configurations for able to connect to API. Lets see different ways of R package will try to find those configurations.
 
-Note: If no `base_url` given the default is https://cloudos.lifebit.ai/
+1. From Environment variable
+2. From cloudos configuration file
 
-```{r}
-cb_base_url <- "http://cohort-browser-dev-110043291.eu-west-1.elb.amazonaws.com/api"
-my_auth <- "your_apikey"
-my_team_id <- "your_team_id"
-# OR from environment variable stored in a ~/.Renviron file
-my_auth <- Sys.getenv("test_cloudos_apikey")
-my_team_id <- Sys.getenv("test_cloudos_team_id")
-```
+First thing this R-package will look for environment variables - `CLOUDOS_BASEURL`, `CLOUDOS_TOKEN`, `CLOUDOS_TEAMID` and if not found it will try to read from `~/.cloudos/config`.
 
-### Connect to CloudOS
+Three ways to set cloudos environment variables
 
-Lets create a cloudos object with the login details, which can help us connect to cloudos server.
+1. Add them to `~/.Renviron`, which will load the environment variables on beginning of the R-session
+2. Add them using `Sys.setenv(ENV_VAR = "env_var_value")`
+2. Use the function `cloudos_configure()`, which will create a `~/.cloudos/config` (Recommended way if you using multiple cloudos clients)
 
-```{r}
-my_cloudos <- cloudos::connect_cloudos(base_url = cb_base_url,
-                                       auth = my_auth,
-                                       team_id = my_team_id)
-my_cloudos
-```
+
 ## Application - Cohort Browser
 
 Cohort Browser is part of Lifebit's cloudos offering. Lets explore how to interact with this in R environment.
@@ -77,8 +70,8 @@ Cohort Browser is part of Lifebit's cloudos offering. Lets explore how to intera
 To check list of available cohorts in a workspace.
 
 ```{r}
-cohorts <- cloudos::cb_list_cohorts(my_cloudos)
-head(cohorts,5)
+cohorts <- cb_list_cohorts()
+cohorts %>% head(n=5) %>% kable()
 ```
 
 ### Create a cohort
@@ -86,9 +79,8 @@ head(cohorts,5)
 To create a new cohort. 
 
 ```{r, eval=F}
-my_cohort <- cloudos::cb_create_cohort(my_cloudos,
-                                       cohort_name = "Cohort-R",
-                                       cohort_desc = "This cohort is for testing purpose, created from R.")
+my_cohort <- cb_create_cohort(cohort_name = "Cohort-R",
+                             cohort_desc = "This cohort is for testing purpose, created from R.")
 my_cohort
 ```
 
@@ -97,8 +89,7 @@ my_cohort
 Get a available cohort in to a cohort R object. This cohort object can be used in many different other functions.
 
 ```{r}
-my_cohort <- cloudos::cb_load_cohort(cloudos = my_cloudos, 
-                                     cohort_id = "5f9af3793dd2dc6091cd17cd")
+my_cohort <- cb_load_cohort(cohort_id = "5f9af3793dd2dc6091cd17cd")
 my_cohort
 ```
 
@@ -107,9 +98,8 @@ my_cohort
 Get all the samples (participants) table for a cohort with phenotypic filters applied.
 
 ```{r}
-cohort_samples <- cloudos::cb_get_samples_table(cloudos = my_cloudos, 
-                                                cohort = my_cohort)
-head(cohort_samples, 5)
+cohort_samples <- cb_get_samples_table(cohort = my_cohort)
+cohort_samples %>% head(n=5) %>% kable()
 ```
 
 ### Get genotypic table
@@ -117,9 +107,9 @@ head(cohort_samples, 5)
 Get all the genotypic table for a cohort.
 
 ```{r}
-#cohort_genotype <- cloudos::cb_get_genotypic_table(my_cloudos, my_cohort)
-cohort_genotype <- cloudos::cb_get_genotypic_table(cloudos = my_cloudos)
-head(cohort_genotype, 5)
+#cohort_genotype <- cb_get_genotypic_table(my_cohort)
+cohort_genotype <- cb_get_genotypic_table(cohort = my_cohort)
+cohort_genotype %>% head(n=5) %>% kable()
 ```
 
 ### Explore Filters
@@ -129,16 +119,15 @@ head(cohort_genotype, 5)
 Search for phenotypic filters based on a term.
 
 ```{r}
-all_filters <- cloudos::cb_search_phenotypic_filters(cloudos = my_cloudos, 
-                                                     term = "cancer")
-head(all_filters, 5)
+all_filters <- cb_search_phenotypic_filters(term = "cancer")
+all_filters %>% head(n=5) %>% kable()
 ```
 Lets choose one filter from above table
 
 ```{r}
 # apply this first row filter
 my_phenotypic_filter <- all_filters[1,]
-my_phenotypic_filter
+my_phenotypic_filter %>% kable()
 ```
 
 #### Apply phenotypic filter
@@ -147,18 +136,16 @@ We can get statistic of sample numbers in a cohort for which a filter is applied
 
 ```{r}
 # phenotype filter
-cohort_with_filters <- cloudos::cb_get_filter_statistics(my_cloudos, 
-                                     cohort = my_cohort, 
+cohort_with_filters <- cb_get_filter_statistics(cohort = my_cohort, 
                                      filter_id = my_phenotypic_filter$id)
-cohort_with_filters
+cohort_with_filters %>% head(n=10) %>% kable()
 ```
 
 We can get number of total participants after applying a filter.
 
 ```{r}
 # filter participants
-total_participants_with_filter <- cloudos:::cb_filter_participants(my_cloudos,
-                                                cohort = my_cohort, 
+total_participants_with_filter <- cb_filter_participants(cohort = my_cohort, 
                                                 filter_id = my_phenotypic_filter$id)
  
 total_participants_with_filter
@@ -242,20 +229,20 @@ If you have multiple `filter_query` you can combine them with separated by a com
 Check the bellow example for the complete function call.
 
 ```{r, eval=F}
-cb_apply_filter(cloudos = my_cloudos,
-                cohort = my_cohort,
-                filter_query = list("22" = list("from" = "2015-05-13", "to" = "2016-04-29"), "50" = c("Father", "Mother")))
+cb_apply_filter(cohort = my_cohort,
+                filter_query = list("22" = list("from" = "2015-05-13", "to" = "2016-04-29"),
+                                    "50" = c("Father", "Mother")))
 
 ```
 
-### Get sample filters plot
+### Get sample filters plot (experimental)
 
 Get ggplots for all the applied phenotypic filters for a cohort. 
 
 As this based on ggplot objects, this can be customised further. 
 
 ```{r}
-plot_list <- cloudos::cb_plot_filters(cloudos = my_cloudos, cohort = my_cohort)
+plot_list <- cb_plot_filters(cohort = my_cohort)
 library(ggpubr)
 ggpubr::ggarrange(plotlist = plot_list)
 ```
@@ -282,23 +269,12 @@ p2 <- plotly::ggplotly(plot_list$filter_id_2345)
 p2
 ```
 
+## Additional notes
 
-### Additional for UI
+This package is under activate development. If you found any issues, Please reach out here - https://github.com/lifebit-ai/cloudos/issues 
 
-#### Get samples table for selected rows
+For Documentation visit - http://lifebit-ai.github.io/cloudos 
 
-Create a RAW data string. This usually generates after selecting participants on UI. (more information will be added how to create this in R)
+## License
 
-NOTE: This function will be improved `raw_data` arg is temporary. 
-
-```{r}
-new_raw_data <- '{"columns":[{"id":34,"instance":0,"array":{"type":"exact","value":0}},{"id":31,"instance":0,"array":{"type":"exact","value":0}},{"id":52,"instance":0,"array":{"type":"exact","value":0}},{"id":5984,"instance":0,"array":{"type":"avg"}},{"id":5984,"instance":0,"array":{"type":"min"}},{"id":5984,"instance":0,"array":{"type":"max"}},{"id":20001,"instance":0,"array":{"type":"exact","value":0}}],"ids":["5f185b92bf92ed4d3be9637d","5edbdd689d700db709af0c2f","5f185b91bf92ed4d3be9587e","5f185b91bf92ed4d3be95984","5edbdd689d700db709af0c3e","5edbdd689d700db709af0c2b","5edbdd689d700db709af0c2d","5f185b93bf92ed4d3be982e9","5edbdd689d700db709af0c2a","5edbdd689d700db709af0c4d"],"type":"csv","base_url":"http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com"}'
-```
-
-Using this above raw data lets extract selected participants.
-
-```{r, eval=F}
-df <- cloudos::cb_extract_samples(my_cloudos,
-                      raw_data = new_raw_data)
-```
-
+MIT © [Lifebit](https://lifebit.ai/)

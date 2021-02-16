@@ -4,12 +4,9 @@
 \alias{cb_apply_filter_dry_run}
 \title{Dry run for \code{\link{cb_apply_filter}}}
 \usage{
-cb_apply_filter_dry_run(cloudos, cohort, filter_query)
+cb_apply_filter_dry_run(cohort, filter_query)
 }
 \arguments{
-\item{cloudos}{A cloudos object. (Required)
-See constructor function \code{\link{connect_cloudos}}}
-
 \item{cohort}{A cohort object. (Required)
 See constructor function \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}}
 

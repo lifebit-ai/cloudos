@@ -2,8 +2,7 @@
 #'
 #' @description Get a list of ggplot objects, each plot having one filter.
 #'
-#' @param cloudos A cloudos object. (Required)
-#' See constructor function \code{\link{connect_cloudos}} 
+
 #' @param cohort A cohort object. (Required)
 #' See constructor function \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}
 #'
@@ -12,12 +11,12 @@
 #' @import dplyr
 #'
 #' @export
-cb_plot_filters <- function(cloudos, cohort){
+cb_plot_filters <- function(cohort){
   # get cohort information so this can be used to get names
   # and applied filters
-  my_cohort_info <- .get_cohort_info(cloudos, cohort@id)
+  my_cohort_info <- .get_cohort_info(cohort_id = cohort@id)
   # get filter dataframe list, this is independent of cohort info
-  filter_df_list <- cb_get_cohort_filters(cloudos, cohort)
+  filter_df_list <- cb_get_cohort_filters(cohort)
   # empty ggplot list
   plot_list <- list()
   # run though all the filters in the cohort

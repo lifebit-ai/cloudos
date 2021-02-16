@@ -57,59 +57,6 @@
             }
         },
         {
-            "id": 6,
-            "instance": 0,
-            "array": {
-                "type": "exact",
-                "value": 0
-            },
-            "field": {
-                "_id": "5f8f1dbbaaeccb00658375b1",
-                "bucket500": false,
-                "bucket1000": false,
-                "bucket2500": false,
-                "bucket5000": false,
-                "bucket300": false,
-                "bucket10000": false,
-                "categoryPathLevel1": "Basic characteristics",
-                "id": 6,
-                "instances": 1,
-                "name": "Handling gmc",
-                "type": "bars",
-                "Sorting": "",
-                "valueType": "Categorical multiple",
-                "units": "",
-                "coding": "",
-                "description": "Identifier for a GMC, or the Local Delivery Partner of a GMC",
-                "descriptionParticipantsNo": "89132",
-                "link": "https://cnfl.extge.co.uk/pages/viewpage.action?pageId=147659370",
-                "array": 1,
-                "descriptionStability": "",
-                "descriptionCategoryID": "",
-                "descriptionItemType": "",
-                "descriptionStrata": "Main 100k Programme",
-                "descriptionSexed": "",
-                "orderPhenotype": "",
-                "instance0Name": "",
-                "instance1Name": "",
-                "instance2Name": "",
-                "instance3Name": "",
-                "instance4Name": "",
-                "instance5Name": "",
-                "instance6Name": "",
-                "instance7Name": "",
-                "instance8Name": "",
-                "instance9Name": "",
-                "instance10Name": "",
-                "instance11Name": "",
-                "instance12Name": "",
-                "instance13Name": "",
-                "instance14Name": "",
-                "instance15Name": "",
-                "instance16Name": ""
-            }
-        },
-        {
             "id": 8,
             "instance": 0,
             "array": {
@@ -377,6 +324,59 @@
                     "1": "TRUE"
                 }
             }
+        },
+        {
+            "id": 50,
+            "instance": 0,
+            "array": {
+                "type": "exact",
+                "value": 0
+            },
+            "field": {
+                "_id": "5f8f1dbbaaeccb00658375db",
+                "bucket500": false,
+                "bucket1000": false,
+                "bucket2500": false,
+                "bucket5000": false,
+                "bucket300": false,
+                "bucket10000": false,
+                "categoryPathLevel1": "Basic characteristics",
+                "id": 50,
+                "instances": 1,
+                "name": "Biological relationship to proband",
+                "type": "bars",
+                "Sorting": "",
+                "valueType": "Categorical multiple",
+                "units": "",
+                "coding": "",
+                "description": "Biological Relationship to Proband",
+                "descriptionParticipantsNo": "89132",
+                "link": "https://cnfl.extge.co.uk/pages/viewpage.action?pageId=147659370",
+                "array": 1,
+                "descriptionStability": "",
+                "descriptionCategoryID": "",
+                "descriptionItemType": "",
+                "descriptionStrata": "Main 100k Programme",
+                "descriptionSexed": "",
+                "orderPhenotype": "",
+                "instance0Name": "",
+                "instance1Name": "",
+                "instance2Name": "",
+                "instance3Name": "",
+                "instance4Name": "",
+                "instance5Name": "",
+                "instance6Name": "",
+                "instance7Name": "",
+                "instance8Name": "",
+                "instance9Name": "",
+                "instance10Name": "",
+                "instance11Name": "",
+                "instance12Name": "",
+                "instance13Name": "",
+                "instance14Name": "",
+                "instance15Name": "",
+                "instance16Name": ""
+            }
         }
     ],
     "moreFields": [
@@ -453,8 +453,8 @@
             "instances": [
                 0
             ],
-            "createAt": 1605084837878,
-            "updatedAt": 1605084837878
+            "createAt": 1608661390769,
+            "updatedAt": 1608661390769
         },
         {
             "field": {
@@ -505,8 +505,8 @@
             "instances": [
                 0
             ],
-            "createAt": 1605084837878,
-            "updatedAt": 1605084837878
+            "createAt": 1608661390769,
+            "updatedAt": 1608661390769
         }
     ]
 }

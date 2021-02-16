@@ -2,14 +2,11 @@
 % Please edit documentation in R/cb_cohort_extract.R
 \name{cb_extract_samples}
 \alias{cb_extract_samples}
-\title{Extract participants}
+\title{Extract participants - WIP}
 \usage{
-cb_extract_samples(cloudos, raw_data)
+cb_extract_samples(raw_data)
 }
 \arguments{
-\item{cloudos}{A cloudos object. (Required)
-See constructor function \code{\link{connect_cloudos}}}
-
 \item{raw_data}{A JSON string for selected participants. (Required)}
 }
 \value{

@@ -2,8 +2,6 @@
 #'
 #' @description All the cohort filters available in CloudOS.
 #'
-#' @param cloudos A cloudos object. (Required)
-#' See constructor function \code{\link{connect_cloudos}} 
 #' @param term A term to search. (Required)
 #' Example - "cancer"
 #'
@@ -11,16 +9,15 @@
 #'
 #' @examples
 #' \dontrun{
-#' cb_search_phenotypic_filters(cloudos,
-#'              term = "cancer")
+#' cb_search_phenotypic_filters(term = "cancer")
 #' }
 #' @export
-cb_search_phenotypic_filters <- function(cloudos,
-                           term){
-  url <- paste(cloudos@base_url, "v1/cohort/fields_search", sep = "/")
+cb_search_phenotypic_filters <- function(term){
+  cloudos <- .check_and_load_all_cloudos_env_var()
+  url <- paste(cloudos$base_url, "v1/cohort/fields_search", sep = "/")
   r <- httr::GET(url,
-                 .get_httr_headers(cloudos@auth),
-                 query = list("teamId" = cloudos@team_id,
+                 .get_httr_headers(cloudos$token),
+                 query = list("teamId" = cloudos$team_id,
                               "term" = term))
   httr::stop_for_status(r, task = NULL)
   res <- httr::content(r)
@@ -48,8 +45,6 @@ cb_search_phenotypic_filters <- function(cloudos,
 #' @description This filters cohort samples based on particular phenotypic filter. 
 #' This will return number of samples after phenotype filter applied to a cohort.
 #'
-#' @param cloudos A cloudos object. (Required)
-#' See constructor function \code{\link{connect_cloudos}} 
 #' @param cohort A cohort object. (Required)
 #' See constructor function \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}
 #' @param filter_id A filter ID. (Required)
@@ -57,17 +52,18 @@ cb_search_phenotypic_filters <- function(cloudos,
 #' @return A data frame with filters applied.
 #'
 #' @export
-cb_get_filter_statistics <- function(cloudos, cohort, filter_id ) {
+cb_get_filter_statistics <- function(cohort, filter_id ) {
   # empty moreFilters returns all the filter values associated with a cohort for a filter
   r_body <- list("filter" = list("instances" = c(0)),
                  "moreFilters" = list(),
                  "cohortId" = cohort@id
                  )
+  cloudos <- .check_and_load_all_cloudos_env_var()
   # make request
-  url <- paste(cloudos@base_url, "v1/cohort/filter", filter_id, "data", sep = "/")
+  url <- paste(cloudos$base_url, "v1/cohort/filter", filter_id, "data", sep = "/")
   r <- httr::POST(url,
-                  .get_httr_headers(cloudos@auth),
-                  query = list("teamId" = cloudos@team_id),
+                  .get_httr_headers(cloudos$token),
+                  query = list("teamId" = cloudos$team_id),
                   body = jsonlite::toJSON(r_body),
                   encode = "raw"
   )
@@ -83,21 +79,18 @@ cb_get_filter_statistics <- function(cloudos, cohort, filter_id ) {
 #'
 #' @description Get a list of all the filters associated with a cohort. 
 #'
-#' @param cloudos A cloudos object. (Required)
-#' See constructor function \code{\link{connect_cloudos}} 
 #' @param cohort A cohort object. (Required)
 #' See constructor function \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}
 #'
 #' @return A list of data frame.
 #'
 #' @export
-cb_get_cohort_filters <- function(cloudos, cohort){
+cb_get_cohort_filters <- function(cohort){
   # get all the filters dataframe in a single list
   filter_list <- list()
   for(i in 1:length(cohort@more_fields)){
     field_id <- cohort@more_fields[[i]]$fieldId
-    filter_list[[as.character(field_id)]] <- cb_get_filter_statistics(cloudos = cloudos,
-                                                            cohort = cohort,
+    filter_list[[as.character(field_id)]] <- cb_get_filter_statistics(cohort = cohort,
                                                             filter_id = field_id)
     # compare with applied filters from cohort and modify the dataframe
     # if(names(cohort@more_fields[[i]][3]) == "value"){
@@ -116,8 +109,6 @@ cb_get_cohort_filters <- function(cloudos, cohort){
 #'
 #' @description This sums up all the filters and return number participants after applied filter.
 #'
-#' @param cloudos A cloudos object. (Required)
-#' See constructor function \code{\link{connect_cloudos}} 
 #' @param cohort A cohort object. (Required)
 #' See constructor function \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}
 #' @param filter_id A filter ID. (Required)
@@ -125,7 +116,7 @@ cb_get_cohort_filters <- function(cloudos, cohort){
 #' @return A data frame with filters applied.
 #'
 #' @export
-cb_filter_participants <-function(cloudos, cohort, filter_id ) {
+cb_filter_participants <-function(cohort, filter_id ) {
   # prepare request body
   # TODO: remove the hard-coded filters
   r_body <- list("moreFilters" = list(list("fieldId" = filter_id,
@@ -135,11 +126,13 @@ cb_filter_participants <-function(cloudos, cohort, filter_id ) {
   ),
   "cohortId" = cohort@id
   )
+
+  cloudos <- .check_and_load_all_cloudos_env_var()
   # make request
-  url <- paste(cloudos@base_url, "v1/cohort/filter/participants", sep = "/")
+  url <- paste(cloudos$base_url, "v1/cohort/filter/participants", sep = "/")
   r <- httr::POST(url,
-                  .get_httr_headers(cloudos@auth),
-                  query = list("teamId" = cloudos@team_id),
+                  .get_httr_headers(cloudos$token),
+                  query = list("teamId" = cloudos$team_id),
                   body = jsonlite::toJSON(r_body),
                   encode = "raw"
   )
@@ -155,18 +148,17 @@ cb_filter_participants <-function(cloudos, cohort, filter_id ) {
 #'
 #' @description Filter metadata of a cohort filter
 #'
-#' @param cloudos A cloudos object. (Required)
-#' See constructor function \code{\link{connect_cloudos}} 
 #' @param filter_id A filter ID. (Required)
 #'
 #' @return A data frame.
 #'
 #' @export
-cb_filter_metadata <- function(cloudos, filter_id) {
-  url <- paste(cloudos@base_url, "v1/cohort/filter", filter_id, "metadata", sep = "/")
+cb_filter_metadata <- function(filter_id) {
+  cloudos <- .check_and_load_all_cloudos_env_var()
+  url <- paste(cloudos$base_url, "v1/cohort/filter", filter_id, "metadata", sep = "/")
   r <- httr::GET(url,
-                 .get_httr_headers(cloudos@auth),
-                 query = list("teamId" = cloudos@team_id)
+                 .get_httr_headers(cloudos$token),
+                 query = list("teamId" = cloudos$team_id)
   )
   httr::stop_for_status(r, task = NULL)
   # parse the content
