@@ -5,48 +5,88 @@
 #'
 #' @param cloudos A cloudos object. (Required)
 #' See constructor function \code{\link{connect_cloudos}}
-#' @param page_number Number of page. (Optional) Default - 0
-#' @param page_size Number of entries in a page. (Optional) Default - 10
-#' @param filters WIP - details will be added.
+#' @param cohort A cohort object. (Required)
+#' See constructor functions \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}
+#' @param size Number of entries from database. (Optional) Default - 10 (Optional)
+#' @param geno_filters_query Genotypic filter query (Optional)
 #'
 #' @return A dataframe.
+#' 
+#' @example
+#' \dontrun{
+#' cb_get_genotypic_table(cloudos = my_cloudos,
+#'                cohort = my_cohort,
+#'                geno_filters_query = list("chromosome" = c("1", "7"))
+#'                )
+#' }
 #'
 #' @export
 cb_get_genotypic_table <- function(cloudos,
-                               page_number = 0,
-                               page_size = 10,
-                               filters = "") {
-  # TODO work on filter, they are not getting saved
-  # so it is not possible to retrieve cohort related genotypic table.
-  # chromosome filter
-  # chr_filt = list("columnHeader" = "Chromosome",
-  #                 "filterType" = "Text",
-  #                 "values" = chr)
-  # type_filt = list("columnHeader" = "Type",
-  #                  "filterType" = "Text",
-  #                  "values" = type)
-  # filters = list(chr_filt, type_filt)
+                                   cohort,
+                                   size = 10,
+                                   geno_filters_query) {
+  # TODO cohort object is not being used ATM,
+  # because from BE it is not implemented to retrieve cohort related genotypic
+  
+  page_number = 0
+  page_size = size
+  
+  genotypic_filters = ""
+  if(!missing(geno_filters_query)){
+    genotypic_filters <- .get_genotypic_filters_query(geno_filters_query)
+  }
+  
+  r_body <- list("pageNumber" = jsonlite::unbox(page_number),
+                 "pageSize" = jsonlite::unbox(page_size),
+                 "filters" = genotypic_filters)
   
   url <- paste(cloudos@base_url, "v1/cohort/genotypic-data", sep = "/")
   r <- httr::POST(url,
                   .get_httr_headers(cloudos@auth),
                   query = list("teamId" = cloudos@team_id),
-                  body = list("pageNumber" = page_number,
-                              "pageSize" = page_size,
-                              "filters" = filters),
-                  encode = "json"
+                  body = jsonlite::toJSON(r_body),
+                  encode = "raw"
   )
   httr::stop_for_status(r, task = NULL)
   # parse the content
   res <- httr::content(r)
+  .total_row_size_message(res)
   df_list <- res$participants
   # https://www.r-bloggers.com/r-combining-vectors-or-data-frames-of-unequal-length-into-one-data-frame/
   df <- do.call(rbind, lapply(lapply(df_list, unlist), "[",
                         unique(unlist(c(sapply(df_list,names))))))
   df <- as.data.frame(df)
+  
+  # check if the dataframe is retrieved properly
+  if(length(df) == 0){
+    stop("Couldn't able to retrive the dataframe, something wrong with the genotypic filters.")
+  }
+  
   # remove mongodb _id column
   df_new <- subset(df, select = (c(-`_id`)))
   return(df_new)
+}
+
+.get_genotypic_filters_query <- function(geno_filters_query){
+  genotypic_filters_list <- list()
+  for(i in 1:length(geno_filters_query)){
+    filters <- list(list("columnHeader" = jsonlite::unbox(names(geno_filters_query)[i]),
+                         "filterType" = jsonlite::unbox("Text"),
+                         "values" = geno_filters_query[[i]]
+                      ))
+    genotypic_filters_list <- c(genotypic_filters_list, filters)
+  }
+  return(genotypic_filters_list)
+}
+
+#' @param res The res <- httr::content(r) content
+.total_row_size_message <-  function(res){
+  if(res$total){
+    message(paste("Total number of rows found", res$total, 
+                  "You can use 'size' to mention how many rows you want to extract.",
+                  "Default size = 10",
+                  sep = " "))
+  }
 }
 
 ####################################################################
