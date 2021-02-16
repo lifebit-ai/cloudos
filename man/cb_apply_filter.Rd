@@ -5,7 +5,6 @@
 \title{Apply a Filter}
 \usage{
 cb_apply_filter(
-  cloudos,
   cohort,
   filter_query,
   column_ids,
@@ -14,9 +13,6 @@ cb_apply_filter(
 )
 }
 \arguments{
-\item{cloudos}{A cloudos object. (Required)
-See constructor function \code{\link{connect_cloudos}}}
-
 \item{cohort}{A cohort object. (Required)
 See constructor function \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}}
 
