@@ -82,7 +82,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -96,7 +96,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/lifebit-ai/cloudos/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -114,7 +114,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Filter participants</h1>
-    <small class="dont-index">Source: <a href='https://github.com/lifebit-ai/cloudos/blob/master/R/cb_filter_cohort.R'><code>R/cb_filter_cohort.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/lifebit-ai/cloudos/blob/master/R/cb_filter_explore.R'><code>R/cb_filter_explore.R</code></a></small>
     <div class="hidden name"><code>cb_filter_participants.Rd</code></div>
     </div>
 
@@ -122,16 +122,11 @@
     <p>This sums up all the filters and return number participants after applied filter.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>cb_filter_participants</span><span class='op'>(</span><span class='va'>cloudos</span>, <span class='va'>cohort</span>, <span class='va'>filter_id</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>cb_filter_participants</span><span class='op'>(</span><span class='va'>cohort</span>, <span class='va'>filter_id</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>cloudos</th>
-      <td><p>A cloudos object. (Required)
-See constructor function <code><a href='connect_cloudos.html'>connect_cloudos</a></code></p></td>
-    </tr>
     <tr>
       <th>cohort</th>
       <td><p>A cohort object. (Required)

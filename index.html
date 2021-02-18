@@ -41,7 +41,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -55,7 +55,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/lifebit-ai/cloudos/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -83,9 +83,9 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>You can install the released version of <strong>cloudos</strong> from <a href="https://github.com/lifebit-ai/cloudos/">GitHub</a> at this moment. (Will be listed on <a href="https://CRAN.R-project.org">CRAN</a> as well)</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="https://remotes.r-lib.org">remotes</a></span><span class="op">)</span><span class="op">)</span> <span class="op">{</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span> <span class="op">}</span>
-  <span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"lifebit-ai/cloudos"</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="https://remotes.r-lib.org">remotes</a></span><span class="op">)</span><span class="op">)</span> <span class="op">{</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span> <span class="op">}</span>
+  <span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"lifebit-ai/cloudos"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
@@ -94,34 +94,32 @@
 <div id="load-the-library" class="section level3">
 <h3 class="hasAnchor">
 <a href="#load-the-library" class="anchor"></a>Load the library</h3>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/lifebit-ai/cloudos">cloudos</a></span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/lifebit-ai/cloudos">cloudos</a></span><span class="op">)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Welcome to Lifebit's CloudOS R client </span>
+<span class="co">#&gt; For Documentation visit - http://lifebit-ai.github.io/cloudos </span>
+<span class="co">#&gt; This package is under activate development. If you found any issues, </span>
+<span class="co">#&gt; Please reach out here - https://github.com/lifebit-ai/cloudos/issues</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://yihui.org/knitr/">knitr</a></span><span class="op">)</span> <span class="co"># For better visualization of wide dataframes in this README examples</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org">magrittr</a></span><span class="op">)</span> <span class="co"># For pipe</span></code></pre></div>
 </div>
-<div id="setup-login-details" class="section level3">
+<div id="configure-cloudos" class="section level3">
 <h3 class="hasAnchor">
-<a href="#setup-login-details" class="anchor"></a>Setup login details</h3>
-<p>To interact with the cloudos server, it require few login details.</p>
-<p>Note: If no <code>base_url</code> given the default is <a href="https://cloudos.lifebit.ai/" class="uri">https://cloudos.lifebit.ai/</a></p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="va">cb_base_url</span> <span class="op">&lt;-</span> <span class="st">"http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com"</span>
-<span class="va">my_auth</span> <span class="op">&lt;-</span> <span class="st">"your_apikey"</span>
-<span class="va">my_team_id</span> <span class="op">&lt;-</span> <span class="st">"your_team_id"</span>
-<span class="co"># OR from environment variable stored in a ~/.Renviron file</span>
-<span class="va">my_auth</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv</a></span><span class="op">(</span><span class="st">"test_cloudos_apikey"</span><span class="op">)</span>
-<span class="va">my_team_id</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv</a></span><span class="op">(</span><span class="st">"test_cloudos_team_id"</span><span class="op">)</span></pre></div>
-</div>
-<div id="connect-to-cloudos" class="section level3">
-<h3 class="hasAnchor">
-<a href="#connect-to-cloudos" class="anchor"></a>Connect to CloudOS</h3>
-<p>Lets create a cloudos object with the login details, which can help us connect to cloudos server.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="va">my_cloudos</span> <span class="op">&lt;-</span> <span class="fu">cloudos</span><span class="fu">::</span><span class="fu"><a href="reference/connect_cloudos.html">connect_cloudos</a></span><span class="op">(</span>base_url <span class="op">=</span> <span class="va">cb_base_url</span>,
-                                       auth <span class="op">=</span> <span class="va">my_auth</span>,
-                                       team_id <span class="op">=</span> <span class="va">my_team_id</span><span class="op">)</span>
-<span class="va">my_cloudos</span>
-<span class="co">#&gt; Base URL:  http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com </span>
-<span class="co">#&gt; Authentication Method:  API Key </span>
-<span class="co">#&gt; Team ID: 5f046bf6c132dd15fdd1a525</span></pre></div>
+<a href="#configure-cloudos" class="anchor"></a>Configure CloudOS</h3>
+<p>The cloudos functions will be need set of cloudos configurations for able to connect to API. Lets see different ways of R package will try to find those configurations.</p>
+<ol>
+<li>From Environment variable</li>
+<li>From cloudos configuration file</li>
+</ol>
+<p>First thing this R-package will look for environment variables - <code>CLOUDOS_BASEURL</code>, <code>CLOUDOS_TOKEN</code>, <code>CLOUDOS_TEAMID</code> and if not found it will try to read from <code>~/.cloudos/config</code>.</p>
+<p>Three ways to set cloudos environment variables</p>
+<ol>
+<li>Add them to <code>~/.Renviron</code>, which will load the environment variables on beginning of the R-session</li>
+<li>Add them using <code><a href="https://rdrr.io/r/base/Sys.setenv.html">Sys.setenv(ENV_VAR = "env_var_value")</a></code>
+</li>
+<li>Use the function <code><a href="reference/cloudos_configure.html">cloudos_configure()</a></code>, which will create a <code>~/.cloudos/config</code> (Recommended way if you using multiple cloudos clients)</li>
+</ol>
 </div>
 </div>
 <div id="application---cohort-browser" class="section level2">
@@ -132,346 +130,1173 @@
 <h3 class="hasAnchor">
 <a href="#list-cohorts" class="anchor"></a>List Cohorts</h3>
 <p>To check list of available cohorts in a workspace.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="va">cohorts</span> <span class="op">&lt;-</span> <span class="fu">cloudos</span><span class="fu">::</span><span class="fu"><a href="reference/cb_list_cohorts.html">cb_list_cohorts</a></span><span class="op">(</span><span class="va">my_cloudos</span><span class="op">)</span>
-<span class="co">#&gt; Total number of cohorts found-57. But here is 10. For more, change 'page_number' and 'page_size'</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">cohorts</span>,<span class="fl">5</span><span class="op">)</span>
-<span class="co">#&gt;                         id                name</span>
-<span class="co">#&gt; 1 5f73456e79721e542d5bea37 Cohort-R-to-compare</span>
-<span class="co">#&gt; 2 5f68c6a0e95ca00b6918a2e9            Cohort-R</span>
-<span class="co">#&gt; 3 5f6228133097cc7a6504fb76       cohort-test-2</span>
-<span class="co">#&gt; 4 5f6227f285aae86f12fa9af9  test-cohort0-r-lib</span>
-<span class="co">#&gt; 5 5f60a9b1cecd166285ffd8a7           dsadasdas</span>
-<span class="co">#&gt;                                           description number_of_participants</span>
-<span class="co">#&gt; 1                                                                     185674</span>
-<span class="co">#&gt; 2 This cohort is for testing purpose, created from R.                 336107</span>
-<span class="co">#&gt; 3                                For testing in R-lib                   4434</span>
-<span class="co">#&gt; 4                                   For testing R-lib                 644686</span>
-<span class="co">#&gt; 5                                                                     644686</span>
-<span class="co">#&gt;   number_of_filters               created_at               updated_at</span>
-<span class="co">#&gt; 1                 3 2020-09-29T14:32:14.048Z 2020-09-29T14:52:13.228Z</span>
-<span class="co">#&gt; 2                 3 2020-09-21T15:28:32.659Z 2020-09-29T14:52:03.252Z</span>
-<span class="co">#&gt; 3                 4 2020-09-16T14:58:27.928Z 2020-09-28T11:18:31.430Z</span>
-<span class="co">#&gt; 4                 0 2020-09-16T14:57:54.643Z 2020-09-16T14:57:54.643Z</span>
-<span class="co">#&gt; 5                 0 2020-09-15T11:46:57.334Z 2020-09-15T11:46:57.334Z</span></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">cohorts</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cb_list_cohorts.html">cb_list_cohorts</a></span><span class="op">(</span><span class="op">)</span>
+<span class="co">#&gt; Total number of cohorts found-78. But here shows-10 as default. For more, change size = 78 to get all.</span>
+<span class="va">cohorts</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">5</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<table class="table">
+<colgroup>
+<col width="16%">
+<col width="10%">
+<col width="11%">
+<col width="15%">
+<col width="12%">
+<col width="16%">
+<col width="16%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">id</th>
+<th align="left">name</th>
+<th align="left">description</th>
+<th align="right">number_of_participants</th>
+<th align="right">number_of_filters</th>
+<th align="left">created_at</th>
+<th align="left">updated_at</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">5fd9da48e3da655a4836e0aa</td>
+<td align="left">damian3</td>
+<td align="left"></td>
+<td align="right">44667</td>
+<td align="right">0</td>
+<td align="left">2020-12-16T09:58:32.942Z</td>
+<td align="left">2020-12-16T09:58:32.942Z</td>
+</tr>
+<tr class="even">
+<td align="left">5fd8c234e34ec6186fe45d35</td>
+<td align="left">Test Alberto 53</td>
+<td align="left">Test description</td>
+<td align="right">4</td>
+<td align="right">11</td>
+<td align="left">2020-12-15T14:03:32.394Z</td>
+<td align="left">2020-12-16T17:01:27.225Z</td>
+</tr>
+<tr class="odd">
+<td align="left">5fd88a13afc7200a2965d282</td>
+<td align="left">Test Alberto 52</td>
+<td align="left">Test description</td>
+<td align="right">2884</td>
+<td align="right">2</td>
+<td align="left">2020-12-15T10:04:03.684Z</td>
+<td align="left">2020-12-15T10:04:03.684Z</td>
+</tr>
+<tr class="even">
+<td align="left">5fd88972fb156109dbf8b9d4</td>
+<td align="left">Test Alberto 51</td>
+<td align="left">Test description</td>
+<td align="right">2884</td>
+<td align="right">2</td>
+<td align="left">2020-12-15T10:01:22.801Z</td>
+<td align="left">2020-12-15T10:01:22.801Z</td>
+</tr>
+<tr class="odd">
+<td align="left">5fd888db775c6a099fdf6636</td>
+<td align="left">Test Alberto 50</td>
+<td align="left">Test description</td>
+<td align="right">2884</td>
+<td align="right">2</td>
+<td align="left">2020-12-15T09:58:51.433Z</td>
+<td align="left">2020-12-15T09:58:51.433Z</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="create-a-cohort" class="section level3">
 <h3 class="hasAnchor">
 <a href="#create-a-cohort" class="anchor"></a>Create a cohort</h3>
 <p>To create a new cohort.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="va">my_cohort</span> <span class="op">&lt;-</span> <span class="fu">cloudos</span><span class="fu">::</span><span class="fu"><a href="reference/cb_create_cohort.html">cb_create_cohort</a></span><span class="op">(</span><span class="va">my_cloudos</span>,
-                                       cohort_name <span class="op">=</span> <span class="st">"Cohort-R"</span>,
-                                       cohort_desc <span class="op">=</span> <span class="st">"This cohort is for testing purpose, created from R."</span><span class="op">)</span>
-<span class="va">my_cohort</span></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">my_cohort</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cb_create_cohort.html">cb_create_cohort</a></span><span class="op">(</span>cohort_name <span class="op">=</span> <span class="st">"Cohort-R"</span>,
+                             cohort_desc <span class="op">=</span> <span class="st">"This cohort is for testing purpose, created from R."</span><span class="op">)</span>
+<span class="va">my_cohort</span></code></pre></div>
 </div>
 <div id="get-a-cohort" class="section level3">
 <h3 class="hasAnchor">
 <a href="#get-a-cohort" class="anchor"></a>Get a cohort</h3>
 <p>Get a available cohort in to a cohort R object. This cohort object can be used in many different other functions.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="va">my_cohort</span> <span class="op">&lt;-</span> <span class="fu">cloudos</span><span class="fu">::</span><span class="fu"><a href="reference/cb_load_cohort.html">cb_load_cohort</a></span><span class="op">(</span>cloudos <span class="op">=</span> <span class="va">my_cloudos</span>, 
-                                     cohort_id <span class="op">=</span> <span class="st">"5f6228133097cc7a6504fb76"</span><span class="op">)</span>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">my_cohort</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cb_load_cohort.html">cb_load_cohort</a></span><span class="op">(</span>cohort_id <span class="op">=</span> <span class="st">"5f9af3793dd2dc6091cd17cd"</span><span class="op">)</span>
 <span class="va">my_cohort</span>
-<span class="co">#&gt; Cohort ID:  5f6228133097cc7a6504fb76 </span>
-<span class="co">#&gt; Cohort Name:  cohort-test-2 </span>
-<span class="co">#&gt; Cohort Description:  For testing in R-lib</span></pre></div>
+<span class="co">#&gt; Cohort ID:  5f9af3793dd2dc6091cd17cd </span>
+<span class="co">#&gt; Cohort Name:  cb_demo_new </span>
+<span class="co">#&gt; Cohort Description:   </span>
+<span class="co">#&gt; Number of filters applied:  2</span></code></pre></div>
 </div>
 <div id="get-samples-table" class="section level3">
 <h3 class="hasAnchor">
 <a href="#get-samples-table" class="anchor"></a>Get samples table</h3>
 <p>Get all the samples (participants) table for a cohort with phenotypic filters applied.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit">
-<span class="va">cohort_samples</span> <span class="op">&lt;-</span> <span class="fu">cloudos</span><span class="fu">::</span><span class="fu"><a href="reference/cb_get_samples_table.html">cb_get_samples_table</a></span><span class="op">(</span>cloudos <span class="op">=</span> <span class="va">my_cloudos</span>, 
-                                                cohort <span class="op">=</span> <span class="va">my_cohort</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">cohort_samples</span>, <span class="fl">5</span><span class="op">)</span>
-<span class="co">#&gt;         i               f20001i0a0 f31i0a0 f34i0a0   f52i0a0      f5984i0aavg</span>
-<span class="co">#&gt; 1 1000184 non-melanoma skin cancer  Female    1957   January 62.5803571428571</span>
-<span class="co">#&gt; 2 1001600      nasal cavity cancer  Female    1968 September 68.7105263157895</span>
-<span class="co">#&gt; 3 1002915      nasal cavity cancer  Female    1950     March 58.8495575221239</span>
-<span class="co">#&gt; 4 1004792       parathyroid cancer    Male    1959  November 66.7456140350877</span>
-<span class="co">#&gt; 5 1008748           trachea cancer  Female    1959     April 61.3035714285714</span>
-<span class="co">#&gt;   f5984i0amin f5984i0amax</span>
-<span class="co">#&gt; 1           1         270</span>
-<span class="co">#&gt; 2           1         270</span>
-<span class="co">#&gt; 3           2         270</span>
-<span class="co">#&gt; 4           2         270</span>
-<span class="co">#&gt; 5           2         245</span></pre></div>
-</div>
-<div id="get-sample-filters-plot" class="section level3">
-<h3 class="hasAnchor">
-<a href="#get-sample-filters-plot" class="anchor"></a>Get sample filters plot</h3>
-<p>Get ggplots for all the applied phenotypic filters for a cohort.</p>
-<p>As this based on ggplot objects, this can be customised further.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit">
-<span class="va">plot_list</span> <span class="op">&lt;-</span> <span class="fu">cloudos</span><span class="fu">::</span><span class="fu"><a href="reference/cb_plot_filters.html">cb_plot_filters</a></span><span class="op">(</span>cloudos <span class="op">=</span> <span class="va">my_cloudos</span>, cohort <span class="op">=</span> <span class="va">my_cohort</span><span class="op">)</span>
-<span class="co">#&gt; Warning: Ignoring unknown parameters: binwidth, bins, pad</span>
-<span class="co">#&gt; Warning: Continuous limits supplied to discrete scale.</span>
-<span class="co">#&gt; Did you mean `limits = factor(...)` or `scale_*_continuous()`?</span>
-<span class="co">#&gt; Warning: Ignoring unknown parameters: binwidth, bins, pad</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rpkgs.datanovia.com/ggpubr/">ggpubr</a></span><span class="op">)</span>
-<span class="co">#&gt; Loading required package: ggplot2</span>
-<span class="fu">ggpubr</span><span class="fu">::</span><span class="fu"><a href="https://rpkgs.datanovia.com/ggpubr/reference/ggarrange.html">ggarrange</a></span><span class="op">(</span>plotlist <span class="op">=</span> <span class="va">plot_list</span><span class="op">)</span></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-9-1.png" width="100%"></p>
-<p>Individual plots</p>
-<div class="sourceCode" id="cb10"><pre class="downlit">
-<span class="va">plot_list</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-10-1.png" width="100%"></p>
-<div class="sourceCode" id="cb11"><pre class="downlit">
-<span class="va">plot_list</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-11-1.png" width="100%"></p>
-<p>Covert ggplot objects to plotly elements (just for demonstration purpose, in markdown plotly don’t support.)</p>
-<div class="sourceCode" id="cb12"><pre class="downlit">
-<span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu">plotly</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/plotly/man/ggplotly.html">ggplotly</a></span><span class="op">(</span><span class="va">plot_list</span><span class="op">$</span><span class="va">filter_id_34</span><span class="op">)</span>
-<span class="va">p1</span></pre></div>
-<div class="sourceCode" id="cb13"><pre class="downlit">
-<span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu">plotly</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/plotly/man/ggplotly.html">ggplotly</a></span><span class="op">(</span><span class="va">plot_list</span><span class="op">$</span><span class="va">filter_id_2345</span><span class="op">)</span>
-<span class="va">p2</span></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">cohort_samples</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cb_get_samples_table.html">cb_get_samples_table</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="va">my_cohort</span><span class="op">)</span>
+<span class="va">cohort_samples</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">5</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<table class="table">
+<colgroup>
+<col width="4%">
+<col width="8%">
+<col width="8%">
+<col width="25%">
+<col width="15%">
+<col width="10%">
+<col width="6%">
+<col width="20%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">EID</th>
+<th align="left">Programme</th>
+<th align="left">Year of birth</th>
+<th align="left">Participant ethnic category</th>
+<th align="left">Participant karyotypic sex</th>
+<th align="left">Participant type</th>
+<th align="left">Acute flag</th>
+<th align="left">Biological relationship to proband</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">1000020</td>
+<td align="left">Rare Diseases</td>
+<td align="left">1970</td>
+<td align="left">Not Stated</td>
+<td align="left">Unknown</td>
+<td align="left">Relative</td>
+<td align="left">Mother</td>
+<td align="left">NULL</td>
+</tr>
+<tr class="even">
+<td align="left">1000522</td>
+<td align="left">Rare Diseases</td>
+<td align="left">1990</td>
+<td align="left">White: Any other White background</td>
+<td align="left">Not Supplied</td>
+<td align="left">Relative</td>
+<td align="left">Mother</td>
+<td align="left">NULL</td>
+</tr>
+<tr class="odd">
+<td align="left">100079</td>
+<td align="left">Rare Diseases</td>
+<td align="left">1967</td>
+<td align="left">White: British</td>
+<td align="left">Not Supplied</td>
+<td align="left">Relative</td>
+<td align="left">Mother</td>
+<td align="left">NULL</td>
+</tr>
+<tr class="even">
+<td align="left">100084</td>
+<td align="left">Rare Diseases</td>
+<td align="left">1953</td>
+<td align="left">Other Ethnic Groups: Any other ethnic group</td>
+<td align="left">Not Supplied</td>
+<td align="left">Relative</td>
+<td align="left">Mother</td>
+<td align="left">NULL</td>
+</tr>
+<tr class="odd">
+<td align="left">1001429</td>
+<td align="left">Rare Diseases</td>
+<td align="left">1981</td>
+<td align="left">White: British</td>
+<td align="left">Not Supplied</td>
+<td align="left">Relative</td>
+<td align="left">Mother</td>
+<td align="left">NULL</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="get-genotypic-table" class="section level3">
 <h3 class="hasAnchor">
 <a href="#get-genotypic-table" class="anchor"></a>Get genotypic table</h3>
 <p>Get all the genotypic table for a cohort.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit">
-<span class="co">#cohort_genotype &lt;- cloudos::cb_get_genotypic_table(my_cloudos, my_cohort)</span>
-<span class="va">cohort_genotype</span> <span class="op">&lt;-</span> <span class="fu">cloudos</span><span class="fu">::</span><span class="fu"><a href="reference/cb_get_genotypic_table.html">cb_get_genotypic_table</a></span><span class="op">(</span>cloudos <span class="op">=</span> <span class="va">my_cloudos</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">cohort_genotype</span>, <span class="fl">5</span><span class="op">)</span>
-<span class="co">#&gt;   index Chromosome    Location Reference Alternative                Gene</span>
-<span class="co">#&gt; 1    12          1 1:100011443         G           T AC118553.2; SLC35A3</span>
-<span class="co">#&gt; 2     2          1 1:100007041         A           G AC118553.2; SLC35A3</span>
-<span class="co">#&gt; 3     1          1 1:100007040         T           G AC118553.2; SLC35A3</span>
-<span class="co">#&gt; 4    13          1 1:100015306         C           A AC118553.2; SLC35A3</span>
-<span class="co">#&gt; 5    14          1 1:100015331         G           A AC118553.2; SLC35A3</span>
-<span class="co">#&gt;           cn</span>
-<span class="co">#&gt; 1 zzg_m_1_12</span>
-<span class="co">#&gt; 2  zzg_m_1_2</span>
-<span class="co">#&gt; 3  zzg_m_1_1</span>
-<span class="co">#&gt; 4 zzg_m_1_13</span>
-<span class="co">#&gt; 5 zzg_m_1_14</span></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">#cohort_genotype &lt;- cb_get_genotypic_table(my_cohort)</span>
+<span class="va">cohort_genotype</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cb_get_genotypic_table.html">cb_get_genotypic_table</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="va">my_cohort</span><span class="op">)</span>
+<span class="co">#&gt; Total number of rows found 805357 You can use 'size' to mention how many rows you want to extract. Default size = 10</span>
+<span class="va">cohort_genotype</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">5</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<table class="table">
+<colgroup>
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="74%">
+<col width="0%">
+<col width="1%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+<col width="0%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">Chromosome</th>
+<th align="left">Location</th>
+<th align="left">Reference</th>
+<th align="left">Alternative</th>
+<th align="left">Affimetrix ID</th>
+<th align="left">Possible allele combination 0</th>
+<th align="left">Possible allele combination 1</th>
+<th align="left">Possible allele combination 2</th>
+<th align="left">index</th>
+<th align="left">Type</th>
+<th align="left">id</th>
+<th align="left">cn</th>
+<th align="left">NA</th>
+<th align="left">NA.1</th>
+<th align="left">NA.2</th>
+<th align="left">NA.3</th>
+<th align="left">NA.4</th>
+<th align="left">NA.5</th>
+<th align="left">NA.6</th>
+<th align="left">NA.7</th>
+<th align="left">NA.8</th>
+<th align="left">NA.9</th>
+<th align="left">NA.10</th>
+<th align="left">NA.11</th>
+<th align="left">NA.12</th>
+<th align="left">NA.13</th>
+<th align="left">NA.14</th>
+<th align="left">NA.15</th>
+<th align="left">NA.16</th>
+<th align="left">NA.17</th>
+<th align="left">NA.18</th>
+<th align="left">NA.19</th>
+<th align="left">NA.20</th>
+<th align="left">NA.21</th>
+<th align="left">NA.22</th>
+<th align="left">NA.23</th>
+<th align="left">NA.24</th>
+<th align="left">NA.25</th>
+<th align="left">NA.26</th>
+<th align="left">NA.27</th>
+<th align="left">NA.28</th>
+<th align="left">NA.29</th>
+<th align="left">NA.30</th>
+<th align="left">NA.31</th>
+<th align="left">NA.32</th>
+<th align="left">NA.33</th>
+<th align="left">NA.34</th>
+<th align="left">NA.35</th>
+<th align="left">NA.36</th>
+<th align="left">NA.37</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">10</td>
+<td align="left">10:93190</td>
+<td align="left">AC</td>
+<td align="left"></td>
+<td align="left">80278591</td>
+<td align="left">GAC G</td>
+<td align="left">0 0</td>
+<td align="left">G GAC</td>
+<td align="left">0</td>
+<td align="left">Insertion</td>
+<td align="left">1</td>
+<td align="left">zzg_m_10_0</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">10</td>
+<td align="left">10:93502</td>
+<td align="left">C</td>
+<td align="left">G</td>
+<td align="left">52134431</td>
+<td align="left">C C</td>
+<td align="left">0 0</td>
+<td align="left">G C</td>
+<td align="left">1</td>
+<td align="left">SNP</td>
+<td align="left">2</td>
+<td align="left">zzg_m_10_1</td>
+<td align="left">rs201177578</td>
+<td align="left">Deleterious</td>
+<td align="left">Possibly Damaging</td>
+<td align="left">Possibly Damaging</td>
+<td align="left">Unknown</td>
+<td align="left">Disease Causing</td>
+<td align="left">Medium</td>
+<td align="left">Deleterious</td>
+<td align="left">Deleterious</td>
+<td align="left">Tolerated</td>
+<td align="left">Deleterious</td>
+<td align="left">542</td>
+<td align="left">244</td>
+<td align="left">GO CYTOSKELETON ORGANIZATION| GO OOGENESIS| GO MICROTUBULE BASED PROCESS| GO MICROTUBULE CYTOSKELETON ORGANIZATION| GO SEXUAL REPRODUCTION| GO ATOMICAL STRUCTURE MATURATION| GO MITOTIC CELL CYCLE| GO ORGANELLE FISSION| GO CELL MATURATION| GO ORGANELLE ASSEMBLY| GO CELLULAR PROCESS INVOLVED IN REPRODUCTION IN MULTICELLULAR ORGANISM| GO OOCYTE MATURATION| GO OOCYTE DIFFERENTIATION| GO MEIOTIC CELL CYCLE| GO CELL CYCLE| GO MULTI ORGANISM REPRODUCTIVE PROCESS| GO GAMETE GENERATION| GO FEMALE GAMETE GENERATION| GO DEVELOPMENTAL PROCESS INVOLVED IN REPRODUCTION| GO MEIOTIC CELL CYCLE PROCESS| GO SPINDLE ASSEMBLY| GO REPRODUCTION| GO GERM CELL DEVELOPMENT| GO MULTICELLULAR ORGANISM REPRODUCTION| GO DEVELOPMENTAL MATURATION| GO CELL CYCLE PROCESS| GO MICROTUBULE CYTOSKELETON| GO CYTOSKELETAL PART| GO MICROTUBULE| GO SPINDLE| GO GTPASE ACTIVITY| GO HYDROLASE ACTIVITY ACTING ON ACID ANHYDRIDES| GO GUANYL NUCLEOTIDE BINDING| GO RIBONUCLEOTIDE BINDING| GO STRUCTURAL CONSTITUENT OF CYTOSKELETON| GO STRUCTURAL MOLECULE ACTIVITY| GO MEIOTIC SPINDLE ORGANIZATION| GO SPINDLE ORGANIZATION| GO FEMALE MEIOTIC NUCLEAR DIVISION| GO SPINDLE ASSEMBLY INVOLVED IN MEIOSIS| GO MEIOTIC SPINDLE| GO SUPRAMOLECULAR COMPLEX| GO POLYMERIC CYTOSKELETAL FIBER</td>
+<td align="left">TUBB8</td>
+<td align="left">TUBB8:NM 177987:exon4:cG830C:pG277A</td>
+<td align="left">0.002</td>
+<td align="left">0.787</td>
+<td align="left">0.598</td>
+<td align="left">0.001</td>
+<td align="left">1</td>
+<td align="left">2.155</td>
+<td align="left">-1.84</td>
+<td align="left">-4.65</td>
+<td align="left">0.41</td>
+<td align="left">0.877</td>
+<td align="left">-0.012</td>
+<td align="left">0.561</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">10</td>
+<td align="left">10:93635</td>
+<td align="left">T</td>
+<td align="left">C</td>
+<td align="left">3729558</td>
+<td align="left">T T</td>
+<td align="left">0 0</td>
+<td align="left">C T</td>
+<td align="left">2</td>
+<td align="left">SNP</td>
+<td align="left">3</td>
+<td align="left">zzg_m_10_2</td>
+<td align="left">rs200242637</td>
+<td align="left">Deleterious</td>
+<td align="left">Benign</td>
+<td align="left">Benign</td>
+<td align="left">Unknown</td>
+<td align="left">Disease Causing</td>
+<td align="left">Medium</td>
+<td align="left">Tolerated</td>
+<td align="left">Deleterious</td>
+<td align="left">Tolerated</td>
+<td align="left">Tolerated</td>
+<td align="left">615</td>
+<td align="left">27</td>
+<td align="left">GO CYTOSKELETON ORGANIZATION| GO OOGENESIS| GO MICROTUBULE BASED PROCESS| GO MICROTUBULE CYTOSKELETON ORGANIZATION| GO SEXUAL REPRODUCTION| GO ATOMICAL STRUCTURE MATURATION| GO MITOTIC CELL CYCLE| GO ORGANELLE FISSION| GO CELL MATURATION| GO ORGANELLE ASSEMBLY| GO CELLULAR PROCESS INVOLVED IN REPRODUCTION IN MULTICELLULAR ORGANISM| GO OOCYTE MATURATION| GO OOCYTE DIFFERENTIATION| GO MEIOTIC CELL CYCLE| GO CELL CYCLE| GO MULTI ORGANISM REPRODUCTIVE PROCESS| GO GAMETE GENERATION| GO FEMALE GAMETE GENERATION| GO DEVELOPMENTAL PROCESS INVOLVED IN REPRODUCTION| GO MEIOTIC CELL CYCLE PROCESS| GO SPINDLE ASSEMBLY| GO REPRODUCTION| GO GERM CELL DEVELOPMENT| GO MULTICELLULAR ORGANISM REPRODUCTION| GO DEVELOPMENTAL MATURATION| GO CELL CYCLE PROCESS| GO MICROTUBULE CYTOSKELETON| GO CYTOSKELETAL PART| GO MICROTUBULE| GO SPINDLE| GO GTPASE ACTIVITY| GO HYDROLASE ACTIVITY ACTING ON ACID ANHYDRIDES| GO GUANYL NUCLEOTIDE BINDING| GO RIBONUCLEOTIDE BINDING| GO STRUCTURAL CONSTITUENT OF CYTOSKELETON| GO STRUCTURAL MOLECULE ACTIVITY| GO MEIOTIC SPINDLE ORGANIZATION| GO SPINDLE ORGANIZATION| GO FEMALE MEIOTIC NUCLEAR DIVISION| GO SPINDLE ASSEMBLY INVOLVED IN MEIOSIS| GO MEIOTIC SPINDLE| GO SUPRAMOLECULAR COMPLEX| GO POLYMERIC CYTOSKELETAL FIBER</td>
+<td align="left">TUBB8</td>
+<td align="left">TUBB8:NM 177987:exon4:cA697G:pM233V</td>
+<td align="left">0.012</td>
+<td align="left">0.01</td>
+<td align="left">0.043</td>
+<td align="left">0</td>
+<td align="left">1</td>
+<td align="left">2.105</td>
+<td align="left">-0.18</td>
+<td align="left">-3.33</td>
+<td align="left">0.098</td>
+<td align="left">0.713</td>
+<td align="left">-0.829</td>
+<td align="left">0.183</td>
+<td align="left">0.0279</td>
+<td align="left">0.0174</td>
+<td align="left">0.0196</td>
+<td align="left">0.04</td>
+<td align="left">0.0194</td>
+<td align="left">0.0573</td>
+<td align="left">0.028</td>
+<td align="left">0.0461</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">10</td>
+<td align="left">10:94514</td>
+<td align="left">CTGG</td>
+<td align="left"></td>
+<td align="left">52349171</td>
+<td align="left">CCTGG CCT</td>
+<td align="left">C CCTGG</td>
+<td align="left">0 0</td>
+<td align="left">3</td>
+<td align="left">Insertion</td>
+<td align="left">4</td>
+<td align="left">zzg_m_10_3</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">10</td>
+<td align="left">10:94693</td>
+<td align="left">G</td>
+<td align="left"></td>
+<td align="left">80278592</td>
+<td align="left">AG</td>
+<td align="left">0 0</td>
+<td align="left">A A</td>
+<td align="left">4</td>
+<td align="left">SNP</td>
+<td align="left">5</td>
+<td align="left">zzg_m_10_4</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">GO CYTOSKELETON ORGANIZATION| GO OOGENESIS| GO MICROTUBULE BASED PROCESS| GO MICROTUBULE CYTOSKELETON ORGANIZATION| GO SEXUAL REPRODUCTION| GO ATOMICAL STRUCTURE MATURATION| GO MITOTIC CELL CYCLE| GO ORGANELLE FISSION| GO CELL MATURATION| GO ORGANELLE ASSEMBLY| GO CELLULAR PROCESS INVOLVED IN REPRODUCTION IN MULTICELLULAR ORGANISM| GO OOCYTE MATURATION| GO OOCYTE DIFFERENTIATION| GO MEIOTIC CELL CYCLE| GO CELL CYCLE| GO MULTI ORGANISM REPRODUCTIVE PROCESS| GO GAMETE GENERATION| GO FEMALE GAMETE GENERATION| GO DEVELOPMENTAL PROCESS INVOLVED IN REPRODUCTION| GO MEIOTIC CELL CYCLE PROCESS| GO SPINDLE ASSEMBLY| GO REPRODUCTION| GO GERM CELL DEVELOPMENT| GO MULTICELLULAR ORGANISM REPRODUCTION| GO DEVELOPMENTAL MATURATION| GO CELL CYCLE PROCESS| GO MICROTUBULE CYTOSKELETON| GO CYTOSKELETAL PART| GO MICROTUBULE| GO SPINDLE| GO GTPASE ACTIVITY| GO HYDROLASE ACTIVITY ACTING ON ACID ANHYDRIDES| GO GUANYL NUCLEOTIDE BINDING| GO RIBONUCLEOTIDE BINDING| GO STRUCTURAL CONSTITUENT OF CYTOSKELETON| GO STRUCTURAL MOLECULE ACTIVITY| GO MEIOTIC SPINDLE ORGANIZATION| GO SPINDLE ORGANIZATION| GO FEMALE MEIOTIC NUCLEAR DIVISION| GO SPINDLE ASSEMBLY INVOLVED IN MEIOSIS| GO MEIOTIC SPINDLE| GO SUPRAMOLECULAR COMPLEX| GO POLYMERIC CYTOSKELETAL FIBER</td>
+<td align="left">TUBB8</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div id="filtering" class="section level3">
+<div id="explore-filters" class="section level3">
 <h3 class="hasAnchor">
-<a href="#filtering" class="anchor"></a>Filtering</h3>
+<a href="#explore-filters" class="anchor"></a>Explore Filters</h3>
 <div id="search-phenotypic-filters" class="section level4">
 <h4 class="hasAnchor">
 <a href="#search-phenotypic-filters" class="anchor"></a>Search phenotypic filters</h4>
 <p>Search for phenotypic filters based on a term.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit">
-<span class="va">all_filters</span> <span class="op">&lt;-</span> <span class="fu">cloudos</span><span class="fu">::</span><span class="fu"><a href="reference/cb_search_phenotypic_filters.html">cb_search_phenotypic_filters</a></span><span class="op">(</span>cloudos <span class="op">=</span> <span class="va">my_cloudos</span>, 
-                                                     term <span class="op">=</span> <span class="st">"cancer"</span><span class="op">)</span>
-<span class="co">#&gt; Total number of filters - 29</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">all_filters</span>, <span class="fl">5</span><span class="op">)</span>
-<span class="co">#&gt;             categoryPathLevel1 categoryPathLevel2         categoryPathLevel3</span>
-<span class="co">#&gt; 1 UK Biobank Assessment Centre        Touchscreen Health and medical history</span>
-<span class="co">#&gt; 2 UK Biobank Assessment Centre        Touchscreen Health and medical history</span>
-<span class="co">#&gt; 3 UK Biobank Assessment Centre        Touchscreen Health and medical history</span>
-<span class="co">#&gt; 4 UK Biobank Assessment Centre        Touchscreen       Sex-specific factors</span>
-<span class="co">#&gt; 5 UK Biobank Assessment Centre        Touchscreen       Sex-specific factors</span>
-<span class="co">#&gt;        categoryPathLevel4   id</span>
-<span class="co">#&gt; 1        Cancer screening 2345</span>
-<span class="co">#&gt; 2        Cancer screening 2355</span>
-<span class="co">#&gt; 3      Medical conditions 2453</span>
-<span class="co">#&gt; 4 Female-specific factors 2674</span>
-<span class="co">#&gt; 5 Female-specific factors 2684</span>
-<span class="co">#&gt;                                                   name      type</span>
-<span class="co">#&gt; 1                      Ever had bowel cancer screening      bars</span>
-<span class="co">#&gt; 2                   Most recent bowel cancer screening histogram</span>
-<span class="co">#&gt; 3                           Cancer diagnosed by doctor      bars</span>
-<span class="co">#&gt; 4         Ever had breast cancer screening / mammogram      bars</span>
-<span class="co">#&gt; 5 Years since last breast cancer screening / mammogram histogram</span>
-<span class="co">#&gt;            valueType units instances array</span>
-<span class="co">#&gt; 1 Categorical single               4     1</span>
-<span class="co">#&gt; 2            Integer years         4     1</span>
-<span class="co">#&gt; 3 Categorical single               4     1</span>
-<span class="co">#&gt; 4 Categorical single               4     1</span>
-<span class="co">#&gt; 5            Integer years         4     1</span>
-<span class="co">#&gt;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          description</span>
-<span class="co">#&gt; 1 "ACE touchscreen question ""Have you ever had a screening test for bowel (colorectal) cancer? (Please include tests for blood in the stool/faeces or a colonoscopy or a sigmoidoscopy)"" If the participant activated the Help button they were shown the message:     Screening tests for bowel or colorectal cancer include:  - FOBT (faecal occult blood test) - this is when you    are given a set of cards and asked to smear a part    of your stool on three separate occasions onto the    cards and then return the cards to be tested for    blood.  - Sigmoidoscopy - a tube is used to examine the lower    bowel. This is usually done in a doctor's office    without pain relief.  - Colonoscopy - a long tube is used the examine the    whole large bowel; you would usually have to drink    a large amount of special liquid to prepare the    bowel; and you would be given a sedative medication    for the procedure.     "</span>
-<span class="co">#&gt; 2                                                                                                                                                                                                                                                                                                                                                                          "ACE touchscreen question ""How many years ago was the most recent one of these tests?"" The following checks were performed:  If answer   If answer &gt; Participants age - 5 years then rejected  If answer &gt; 20 then participant asked to confirm   If the participant activated the Help button they were shown the message:     If you are unsure; please provide an estimate or select Do not know.      ~F2355~ was collected from participants who indicated they have had a screening test for bowel (colorectal) cancer; as indicated by their answers to ~F2345~"</span>
-<span class="co">#&gt; 3                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      "ACE touchscreen question ""Has a doctor ever told you that you have had cancer?"" If the participant activated the Help button they were shown the message:     If you are unsure if you have been told you had cancer; select Do not know and you will be asked about this by an interviewer later during this visit.     "</span>
-<span class="co">#&gt; 4                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       "ACE touchscreen question ""Have you ever been for breast cancer screening (a mammogram)?"""</span>
-<span class="co">#&gt; 5                                                                                                                                                                                                                                                                                                                                                                                                                              "ACE touchscreen question ""How many years ago was your last screen?"" The following checks were performed:  If answer   If answer &gt; Participants age - 15 years then rejected  If answer &gt; 15 then participant asked to confirm   If the participant activated the Help button they were shown the message:     If you are unsure; please provide an estimate or select Do not know.      ~F2684~ was collected from women who indicated that they had been for a mammogram; as defined by their answers to ~F2674~"</span>
-<span class="co">#&gt;   descriptionParticipantsNo descriptionItemNo descriptionStability coding</span>
-<span class="co">#&gt; 1                    501599            572225             Complete 100349</span>
-<span class="co">#&gt; 2                    180035            202611             Complete 100567</span>
-<span class="co">#&gt; 3                    501592            572218             Complete 100603</span>
-<span class="co">#&gt; 4                    272921            309271             Complete 100349</span>
-<span class="co">#&gt; 5                    223188            252179             Complete 100567</span>
-<span class="co">#&gt;   descriptionCategoryID descriptionItemType descriptionStrata descriptionSexed</span>
-<span class="co">#&gt; 1                100040                Data           Primary           Unisex</span>
-<span class="co">#&gt; 2                100040                Data           Primary           Unisex</span>
-<span class="co">#&gt; 3                100044                Data           Primary           Unisex</span>
-<span class="co">#&gt; 4                100069                Data           Primary           Female</span>
-<span class="co">#&gt; 5                100069                Data           Primary           Female</span>
-<span class="co">#&gt;                                                      link</span>
-<span class="co">#&gt; 1 http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=2345</span>
-<span class="co">#&gt; 2 http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=2355</span>
-<span class="co">#&gt; 3 http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=2453</span>
-<span class="co">#&gt; 4 http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=2674</span>
-<span class="co">#&gt; 5 http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=2684</span>
-<span class="co">#&gt;                                                                                 instance0Name</span>
-<span class="co">#&gt; 1 Initial assessment visit (2006-2010) at which participants were recruited and consent given</span>
-<span class="co">#&gt; 2 Initial assessment visit (2006-2010) at which participants were recruited and consent given</span>
-<span class="co">#&gt; 3 Initial assessment visit (2006-2010) at which participants were recruited and consent given</span>
-<span class="co">#&gt; 4 Initial assessment visit (2006-2010) at which participants were recruited and consent given</span>
-<span class="co">#&gt; 5 Initial assessment visit (2006-2010) at which participants were recruited and consent given</span>
-<span class="co">#&gt;                             instance1Name         instance2Name</span>
-<span class="co">#&gt; 1 First repeat assessment visit (2012-13) Imaging visit (2014+)</span>
-<span class="co">#&gt; 2 First repeat assessment visit (2012-13) Imaging visit (2014+)</span>
-<span class="co">#&gt; 3 First repeat assessment visit (2012-13) Imaging visit (2014+)</span>
-<span class="co">#&gt; 4 First repeat assessment visit (2012-13) Imaging visit (2014+)</span>
-<span class="co">#&gt; 5 First repeat assessment visit (2012-13) Imaging visit (2014+)</span>
-<span class="co">#&gt;                        instance3Name instance4Name instance5Name instance6Name</span>
-<span class="co">#&gt; 1 First repeat imaging visit (2019+)                                          </span>
-<span class="co">#&gt; 2 First repeat imaging visit (2019+)                                          </span>
-<span class="co">#&gt; 3 First repeat imaging visit (2019+)                                          </span>
-<span class="co">#&gt; 4 First repeat imaging visit (2019+)                                          </span>
-<span class="co">#&gt; 5 First repeat imaging visit (2019+)                                          </span>
-<span class="co">#&gt;   instance7Name instance8Name instance9Name instance10Name instance11Name</span>
-<span class="co">#&gt; 1                                                                        </span>
-<span class="co">#&gt; 2                                                                        </span>
-<span class="co">#&gt; 3                                                                        </span>
-<span class="co">#&gt; 4                                                                        </span>
-<span class="co">#&gt; 5                                                                        </span>
-<span class="co">#&gt;   instance12Name instance13Name instance14Name instance15Name instance16Name</span>
-<span class="co">#&gt; 1                                                                           </span>
-<span class="co">#&gt; 2                                                                           </span>
-<span class="co">#&gt; 3                                                                           </span>
-<span class="co">#&gt; 4                                                                           </span>
-<span class="co">#&gt; 5                                                                           </span>
-<span class="co">#&gt;   bucket300 bucket500 bucket1000 bucket2500 bucket5000 bucket10000</span>
-<span class="co">#&gt; 1     FALSE     FALSE      FALSE      FALSE      FALSE       FALSE</span>
-<span class="co">#&gt; 2     FALSE     FALSE      FALSE      FALSE      FALSE       FALSE</span>
-<span class="co">#&gt; 3     FALSE     FALSE      FALSE      FALSE      FALSE       FALSE</span>
-<span class="co">#&gt; 4     FALSE     FALSE      FALSE      FALSE      FALSE       FALSE</span>
-<span class="co">#&gt; 5     FALSE     FALSE      FALSE      FALSE      FALSE       FALSE</span>
-<span class="co">#&gt;   orderPhenotype checked</span>
-<span class="co">#&gt; 1             40       1</span>
-<span class="co">#&gt; 2             40       1</span>
-<span class="co">#&gt; 3             42       1</span>
-<span class="co">#&gt; 4             47       1</span>
-<span class="co">#&gt; 5             47       1</span></pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">all_filters</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cb_search_phenotypic_filters.html">cb_search_phenotypic_filters</a></span><span class="op">(</span>term <span class="op">=</span> <span class="st">"cancer"</span><span class="op">)</span>
+<span class="co">#&gt; Total number of phenotypic filters found - 4</span>
+<span class="va">all_filters</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">5</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<table class="table">
+<colgroup>
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="2%">
+<col width="2%">
+<col width="0%">
+<col width="1%">
+<col width="3%">
+<col width="1%">
+<col width="0%">
+<col width="2%">
+<col width="0%">
+<col width="0%">
+<col width="30%">
+<col width="2%">
+<col width="6%">
+<col width="0%">
+<col width="2%">
+<col width="2%">
+<col width="2%">
+<col width="2%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">bucket500</th>
+<th align="left">bucket1000</th>
+<th align="left">bucket2500</th>
+<th align="left">bucket5000</th>
+<th align="left">bucket300</th>
+<th align="left">bucket10000</th>
+<th align="left">categoryPathLevel1</th>
+<th align="left">categoryPathLevel2</th>
+<th align="left">id</th>
+<th align="left">instances</th>
+<th align="left">name</th>
+<th align="left">type</th>
+<th align="left">Sorting</th>
+<th align="left">valueType</th>
+<th align="left">units</th>
+<th align="left">coding</th>
+<th align="left">description</th>
+<th align="left">descriptionParticipantsNo</th>
+<th align="left">link</th>
+<th align="left">array</th>
+<th align="left">descriptionStability</th>
+<th align="left">descriptionCategoryID</th>
+<th align="left">descriptionItemType</th>
+<th align="left">descriptionStrata</th>
+<th align="left">descriptionSexed</th>
+<th align="left">orderPhenotype</th>
+<th align="left">instance0Name</th>
+<th align="left">instance1Name</th>
+<th align="left">instance2Name</th>
+<th align="left">instance3Name</th>
+<th align="left">instance4Name</th>
+<th align="left">instance5Name</th>
+<th align="left">instance6Name</th>
+<th align="left">instance7Name</th>
+<th align="left">instance8Name</th>
+<th align="left">instance9Name</th>
+<th align="left">instance10Name</th>
+<th align="left">instance11Name</th>
+<th align="left">instance12Name</th>
+<th align="left">instance13Name</th>
+<th align="left">instance14Name</th>
+<th align="left">instance15Name</th>
+<th align="left">instance16Name</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">Cancer</td>
+<td align="left">Participant disease</td>
+<td align="left">177</td>
+<td align="left">1</td>
+<td align="left">Cancer disease sub type</td>
+<td align="left">bars</td>
+<td align="left"></td>
+<td align="left">Categorical multiple</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">The subtype of the cancer in question, recorded against a limited set of supplied enumerations. </td>
+<td align="left">17404</td>
+<td align="left"><a href="https://cnfl.extge.co.uk/pages/viewpage.action?pageId=147659370" class="uri">https://cnfl.extge.co.uk/pages/viewpage.action?pageId=147659370</a></td>
+<td align="left">4</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Main 100k Programme</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">Cancer</td>
+<td align="left">Participant disease</td>
+<td align="left">178</td>
+<td align="left">1</td>
+<td align="left">Cancer disease type</td>
+<td align="left">bars</td>
+<td align="left"></td>
+<td align="left">Categorical multiple</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">The cancer type of the tumour sample submitted to Genomics England.</td>
+<td align="left">17404</td>
+<td align="left"><a href="https://cnfl.extge.co.uk/pages/viewpage.action?pageId=147659370" class="uri">https://cnfl.extge.co.uk/pages/viewpage.action?pageId=147659370</a></td>
+<td align="left">4</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Main 100k Programme</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">Cancer</td>
+<td align="left">Participant Tumour</td>
+<td align="left">190</td>
+<td align="left">1</td>
+<td align="left">Cancer tumour sk</td>
+<td align="left">text_search</td>
+<td align="left"></td>
+<td align="left">Text</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Database identifier for a participant’s registered tumour</td>
+<td align="left">9561</td>
+<td align="left"><a href="https://cnfl.extge.co.uk/pages/viewpage.action?pageId=147659370" class="uri">https://cnfl.extge.co.uk/pages/viewpage.action?pageId=147659370</a></td>
+<td align="left">5</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Main 100k Programme</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">Cancer</td>
+<td align="left">Participant Tumour</td>
+<td align="left">272</td>
+<td align="left">1</td>
+<td align="left">Pancreatic cancer clinical stage</td>
+<td align="left">bars</td>
+<td align="left"></td>
+<td align="left">Categorical multiple</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">COSD UG14560, UPPER GI - STAGING - PANCREAS. Description: ’Clinically agreed stage based on radiological findings of tumour extent in order to offer treatment recommendations. The category selected depends on tumour location within the pancreas and the arterial or venous involvement.</td>
+<td align="left">9561</td>
+<td align="left"><a href="https://cnfl.extge.co.uk/pages/viewpage.action?pageId=147659370" class="uri">https://cnfl.extge.co.uk/pages/viewpage.action?pageId=147659370</a></td>
+<td align="left">5</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Main 100k Programme</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
 <p>Lets choose one filter from above table</p>
-<div class="sourceCode" id="cb16"><pre class="downlit">
-<span class="co"># apply this first row filter</span>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># apply this first row filter</span>
 <span class="va">my_phenotypic_filter</span> <span class="op">&lt;-</span> <span class="va">all_filters</span><span class="op">[</span><span class="fl">1</span>,<span class="op">]</span>
-<span class="va">my_phenotypic_filter</span>
-<span class="co">#&gt;             categoryPathLevel1 categoryPathLevel2         categoryPathLevel3</span>
-<span class="co">#&gt; 1 UK Biobank Assessment Centre        Touchscreen Health and medical history</span>
-<span class="co">#&gt;   categoryPathLevel4   id                            name type</span>
-<span class="co">#&gt; 1   Cancer screening 2345 Ever had bowel cancer screening bars</span>
-<span class="co">#&gt;            valueType units instances array</span>
-<span class="co">#&gt; 1 Categorical single               4     1</span>
-<span class="co">#&gt;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          description</span>
-<span class="co">#&gt; 1 "ACE touchscreen question ""Have you ever had a screening test for bowel (colorectal) cancer? (Please include tests for blood in the stool/faeces or a colonoscopy or a sigmoidoscopy)"" If the participant activated the Help button they were shown the message:     Screening tests for bowel or colorectal cancer include:  - FOBT (faecal occult blood test) - this is when you    are given a set of cards and asked to smear a part    of your stool on three separate occasions onto the    cards and then return the cards to be tested for    blood.  - Sigmoidoscopy - a tube is used to examine the lower    bowel. This is usually done in a doctor's office    without pain relief.  - Colonoscopy - a long tube is used the examine the    whole large bowel; you would usually have to drink    a large amount of special liquid to prepare the    bowel; and you would be given a sedative medication    for the procedure.     "</span>
-<span class="co">#&gt;   descriptionParticipantsNo descriptionItemNo descriptionStability coding</span>
-<span class="co">#&gt; 1                    501599            572225             Complete 100349</span>
-<span class="co">#&gt;   descriptionCategoryID descriptionItemType descriptionStrata descriptionSexed</span>
-<span class="co">#&gt; 1                100040                Data           Primary           Unisex</span>
-<span class="co">#&gt;                                                      link</span>
-<span class="co">#&gt; 1 http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=2345</span>
-<span class="co">#&gt;                                                                                 instance0Name</span>
-<span class="co">#&gt; 1 Initial assessment visit (2006-2010) at which participants were recruited and consent given</span>
-<span class="co">#&gt;                             instance1Name         instance2Name</span>
-<span class="co">#&gt; 1 First repeat assessment visit (2012-13) Imaging visit (2014+)</span>
-<span class="co">#&gt;                        instance3Name instance4Name instance5Name instance6Name</span>
-<span class="co">#&gt; 1 First repeat imaging visit (2019+)                                          </span>
-<span class="co">#&gt;   instance7Name instance8Name instance9Name instance10Name instance11Name</span>
-<span class="co">#&gt; 1                                                                        </span>
-<span class="co">#&gt;   instance12Name instance13Name instance14Name instance15Name instance16Name</span>
-<span class="co">#&gt; 1                                                                           </span>
-<span class="co">#&gt;   bucket300 bucket500 bucket1000 bucket2500 bucket5000 bucket10000</span>
-<span class="co">#&gt; 1     FALSE     FALSE      FALSE      FALSE      FALSE       FALSE</span>
-<span class="co">#&gt;   orderPhenotype checked</span>
-<span class="co">#&gt; 1             40       1</span></pre></div>
+<span class="va">my_phenotypic_filter</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<table class="table">
+<colgroup>
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="2%">
+<col width="2%">
+<col width="0%">
+<col width="1%">
+<col width="3%">
+<col width="0%">
+<col width="1%">
+<col width="2%">
+<col width="0%">
+<col width="0%">
+<col width="13%">
+<col width="3%">
+<col width="8%">
+<col width="0%">
+<col width="2%">
+<col width="2%">
+<col width="2%">
+<col width="2%">
+<col width="2%">
+<col width="2%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="2%">
+<col width="2%">
+<col width="2%">
+<col width="2%">
+<col width="2%">
+<col width="2%">
+<col width="2%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">bucket500</th>
+<th align="left">bucket1000</th>
+<th align="left">bucket2500</th>
+<th align="left">bucket5000</th>
+<th align="left">bucket300</th>
+<th align="left">bucket10000</th>
+<th align="left">categoryPathLevel1</th>
+<th align="left">categoryPathLevel2</th>
+<th align="left">id</th>
+<th align="left">instances</th>
+<th align="left">name</th>
+<th align="left">type</th>
+<th align="left">Sorting</th>
+<th align="left">valueType</th>
+<th align="left">units</th>
+<th align="left">coding</th>
+<th align="left">description</th>
+<th align="left">descriptionParticipantsNo</th>
+<th align="left">link</th>
+<th align="left">array</th>
+<th align="left">descriptionStability</th>
+<th align="left">descriptionCategoryID</th>
+<th align="left">descriptionItemType</th>
+<th align="left">descriptionStrata</th>
+<th align="left">descriptionSexed</th>
+<th align="left">orderPhenotype</th>
+<th align="left">instance0Name</th>
+<th align="left">instance1Name</th>
+<th align="left">instance2Name</th>
+<th align="left">instance3Name</th>
+<th align="left">instance4Name</th>
+<th align="left">instance5Name</th>
+<th align="left">instance6Name</th>
+<th align="left">instance7Name</th>
+<th align="left">instance8Name</th>
+<th align="left">instance9Name</th>
+<th align="left">instance10Name</th>
+<th align="left">instance11Name</th>
+<th align="left">instance12Name</th>
+<th align="left">instance13Name</th>
+<th align="left">instance14Name</th>
+<th align="left">instance15Name</th>
+<th align="left">instance16Name</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">FALSE</td>
+<td align="left">Cancer</td>
+<td align="left">Participant disease</td>
+<td align="left">177</td>
+<td align="left">1</td>
+<td align="left">Cancer disease sub type</td>
+<td align="left">bars</td>
+<td align="left"></td>
+<td align="left">Categorical multiple</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">The subtype of the cancer in question, recorded against a limited set of supplied enumerations. </td>
+<td align="left">17404</td>
+<td align="left"><a href="https://cnfl.extge.co.uk/pages/viewpage.action?pageId=147659370" class="uri">https://cnfl.extge.co.uk/pages/viewpage.action?pageId=147659370</a></td>
+<td align="left">4</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Main 100k Programme</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr></tbody>
+</table>
 </div>
 <div id="apply-phenotypic-filter" class="section level4">
 <h4 class="hasAnchor">
 <a href="#apply-phenotypic-filter" class="anchor"></a>Apply phenotypic filter</h4>
 <p>We can get statistic of sample numbers in a cohort for which a filter is applied.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit">
-<span class="co"># phenotype filter</span>
-<span class="va">cohort_with_filters</span> <span class="op">&lt;-</span> <span class="fu">cloudos</span><span class="fu">::</span><span class="fu"><a href="reference/cb_get_filter_statistics.html">cb_get_filter_statistics</a></span><span class="op">(</span><span class="va">my_cloudos</span>, 
-                                     cohort <span class="op">=</span> <span class="va">my_cohort</span>, 
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># phenotype filter</span>
+<span class="va">cohort_with_filters</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cb_get_filter_statistics.html">cb_get_filter_statistics</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="va">my_cohort</span>, 
                                      filter_id <span class="op">=</span> <span class="va">my_phenotypic_filter</span><span class="op">$</span><span class="va">id</span><span class="op">)</span>
-<span class="va">cohort_with_filters</span>
-<span class="co">#&gt; # A tibble: 4 x 4</span>
-<span class="co">#&gt;   `_id` number  total label               </span>
-<span class="co">#&gt;   &lt;int&gt;  &lt;int&gt;  &lt;int&gt; &lt;chr&gt;               </span>
-<span class="co">#&gt; 1    -3  32545 600000 Prefer not to answer</span>
-<span class="co">#&gt; 2    -1 181143 600000 Do not know         </span>
-<span class="co">#&gt; 3     0 300719 600000 No                  </span>
-<span class="co">#&gt; 4     1  85593 600000 Yes</span></pre></div>
+<span class="va">cohort_with_filters</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">10</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<table class="table">
+<thead><tr class="header">
+<th align="left">_id</th>
+<th align="right">number</th>
+<th align="right">total</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">(All) Acute Lymphoblastic Leukaemia</td>
+<td align="right">46</td>
+<td align="right">4449</td>
+</tr>
+<tr class="even">
+<td align="left">(Aml) Acute Myeloid Leukaemia</td>
+<td align="right">55</td>
+<td align="right">4449</td>
+</tr>
+<tr class="odd">
+<td align="left">Acral Lentiginous</td>
+<td align="right">1</td>
+<td align="right">4449</td>
+</tr>
+<tr class="even">
+<td align="left">Adamantinoma Of Bone</td>
+<td align="right">7</td>
+<td align="right">4449</td>
+</tr>
+<tr class="odd">
+<td align="left">Adenocarcinoma</td>
+<td align="right">982</td>
+<td align="right">4449</td>
+</tr>
+<tr class="even">
+<td align="left">Anaplastic Astrocytoma</td>
+<td align="right">11</td>
+<td align="right">4449</td>
+</tr>
+<tr class="odd">
+<td align="left">Anaplastic Oligodendroglioma</td>
+<td align="right">5</td>
+<td align="right">4449</td>
+</tr>
+<tr class="even">
+<td align="left">Angiosarcoma</td>
+<td align="right">3</td>
+<td align="right">4449</td>
+</tr>
+<tr class="odd">
+<td align="left">Biliary Adenocarcinoma</td>
+<td align="right">1</td>
+<td align="right">4449</td>
+</tr>
+<tr class="even">
+<td align="left">Carcinosarcoma</td>
+<td align="right">12</td>
+<td align="right">4449</td>
+</tr>
+</tbody>
+</table>
 <p>We can get number of total participants after applying a filter.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit">
-<span class="co"># filter participants</span>
-<span class="va">total_participants_with_filter</span> <span class="op">&lt;-</span> <span class="fu">cloudos</span><span class="fu">:::</span><span class="fu"><a href="reference/cb_filter_participants.html">cb_filter_participants</a></span><span class="op">(</span><span class="va">my_cloudos</span>,
-                                                cohort <span class="op">=</span> <span class="va">my_cohort</span>, 
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># filter participants</span>
+<span class="va">total_participants_with_filter</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cb_filter_participants.html">cb_filter_participants</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="va">my_cohort</span>, 
                                                 filter_id <span class="op">=</span> <span class="va">my_phenotypic_filter</span><span class="op">$</span><span class="va">id</span><span class="op">)</span>
  
 <span class="va">total_participants_with_filter</span>
 <span class="co">#&gt; $total</span>
-<span class="co">#&gt; [1] 644686</span>
+<span class="co">#&gt; [1] 44667</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $count</span>
-<span class="co">#&gt; [1] 333264</span></pre></div>
-</div>
-<div id="save-a-filter" class="section level4">
-<h4 class="hasAnchor">
-<a href="#save-a-filter" class="anchor"></a>Save a filter</h4>
-<p>Save a filter into the database.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit">
-<span class="co"># apply filter (cb_genotypic_save) </span>
-<span class="va">gs</span> <span class="op">&lt;-</span> <span class="fu">cloudos</span><span class="fu">::</span><span class="fu"><a href="reference/cb_genotypic_save.html">cb_genotypic_save</a></span><span class="op">(</span><span class="va">my_cloudos</span>,
-                                 cohort <span class="op">=</span> <span class="va">my_cohort</span>,
-                                 filter_id <span class="op">=</span> <span class="va">my_phenotypic_filter</span><span class="op">$</span><span class="va">id</span><span class="op">)</span>
-
-<span class="va">gs</span>
-<span class="co">#&gt;      cohortId                   markers filters _id                       </span>
-<span class="co">#&gt; data "5f6228133097cc7a6504fb76" List,0  List,1  "5f74bf4f79721e542d5beaad"</span>
-<span class="co">#&gt;      numberOfParticipants</span>
-<span class="co">#&gt; data 32545</span></pre></div>
+<span class="co">#&gt; [1] 0</span></code></pre></div>
 </div>
 </div>
-<div id="additional-for-ui" class="section level3">
+<div id="apply-and-save-a-filter" class="section level3">
 <h3 class="hasAnchor">
-<a href="#additional-for-ui" class="anchor"></a>Additional for UI</h3>
-<div id="get-samples-table-for-selected-rows" class="section level4">
-<h4 class="hasAnchor">
-<a href="#get-samples-table-for-selected-rows" class="anchor"></a>Get samples table for selected rows</h4>
-<p>Create a RAW data string. This usually generates after selecting participants on UI. (more information will be added how to create this in R)</p>
-<p>NOTE: This function will be improved <code>raw_data</code> arg is temporary.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit">
-<span class="va">new_raw_data</span> <span class="op">&lt;-</span> <span class="st">'{"columns":[{"id":34,"instance":0,"array":{"type":"exact","value":0}},{"id":31,"instance":0,"array":{"type":"exact","value":0}},{"id":52,"instance":0,"array":{"type":"exact","value":0}},{"id":5984,"instance":0,"array":{"type":"avg"}},{"id":5984,"instance":0,"array":{"type":"min"}},{"id":5984,"instance":0,"array":{"type":"max"}},{"id":20001,"instance":0,"array":{"type":"exact","value":0}}],"ids":["5f185b92bf92ed4d3be9637d","5edbdd689d700db709af0c2f","5f185b91bf92ed4d3be9587e","5f185b91bf92ed4d3be95984","5edbdd689d700db709af0c3e","5edbdd689d700db709af0c2b","5edbdd689d700db709af0c2d","5f185b93bf92ed4d3be982e9","5edbdd689d700db709af0c2a","5edbdd689d700db709af0c4d"],"type":"csv","base_url":"http://cohort-browser-766010452.eu-west-1.elb.amazonaws.com"}'</span></pre></div>
-<p>Using this above raw data lets extract selected participants.</p>
-<div class="sourceCode" id="cb21"><pre class="downlit">
-<span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">cloudos</span><span class="fu">::</span><span class="fu"><a href="reference/cb_extract_samples.html">cb_extract_samples</a></span><span class="op">(</span><span class="va">my_cloudos</span>,
-                      raw_data <span class="op">=</span> <span class="va">new_raw_data</span><span class="op">)</span>
-<span class="va">df</span>
-<span class="co">#&gt;          i Year_of_birth    Sex Month_of_birth ECG._load.0.avg ECG._load.0.min</span>
-<span class="co">#&gt; 1  1000002            NA                                    NA              NA</span>
-<span class="co">#&gt; 2  1000016          1954   Male      September        66.88393               2</span>
-<span class="co">#&gt; 3  1000020            NA                                    NA              NA</span>
-<span class="co">#&gt; 4  1000035            NA                                    NA              NA</span>
-<span class="co">#&gt; 5  1000048          1950 Female        January        59.76106               2</span>
-<span class="co">#&gt; 6  1000057          1942 Female       February        74.44643               3</span>
-<span class="co">#&gt; 7  1000059          1964 Female       December        71.14912               1</span>
-<span class="co">#&gt; 8  1000061            NA                                    NA              NA</span>
-<span class="co">#&gt; 9  1000063          1944 Female          April        66.19643               2</span>
-<span class="co">#&gt; 10 1000068          1947 Female       November        65.12500               1</span>
-<span class="co">#&gt;    ECG._load.0.max      Cancer_code._self.reported.0.0</span>
-<span class="co">#&gt; 1               NA                                    </span>
-<span class="co">#&gt; 2              270                     cervical cancer</span>
-<span class="co">#&gt; 3               NA                                    </span>
-<span class="co">#&gt; 4               NA                                    </span>
-<span class="co">#&gt; 5              195                     chronic myeloid</span>
-<span class="co">#&gt; 6              270 metastatic cancer (unknown primary)</span>
-<span class="co">#&gt; 7              270          uterine/endometrial cancer</span>
-<span class="co">#&gt; 8               NA                                    </span>
-<span class="co">#&gt; 9              270                     chronic myeloid</span>
-<span class="co">#&gt; 10             195                      bladder cancer</span></pre></div>
+<a href="#apply-and-save-a-filter" class="anchor"></a>Apply and Save a filter</h3>
+<p>Save a filter into the database.</p>
+<p>For this a <code>filter_query</code> is required.</p>
+<p><code>filter_query</code> is a list of different <strong>phenotypic filter</strong> quires.</p>
+<p>Steps to find phenotypic filters -</p>
+<ul>
+<li>Use <code><a href="reference/cb_search_phenotypic_filters.html">cb_search_phenotypic_filters()</a></code> to find a filter based on a term.</li>
+<li>At this time you will be having phenotypic filter id of your choice.</li>
+<li>Check the available filter values/range using <code><a href="reference/cb_get_filter_statistics.html">cb_get_filter_statistics()</a></code>
+</li>
+<li>Now use this information to make your <code>filter_query</code>
+</li>
+</ul>
+<p>There are two possible type of <code>filter_query</code></p>
+<ul>
+<li>Range based</li>
+<li>Value based</li>
+</ul>
+<p><strong>Range based</strong></p>
+<p>For filter_id = 22</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A tibble: 1,880 x 3</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>   <span class="st">`</span><span class="at">_id</span><span class="st">`</span>      number total</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>   <span class="sc">&lt;</span>chr<span class="sc">&gt;</span>       <span class="er">&lt;</span>int<span class="sc">&gt;</span> <span class="er">&lt;</span>int<span class="sc">&gt;</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a> <span class="dv">1</span> <span class="dv">1938-12-25</span>      <span class="dv">1</span> <span class="dv">44660</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a> <span class="dv">2</span> <span class="dv">1998-07-07</span>      <span class="dv">1</span> <span class="dv">44660</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a> <span class="dv">3</span> <span class="dv">2000-12-04</span>      <span class="dv">1</span> <span class="dv">44660</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a> <span class="dv">4</span> <span class="dv">2003-12-24</span>      <span class="dv">1</span> <span class="dv">44660</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a> <span class="dv">5</span> <span class="dv">2004-07-20</span>      <span class="dv">1</span> <span class="dv">44660</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a> <span class="dv">6</span> <span class="dv">2004-10-21</span>      <span class="dv">1</span> <span class="dv">44660</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a> <span class="dv">7</span> <span class="dv">2004-11-01</span>      <span class="dv">1</span> <span class="dv">44660</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a> <span class="dv">8</span> <span class="dv">2004-11-03</span>      <span class="dv">1</span> <span class="dv">44660</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a> <span class="dv">9</span> <span class="dv">2005-01-07</span>      <span class="dv">1</span> <span class="dv">44660</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="dv">10</span> <span class="dv">2005-02-27</span>      <span class="dv">1</span> <span class="dv">44660</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="co"># … with 1,870 more rows</span></span></code></pre></div>
+<p>To make a range based query - <code>filter_query = list("22" = list("from" = "2015-05-13", "to" = "2016-04-29")</code></p>
+<p>Here <code>"22"</code> is the filter_id and you need to provide the range as a list with <code>from</code> and <code>to</code>.</p>
+<p><strong>Value based</strong></p>
+<p>For filter_id = 50</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A tibble: 25 x 3</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>   <span class="st">`</span><span class="at">_id</span><span class="st">`</span>                             number total</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>   <span class="sc">&lt;</span>chr<span class="sc">&gt;</span>                              <span class="er">&lt;</span>int<span class="sc">&gt;</span> <span class="er">&lt;</span>int<span class="sc">&gt;</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a> <span class="dv">1</span> Daughter                             <span class="dv">135</span> <span class="dv">19187</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a> <span class="dv">2</span> Father                              <span class="dv">6864</span> <span class="dv">19187</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a> <span class="dv">3</span> First Cousin Once Removed             <span class="dv">11</span> <span class="dv">19187</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a> <span class="dv">4</span> Full Sibling                        <span class="dv">1876</span> <span class="dv">19187</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a> <span class="dv">5</span> Half Sibling with a shared Father      <span class="dv">4</span> <span class="dv">19187</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a> <span class="dv">6</span> Half Sibling with a shared Mother     <span class="dv">79</span> <span class="dv">19187</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a> <span class="dv">7</span> Maternal Aunt                         <span class="dv">49</span> <span class="dv">19187</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a> <span class="dv">8</span> Maternal Cousin Brother               <span class="dv">12</span> <span class="dv">19187</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a> <span class="dv">9</span> Maternal Cousin Sister                <span class="dv">34</span> <span class="dv">19187</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="dv">10</span> Maternal Grandfather                  <span class="dv">36</span> <span class="dv">19187</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="dv">11</span> Maternal Grandmother                  <span class="dv">68</span> <span class="dv">19187</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="dv">12</span> Maternal Uncle                        <span class="dv">27</span> <span class="dv">19187</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="dv">13</span> Mother                              <span class="dv">9649</span> <span class="dv">19187</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="dv">14</span> Other                                <span class="dv">114</span> <span class="dv">19187</span></span></code></pre></div>
+<p>To make a value based query &lt;- <code>filter_query = list("50" = c("Father", "Mother"))</code></p>
+<p>Here <code>"50"</code> is filter_id and <code><a href="https://rdrr.io/r/base/c.html">c("Father", "Mother")</a></code> is a vector of values.</p>
+<p>If you have multiple <code>filter_query</code> you can combine them with separated by a coma <code>,</code> inside the list. Such as <code>filter_query = list(filter_query_1, filter_query_2)</code></p>
+<p>Check the bellow example for the complete function call.</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/cb_apply_filter.html">cb_apply_filter</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="va">my_cohort</span>,
+                filter_query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"22"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"from"</span> <span class="op">=</span> <span class="st">"2015-05-13"</span>, <span class="st">"to"</span> <span class="op">=</span> <span class="st">"2016-04-29"</span><span class="op">)</span>,
+                                    <span class="st">"50"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Father"</span>, <span class="st">"Mother"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+</div>
+<div id="get-sample-filters-plot-experimental" class="section level3">
+<h3 class="hasAnchor">
+<a href="#get-sample-filters-plot-experimental" class="anchor"></a>Get sample filters plot (experimental)</h3>
+<p>Get ggplots for all the applied phenotypic filters for a cohort.</p>
+<p>As this based on ggplot objects, this can be customised further.</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">plot_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cb_plot_filters.html">cb_plot_filters</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="va">my_cohort</span><span class="op">)</span>
+<span class="co">#&gt; Warning: Ignoring unknown parameters: binwidth, bins, pad</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rpkgs.datanovia.com/ggpubr/">ggpubr</a></span><span class="op">)</span>
+<span class="co">#&gt; Loading required package: ggplot2</span>
+<span class="fu">ggpubr</span><span class="fu">::</span><span class="fu"><a href="https://rpkgs.datanovia.com/ggpubr/reference/ggarrange.html">ggarrange</a></span><span class="op">(</span>plotlist <span class="op">=</span> <span class="va">plot_list</span><span class="op">)</span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-15-1.png" title="plot of chunk unnamed-chunk-15" alt="plot of chunk unnamed-chunk-15" width="100%"></p>
+<p>Individual plots</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">plot_list</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-16-1.png" title="plot of chunk unnamed-chunk-16" alt="plot of chunk unnamed-chunk-16" width="100%"></p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">plot_list</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-17-1.png" title="plot of chunk unnamed-chunk-17" alt="plot of chunk unnamed-chunk-17" width="100%"></p>
+<p>Covert ggplot objects to plotly elements (just for demonstration purpose, in markdown plotly don’t support.)</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu">plotly</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/plotly/reference/ggplotly.html">ggplotly</a></span><span class="op">(</span><span class="va">plot_list</span><span class="op">$</span><span class="va">filter_id_34</span><span class="op">)</span>
+<span class="va">p1</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu">plotly</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/plotly/reference/ggplotly.html">ggplotly</a></span><span class="op">(</span><span class="va">plot_list</span><span class="op">$</span><span class="va">filter_id_2345</span><span class="op">)</span>
+<span class="va">p2</span></code></pre></div>
 </div>
 </div>
+<div id="additional-notes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#additional-notes" class="anchor"></a>Additional notes</h2>
+<p>This package is under activate development. If you found any issues, Please reach out here - <a href="https://github.com/lifebit-ai/cloudos/issues" class="uri">https://github.com/lifebit-ai/cloudos/issues</a></p>
+<p>For Documentation visit - <a href="http://lifebit-ai.github.io/cloudos" class="uri">http://lifebit-ai.github.io/cloudos</a></p>
+</div>
+<div id="license" class="section level2">
+<h2 class="hasAnchor">
+<a href="#license" class="anchor"></a>License</h2>
+<p>MIT © <a href="https://lifebit.ai/">Lifebit</a></p>
 </div>
 </div>
   </div>

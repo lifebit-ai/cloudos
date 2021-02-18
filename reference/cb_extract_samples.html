@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Extract participants — cb_extract_samples • cloudos</title>
+<title>Extract participants - WIP — cb_extract_samples • cloudos</title>
 
 
 <!-- jquery -->
@@ -41,7 +41,7 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Extract participants — cb_extract_samples" />
+<meta property="og:title" content="Extract participants - WIP — cb_extract_samples" />
 <meta property="og:description" content="Extracts selected participants." />
 
 
@@ -82,7 +82,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -96,7 +96,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/lifebit-ai/cloudos/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -113,8 +113,8 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Extract participants</h1>
-    <small class="dont-index">Source: <a href='https://github.com/lifebit-ai/cloudos/blob/master/R/cb_extract_cohort.R'><code>R/cb_extract_cohort.R</code></a></small>
+    <h1>Extract participants - WIP</h1>
+    <small class="dont-index">Source: <a href='https://github.com/lifebit-ai/cloudos/blob/master/R/cb_cohort_extract.R'><code>R/cb_cohort_extract.R</code></a></small>
     <div class="hidden name"><code>cb_extract_samples.Rd</code></div>
     </div>
 
@@ -122,16 +122,11 @@
     <p>Extracts selected participants.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>cb_extract_samples</span><span class='op'>(</span><span class='va'>cloudos</span>, <span class='va'>raw_data</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>cb_extract_samples</span><span class='op'>(</span><span class='va'>raw_data</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>cloudos</th>
-      <td><p>A cloudos object. (Required)
-See constructor function <code><a href='connect_cloudos.html'>connect_cloudos</a></code></p></td>
-    </tr>
     <tr>
       <th>raw_data</th>
       <td><p>A JSON string for selected participants. (Required)</p></td>

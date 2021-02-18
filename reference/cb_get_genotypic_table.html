@@ -83,7 +83,7 @@ Optionally genotypic filters can be applied as well." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -97,7 +97,7 @@ Optionally genotypic filters can be applied as well." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/lifebit-ai/cloudos/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -115,7 +115,7 @@ Optionally genotypic filters can be applied as well." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Get genotypic table</h1>
-    <small class="dont-index">Source: <a href='https://github.com/lifebit-ai/cloudos/blob/master/R/cb_extract_cohort.R'><code>R/cb_extract_cohort.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/lifebit-ai/cloudos/blob/master/R/cb_cohort_extract.R'><code>R/cb_cohort_extract.R</code></a></small>
     <div class="hidden name"><code>cb_get_genotypic_table.Rd</code></div>
     </div>
 
@@ -124,27 +124,23 @@ Optionally genotypic filters can be applied as well." />
 Optionally genotypic filters can be applied as well.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>cb_get_genotypic_table</span><span class='op'>(</span><span class='va'>cloudos</span>, page_number <span class='op'>=</span> <span class='fl'>0</span>, page_size <span class='op'>=</span> <span class='fl'>10</span>, filters <span class='op'>=</span> <span class='st'>""</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>cb_get_genotypic_table</span><span class='op'>(</span><span class='va'>cohort</span>, size <span class='op'>=</span> <span class='fl'>10</span>, <span class='va'>geno_filters_query</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>cloudos</th>
-      <td><p>A cloudos object. (Required)
-See constructor function <code><a href='connect_cloudos.html'>connect_cloudos</a></code></p></td>
+      <th>cohort</th>
+      <td><p>A cohort object. (Required)
+See constructor functions <code><a href='cb_create_cohort.html'>cb_create_cohort</a></code> or <code><a href='cb_load_cohort.html'>cb_load_cohort</a></code></p></td>
     </tr>
     <tr>
-      <th>page_number</th>
-      <td><p>Number of page. (Optional) Default - 0</p></td>
+      <th>size</th>
+      <td><p>Number of entries from database. (Optional) Default - 10 (Optional)</p></td>
     </tr>
     <tr>
-      <th>page_size</th>
-      <td><p>Number of entries in a page. (Optional) Default - 10</p></td>
-    </tr>
-    <tr>
-      <th>filters</th>
-      <td><p>WIP - details will be added.</p></td>
+      <th>geno_filters_query</th>
+      <td><p>Genotypic filter query (Optional)</p></td>
     </tr>
     </table>
 
