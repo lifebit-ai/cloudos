@@ -2,7 +2,7 @@ pandoc: 2.11.2
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles: {}
-last_built: 2021-02-18T14:44Z
+last_built: 2021-02-19T08:25Z
 urls:
   reference: https://lifebit-ai.github.io/cloudos//reference
   article: https://lifebit-ai.github.io/cloudos//articles
