@@ -8,8 +8,7 @@ reference:
 - title: CloudOS
   desc: Class and functions to interact with CloudOS-server
   contents:
-  - '`cloudos-class`'
-  - '`connect_cloudos`'
+  - starts_with("cloudos_")
 - title: Cohort-Browser
   desc: Class and functions to interact with Cohort-Browser app
   contents:
