@@ -7,6 +7,9 @@
 #' See constructor function \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}
 #'
 #' @return A list of ggplot objects
+#'
+#' TODO @example ...
+#'
 #' @import ggplot2
 #' @import dplyr
 #'

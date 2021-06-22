@@ -101,6 +101,8 @@ cb_get_genotypic_table <- function(cohort,
 #'
 #' @return A dataframe.
 #'
+#' TODO @example ...
+#' 
 #' @export
 cb_get_samples_table <- function(cohort,
                               page_number = 0,

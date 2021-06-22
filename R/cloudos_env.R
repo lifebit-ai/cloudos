@@ -1,4 +1,4 @@
-cloudos_conf_file <- "~/.cloudos/config"
+cloudos_conf_file <- "~/.cloudos/config"   # should use file.path(rappdirs::user_data_dir(appname = "cloudos"), "config")
 
 .read_cloudos_config_file <- function(){
   if(file.exists(cloudos_conf_file)){
@@ -34,6 +34,8 @@ cloudos_conf_file <- "~/.cloudos/config"
 #'
 #' @description To check the current configuration
 #' 
+#' @return \value{None}
+#' 
 #' @export
 cloudos_whoami <- function(){
   .check_and_load_all_cloudos_env_var()
@@ -54,6 +56,10 @@ cloudos_whoami <- function(){
 #' @param base_url Base URL for cloudos
 #' @param token API key or token
 #' @param team_id team/workspace ID
+#' 
+#' @return \value{None}
+#' 
+#' TODO @example ...
 #' 
 #' @export
 cloudos_configure <- function(base_url, token, team_id){
