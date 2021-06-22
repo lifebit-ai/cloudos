@@ -50,6 +50,8 @@ cb_search_phenotypic_filters <- function(term){
 #' @param filter_id A filter ID. (Required)
 #'
 #' @return A data frame with filters applied.
+#' 
+#' TODO @example ...
 #'
 #' @export
 cb_get_filter_statistics <- function(cohort, filter_id ) {
@@ -84,6 +86,8 @@ cb_get_filter_statistics <- function(cohort, filter_id ) {
 #'
 #' @return A list of data frame.
 #'
+#' TODO @example ...
+#'
 #' @export
 cb_get_cohort_filters <- function(cohort){
   # get all the filters dataframe in a single list
@@ -114,6 +118,8 @@ cb_get_cohort_filters <- function(cohort){
 #' @param filter_id A filter ID. (Required)
 #'
 #' @return A data frame with filters applied.
+#' 
+#' TODO @example ...
 #'
 #' @export
 cb_filter_participants <-function(cohort, filter_id ) {
@@ -151,6 +157,8 @@ cb_filter_participants <-function(cohort, filter_id ) {
 #' @param filter_id A filter ID. (Required)
 #'
 #' @return A data frame.
+#' 
+#' TODO @example ...
 #'
 #' @export
 cb_filter_metadata <- function(filter_id) {

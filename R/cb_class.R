@@ -48,6 +48,8 @@ setClass("cohort",
 #' @param cohort_id Cohort id (Required)
 #'
 #' @return A \linkS4class{cohort} object.
+#'
+#' TODO @example ...
 #' 
 #' @seealso \code{\link{cb_create_cohort}} for creating a new cohort. 
 #'
