@@ -9,3 +9,4 @@
 ^logo*
 README*
 ^check$
+^cran-comments\.md$
