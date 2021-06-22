@@ -1,7 +1,7 @@
 #' For all the helper functions here - 
 #' @param my_cohort The return list from .get_cohort_info(cohort_id)
-#' @param more_fileds Filter information from .get_cohort_info(cohort_id)
-#' @param fileds Metainfo about filters from .get_cohort_info(cohort_id)
+#' @param more_fields Filter information from .get_cohort_info(cohort_id)
+#' @param fields Metainfo about filters from .get_cohort_info(cohort_id)
 #' @example
 #' \dontrun{
 #' my_cohort <- .get_cohort_info(cohort_id)
