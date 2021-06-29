@@ -92,6 +92,7 @@
 #' \dontrun{
 #' cb_apply_filter(cohort = my_cohort,
 #'                filter_query = list("22" = list("from" = "2015-05-13", "to" = "2016-04-29"), "50" = c("Father", "Mother")))
+#'}
 #'
 #' @export
 cb_apply_filter <- function(cohort, 
@@ -156,6 +157,7 @@ cb_apply_filter <- function(cohort,
 #' \dontrun{
 #' cb_apply_filter_dry_run(cohort = my_cohort,
 #'                filter_query = list("22" = list("from" = "2015-05-13", "to" = "2016-04-29"), "50" = c("Father", "Mother")))
+#'}
 #'
 #' @export
 cb_apply_filter_dry_run <- function(cohort, filter_query) {
