@@ -24,6 +24,7 @@ Imports:
     methods,
     dplyr,
     jsonlite,
+    rappdirs,
     ggplot2
 Suggests: 
     httptest,
