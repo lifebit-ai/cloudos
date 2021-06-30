@@ -1,4 +1,4 @@
-cloudos_conf_file <- "~/.cloudos/config"   # should use file.path(rappdirs::user_data_dir(appname = "cloudos"), "config")
+cloudos_conf_file <- file.path(rappdirs::user_data_dir(appname = "cloudos"), "config")
 
 .read_cloudos_config_file <- function(){
   if(file.exists(cloudos_conf_file)){
