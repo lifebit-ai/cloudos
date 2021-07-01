@@ -1,8 +1,10 @@
-cloudos_conf_file <- file.path(rappdirs::user_data_dir(appname = "cloudos"), "config")
+.cloudos_conf_file <- function(){
+  return(file.path(rappdirs::user_data_dir(appname = "cloudos"), "config"))
+}
 
 .read_cloudos_config_file <- function(){
-  if(file.exists(cloudos_conf_file)){
-    readRenviron(cloudos_conf_file)
+  if(file.exists(.cloudos_conf_file())){
+    readRenviron(.cloudos_conf_file())
   }
 }
 
@@ -64,19 +66,19 @@ cloudos_whoami <- function(){
 #' @export
 cloudos_configure <- function(base_url, token, team_id){
   
-  if(file.exists(cloudos_conf_file)){
+  if(file.exists(.cloudos_conf_file())){
     message(paste(sep = " ",
                   "Found a", 
-                  cloudos_conf_file, 
+                  .cloudos_conf_file(), 
                   "This will be replaced"))
-    file.remove(cloudos_conf_file)
+    file.remove(.cloudos_conf_file())
   }
   
-  if(!file.exists(cloudos_conf_file)){
-    file.create(cloudos_conf_file)
+  if(!file.exists(.cloudos_conf_file())){
+    file.create(.cloudos_conf_file())
   }
   
-  file_conn<-file(cloudos_conf_file)
+  file_conn<-file(.cloudos_conf_file())
   writeLines(c(paste("CLOUDOS_BASEURL", base_url, sep = "="),
                paste("CLOUDOS_TOKEN", token, sep = "="),
                paste("CLOUDOS_TEAMID", team_id, sep = "=")), 
