@@ -6,6 +6,9 @@
 \usage{
 cloudos_whoami()
 }
+\value{
+None
+}
 \description{
 To check the current configuration
 }

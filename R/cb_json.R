@@ -1,13 +1,13 @@
-#' For all the helper functions here - 
-#' @param my_cohort The return list from .get_cohort_info(cohort_id)
-#' @param more_fields Filter information from .get_cohort_info(cohort_id)
-#' @param fields Metainfo about filters from .get_cohort_info(cohort_id)
-#' @example
-#' \dontrun{
-#' my_cohort <- .get_cohort_info(cohort_id)
-#' more_fields <- my_cohort$moreFields[[3]]
-#' fields <- my_cohort$fields[[2]]
-#' }
+# For all the helper functions here - 
+# @param more_fields Filter information from .get_cohort_info(cohort_id)
+# @param fields Metainfo about filters from .get_cohort_info(cohort_id)
+# @param my_cohort The return list from .get_cohort_info(cohort_id)
+# @example
+# \dontrun{
+# my_cohort <- .get_cohort_info(cohort_id)
+# more_fields <- my_cohort$moreFields[[3]]
+# fields <- my_cohort$fields[[2]]
+# }
 
 .value_filter <- function(more_fields, fields){
   # make a value vector
@@ -44,6 +44,7 @@
   return(search)
 }
 
+#' @param my_cohort The return list from .get_cohort_info(cohort_id)
 .get_search_json <- function(my_cohort){
   # create an empty list
   search = list()

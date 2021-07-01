@@ -21,8 +21,8 @@ Creates a new Cohort
 }
 \examples{
 \dontrun{
-cb_create_cohort(cohort_name = "my cohort",
-             cohort_desc = "my cohort description")
+my_cohort <- cb_create_cohort(cohort_name = "Cohort-R",
+                              cohort_desc = "This cohort is for testing purpose, created from R.")
 }
 }
 \seealso{

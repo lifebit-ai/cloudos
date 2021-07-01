@@ -51,7 +51,15 @@ cb_search_phenotypic_filters <- function(term){
 #'
 #' @return A data frame with filters applied.
 #' 
-#' TODO @example ...
+#' @example
+#' \dontrun{
+#' my_cohort <- cb_load_cohort(cohort_id = "5f9af3793dd2dc6091cd17cd")
+#' all_cancer_filters <- cb_search_phenotypic_filters(term = "cancer")
+#' my_filter <- all_cancer_filters[,3]
+#' 
+#' cohort_with_filters <- cb_get_filter_statistics(my_cohort, filter_id = my_filter$id)
+#' cohort_with_filters %>% head(n=10)
+#' }
 #'
 #' @export
 cb_get_filter_statistics <- function(cohort, filter_id ) {
@@ -86,7 +94,11 @@ cb_get_filter_statistics <- function(cohort, filter_id ) {
 #'
 #' @return A list of data frame.
 #'
-#' TODO @example ...
+#' @example
+#' \dontrun{
+#' my_cohort <- cb_load_cohort(cohort_id = "5f9af3793dd2dc6091cd17cd")
+#' cb_get_cohort_filters(my_cohort)
+#' }
 #'
 #' @export
 cb_get_cohort_filters <- function(cohort){
@@ -119,7 +131,14 @@ cb_get_cohort_filters <- function(cohort){
 #'
 #' @return A data frame with filters applied.
 #' 
-#' TODO @example ...
+#' @example
+#' \dontrun{
+#' my_cohort <- cb_load_cohort(cohort_id = "5f9af3793dd2dc6091cd17cd")
+#' all_cancer_filters <- cb_search_phenotypic_filters(term = "cancer")
+#' my_filter <- all_cancer_filters[,3]
+#' 
+#' cb_filter_participants(my_cohort, filter_id = my_filter$id)
+#' }
 #'
 #' @export
 cb_filter_participants <-function(cohort, filter_id ) {
@@ -158,7 +177,14 @@ cb_filter_participants <-function(cohort, filter_id ) {
 #'
 #' @return A data frame.
 #' 
-#' TODO @example ...
+#' @example
+#' \dontrun{
+#' my_cohort <- cb_load_cohort(cohort_id = "5f9af3793dd2dc6091cd17cd")
+#' all_cancer_filters <- cb_search_phenotypic_filters(term = "cancer")
+#' my_filter <- all_cancer_filters[,3]
+#' 
+#' cb_filter_metadata(my_filter$id)
+#' }
 #'
 #' @export
 cb_filter_metadata <- function(filter_id) {
