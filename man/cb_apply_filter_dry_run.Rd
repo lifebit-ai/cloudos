@@ -18,3 +18,12 @@ A data frame.
 \description{
 This doesn't update the database but mimic \code{\link{cb_apply_filter}}
 }
+\examples{
+\dontrun{
+my_cohort <- cb_load_cohort(cohort_id = "5f9af3793dd2dc6091cd17cd")
+cb_apply_filter_dry_run(my_cohort,
+                        filter_query = list("22" = list("from" = "2015-05-13", "to" = "2016-04-29"),
+                                            "50" = c("Father", "Mother")) )
+}
+
+}

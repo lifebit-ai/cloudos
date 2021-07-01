@@ -36,7 +36,12 @@
 #'
 #' @description To check the current configuration
 #' 
-#' @return \value{None}
+#' @return None
+#' 
+#' @example
+#' \dontrun{
+#' cloudos_whoami()
+#' }
 #' 
 #' @export
 cloudos_whoami <- function(){
@@ -59,9 +64,14 @@ cloudos_whoami <- function(){
 #' @param token API key or token
 #' @param team_id team/workspace ID
 #' 
-#' @return \value{None}
+#' @return None
 #' 
-#' TODO @example ...
+#' @example
+#' \dontrun{
+#' cloudos_configure(base_url = "http://demo-cloudos.lifebit.ai/cohort-browser/",
+#'                   token = "Bearer <insert user token here>",
+#'                   team_id = "<insert workspace ID here>")
+#' }
 #' 
 #' @export
 cloudos_configure <- function(base_url, token, team_id){
