@@ -1,5 +1,5 @@
 .cloudos_conf_file <- function(){
-  return(file.path(rappdirs::user_data_dir(appname = "cloudos"), "config"))
+  return(file.path(rappdirs::user_config_dir(appname = "cloudos"), "config"))
 }
 
 .read_cloudos_config_file <- function(){
@@ -85,6 +85,11 @@ cloudos_configure <- function(base_url, token, team_id){
   }
   
   if(!file.exists(.cloudos_conf_file())){
+    
+    if(!dir.exists(dirname(.cloudos_conf_file()))){
+      dir.create(dirname(.cloudos_conf_file()), recursive=TRUE)
+    }
+    
     file.create(.cloudos_conf_file())
   }
   
