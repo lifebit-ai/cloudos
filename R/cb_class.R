@@ -49,7 +49,10 @@ setClass("cohort",
 #'
 #' @return A \linkS4class{cohort} object.
 #'
-#' TODO @example ...
+#' @example
+#' \dontrun{
+#' my_cohort <- cb_load_cohort(cohort_id = "5f9af3793dd2dc6091cd17cd")
+#' }
 #' 
 #' @seealso \code{\link{cb_create_cohort}} for creating a new cohort. 
 #'

@@ -13,6 +13,9 @@ cloudos_configure(base_url, token, team_id)
 
 \item{team_id}{team/workspace ID}
 }
+\value{
+None
+}
 \description{
 On a system for the first time the cloudos configuration needed to be done.
 This function can help do that.

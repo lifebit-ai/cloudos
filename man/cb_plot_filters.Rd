@@ -16,3 +16,15 @@ A list of ggplot objects
 \description{
 Get a list of ggplot objects, each plot having one filter.
 }
+\examples{
+\dontrun{
+my_cohort <- cb_load_cohort(cohort_id = "5f9af3793dd2dc6091cd17cd")
+plot_list <- cb_plot_filters(cohort = my_cohort)
+
+plot_list[[1]]
+
+library(ggpubr)
+ggpubr::ggarrange(plotlist = plot_list)
+}
+
+}
