@@ -11,6 +11,7 @@ cb_get_genotypic_table(cohort, size = 10, geno_filters_query)
 See constructor functions \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}}
 
 \item{size}{Number of entries from database. (Optional) Default - 10 (Optional)}
+
 \item{geno_filters_query}{Genotypic filter query (Optional)}
 }
 \value{

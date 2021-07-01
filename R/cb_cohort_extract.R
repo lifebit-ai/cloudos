@@ -12,7 +12,8 @@
 #' 
 #' @example
 #' \dontrun{
-#' cb_get_genotypic_table(cohort = my_cohort,
+#' my_cohort <- cb_load_cohort(cohort_id = "5f9af3793dd2dc6091cd17cd")
+#' cb_get_genotypic_table(my_cohort,
 #'                geno_filters_query = list("chromosome" = c("1", "7"))
 #'                )
 #' }
@@ -101,7 +102,12 @@ cb_get_genotypic_table <- function(cohort,
 #'
 #' @return A dataframe.
 #'
-#' TODO @example ...
+#' @example
+#' \dontrun{
+#' my_cohort <- cb_load_cohort(cohort_id = "5f9af3793dd2dc6091cd17cd")
+#' cohort_samples <- cb_get_samples_table(my_cohort)
+#' cohort_samples %>% head(n=5)
+#' }
 #' 
 #' @export
 cb_get_samples_table <- function(cohort,
