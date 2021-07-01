@@ -1,6 +1,8 @@
 .onLoad <- function(libname, pkgname, ...) {
   pkg.version <- utils::packageVersion("cloudos")
-  
+}
+
+.onAttach <- function(libname, pkgname, ...) {
   startup_msg <- paste("\n",
                        "Welcome to Lifebit's CloudOS R client \n",
                        "For Documentation visit - http://lifebit-ai.github.io/cloudos \n",
