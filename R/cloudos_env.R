@@ -77,10 +77,10 @@ cloudos_whoami <- function(){
 cloudos_configure <- function(base_url, token, team_id){
   
   if(file.exists(.cloudos_conf_file())){
-    message(paste(sep = " ",
-                  "Found a", 
+    message(paste(sep = "",
+                  "Found '", 
                   .cloudos_conf_file(), 
-                  "This will be replaced"))
+                  "'. This will be replaced."))
     file.remove(.cloudos_conf_file())
   }
   
@@ -100,4 +100,5 @@ cloudos_configure <- function(base_url, token, team_id){
              file_conn, sep = "\n")
   close(file_conn)
   
+  .read_cloudos_config_file()
 }
