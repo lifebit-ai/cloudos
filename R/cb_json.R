@@ -44,24 +44,24 @@
   return(search)
 }
 
-#' @param my_cohort The return list from .get_cohort_info(cohort_id)
+#' @param my_cohort A cohort object
 .get_search_json <- function(my_cohort){
   # create an empty list
   search = list()
   # check if at all the cohort have filed or send an empty list
-  if(length(my_cohort$moreFields) == 0){
+  if(length(my_cohort@more_fields) == 0){
     return(search)
   }
   # make search list for all the fields/filters
-  for(filter_number in 1:length(my_cohort$fields)){
+  for(filter_number in 1:length(my_cohort@fields)){
     # the my_cohort list is unordered
     # per filter get the same fields and moreFields from the list
-    fields <-  my_cohort$fields[[filter_number]]
-    fields_id <- fields$field$id
-    for(j in 1:length(my_cohort$moreFields)){
-      more_fields_id <- my_cohort$moreFields[[j]]$fieldId
+    fields <-  my_cohort@fields[[filter_number]]
+    fields_id <- fields@field$id
+    for(j in 1:length(my_cohort@more_fields)){
+      more_fields_id <- my_cohort@more_fields[[j]]$fieldId
       if(fields_id == more_fields_id){
-        more_fields <- my_cohort$moreFields[[j]]
+        more_fields <- my_cohort@more_fields[[j]]
       }
     }
     # check what kind of fields/filters and get search list
