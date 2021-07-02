@@ -120,7 +120,6 @@ cb_get_samples_table <- function(cohort,
     search = list()
     columns = list()
   }else{
-    #my_cohort_info <- .get_cohort_info(cohort_id = cohort@id)
     search <- .get_search_json(cohort)
     columns <- .get_column_json(cohort)
   }
