@@ -27,7 +27,20 @@ setClass("cohort",
                       columns = "list")
          )
 
-.get_cohort_info <- function(cohort_id) {
+
+.get_cohort_info <- function(cohort_id, cb_version = "v2") {
+  if (cb_version == "v1") {
+    return(.get_cohort_info_v1(cohort_id))
+    
+  } else if (cb_version == "v2") {
+    return(.get_cohort_info_v2(cohort_id))
+    
+  } else {
+    stop('Unknown cohort browser version string ("cb_version"). Choose either "v1" or "v2".')
+  }
+}
+
+.get_cohort_info_v1 <- function(cohort_id) {
   cloudos <- .check_and_load_all_cloudos_env_var()
   url <- paste(cloudos$base_url, "v1/cohort", cohort_id, sep = "/")
   r <- httr::GET(url,
@@ -39,6 +52,22 @@ setClass("cohort",
   res <- httr::content(r)
   return(res)
 }
+
+
+.get_cohort_info_v2 <- function(cohort_id) {
+  cloudos <- .check_and_load_all_cloudos_env_var()
+  url <- paste(cloudos$base_url, "v2/cohort", cohort_id, sep = "/")
+  r <- httr::GET(url,
+                 .get_httr_headers(cloudos$token),
+                 query = list("teamId" = cloudos$team_id)
+  )
+  httr::stop_for_status(r, task = NULL)
+  # parse the content
+  res <- httr::content(r)
+  return(res)
+}
+
+
 
 #' @title Get cohort information
 #'
@@ -57,11 +86,13 @@ setClass("cohort",
 #' @seealso \code{\link{cb_create_cohort}} for creating a new cohort. 
 #'
 #' @export
-cb_load_cohort <- function(cohort_id){
-  my_cohort <- .get_cohort_info(cohort_id = cohort_id)
+cb_load_cohort <- function(cohort_id, cb_version = "v2"){
+  my_cohort <- .get_cohort_info(cohort_id = cohort_id, cb_version = cb_version)
   
-  # For empty description backend returns two things NULL and ""
+  # For empty fields backend can return NULL
   if(is.null(my_cohort$description)) my_cohort$description = "" # change everything to ""
+  if(is.null(my_cohort$fields)) my_cohort$fields = list()
+  if(is.null(my_cohort$moreFields)) my_cohort$moreFields =list()
   
   cohort_class_obj <- methods::new("cohort",
                                    id = cohort_id,
