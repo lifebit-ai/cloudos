@@ -90,11 +90,11 @@
   # create an empty list
   cohort_columns = list()
   # check if at all the cohort have filed or send an empty list
-  if(length(my_cohort$columns) == 0){
+  if(length(my_cohort@columns) == 0){
     return(cohort_columns)
   }
   
-  for(col in my_cohort$columns){
+  for(col in my_cohort@columns){
     col_temp = list("id" = col$id,
                     "instance" = col$instance,
                     "array" = col$array # make sure toJSON(auto_unbox = T)
