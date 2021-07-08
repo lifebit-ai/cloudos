@@ -99,7 +99,6 @@ cb_get_genotypic_table <- function(cohort,
 #' See constructor functions \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}
 #' @param page_number Number of page. (Optional) Default - 0
 #' @param page_size Number of entries in a page. (Optional) Default - 10
-#' @param cb_version cohort browser version (Optional) [ "v1" | "v2" ] Default - "v2"
 #'
 #' @return A dataframe.
 #'
@@ -113,13 +112,12 @@ cb_get_genotypic_table <- function(cohort,
 #' @export
 cb_get_samples_table <- function(cohort,
                               page_number = 0,
-                              page_size = 10,
-                              cb_version = "v2") {
-
-  if (cb_version == "v1") {
+                              page_size = 10) {
+  
+  if (cohort@cb_version == "v1") {
     return(.cb_get_samples_table_v1(cohort))
     
-  } else if (cb_version == "v2") {
+  } else if (cohort@cb_version == "v2") {
     return(.cb_get_samples_table_v2(cohort))
     
   } else {
