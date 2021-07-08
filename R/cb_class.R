@@ -128,7 +128,7 @@ setClass("cohort",
 #' @seealso \code{\link{cb_create_cohort}} for creating a new cohort. 
 #'
 #' @export
-cb_load_cohort <- function(cohort_id){
+cb_load_cohort <- function(cohort_id, cb_version = "v2"){
   my_cohort <- .get_cohort_info(cohort_id = cohort_id)
   
   # convert v1 query to v2 query and rename objects to v2 style
