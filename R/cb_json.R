@@ -37,7 +37,7 @@
                               "instance" = filter$instance[[1]],
                               "array" = list("type"="any")),
               "values" = filter$value)
-     search <- c(search, f)
+     search <- c(search, list(f))
      
     } else {
       f <-list("column" = list("id" = filter$field,
@@ -45,7 +45,7 @@
                                "array" = list("type"="any")),
                "low" = filter$value$from,
                "high" = filter$value$to)
-      search <- c(search, f)
+      search <- c(search, list(f))
     }
   }
 
