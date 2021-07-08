@@ -99,6 +99,7 @@ cb_get_genotypic_table <- function(cohort,
 #' See constructor functions \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}
 #' @param page_number Number of page. (Optional) Default - 0
 #' @param page_size Number of entries in a page. (Optional) Default - 10
+#' @param cb_version cohort browser version (Optional) [ "v1" | "v2" ] Default - "v2"
 #'
 #' @return A dataframe.
 #'
@@ -111,6 +112,22 @@ cb_get_genotypic_table <- function(cohort,
 #' 
 #' @export
 cb_get_samples_table <- function(cohort,
+                              page_number = 0,
+                              page_size = 10,
+                              cb_version = "v2") {
+
+  if (cb_version == "v1") {
+    return(.cb_get_samples_table_v1(cohort))
+    
+  } else if (cb_version == "v2") {
+    return(.cb_get_samples_table_v2(cohort))
+    
+  } else {
+    stop('Unknown cohort browser version string ("cb_version"). Choose either "v1" or "v2".')
+  }
+}
+
+.cb_get_samples_table_v1 <- function(cohort,
                               page_number = 0,
                               page_size = 10) {
 
@@ -171,6 +188,74 @@ cb_get_samples_table <- function(cohort,
   rownames(res_df_new) <- 1:page_size
   
   return(res_df_new)
+}
+
+
+.cb_get_samples_table_v2 <- function(cohort,
+                              page_number = 0,
+                              page_size = 10) {
+
+  if(page_size == 0) stop("page_size can't be 0")
+  # make json body
+  if(missing(cohort)){
+    columns = list()
+  }else{
+    columns <- .get_column_json(cohort)
+  }
+  cloudos <- .check_and_load_all_cloudos_env_var()
+  # make request
+  url <- paste(cloudos$base_url, "v2/cohort/participants/search", sep = "/")
+  r <- httr::POST(url,
+                  .get_httr_headers(cloudos$token),
+                  query = list("teamId" = cloudos$team_id),
+                  body = jsonlite::toJSON(
+                    list("criteria" = list("pagination" = list("pageNumber" = page_number,
+                                                               "pageSize" = page_size),
+                                           "cohortId" = cohort@id),
+                         "query" = cohort@query,
+                         "columns" = columns),
+                    auto_unbox = T),
+                  encode = "raw")
+  
+  httr::stop_for_status(r, task = NULL)
+  # parse the content
+  res <- httr::content(r)
+  
+  # get col names and construct col ids
+  col_names <- list("_id" = "_id", "i" = "EID")
+  for (col in res$header){
+    long_id <- paste0("f", col$id, "i", col$instance, "a", col$array$value)
+    col_names[[long_id]] <- col$field$name
+  }
+  
+  # create an empty row with all the columns based on header info
+  # - this ensures the df has all columns even if a column is empty in all rows
+  emptyrow <- data.frame(rbind(rep(NA, length(col_names))))
+  colnames(emptyrow) <- names(col_names)
+  
+  df_list <- list(emptyrow) 
+    for (n in res$data) {
+    dta <- rbind(n)
+    df_list <- c(df_list, list(as.data.frame(dta)))
+  }
+  res_df <- dplyr::bind_rows(df_list)[-1,] # combine and remove empty first row
+
+
+  # check if the dataframe is retrieved properly
+  if(length(res_df) == 0){
+    stop("Couldn't able to retrive the dataframe, something wrong with the cohort filters.")
+  }
+  
+  # rename the dataframe with column names
+  colnames(res_df) <- col_names
+  
+  # remove mongodb _id column
+  res_df <- subset(res_df, select = -c(`_id`))
+
+  # reset row names
+  rownames(res_df) <- NULL
+  
+  return(res_df)
 }
 
 #######################################################################
