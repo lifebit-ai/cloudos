@@ -12,9 +12,48 @@
 #' cb_search_phenotypic_filters(term = "cancer")
 #' }
 #' @export
-cb_search_phenotypic_filters <- function(term){
+cb_search_phenotypic_filters <- function(term, cb_version = "v2") {
+  if (cb_version == "v1") {
+    return(.cb_search_phenotypic_filters_v1(term))
+    
+  } else if (cb_version == "v2") {
+    return(.cb_search_phenotypic_filters_v2(term))
+    
+  } else {
+    stop('Unknown cohort browser version string ("cb_version"). Choose either "v1" or "v2".')
+  }
+}
+
+.cb_search_phenotypic_filters_v1 <- function(term){
   cloudos <- .check_and_load_all_cloudos_env_var()
   url <- paste(cloudos$base_url, "v1/cohort/fields_search", sep = "/")
+  r <- httr::GET(url,
+                 .get_httr_headers(cloudos$token),
+                 query = list("teamId" = cloudos$team_id,
+                              "term" = term))
+  httr::stop_for_status(r, task = NULL)
+  res <- httr::content(r)
+  filters <- res$filters
+  
+  if(length(filters) == 0) stop(message("No phenotypic filters found with - ", term ))
+  
+  message("Total number of phenotypic filters found - ", length(filters))
+  
+  # make in to a list
+  filters_list <- list()
+  for (n in 1:length(filters)) {
+    dta <- do.call(cbind, filters[[n]])
+    filters_list[[n]] <- as.data.frame(dta)
+  }
+  filters_df <- dplyr::bind_rows(filters_list)
+  # remove mongodb _id column
+  filters_df_new <- subset(filters_df, select = (c(-`_id`)))
+  return(filters_df_new)
+}
+
+.cb_search_phenotypic_filters_v2 <- function(term){
+  cloudos <- .check_and_load_all_cloudos_env_var()
+  url <- paste(cloudos$base_url, "v2/cohort/fields_search", sep = "/")
   r <- httr::GET(url,
                  .get_httr_headers(cloudos$token),
                  query = list("teamId" = cloudos$team_id,
