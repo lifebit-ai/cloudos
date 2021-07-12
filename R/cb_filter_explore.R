@@ -104,8 +104,8 @@ cb_get_filter_statistics <- function(cohort, filter_id ) {
 cb_get_cohort_filters <- function(cohort){
   # get all the filters dataframe in a single list
   filter_list <- list()
-  for(i in 1:length(cohort@more_fields)){
-    field_id <- cohort@more_fields[[i]]$fieldId
+  for(filter in cohort@phenoptype_filters){
+    field_id <-filter$field$id
     filter_list[[as.character(field_id)]] <- cb_get_filter_statistics(cohort = cohort,
                                                             filter_id = field_id)
     # compare with applied filters from cohort and modify the dataframe
