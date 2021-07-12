@@ -171,5 +171,6 @@ setMethod("show", "cohort",
             cat("Cohort Name: ", object@name, "\n")
             cat("Cohort Description: ", object@desc, "\n")
             cat("Number of filters applied: ", length(object@phenoptype_filters), "\n")
+            cat("Cohort Browser version: ", object@cb_version, "\n")
           }
 )
