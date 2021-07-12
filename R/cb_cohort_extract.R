@@ -156,36 +156,42 @@ cb_get_samples_table <- function(cohort,
   httr::stop_for_status(r, task = NULL)
   # parse the content
   res <- httr::content(r)
-  # into a dataframe
-  df_list <- list()
+  
+  # get col names and construct col ids
+  col_names <- list("_id" = "_id", "i" = "EID")
+  for (col in res$header$columns){
+    long_id <- paste0("f", col$id, "i", col$instance, "a", col$array$value)
+    col_names[[long_id]] <- col$field$name
+  }
+  
+  # create an empty row with all the columns based on header info
+  # - this ensures the df has all columns even if a column is empty in all rows
+  emptyrow <- data.frame(rbind(rep(NA, length(col_names))))
+  colnames(emptyrow) <- names(col_names)
+  
+  df_list <- list(emptyrow) 
   for (n in res$data) {
     dta <- rbind(n)
     df_list <- c(df_list, list(as.data.frame(dta)))
   }
-  res_df <- dplyr::bind_rows(df_list)
+  res_df <- dplyr::bind_rows(df_list)[-1,] # combine and remove empty first row
+  
   
   # check if the dataframe is retrieved properly
   if(length(res_df) == 0){
     stop("Couldn't able to retrive the dataframe, something wrong with the cohort filters.")
   }
   
-  # remove mongodb _id column
-  res_df_new <- subset(res_df, select = -c(`_id`))
-  
-  # get column names
-  columns_names <- c("EID") # EID is constant for all case
-  for (n in res$header$columns) {
-    dta <- n$field$name
-    columns_names <- c(columns_names, dta)
-  }
-  
   # rename the dataframe with column names
-  colnames(res_df_new) <- columns_names
+  colnames(res_df) <- col_names
   
-  # rename rownames
-  rownames(res_df_new) <- 1:page_size
+  # remove mongodb _id column
+  res_df <- subset(res_df, select = -c(`_id`))
   
-  return(res_df_new)
+  # reset row names
+  rownames(res_df) <- NULL
+  
+  return(res_df)
 }
 
 
