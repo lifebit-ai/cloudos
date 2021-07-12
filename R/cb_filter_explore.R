@@ -3,6 +3,7 @@
 #' @description All the cohort filters available in CloudOS.
 #'
 #' @param term A term to search. (Required)
+#' @param cb_version cohort browser version (Optional) [ "v1" | "v2" ]
 #' Example - "cancer"
 #'
 #' @return A data frame with available cohort filters.
