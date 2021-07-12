@@ -29,7 +29,20 @@ setClass("cohort",
                       cb_version = "character")
          )
 
-.get_cohort_info <- function(cohort_id) {
+
+.get_cohort_info <- function(cohort_id, cb_version = "v2") {
+  if (cb_version == "v1") {
+    return(.get_cohort_info_v1(cohort_id))
+    
+  } else if (cb_version == "v2") {
+    return(.get_cohort_info_v2(cohort_id))
+    
+  } else {
+    stop('Unknown cohort browser version string ("cb_version"). Choose either "v1" or "v2".')
+  }
+}
+
+.get_cohort_info_v1 <- function(cohort_id) {
   cloudos <- .check_and_load_all_cloudos_env_var()
   url <- paste(cloudos$base_url, "v1/cohort", cohort_id, sep = "/")
   r <- httr::GET(url,
@@ -109,7 +122,6 @@ setClass("cohort",
 
 
 
-
 #' @title Get cohort information
 #'
 #' @description Get all the details about a cohort including 
@@ -129,7 +141,7 @@ setClass("cohort",
 #'
 #' @export
 cb_load_cohort <- function(cohort_id, cb_version = "v2"){
-  my_cohort <- .get_cohort_info(cohort_id = cohort_id)
+  my_cohort <- .get_cohort_info(cohort_id = cohort_id, cb_version = cb_version
   
   # convert v1 query to v2 query and rename objects to v2 style
   if (cb_version == "v1"){
