@@ -64,10 +64,10 @@ cb_search_phenotypic_filters <- function(term){
 #' @export
 cb_get_filter_statistics <- function(cohort, filter_id ) {
   if (cohort@cb_version == "v1") {
-    return(.cb_get_filter_statistics_v1(cohort))
+    return(.cb_get_filter_statistics_v1(cohort, filter_id))
     
   } else if (cohort@cb_version == "v2") {
-    return(.cb_get_filter_statistics_v2(cohort))
+    return(.cb_get_filter_statistics_v2(cohort, filter_id))
     
   } else {
     stop('Unknown cohort browser version string ("cb_version"). Choose either "v1" or "v2".')
