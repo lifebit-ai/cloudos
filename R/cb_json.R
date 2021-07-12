@@ -10,6 +10,16 @@
 # }
 
 
+# unnest function to get a flat list of filters out of nested AND query operators
+.unnest_query<- function(q){
+  if (is.null(q$queries)){
+    return(list(q))
+  } else {
+    return(c(.unnest_query(q$queries[[1]]), .unnest_query(q$queries[[2]])))
+  }
+}
+
+
 #' only used for v1 endpoint - creates v1 search json using the v2 style query
 #' @param my_cohort A cohort object
 .get_search_json <- function(my_cohort){
@@ -20,16 +30,7 @@
     return(search)
   }
 
-  # unnest function to get a flat list of filters out of nested AND query operators
-  unnest <- function(q){
-    if (is.null(q$queries)){
-      return(list(q))
-    } else {
-      return(c(unnest(q$queries[[1]]), unnest(q$queries[[2]])))
-      }
-    }
-  
-  unnested <- unnest(my_cohort@query)
+  unnested <- .unnest_query(my_cohort@query)
   
   for (filter in unnested){
     if (is.null(filter$value$from)){
