@@ -75,6 +75,7 @@ setClass("cohort",
 #' applied filters.
 #'
 #' @param cohort_id Cohort id (Required)
+#' @param cb_version cohort browser version (Optional) [ "v1" | "v2" ]
 #'
 #' @return A \linkS4class{cohort} object.
 #'
