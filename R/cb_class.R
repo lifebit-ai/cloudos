@@ -141,7 +141,7 @@ setClass("cohort",
 #'
 #' @export
 cb_load_cohort <- function(cohort_id, cb_version = "v2"){
-  my_cohort <- .get_cohort_info(cohort_id = cohort_id, cb_version = cb_version
+  my_cohort <- .get_cohort_info(cohort_id = cohort_id, cb_version = cb_version)
   
   # convert v1 query to v2 query and rename objects to v2 style
   if (cb_version == "v1"){
