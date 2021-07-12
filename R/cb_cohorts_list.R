@@ -52,11 +52,15 @@ cb_list_cohorts <- function(size = 10, cb_version = "v2") {
     description = cohorts[[n]]$description
     if(is.null(description)) description = "" # change everything to ""
     
+    # For no filters backend returns NULL
+    numberOfFilters <- cohorts[[n]]$numberOfFilters
+    if(is.null(numberOfFilters)) numberOfFilters <- 0    
+    
     dta <- data.frame(id = cohorts[[n]]$`_id`,
                       name = cohorts[[n]]$name,
                       description = description,
                       number_of_participants = cohorts[[n]]$numberOfParticipants,
-                      number_of_filters = cohorts[[n]]$numberOfFilters,
+                      number_of_filters = numberOfFilters,
                       created_at = cohorts[[n]]$createdAt,
                       updated_at = cohorts[[n]]$updatedAt)
     cohorts_list[[n]] <- dta
