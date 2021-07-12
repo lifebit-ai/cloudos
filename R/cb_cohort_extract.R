@@ -188,6 +188,11 @@ cb_get_samples_table <- function(cohort,
   # remove mongodb _id column
   res_df <- subset(res_df, select = -c(`_id`))
   
+  # replace NULL values with NA
+  # NULL values in a df are wrapped in a list
+  # counterintuitively is.null(list(NULL)) >>> FALSE but list(NULL)=='NULL' >>> TRUE
+  res_df[res_df == 'NULL'] <- NA
+  
   # reset row names
   rownames(res_df) <- NULL
   
@@ -255,6 +260,9 @@ cb_get_samples_table <- function(cohort,
   
   # remove mongodb _id column
   res_df <- subset(res_df, select = -c(`_id`))
+  
+  # replace NULL values with NA
+  res_df[res_df == 'NULL'] <- NA  # see .get_samples_table_v1 for explanation
 
   # reset row names
   rownames(res_df) <- NULL
