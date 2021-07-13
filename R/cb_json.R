@@ -12,10 +12,17 @@
 
 # unnest function to get a flat list of filters out of nested AND query operators
 .unnest_query<- function(q){
-  if (is.null(q$queries)){
+  if (is.null(q$queries)) {
     return(list(q))
-  } else {
+    
+  } else if (length(q$queries) == 1) {
+    return(.unnest_query(q$queries[[1]]))
+    
+  } else if (length(q$queries) == 2) {
     return(c(.unnest_query(q$queries[[1]]), .unnest_query(q$queries[[2]])))
+    
+  } else {
+    stop("Too many queries in operator.")
   }
 }
 
