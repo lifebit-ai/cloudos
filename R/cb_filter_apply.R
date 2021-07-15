@@ -190,7 +190,7 @@ cb_apply_filter <- function(cohort,
                                keep_existing_columns = keep_existing_columns))
     
   } else if (cohort@cb_version == "v2") {
-    return(.cb_apply_filter_v1(cohort = cohort,
+    return(.cb_apply_filter_v2(cohort = cohort,
                                simple_query =  simple_query,
                                adv_query = adv_query,
                                column_ids = column_ids,
