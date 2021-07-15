@@ -285,6 +285,7 @@ cb_apply_filter <- function(cohort,
     new_query <- .simple_query_body_v2(simple_query)
   } else if (!missing(adv_query)) {
     new_query <- .adv_query_body_v2(adv_query)
+    r_body$type <- "advanced"
   } else {
     new_query <- list()
   }
@@ -321,7 +322,7 @@ cb_apply_filter <- function(cohort,
   httr::stop_for_status(r, task = NULL)
   # parse the content
   res <- httr::content(r)
-  return(message("Filter applied sucessfully, Current number of Participants - ", res$numberOfParticipants))
+  return(message("Filter applied sucessfully."))
 }
 
 
