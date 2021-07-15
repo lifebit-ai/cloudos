@@ -115,10 +115,10 @@ cb_get_samples_table <- function(cohort,
                               page_size = 10) {
   
   if (cohort@cb_version == "v1") {
-    return(.cb_get_samples_table_v1(cohort))
+    return(.cb_get_samples_table_v1(cohort, page_number = page_number, page_size = page_size))
     
   } else if (cohort@cb_version == "v2") {
-    return(.cb_get_samples_table_v2(cohort))
+    return(.cb_get_samples_table_v2(cohort, page_number = page_number, page_size = page_size))
     
   } else {
     stop('Unknown cohort browser version string ("cb_version"). Choose either "v1" or "v2".')
