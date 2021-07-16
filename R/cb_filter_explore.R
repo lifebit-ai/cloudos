@@ -161,44 +161,74 @@ cb_get_cohort_filters <- function(cohort){
 }
 
 ##################################################################################################
-#' @title Filter participants
+#' @title Participant Count
 #'
 #' @description This sums up all the filters and return number participants after applied filter.
 #'
 #' @param cohort A cohort object. (Required)
 #' See constructor function \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}
-#' @param filter_id A filter ID. (Required)
+#' @param simple_query Phenotypic filter query. 
+#' @param adv_query Advanced phenotypic filter query (can include logical operators).
+#' @param keep_existing_filter Apply newly specified query on top of exisiting query (Default: TRUE)
 #'
-#' @return A data frame with filters applied.
+#' @return A list with count of participants in the cohort and the total no. of participants in the dataset.
 #' 
 #' @example
 #' \dontrun{
 #' my_cohort <- cb_load_cohort(cohort_id = "5f9af3793dd2dc6091cd17cd")
-#' all_cancer_filters <- cb_search_phenotypic_filters(term = "cancer")
-#' my_filter <- all_cancer_filters[,3]
-#' 
-#' cb_filter_participants(my_cohort, filter_id = my_filter$id)
+#' cb_participant_count(my_cohort, simple_query = list("4"="Male"))
 #' }
 #'
 #' @export
-cb_filter_participants <-function(cohort, filter_id ) {
-  # prepare request body
-  # TODO: remove the hard-coded filters
-  r_body <- list("moreFilters" = list(list("fieldId" = filter_id,
-                                           "instance" = c(0),
-                                           "value" = c(-3,0)
-  )
-  ),
-  "cohortId" = cohort@id
-  )
+cb_participant_count <-function(cohort,
+                                simple_query,
+                                adv_query,
+                                keep_existing_filter = TRUE) {
 
+  if (cohort@cb_version == "v1"){
+    if (!missing(adv_query)) stop("Advanced queries are not compatible with Cohort Browser v1.")
+    return(.cb_participant_count_v1(cohort = cohort,
+                               simple_query =  simple_query, column_ids = column_ids,
+                               keep_existing_filter = keep_existing_filter))
+    
+  } else if (cohort@cb_version == "v2") {
+    return(.cb_participant_count_v2(cohort = cohort,
+                               simple_query =  simple_query,
+                               adv_query = adv_query,
+                               keep_existing_filter = keep_existing_filter))
+        
+  } else {
+    stop('Unknown cohort browser version string ("cb_version"). Choose either "v1" or "v2".')
+  }
+}
+
+
+.cb_participant_count_v1 <-function(cohort,
+                                    simple_query,
+                                    keep_existing_filter = TRUE) {
+
+  all_filters <- list()
+  if(keep_existing_filter){
+    existing_filters <- .existing_query_body_v1(cohort)
+    all_filters <- c(all_filters, existing_filters)
+  }
+  
+  if(!missing(simple_query)){
+    simple_q_filters <- .simple_query_body_v1(simple_query)
+    all_filters <- c(all_filters, simple_q_filters)
+  }
+
+  # prepare request body
+  r_body <- list("cohortId" = cohort@id,
+                 "moreFilters" = all_filters)
+  
   cloudos <- .check_and_load_all_cloudos_env_var()
   # make request
   url <- paste(cloudos$base_url, "v1/cohort/filter/participants", sep = "/")
   r <- httr::POST(url,
                   .get_httr_headers(cloudos$token),
                   query = list("teamId" = cloudos$team_id),
-                  body = jsonlite::toJSON(r_body),
+                  body = jsonlite::toJSON(r_body, auto_unbox = T),
                   encode = "raw"
   )
   httr::stop_for_status(r, task = NULL)
@@ -208,6 +238,66 @@ cb_filter_participants <-function(cohort, filter_id ) {
   #res_df <- do.call(rbind, res)
   return(res)
 }
+
+
+.cb_participant_count_v2 <-function(cohort,
+                                    simple_query,
+                                    adv_query,
+                                    keep_existing_filter = TRUE) {
+
+  if (!missing(adv_query) & !missing(simple_query)) stop("Cannot use advanced and simple queries at the same time.")
+
+  # get new query to apply
+  if (!missing(simple_query)) {
+    new_query <- .simple_query_body_v2(simple_query)
+  } else if (!missing(adv_query)) {
+    new_query <- .adv_query_body_v2(adv_query)
+  } else {
+    new_query <- list()
+  }
+  
+  if (keep_existing_filter) {
+    existing_query <- .existing_query_body_v2(cohort)
+  } else {
+    existing_query <- list()
+  }
+  
+  # combine queries depending on whether they are empty or not
+  qs <- list(existing_query, new_query)
+  qs <- qs[lapply(qs, length) > 0]
+  
+  # add query to r_body if appropriate
+  if (length(qs) == 2) {
+    r_body <- list("query" = list("operator" = "AND",
+                                  "queries" = qs))
+    r_body <- jsonlite::toJSON(r_body, auto_unbox = T)
+    
+  } else if (length(qs) == 1) {
+    r_body <- list("query" = qs[[1]])
+    r_body <- jsonlite::toJSON(r_body, auto_unbox = T)
+    
+  } else {
+    r_body <- NULL
+  }
+
+  cloudos <- .check_and_load_all_cloudos_env_var()
+  # make request
+  url <- paste(cloudos$base_url, "v2/cohort", cohort@id, "filter/participants", sep = "/")
+  r <- httr::POST(url,
+                  .get_httr_headers(cloudos$token),
+                  query = list("teamId" = cloudos$team_id),
+                  body = r_body,
+                  encode = "raw"
+  )
+  httr::stop_for_status(r, task = NULL)
+  # parse the content
+  res <- httr::content(r)
+  # into a dataframe
+  #res_df <- do.call(rbind, res)
+  return(res)
+}
+
+
 #####################################################################################################
 #' @title Filter metadata
 #'
