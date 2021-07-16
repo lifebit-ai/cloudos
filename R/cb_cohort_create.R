@@ -55,7 +55,7 @@ cb_create_cohort <- function(cohort_name, cohort_desc, filters = "", cb_version=
   # res_df <- do.call(rbind, res)
   # colnames(res_df) <- "details"
   # return a cohort object
-  cohort_obj <- cb_load_cohort(cohort_id = res$`_id`)
+  cohort_obj <- cb_load_cohort(cohort_id = res$`_id`, cb_version = "v1")
   return(cohort_obj)
 }
 
@@ -84,7 +84,7 @@ cb_create_cohort <- function(cohort_name, cohort_desc, filters = "", cb_version=
   # res_df <- do.call(rbind, res)
   # colnames(res_df) <- "details"
   # return a cohort object
-  cohort_obj <- cb_load_cohort(cohort_id = res$`_id`)
+  cohort_obj <- cb_load_cohort(cohort_id = res$`_id`, cb_version = "v2")
   return(cohort_obj)
   
   #TODO check why created cohort is not listed but can be found by ID.

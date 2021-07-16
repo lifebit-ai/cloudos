@@ -37,6 +37,7 @@
     return(search)
   }
 
+
   unnested <- .unnest_query(my_cohort@query)
   
   for (filter in unnested){
@@ -65,24 +66,18 @@
 # TODO work on column - At this point NO end-point that returns this information, there are cards
 
 .get_column_json <- function(my_cohort){
-  # create an empty list
   cohort_columns = list()
-  # check if at all the cohort have filed or send an empty list
+  # check if the cohort has column information. if not retrun an empty list.
   if(length(my_cohort@columns) == 0){
     return(cohort_columns)
   }
-  
+  # 
   for(col in my_cohort@columns){
-    col_temp = list("id" = col$id,
+    col_temp = list("id" = col$field$id,
                     "instance" = col$instance,
                     "array" = col$array # make sure toJSON(auto_unbox = T)
     )
-    # create a list for first time and append a new list
-    if(length(cohort_columns) == 0){
-      cohort_columns = list(col_temp)
-    }else{
-      cohort_columns = c(cohort_columns, list(col_temp))
-    } 
+    cohort_columns = c(cohort_columns, list(col_temp))
   }
   
   return(cohort_columns)
