@@ -214,12 +214,12 @@ cb_filter_participants <-function(cohort, filter_id ) {
 #' @description Filter metadata of a cohort filter
 #'
 #' @param filter_id A filter ID. (Required)
+#' @param cb_version cohort browser version. (Default: "v2") [ "v1" | "v2" ]
 #'
 #' @return A data frame.
 #' 
 #' @example
 #' \dontrun{
-#' my_cohort <- cb_load_cohort(cohort_id = "5f9af3793dd2dc6091cd17cd")
 #' all_cancer_filters <- cb_search_phenotypic_filters(term = "cancer")
 #' my_filter <- all_cancer_filters[,3]
 #' 
@@ -227,9 +227,37 @@ cb_filter_participants <-function(cohort, filter_id ) {
 #' }
 #'
 #' @export
-cb_filter_metadata <- function(filter_id) {
+cb_filter_metadata <- function(filter_id, cb_version = "v2") {
+    if (cb_version == "v1") {
+      return(.cb_filter_metadata_v1(filter_id))
+      
+    } else if (cb_version == "v2") {
+      return(.cb_filter_metadata_v2(filter_id))
+      
+    } else {
+      stop('Unknown cohort browser version string ("cb_version"). Choose either "v1" or "v2".')
+    }
+}
+
+.cb_filter_metadata_v1 <- function(filter_id) {
   cloudos <- .check_and_load_all_cloudos_env_var()
   url <- paste(cloudos$base_url, "v1/cohort/filter", filter_id, "metadata", sep = "/")
+  r <- httr::GET(url,
+                 .get_httr_headers(cloudos$token),
+                 query = list("teamId" = cloudos$team_id)
+  )
+  httr::stop_for_status(r, task = NULL)
+  # parse the content
+  res <- httr::content(r)
+  res_df <- as.data.frame(do.call(cbind, res))
+  # remove mongodb _id column
+  res_df_new <- subset(res_df, select = (c(-`_id`)))
+  return(res_df_new)
+}
+
+.cb_filter_metadata_v2 <- function(filter_id) {
+  cloudos <- .check_and_load_all_cloudos_env_var()
+  url <- paste(cloudos$base_url, "v2/cohort/filter", filter_id, "metadata", sep = "/")
   r <- httr::GET(url,
                  .get_httr_headers(cloudos$token),
                  query = list("teamId" = cloudos$team_id)
