@@ -188,7 +188,7 @@ cb_participant_count <-function(cohort,
   if (cohort@cb_version == "v1"){
     if (!missing(adv_query)) stop("Advanced queries are not compatible with Cohort Browser v1.")
     return(.cb_participant_count_v1(cohort = cohort,
-                               simple_query =  simple_query, column_ids = column_ids,
+                               simple_query =  simple_query,
                                keep_existing_filter = keep_existing_filter))
     
   } else if (cohort@cb_version == "v2") {
