@@ -283,6 +283,7 @@ cb_apply_filter <- function(cohort,
   # get new query to apply
   if (!missing(simple_query)) {
     new_query <- .simple_query_body_v2(simple_query)
+    r_body$type <- "advanced"
   } else if (!missing(adv_query)) {
     new_query <- .adv_query_body_v2(adv_query)
     r_body$type <- "advanced"
