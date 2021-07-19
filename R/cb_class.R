@@ -89,6 +89,7 @@ setClass("cohort",
   
   # make empty filter field better behaved by setting it as empty list
   if (!is.list(cohort_more_fields)) cohort_more_fields <- list()
+  if (identical(cohort_more_fields, list(""))) cohort_more_fields <- list()
   
   l <- length(cohort_more_fields)
   
