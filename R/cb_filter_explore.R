@@ -103,9 +103,32 @@ cb_search_phenotypic_filters <- function(term, cb_version = "v2") {
 #'
 #' @export
 cb_get_filter_statistics <- function(cohort, filter_id ) {
-  # empty moreFilters returns all the filter values associated with a cohort for a filter
-  r_body <- list("filter" = list("instances" = c(0)),
-                 "moreFilters" = list(),
+  if (cohort@cb_version == "v1") {
+    return(.cb_get_filter_statistics_v1(cohort, filter_id))
+    
+  } else if (cohort@cb_version == "v2") {
+    return(.cb_get_filter_statistics_v2(cohort, filter_id))
+    
+  } else {
+    stop('Unknown cohort browser version string ("cb_version"). Choose either "v1" or "v2".')
+  }
+}
+
+
+.cb_get_filter_statistics_v1 <- function(cohort, filter_id) {
+
+  # make more_filters from cohort@query
+  more_filters = list() 
+  for (filter in .unnest_query(cohort@query)){
+    if (!is.null(filter$value)){
+      # rename field to fieldId
+      names(filter)[names(filter) == "field"] <- "fieldId"
+      more_filters <- c(more_filters, list(filter))
+    }
+  }
+  
+  r_body <- list("filter" = list("instances" = list("0")),
+                 "moreFilters" = more_filters,
                  "cohortId" = cohort@id
                  )
   cloudos <- .check_and_load_all_cloudos_env_var()
@@ -114,7 +137,31 @@ cb_get_filter_statistics <- function(cohort, filter_id ) {
   r <- httr::POST(url,
                   .get_httr_headers(cloudos$token),
                   query = list("teamId" = cloudos$team_id),
-                  body = jsonlite::toJSON(r_body),
+                  body = jsonlite::toJSON(r_body, auto_unbox = T),
+                  encode = "raw"
+  )
+  httr::stop_for_status(r, task = NULL)
+  # parse the content
+  res <- httr::content(r)
+  # into a dataframe
+  res_df <- dplyr::bind_rows(res)
+  return(res_df)
+}
+
+
+.cb_get_filter_statistics_v2 <- function(cohort, filter_id) {
+  # empty moreFilters returns all the filter values associated with a cohort for a filter
+  r_body <- list("criteria" = list("cohortId" = cohort@id),
+                 "filter" = list("instance" = list("0")),
+                 "query" = cohort@query
+                 )
+  cloudos <- .check_and_load_all_cloudos_env_var()
+  # make request
+  url <- paste(cloudos$base_url, "v2/cohort/filter", filter_id, "data", sep = "/")
+  r <- httr::POST(url,
+                  .get_httr_headers(cloudos$token),
+                  query = list("teamId" = cloudos$team_id),
+                  body = jsonlite::toJSON(r_body, auto_unbox = T),
                   encode = "raw"
   )
   httr::stop_for_status(r, task = NULL)
