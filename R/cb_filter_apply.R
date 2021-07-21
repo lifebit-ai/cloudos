@@ -145,6 +145,17 @@
   return(column_body_all)
 }
 
+.extract_single_nodes <- function(x, starting_depth = 0){
+  
+  starting_depth <- starting_depth + 1
+  
+  if(!is.list(x)) return(x)
+  
+  if(!is.null(x$operator) & length(x$queries) == 1 & starting_depth > 1) return(x$queries[[1]])
+  
+  lapply(x, .extract_single_nodes, starting_depth)
+  
+}
 
 #' @title Apply a Filter
 #'
@@ -322,6 +333,8 @@ cb_apply_filter <- function(cohort,
     r_body$query <- qs[[1]]
       
   }
+  
+  r_body$query <- .extract_single_nodes(r_body$query)
 
   cloudos <- .check_and_load_all_cloudos_env_var()
   # make request
