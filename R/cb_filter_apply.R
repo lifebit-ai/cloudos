@@ -1,3 +1,7 @@
+# 5 helper functions below. Each converts the different structures of 
+# query data into either CBv1 or CBv2 query JSONs for use in cb_apply_filter()
+
+# converts a simple query into CBv1 style query JSON
 .simple_query_body_v1 <- function(simple_query) {
   filter_list <- list()
   
@@ -29,6 +33,8 @@
 }
 
 
+# converts the CBv2 style cohort@query data into CBv1 style query JSON
+# this is very similar but not quite the same as .get_search_json()
 .existing_query_body_v1 <- function(cohort) {
   filter_list <- list()
   
@@ -58,6 +64,8 @@
 }
 
 
+# converts a simple query into CBv2 style query JSON
+# conversion is achieved by creating a nested series of AND nodes (similar to .v1_query_to_v2())
 .simple_query_body_v2 <- function(simple_query) {
   andop <- list("operator" = "AND",
                 "queries" = list())
@@ -94,6 +102,7 @@
 }
 
 
+# converts an advanced query into CBv2 style query JSON
 .adv_query_body_v2 <- function(adv_query) {
   # recursive function to reformat adv_query list into an api compliant query
   reformat <- function(filter){
@@ -116,11 +125,14 @@
 }
 
 
+# created as a function for consistency 
 .existing_query_body_v2 <- function(cohort) {
   return(cohort@query)
 }
 
 
+# takes a single int ID or a vector of int IDs and builds 
+# a JSON array for use in cb_apply_filter()
 .build_column_body <- function(column_ids) {
   column_body_all <- c()
   for(id in column_ids){
