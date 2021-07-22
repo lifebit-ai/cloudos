@@ -151,7 +151,12 @@
   
   if(!is.list(x)) return(x)
   
-  if(!is.null(x$operator) & ifelse(is.null(x$operator), "", x$operator) != "NOT" & length(x$queries) == 1 & starting_depth > 1) return(x$queries[[1]])
+  if(
+    starting_depth > 1 &
+    !is.null(x$operator) & 
+    ifelse(is.null(x$operator), "", x$operator) != "NOT" & 
+    length(x$queries) == 1
+  ) return(x$queries[[1]])
   
   lapply(x, .extract_single_nodes, starting_depth)
   
