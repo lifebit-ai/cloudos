@@ -145,6 +145,26 @@
   return(column_body_all)
 }
 
+# takes any CB v2 query and recursively looks for subqueries where an
+# AND/OR operator is applied to a single condition and removes the operator. 
+# When calling this function, starting_depth should be left as default (0). Its
+# value is updated during recursion
+.extract_single_nodes <- function(x, starting_depth = 0){
+  
+  starting_depth <- starting_depth + 1
+  
+  if(!is.list(x)) return(x)
+  
+  if(
+    starting_depth > 1 &
+    !is.null(x$operator) & 
+    !identical(x$operator, "NOT") & 
+    length(x$queries) == 1
+  ) return(.extract_single_nodes(x$queries[[1]], starting_depth))
+  
+  lapply(x, .extract_single_nodes, starting_depth)
+  
+}
 
 #' @title Apply a Filter
 #'
@@ -322,6 +342,8 @@ cb_apply_filter <- function(cohort,
     r_body$query <- qs[[1]]
       
   }
+  
+  r_body$query <- .extract_single_nodes(r_body$query)
 
   cloudos <- .check_and_load_all_cloudos_env_var()
   # make request
