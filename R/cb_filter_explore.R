@@ -326,6 +326,8 @@ cb_participant_count <-function(cohort,
   } else {
     r_body <- NULL
   }
+  
+  r_body <- .extract_single_nodes(r_body)
 
   cloudos <- .check_and_load_all_cloudos_env_var()
   # make request
