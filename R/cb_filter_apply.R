@@ -145,6 +145,10 @@
   return(column_body_all)
 }
 
+# takes any CB v2 query and recursively looks for subqueries where an
+# AND/OR operator is applied to a single condition and removes the operator. 
+# When calling this function, starting_depth should be left as default (0). Its
+# value is updated during recursion
 .extract_single_nodes <- function(x, starting_depth = 0){
   
   starting_depth <- starting_depth + 1
@@ -154,7 +158,7 @@
   if(
     starting_depth > 1 &
     !is.null(x$operator) & 
-    ifelse(is.null(x$operator), "", x$operator) != "NOT" & 
+    !identical(x$operator, "NOT") & 
     length(x$queries) == 1
   ) return(x$queries[[1]])
   
