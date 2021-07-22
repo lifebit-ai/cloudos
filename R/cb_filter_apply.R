@@ -160,7 +160,7 @@
     !is.null(x$operator) & 
     !identical(x$operator, "NOT") & 
     length(x$queries) == 1
-  ) return(x$queries[[1]])
+  ) return(.extract_single_nodes(x$queries[[1]], starting_depth))
   
   lapply(x, .extract_single_nodes, starting_depth)
   
