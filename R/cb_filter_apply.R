@@ -360,8 +360,13 @@ cb_apply_filter <- function(cohort,
 #'
 #' @export
 cb_apply_filter_dry_run <- function(cohort, simple_query) {
+
+  .Deprecated("cb_participant_count")
+
+  if (cohort@cb_version != "v1") stop("This function is only compatible with Cohort Browser version v1 cohorts.")
+
   # prepare request body
-  r_body <- list("moreFilters" = .build_filter_body(simple_query))
+  r_body <- list("moreFilters" = .simple_query_body_v1(simple_query))
 
   # add additional content
   r_body[["ids"]] = list()
@@ -373,7 +378,7 @@ cb_apply_filter_dry_run <- function(cohort, simple_query) {
   r <- httr::POST(url,
                   .get_httr_headers(cloudos$token),
                   query = list("teamId" = cloudos$team_id),
-                  body = jsonlite::toJSON(r_body),
+                  body = jsonlite::toJSON(r_body, auto_unbox = T),
                   encode = "raw"
   )
   httr::stop_for_status(r, task = NULL)
