@@ -25,7 +25,8 @@ Imports:
     dplyr (>= 1.0.0),
     jsonlite,
     rappdirs,
-    ggplot2
+    ggplot2,
+    tibble
 Suggests: 
     httptest,
     kableExtra,
