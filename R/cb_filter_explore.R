@@ -317,17 +317,18 @@ cb_participant_count <-function(cohort,
   if (length(qs) == 2) {
     r_body <- list("query" = list("operator" = "AND",
                                   "queries" = qs))
+    r_body$query <- .extract_single_nodes(r_body$query)
     r_body <- jsonlite::toJSON(r_body, auto_unbox = T)
     
   } else if (length(qs) == 1) {
     r_body <- list("query" = qs[[1]])
+    r_body$query <- .extract_single_nodes(r_body$query)
     r_body <- jsonlite::toJSON(r_body, auto_unbox = T)
     
   } else {
     r_body <- NULL
   }
   
-  r_body <- .extract_single_nodes(r_body)
 
   cloudos <- .check_and_load_all_cloudos_env_var()
   # make request
