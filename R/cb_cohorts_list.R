@@ -38,7 +38,7 @@ cb_list_cohorts <- function(size = 10, cb_version = "v2") {
                               "pageSize" = size))
   httr::stop_for_status(r, task = "list cohorts")
   # parse the content
-  res <- httr::content(r, simplifyVector = T)
+  res <- httr::content(r, simplifyDataFrame = T)
   if(size == 10){
     message("Total number of cohorts found-", res$total, 
             ". But here shows-",  size," as default. For more, change size = ", res$total, " to get all.") 
@@ -66,7 +66,7 @@ cb_list_cohorts <- function(size = 10, cb_version = "v2") {
                               "pageSize" = size))
   httr::stop_for_status(r, task = "list cohorts")
   # parse the content
-  res <- httr::content(r, simplifyVector = TRUE)
+  res <- httr::content(r, simplifyDataFrame = TRUE)
   
   if(size == 10){
     message("Total number of cohorts found: ", res$total, 
