@@ -38,38 +38,20 @@ cb_list_cohorts <- function(size = 10, cb_version = "v2") {
                               "pageSize" = size))
   httr::stop_for_status(r, task = "list cohorts")
   # parse the content
-  res <- httr::content(r)
+  res <- httr::content(r, simplifyVector = T)
   if(size == 10){
     message("Total number of cohorts found-", res$total, 
             ". But here shows-",  size," as default. For more, change size = ", res$total, " to get all.") 
   }
+  
   cohorts <- res$cohorts
-  # make in to a list
-  cohorts_list <- list()
-  for (n in 1:length(cohorts)) {
-    
-    # For empty description backend returns two things NULL and ""
-    description = cohorts[[n]]$description
-    if(is.null(description)) description = "" # change everything to ""
-    
-    # For no filters backend returns NULL
-    numberOfFilters <- cohorts[[n]]$numberOfFilters
-    if(is.null(numberOfFilters)) numberOfFilters <- 0    
-    
-    dta <- data.frame(id = cohorts[[n]]$`_id`,
-                      name = cohorts[[n]]$name,
-                      description = description,
-                      number_of_participants = cohorts[[n]]$numberOfParticipants,
-                      number_of_filters = numberOfFilters,
-                      created_at = cohorts[[n]]$createdAt,
-                      updated_at = cohorts[[n]]$updatedAt)
-    cohorts_list[[n]] <- dta
-    # filter
-    # cohorts[[1]]$`filters`
-  }
-  # make in to a dataframe
-  cohorts_df <- do.call(rbind, cohorts_list)
-  return(cohorts_df)
+  
+  cohorts$numberOfFilters <- sapply(cohorts$phenotypeFilters, function(x) ifelse(is.data.frame(x), nrow(x), 0))
+  
+  cohort_df <- select(cohorts, id = `_id`, any_of(c("name", "description", "numberOfParticipants", "numberOfFilters", "createdAt", "updatedAt"))) %>%
+    rename_all(function(x) tolower(gsub("([A-Z])", "_\\1", x)))
+  
+  return(as_tibble(cohort_df))
 }
 
 
@@ -84,39 +66,24 @@ cb_list_cohorts <- function(size = 10, cb_version = "v2") {
                               "pageSize" = size))
   httr::stop_for_status(r, task = "list cohorts")
   # parse the content
-  res <- httr::content(r)
+  res <- httr::content(r, simplifyVector = TRUE)
+  
   if(size == 10){
     message("Total number of cohorts found: ", res$total, 
             ". Showing ",  size," by default. Change 'size' parameter to return more.") 
   }
+  
   cohorts <- res$cohorts
-  # make in to a list
-  cohorts_list <- list()
-  for (n in 1:length(cohorts)) {
-    
-    # For empty description backend returns two things NULL and ""
-    description <- cohorts[[n]]$description
-    if(is.null(description)) description <- "" # change everything to ""
-    
-    # For no filters backend returns NULL
-    numberOfFilters <- cohorts[[n]]$numberOfFilters
-    if(is.null(numberOfFilters)) numberOfFilters <- 0
-    
-    dta <- data.frame(id = cohorts[[n]]$`_id`,
-                      name = cohorts[[n]]$name,
-                      description = description,
-                      number_of_participants = cohorts[[n]]$numberOfParticipants,
-                      number_of_filters = numberOfFilters,
-                      created_at = cohorts[[n]]$createdAt,
-                      updated_at = cohorts[[n]]$updatedAt)
-    cohorts_list[[n]] <- dta
-    # filter
-    # cohorts[[1]]$`filters`
-  }
-  # make in to a dataframe
-  cohorts_df <- do.call(rbind, cohorts_list)
-  return(cohorts_df)
+  
+  cohorts$numberOfFilters <- sapply(cohorts$phenotypeFilters, nrow)
+  
+  cohort_df <- select(cohorts, id = `_id`, any_of(c("name", "description", "numberOfParticipants", "numberOfFilters", "createdAt", "updatedAt"))) %>%
+    rename_all(function(x) tolower(gsub("([A-Z])", "_\\1", x)))
+  
+  return(as_tibble(cohort_df))
+  
 }
+
 
 
 
