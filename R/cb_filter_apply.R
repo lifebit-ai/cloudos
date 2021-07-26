@@ -310,6 +310,13 @@ cb_apply_filter <- function(cohort,
                  "description" = cohort@desc,
                  "columns" = all_columns)
   
+  # get count of particpants if query is applied
+  no_participants <- cb_participant_count(cohort,
+                                          simple_query = simple_query,
+                                          adv_query = adv_query,
+                                          keep_existing_filter = keep_existing_filter)
+  r_body$numberOfParticipants <- no_participants$count
+  
   # cohort query
   
   # get new query to apply
