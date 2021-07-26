@@ -22,7 +22,7 @@ Imports:
     httr,
     utils,
     methods,
-    dplyr,
+    dplyr (>= 1.0.0),
     jsonlite,
     rappdirs,
     ggplot2
