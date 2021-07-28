@@ -33,22 +33,16 @@ cb_search_phenotypic_filters <- function(term, cb_version = "v2") {
                  query = list("teamId" = cloudos$team_id,
                               "term" = term))
   httr::stop_for_status(r, task = NULL)
-  res <- httr::content(r)
-  filters <- res$filters
+  res <- httr::content(r, simplifyVector = TRUE, simplifyDataFrame = TRUE)
+  filters <- tibble::as_tibble(res$filters)
   
-  if(length(filters) == 0) stop(message("No phenotypic filters found with - ", term ))
+  if(nrow(filters) == 0) stop(message("No phenotypic filters found with - ", term ))
   
-  message("Total number of phenotypic filters found - ", length(filters))
+  message("Total number of phenotypic filters found - ", nrow(filters))
   
-  # make in to a list
-  filters_list <- list()
-  for (n in 1:length(filters)) {
-    dta <- do.call(cbind, filters[[n]])
-    filters_list[[n]] <- as.data.frame(dta)
-  }
-  filters_df <- dplyr::bind_rows(filters_list)
-  # remove mongodb _id column
-  filters_df_new <- subset(filters_df, select = (c(-`_id`)))
+  filters_df_new <- subset(filters, select = (c(-`_id`))) %>% arrange(id) %>%
+    select(any_of(c("id", "name", "description", "possibleValues", "array", "type", "valueType", "units")), everything())
+  
   return(filters_df_new)
 }
 
@@ -60,23 +54,18 @@ cb_search_phenotypic_filters <- function(term, cb_version = "v2") {
                  query = list("teamId" = cloudos$team_id,
                               "term" = term))
   httr::stop_for_status(r, task = NULL)
-  res <- httr::content(r)
-  filters <- res$filters
+  res <- httr::content(r, simplifyVector = TRUE, simplifyDataFrame = TRUE)
+  filters <- tibble::as_tibble(res$filters)
   
-  if(length(filters) == 0) stop(message("No phenotypic filters found with - ", term ))
+  if(nrow(filters) == 0) stop(message("No phenotypic filters found with - ", term ))
   
-  message("Total number of phenotypic filters found - ", length(filters))
+  message("Total number of phenotypic filters found - ", nrow(filters))
   
-  # make in to a list
-  filters_list <- list()
-  for (n in 1:length(filters)) {
-    dta <- do.call(cbind, filters[[n]])
-    filters_list[[n]] <- as.data.frame(dta)
-  }
-  filters_df <- dplyr::bind_rows(filters_list)
-  # remove mongodb _id column
-  filters_df_new <- subset(filters_df, select = (c(-`_id`)))
+  filters_df_new <- subset(filters, select = (c(-`_id`))) %>% arrange(id) %>%
+    select(any_of(c("id", "name", "description", "possibleValues", "array", "type", "valueType", "units")), everything())
+  
   return(filters_df_new)
+  
 }
 
 
