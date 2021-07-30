@@ -11,3 +11,4 @@ README*
 ^check$
 ^cran-comments\.md$
 ^README\.Rmd$
+^Makefile$
