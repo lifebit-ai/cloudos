@@ -1,5 +1,5 @@
 # 5 helper functions below. Each converts the different structures of 
-# query data into either CBv1 or CBv2 query JSONs for use in cb_apply_filter()
+# query data into either CBv1 or CBv2 query JSONs for use in cb_apply_query()
 
 # converts a simple query into CBv1 style query JSON
 .simple_query_body_v1 <- function(simple_query) {
@@ -132,7 +132,7 @@
 
 
 # takes a single int ID or a vector of int IDs and builds 
-# a JSON array for use in cb_apply_filter()
+# a JSON array for use in cb_apply_query()
 .build_column_body <- function(column_ids) {
   column_body_all <- c()
   for(id in column_ids){
@@ -166,24 +166,27 @@
   
 }
 
-#' @title Apply a Filter
+#' @title Apply a query to a cohort
 #'
-#' @description Applies filter and updates/saves the cohort from database.
+#' @description Updates a cohort by applying a new query.
 #'
 #' @param cohort A cohort object. (Required)
 #' See constructor function \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}
-#' @param simple_query Phenotypic filter query. 
-#' @param adv_query Advanced phenotypic filter query (can include logical operators).
-#' @param column_ids Filter IDs as column in the table
-#' @param keep_existing_filter If wants to keep existing filters (Default: TRUE)
-#' @param keep_existing_columns If wants to keep existing columns (Default: TRUE)
+#' @param simple_query A phenotype query using the "simple query" list structure (see example).
+#' @param adv_query A phenotype query using the "advanced query" nested list structure (see example). 
+#'   Advanced queries can include logical operators: 'AND', 'OR', 'NOT'.
+#' @param column_ids Phenotype IDs to be added as columns in the participant table.
+#' @param keep_query If True, combines the newly supplied query with the pre-existing query.
+#'   Otherwise, pre-existing query is overwritten. (Default: TRUE)
+#' @param keep_columns If True, pre-existing columns are retained and newly supplied columns are added.
+#'   Otherwise, pre-exisitng columns are overwritten. (Default: TRUE)
 #' 
 #' @return A confirmation string.
 #' 
 #' @examples
 #' \dontrun{
 #' my_cohort <- cb_load_cohort(cohort_id = "5f9af3793dd2dc6091cd17cd", cb_version = "v1")
-#' cb_apply_filter(my_cohort,
+#' cb_apply_query(my_cohort,
 #'                 simple_query = list("22" = list("from" = "2015-05-13", "to" = "2016-04-29"),
 #'                                     "50" = c("Father", "Mother")) )
 #' 
@@ -201,33 +204,33 @@
 #'     )
 #'   )
 #' )
-#' cb_apply_filter(my_cohort, adv_query = adv_query)
+#' cb_apply_query(my_cohort, adv_query = adv_query)
 #' 
 #'}
 #'
 #' @export
-cb_apply_filter <- function(cohort, 
+cb_apply_query <- function(cohort, 
                             simple_query,
                             adv_query,
                             column_ids,
-                            keep_existing_filter = TRUE,
-                            keep_existing_columns = TRUE){
+                            keep_query = TRUE,
+                            keep_columns = TRUE){
   
   if (cohort@cb_version == "v1"){
     if (!missing(adv_query)) stop("Advanced queries are not compatible with Cohort Browser v1.")
-    return(.cb_apply_filter_v1(cohort = cohort,
+    return(.cb_apply_query_v1(cohort = cohort,
                                simple_query =  simple_query,
                                column_ids = column_ids,
-                               keep_existing_filter = keep_existing_filter,
-                               keep_existing_columns = keep_existing_columns))
+                               keep_query = keep_query,
+                               keep_columns = keep_columns))
     
   } else if (cohort@cb_version == "v2") {
-    return(.cb_apply_filter_v2(cohort = cohort,
+    return(.cb_apply_query_v2(cohort = cohort,
                                simple_query =  simple_query,
                                adv_query = adv_query,
                                column_ids = column_ids,
-                               keep_existing_filter = keep_existing_filter,
-                               keep_existing_columns = keep_existing_columns))
+                               keep_query = keep_query,
+                               keep_columns = keep_columns))
         
   } else {
     stop('Unknown cohort browser version string ("cb_version"). Choose either "v1" or "v2".')
@@ -235,18 +238,18 @@ cb_apply_filter <- function(cohort,
 }
 
 
-.cb_apply_filter_v1 <- function(cohort, 
+.cb_apply_query_v1 <- function(cohort, 
                             simple_query,
                             column_ids,
-                            keep_existing_filter = TRUE,
-                            keep_existing_columns = TRUE) {
+                            keep_query = TRUE,
+                            keep_columns = TRUE) {
   
   # cohort columns
   all_columns <- list()
   if(!missing(column_ids)){
     all_columns <- .build_column_body(column_ids)
   }
-  if(keep_existing_columns){
+  if(keep_columns){
     existing_ids <- sapply(cohort@columns, function(col){col$field$id})
     existing_columns <- .build_column_body(existing_ids)
     all_columns <- c(existing_columns, all_columns)
@@ -254,7 +257,7 @@ cb_apply_filter <- function(cohort,
   
   # cohort filters
   all_filters <- list()
-  if(keep_existing_filter){
+  if(keep_query){
     existing_filters <- .existing_query_body_v1(cohort)
     all_filters <- c(all_filters, existing_filters)
   }
@@ -284,12 +287,12 @@ cb_apply_filter <- function(cohort,
 }
 
 
-.cb_apply_filter_v2 <- function(cohort, 
+.cb_apply_query_v2 <- function(cohort, 
                             simple_query,
                             adv_query,
                             column_ids,
-                            keep_existing_filter = TRUE,
-                            keep_existing_columns = TRUE) {
+                            keep_query = TRUE,
+                            keep_columns = TRUE) {
   
   if (!missing(adv_query) & !missing(simple_query)) stop("Cannot use advanced and simple queries at the same time.")
   
@@ -298,7 +301,7 @@ cb_apply_filter <- function(cohort,
   if (!missing(column_ids)) {
     all_columns <- .build_column_body(column_ids)
   }
-  if (keep_existing_columns) {
+  if (keep_columns) {
     existing_ids <- sapply(cohort@columns, function(col){col$field$id})
     existing_columns <- .build_column_body(existing_ids)
     all_columns <- c(existing_columns, all_columns)
@@ -314,7 +317,7 @@ cb_apply_filter <- function(cohort,
   no_participants <- cb_participant_count(cohort,
                                           simple_query = simple_query,
                                           adv_query = adv_query,
-                                          keep_existing_filter = keep_existing_filter)
+                                          keep_query = keep_query)
   r_body$numberOfParticipants <- no_participants$count
   
   # cohort query
@@ -330,7 +333,7 @@ cb_apply_filter <- function(cohort,
     new_query <- list()
   }
   
-  if (keep_existing_filter) {
+  if (keep_query) {
     existing_query <- .existing_query_body_v2(cohort)
   } else {
     existing_query <- list()
@@ -369,13 +372,13 @@ cb_apply_filter <- function(cohort,
 
 
 
-#' @title Dry run for \code{\link{cb_apply_filter}}
+#' @title Dry run for \code{\link{cb_apply_query}}
 #'
-#' @description This doesn't update the database but mimic \code{\link{cb_apply_filter}}
+#' @description This doesn't update the database but mimics \code{\link{cb_apply_query}}
 #'
 #' @param cohort A cohort object. (Required)
 #' See constructor function \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}
-#' @param simple_query Phenotypic filter query. 
+#' @param simple_query A phenotype query using the "simple query" list structure (see \code{\link{cb_apply_query}}).
 #'
 #' @return A data frame.
 #' 
