@@ -1,18 +1,16 @@
 #' cohort class
 #'
-#' This class create a cohort object, which will 
-#' hold many information related to a cohort 
-#' including cohort ID, name, description, filters, tables. 
-#' Use of this object will simplify calling every 
-#' other functions which requires a cohort.
-#' This can be created using constructor function 
-#' \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}
+#' This class creates a cohort object, which holds the information related to a
+#' cohort: cohort ID, name, description, query, table columns. This class is used
+#' in functions which carry out operations related to specific functions.
+#' A cohort class object can be created using constructor functions
+#' \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}.
 #'
 #' @slot id cohort ID.
 #' @slot name  cohort name.
 #' @slot desc cohort description.
-#' @slot phenoptype_filters currently viewed filters.
-#' @slot query applied filter query.
+#' @slot phenoptype_filters phenotypes displayed in the cohort overview.
+#' @slot query applied query.
 #' @slot columns All the columns
 #' @slot cb_version chort browser version
 #'
@@ -79,15 +77,16 @@ setClass("cohort",
 }
 
 
-#' Convert a v1 style filter/query (moreFields) to v2 style (query).
-#' v2 queries are a superset of v1 filters. A set of v1 filters are equivalent to a set of nested v2 AND operators
-#' containing those filters. This function builds the nested AND query from the flat list of v1 filters.
-#' @param cohort_more_fields Filter information ('moreFields') from .get_cohort_info(cohort_id, cb_version="v1)
+#' Convert a v1 style query (moreFields) to v2 style (query).
+#' v2 queries are a superset of v1 queries. A list of v1 phenotype queries are equivalent to a 
+#' set of nested v2 AND operators containing those phenotypes. This function builds the nested 
+#' AND query from the flat list of v1 phenotypes.
+#' @param cohort_more_fields query information ('moreFields') from .get_cohort_info(cohort_id, cb_version="v1)
 .v1_query_to_v2 <- function(cohort_more_fields){
   andop <- list("operator" = "AND",
                 "queries" = list())
   
-  # make empty filter field better behaved by setting it as empty list
+  # make empty query field better behaved by setting it as empty list
   if (!is.list(cohort_more_fields)) cohort_more_fields <- list()
   if (identical(cohort_more_fields, list(""))) cohort_more_fields <- list()
   
@@ -128,7 +127,7 @@ setClass("cohort",
 #' @title Get cohort information
 #'
 #' @description Get all the details about a cohort including 
-#' applied filters.
+#' applied query.
 #'
 #' @param cohort_id Cohort id (Required)
 #' @param cb_version cohort browser version (Optional) [ "v1" | "v2" ]
@@ -173,7 +172,7 @@ setMethod("show", "cohort",
             cat("Cohort ID: ", object@id, "\n")
             cat("Cohort Name: ", object@name, "\n")
             cat("Cohort Description: ", object@desc, "\n")
-            cat("Number of filters applied: ", length(object@phenoptype_filters), "\n")
+            cat("Number of phenotypes in query: ", length(.unnest_query(object@query)), "\n")
             cat("Cohort Browser version: ", object@cb_version, "\n")
           }
 )

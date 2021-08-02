@@ -283,7 +283,7 @@ cb_apply_query <- function(cohort,
   httr::stop_for_status(r, task = NULL)
   # parse the content
   res <- httr::content(r)
-  return(message("Filter applied sucessfully, Current number of Participants - ", res$numberOfParticipants))
+  return(message("Query applied sucessfully, Current number of Participants - ", res$numberOfParticipants))
 }
 
 
@@ -367,7 +367,7 @@ cb_apply_query <- function(cohort,
   httr::stop_for_status(r, task = NULL)
   # parse the content
   res <- httr::content(r)
-  return(message("Filter applied sucessfully."))
+  return(message("Query applied sucessfully."))
 }
 
 

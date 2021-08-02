@@ -178,7 +178,7 @@ cb_get_participants_table <- function(cohort,
   
   # check if the dataframe is retrieved properly
   if(length(res_df) == 0){
-    stop("Couldn't able to retrive the dataframe, something wrong with the cohort filters.")
+    stop("Unable to retrive the dataframe, something may be wrong with the cohort query.")
   }
   
   # rename the dataframe with column names
@@ -251,7 +251,7 @@ cb_get_participants_table <- function(cohort,
 
   # check if the dataframe is retrieved properly
   if(length(res_df) == 0){
-    stop("Couldn't able to retrive the dataframe, something wrong with the cohort filters.")
+    stop("Unable to retrive the dataframe, something may be wrong with the cohort query.")
   }
   
   # rename the dataframe with column names

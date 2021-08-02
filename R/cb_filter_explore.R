@@ -7,7 +7,7 @@
 #' @param term A term to search. (Required)
 #' @param cb_version cohort browser version (Optional) [ "v1" | "v2" ]
 #'
-#' @return A data frame with available cohort filters.
+#' @return A tibble with phenotype metadata
 #'
 #' @examples
 #' \dontrun{
@@ -91,7 +91,7 @@ cb_search_phenotypes <- function(term, cb_version = "v2") {
 #' my_pheno <- all_cancer_phenos[,3]
 #' 
 #' my_pheno_data <- cb_get_phenotype_statistics(my_cohort, pheno_id = my_pheno$id)
-#' cohort_with_filters %>% head(n=10)
+#' my_pheno_data %>% head(n=10)
 #' }
 #'
 #' @export
@@ -204,7 +204,7 @@ cb_get_cohort_phenotypes <- function(cohort){
 ##################################################################################################
 #' @title Participant Count
 #'
-#' @description Returns the number of participants in a cohort if the supplied filter were to be applied.
+#' @description Returns the number of participants in a cohort if the supplied query were to be applied.
 #'
 #' @param cohort A cohort object. (Required)
 #' See constructor function \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}

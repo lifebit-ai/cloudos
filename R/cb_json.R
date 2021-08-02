@@ -1,16 +1,4 @@
-# For all the helper functions here - 
-# @param more_fields Filter information from .get_cohort_info(cohort_id)
-# @param fields Metainfo about filters from .get_cohort_info(cohort_id)
-# @param my_cohort The return list from .get_cohort_info(cohort_id)
-# @example
-# \dontrun{
-# my_cohort <- .get_cohort_info(cohort_id)
-# more_fields <- my_cohort$moreFields[[3]]
-# fields <- my_cohort$fields[[2]]
-# }
-
-
-# unnest function to get a flat list of filters out of nested AND query operators
+# unnest function to get a flat list of phenotype filters out of nested v2 style query
 .unnest_query<- function(q){
   if (is.null(q$queries)) {
     return(list(q))
@@ -32,7 +20,7 @@
 .get_search_json <- function(my_cohort){
 
   search = list()
-  # check if the cohort has a query/applied filters. if not retrun an empty list.
+  # check if the cohort has an applied query. if not retrun an empty list.
   if(length(my_cohort@query) == 0){
     return(search)
   }
