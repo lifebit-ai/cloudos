@@ -338,39 +338,39 @@ cb_participant_count <-function(cohort,
 
 
 #####################################################################################################
-#' @title Filter metadata
+#' @title Phenotype metadata
 #'
-#' @description Filter metadata of a cohort filter
+#' @description Get the metadata of a phenotype in the cohort browser
 #'
-#' @param filter_id A filter ID. (Required)
+#' @param pheno_id A phenotype ID. (Required)
 #' @param cb_version cohort browser version. (Default: "v2") [ "v1" | "v2" ]
 #'
 #' @return A data frame.
 #' 
 #' @example
 #' \dontrun{
-#' all_cancer_filters <- cb_search_phenotypic_filters(term = "cancer")
-#' my_filter <- all_cancer_filters[,3]
+#' all_cancer_phenos <- cb_search_phenotypic_filters(term = "cancer")
+#' my_pheno <- all_cancer_phenos[,3]
 #' 
-#' cb_filter_metadata(my_filter$id)
+#' cb_get_phenotype_metadata(my_pheno$id)
 #' }
 #'
 #' @export
-cb_filter_metadata <- function(filter_id, cb_version = "v2") {
+cb_get_phenotype_metadata <- function(pheno_id, cb_version = "v2") {
     if (cb_version == "v1") {
-      return(.cb_filter_metadata_v1(filter_id))
+      return(.cb_get_phenotype_metadata_v1(pheno_id))
       
     } else if (cb_version == "v2") {
-      return(.cb_filter_metadata_v2(filter_id))
+      return(.cb_get_phenotype_metadata_v2(pheno_id))
       
     } else {
       stop('Unknown cohort browser version string ("cb_version"). Choose either "v1" or "v2".')
     }
 }
 
-.cb_filter_metadata_v1 <- function(filter_id) {
+.cb_get_phenotype_metadata_v1 <- function(pheno_id) {
   cloudos <- .check_and_load_all_cloudos_env_var()
-  url <- paste(cloudos$base_url, "v1/cohort/filter", filter_id, "metadata", sep = "/")
+  url <- paste(cloudos$base_url, "v1/cohort/filter", pheno_id, "metadata", sep = "/")
   r <- httr::GET(url,
                  .get_httr_headers(cloudos$token),
                  query = list("teamId" = cloudos$team_id)
@@ -384,9 +384,9 @@ cb_filter_metadata <- function(filter_id, cb_version = "v2") {
   return(res_df_new)
 }
 
-.cb_filter_metadata_v2 <- function(filter_id) {
+.cb_get_phenotype_metadata_v2 <- function(pheno_id) {
   cloudos <- .check_and_load_all_cloudos_env_var()
-  url <- paste(cloudos$base_url, "v2/cohort/filter", filter_id, "metadata", sep = "/")
+  url <- paste(cloudos$base_url, "v2/cohort/filter", pheno_id, "metadata", sep = "/")
   r <- httr::GET(url,
                  .get_httr_headers(cloudos$token),
                  query = list("teamId" = cloudos$team_id)
