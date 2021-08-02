@@ -4,17 +4,19 @@
 \alias{cb_load_cohort}
 \title{Get cohort information}
 \usage{
-cb_load_cohort(cohort_id)
+cb_load_cohort(cohort_id, cb_version = "v2")
 }
 \arguments{
 \item{cohort_id}{Cohort id (Required)}
+
+\item{cb_version}{cohort browser version (Optional) \link{ "v1" | "v2" }}
 }
 \value{
 A \linkS4class{cohort} object.
 }
 \description{
 Get all the details about a cohort including
-applied filters.
+applied query.
 }
 \seealso{
 \code{\link{cb_create_cohort}} for creating a new cohort.
