@@ -9,7 +9,7 @@ cb_get_phenotype_metadata(pheno_id, cb_version = "v2")
 \arguments{
 \item{pheno_id}{A phenotype ID. (Required)}
 
-\item{cb_version}{cohort browser version. (Default: "v2") \link{ "v1" | "v2" }}
+\item{cb_version}{cohort browser version. (Default: "v2") [ "v1" | "v2" ]}
 }
 \value{
 A data frame.

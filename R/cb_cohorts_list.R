@@ -3,7 +3,7 @@
 #' @description Extracts the data frame with limited cohort data columns.
 #'
 #' @param size Number of cohort entries from database. (Optional) Default - 10
-#' @param cb_version cohort browser version. ["v1" | "v2"] (Optional) Default - "v2"
+#' @param cb_version cohort browser version. \["v1" | "v2"\] (Optional) Default - "v2"
 
 #'
 #' @return A data frame with available cohorts.

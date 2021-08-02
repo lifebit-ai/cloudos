@@ -5,7 +5,7 @@
 #' @param cohort_name New cohort name to be created. (Required)
 #' @param cohort_desc New cohort description to be created. (Optional)
 #' @param filters WIP - details will be added.
-#' @param cb_version cohort browser version. ["v1" | "v2"] (Optional) Default - "v2"
+#' @param cb_version cohort browser version. \["v1" | "v2"\] (Optional) Default - "v2"
 #'
 #' @return A \linkS4class{cohort} object.
 #' 

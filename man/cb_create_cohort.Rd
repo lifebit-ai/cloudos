@@ -13,7 +13,7 @@ cb_create_cohort(cohort_name, cohort_desc, filters = "", cb_version = "v2")
 
 \item{filters}{WIP - details will be added.}
 
-\item{cb_version}{cohort browser version. \link{"v1" | "v2"} (Optional) Default - "v2"}
+\item{cb_version}{cohort browser version. ["v1" | "v2"] (Optional) Default - "v2"}
 }
 \value{
 A \linkS4class{cohort} object.

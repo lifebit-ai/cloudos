@@ -9,7 +9,7 @@ cb_search_phenotypes(term, cb_version = "v2")
 \arguments{
 \item{term}{A term to search. (Required)}
 
-\item{cb_version}{cohort browser version (Optional) \link{ "v1" | "v2" }}
+\item{cb_version}{cohort browser version (Optional) [ "v1" | "v2" ]}
 }
 \value{
 A tibble with phenotype metadata

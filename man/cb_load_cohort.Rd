@@ -9,7 +9,7 @@ cb_load_cohort(cohort_id, cb_version = "v2")
 \arguments{
 \item{cohort_id}{Cohort id (Required)}
 
-\item{cb_version}{cohort browser version (Optional) \link{ "v1" | "v2" }}
+\item{cb_version}{cohort browser version (Optional) [ "v1" | "v2" ]}
 }
 \value{
 A \linkS4class{cohort} object.

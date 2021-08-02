@@ -5,7 +5,7 @@
 #'   phenotypes.
 #' 
 #' @param term A term to search. (Required)
-#' @param cb_version cohort browser version (Optional) [ "v1" | "v2" ]
+#' @param cb_version cohort browser version (Optional) \[ "v1" | "v2" \]
 #'
 #' @return A tibble with phenotype metadata
 #'
@@ -348,7 +348,7 @@ cb_participant_count <-function(cohort,
 #' @description Get the metadata of a phenotype in the cohort browser
 #'
 #' @param pheno_id A phenotype ID. (Required)
-#' @param cb_version cohort browser version. (Default: "v2") [ "v1" | "v2" ]
+#' @param cb_version cohort browser version. (Default: "v2") \[ "v1" | "v2" \]
 #'
 #' @return A data frame.
 #' 
