@@ -90,10 +90,9 @@ cb_get_genotypic_table <- function(cohort,
 
 ####################################################################
 
-#' @title Get samples table
+#' @title Get participant data table
 #'
-#' @description Get samples (participants) table in a dataframe. 
-#' Optionally phenotypic filters can be applied as well.
+#' @description Get participant data table in a dataframe. 
 #'
 #' @param cohort A cohort object. (Required)
 #' See constructor functions \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}
@@ -105,27 +104,27 @@ cb_get_genotypic_table <- function(cohort,
 #' @example
 #' \dontrun{
 #' my_cohort <- cb_load_cohort(cohort_id = "5f9af3793dd2dc6091cd17cd")
-#' cohort_samples <- cb_get_samples_table(my_cohort)
+#' cohort_samples <- cb_get_participants_table(my_cohort)
 #' cohort_samples %>% head(n=5)
 #' }
 #' 
 #' @export
-cb_get_samples_table <- function(cohort,
+cb_get_participants_table <- function(cohort,
                               page_number = 0,
                               page_size = 10) {
   
   if (cohort@cb_version == "v1") {
-    return(.cb_get_samples_table_v1(cohort, page_number = page_number, page_size = page_size))
+    return(.cb_get_participants_table_v1(cohort, page_number = page_number, page_size = page_size))
     
   } else if (cohort@cb_version == "v2") {
-    return(.cb_get_samples_table_v2(cohort, page_number = page_number, page_size = page_size))
+    return(.cb_get_participants_table_v2(cohort, page_number = page_number, page_size = page_size))
     
   } else {
     stop('Unknown cohort browser version string ("cb_version"). Choose either "v1" or "v2".')
   }
 }
 
-.cb_get_samples_table_v1 <- function(cohort,
+.cb_get_participants_table_v1 <- function(cohort,
                               page_number = 0,
                               page_size = 10) {
 
@@ -200,7 +199,7 @@ cb_get_samples_table <- function(cohort,
 }
 
 
-.cb_get_samples_table_v2 <- function(cohort,
+.cb_get_participants_table_v2 <- function(cohort,
                               page_number = 0,
                               page_size = 10) {
 
