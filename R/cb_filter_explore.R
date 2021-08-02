@@ -199,13 +199,13 @@ cb_get_cohort_filters <- function(cohort){
 ##################################################################################################
 #' @title Participant Count
 #'
-#' @description This sums up all the filters and return number participants after applied filter.
+#' @description Returns the number of participants in a cohort if the supplied filter were to be applied.
 #'
 #' @param cohort A cohort object. (Required)
 #' See constructor function \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}
-#' @param simple_query Phenotypic filter query. 
-#' @param adv_query Advanced phenotypic filter query (can include logical operators).
-#' @param keep_existing_filter Apply newly specified query on top of exisiting query (Default: TRUE)
+#' @param simple_query A phenotype query using the "simple query" list structure (see \code{\link{cb_apply_query}}).
+#' @param adv_query A phenotype query using the "advanced query" nested list structure (see \code{\link{cb_apply_query}}).
+#' @param keep_query Apply newly specified query on top of exisiting query (Default: TRUE)
 #'
 #' @return A list with count of participants in the cohort and the total no. of participants in the dataset.
 #' 
@@ -219,19 +219,19 @@ cb_get_cohort_filters <- function(cohort){
 cb_participant_count <-function(cohort,
                                 simple_query,
                                 adv_query,
-                                keep_existing_filter = TRUE) {
+                                keep_query = TRUE) {
 
   if (cohort@cb_version == "v1"){
     if (!missing(adv_query)) stop("Advanced queries are not compatible with Cohort Browser v1.")
     return(.cb_participant_count_v1(cohort = cohort,
                                simple_query =  simple_query,
-                               keep_existing_filter = keep_existing_filter))
+                               keep_query = keep_query))
     
   } else if (cohort@cb_version == "v2") {
     return(.cb_participant_count_v2(cohort = cohort,
                                simple_query =  simple_query,
                                adv_query = adv_query,
-                               keep_existing_filter = keep_existing_filter))
+                               keep_query = keep_query))
         
   } else {
     stop('Unknown cohort browser version string ("cb_version"). Choose either "v1" or "v2".')
@@ -241,10 +241,10 @@ cb_participant_count <-function(cohort,
 
 .cb_participant_count_v1 <-function(cohort,
                                     simple_query,
-                                    keep_existing_filter = TRUE) {
+                                    keep_query = TRUE) {
 
   all_filters <- list()
-  if(keep_existing_filter){
+  if(keep_query){
     existing_filters <- .existing_query_body_v1(cohort)
     all_filters <- c(all_filters, existing_filters)
   }
@@ -279,7 +279,7 @@ cb_participant_count <-function(cohort,
 .cb_participant_count_v2 <-function(cohort,
                                     simple_query,
                                     adv_query,
-                                    keep_existing_filter = TRUE) {
+                                    keep_query = TRUE) {
 
   if (!missing(adv_query) & !missing(simple_query)) stop("Cannot use advanced and simple queries at the same time.")
 
@@ -292,7 +292,7 @@ cb_participant_count <-function(cohort,
     new_query <- list()
   }
   
-  if (keep_existing_filter) {
+  if (keep_query) {
     existing_query <- .existing_query_body_v2(cohort)
   } else {
     existing_query <- list()
