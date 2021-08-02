@@ -1,31 +1,36 @@
-#' @title List available filters
+#' @title Search available phenotypes
 #'
-#' @description All the cohort filters available in CloudOS.
-#'
+#' @description Search for phenotypes in the Cohort Browser that match your term and return a tibble
+#'   containing the metadata information for each matching phenotype. Use ' term = "" ' to return all
+#'   phenotypes.
+#' 
 #' @param term A term to search. (Required)
 #' @param cb_version cohort browser version (Optional) [ "v1" | "v2" ]
-#' Example - "cancer"
 #'
 #' @return A data frame with available cohort filters.
 #'
 #' @examples
 #' \dontrun{
-#' cb_search_phenotypic_filters(term = "cancer")
+#' cancer_phenos <- cb_search_phenotypes(term = "cancer")
+#' 
+#' all_phenos <- cb_search_phenotypes(term = "")
 #' }
+#' 
+#' 
 #' @export
-cb_search_phenotypic_filters <- function(term, cb_version = "v2") {
+cb_search_phenotypes <- function(term, cb_version = "v2") {
   if (cb_version == "v1") {
-    return(.cb_search_phenotypic_filters_v1(term))
+    return(.cb_search_phenotypes_v1(term))
     
   } else if (cb_version == "v2") {
-    return(.cb_search_phenotypic_filters_v2(term))
+    return(.cb_search_phenotypes_v2(term))
     
   } else {
     stop('Unknown cohort browser version string ("cb_version"). Choose either "v1" or "v2".')
   }
 }
 
-.cb_search_phenotypic_filters_v1 <- function(term){
+.cb_search_phenotypes_v1 <- function(term){
   cloudos <- .check_and_load_all_cloudos_env_var()
   url <- paste(cloudos$base_url, "v1/cohort/fields_search", sep = "/")
   r <- httr::GET(url,
@@ -46,7 +51,7 @@ cb_search_phenotypic_filters <- function(term, cb_version = "v2") {
   return(filters_df_new)
 }
 
-.cb_search_phenotypic_filters_v2 <- function(term){
+.cb_search_phenotypes_v2 <- function(term){
   cloudos <- .check_and_load_all_cloudos_env_var()
   url <- paste(cloudos$base_url, "v2/cohort/fields_search", sep = "/")
   r <- httr::GET(url,
@@ -82,7 +87,7 @@ cb_search_phenotypic_filters <- function(term, cb_version = "v2") {
 #' @example
 #' \dontrun{
 #' my_cohort <- cb_load_cohort(cohort_id = "5f9af3793dd2dc6091cd17cd")
-#' all_cancer_phenos <- cb_search_phenotypic_filters(term = "cancer")
+#' all_cancer_phenos <- cb_search_phenotypes(term = "cancer")
 #' my_pheno <- all_cancer_phenos[,3]
 #' 
 #' my_pheno_data <- cb_get_phenotype_statistics(my_cohort, pheno_id = my_pheno$id)
@@ -349,7 +354,7 @@ cb_participant_count <-function(cohort,
 #' 
 #' @example
 #' \dontrun{
-#' all_cancer_phenos <- cb_search_phenotypic_filters(term = "cancer")
+#' all_cancer_phenos <- cb_search_phenotypes(term = "cancer")
 #' my_pheno <- all_cancer_phenos[,3]
 #' 
 #' cb_get_phenotype_metadata(my_pheno$id)
