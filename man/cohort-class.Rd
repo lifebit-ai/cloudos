@@ -5,13 +5,11 @@
 \alias{cohort-class}
 \title{cohort class}
 \description{
-This class create a cohort object, which will
-hold many information related to a cohort
-including cohort ID, name, description, filters, tables.
-Use of this object will simplify calling every
-other functions which requires a cohort.
-This can be created using constructor function
-\code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}
+This class creates a cohort object, which holds the information related to a
+cohort: cohort ID, name, description, query, table columns. This class is used
+in functions which carry out operations related to specific functions.
+A cohort class object can be created using constructor functions
+\code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}.
 }
 \section{Slots}{
 
@@ -22,10 +20,12 @@ This can be created using constructor function
 
 \item{\code{desc}}{cohort description.}
 
-\item{\code{fields}}{Filters.}
+\item{\code{phenoptype_filters}}{phenotypes displayed in the cohort overview.}
 
-\item{\code{more_fields}}{Filter related information.}
+\item{\code{query}}{applied query.}
 
 \item{\code{columns}}{All the columns}
+
+\item{\code{cb_version}}{chort browser version}
 }}
 

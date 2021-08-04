@@ -2,27 +2,27 @@
 % Please edit documentation in R/cb_filter_apply.R
 \name{cb_apply_filter_dry_run}
 \alias{cb_apply_filter_dry_run}
-\title{Dry run for \code{\link{cb_apply_filter}}}
+\title{Dry run for \code{\link{cb_apply_query}}}
 \usage{
-cb_apply_filter_dry_run(cohort, filter_query)
+cb_apply_filter_dry_run(cohort, simple_query)
 }
 \arguments{
 \item{cohort}{A cohort object. (Required)
 See constructor function \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}}
 
-\item{filter_query}{Phenotypic filter query.}
+\item{simple_query}{A phenotype query using the "simple query" list structure (see \code{\link{cb_apply_query}}).}
 }
 \value{
 A data frame.
 }
 \description{
-This doesn't update the database but mimic \code{\link{cb_apply_filter}}
+This doesn't update the database but mimics \code{\link{cb_apply_query}}
 }
 \examples{
 \dontrun{
 my_cohort <- cb_load_cohort(cohort_id = "5f9af3793dd2dc6091cd17cd")
 cb_apply_filter_dry_run(my_cohort,
-                        filter_query = list("22" = list("from" = "2015-05-13", "to" = "2016-04-29"),
+                        simple_query = list("22" = list("from" = "2015-05-13", "to" = "2016-04-29"),
                                             "50" = c("Father", "Mother")) )
 }
 
