@@ -28,7 +28,7 @@ cb_plot_filters <- function(cohort){
   # and applied filters
   my_cohort_info <- .get_cohort_info(cohort_id = cohort@id)
   # get filter dataframe list, this is independent of cohort info
-  filter_df_list <- cb_get_cohort_filters(cohort)
+  filter_df_list <- cb_get_cohort_phenotypes(cohort)
   # empty ggplot list
   plot_list <- list()
   # run though all the filters in the cohort
