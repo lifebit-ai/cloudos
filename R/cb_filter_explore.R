@@ -1,31 +1,36 @@
-#' @title List available filters
+#' @title Search available phenotypes
 #'
-#' @description All the cohort filters available in CloudOS.
-#'
+#' @description Search for phenotypes in the Cohort Browser that match your term and return a tibble
+#'   containing the metadata information for each matching phenotype. Use ' term = "" ' to return all
+#'   phenotypes.
+#' 
 #' @param term A term to search. (Required)
-#' @param cb_version cohort browser version (Optional) [ "v1" | "v2" ]
-#' Example - "cancer"
+#' @param cb_version cohort browser version (Optional) \[ "v1" | "v2" \]
 #'
-#' @return A data frame with available cohort filters.
+#' @return A tibble with phenotype metadata
 #'
 #' @examples
 #' \dontrun{
-#' cb_search_phenotypic_filters(term = "cancer")
+#' cancer_phenos <- cb_search_phenotypes(term = "cancer")
+#' 
+#' all_phenos <- cb_search_phenotypes(term = "")
 #' }
+#' 
+#' 
 #' @export
-cb_search_phenotypic_filters <- function(term, cb_version = "v2") {
+cb_search_phenotypes <- function(term, cb_version = "v2") {
   if (cb_version == "v1") {
-    return(.cb_search_phenotypic_filters_v1(term))
+    return(.cb_search_phenotypes_v1(term))
     
   } else if (cb_version == "v2") {
-    return(.cb_search_phenotypic_filters_v2(term))
+    return(.cb_search_phenotypes_v2(term))
     
   } else {
     stop('Unknown cohort browser version string ("cb_version"). Choose either "v1" or "v2".')
   }
 }
 
-.cb_search_phenotypic_filters_v1 <- function(term){
+.cb_search_phenotypes_v1 <- function(term){
   cloudos <- .check_and_load_all_cloudos_env_var()
   url <- paste(cloudos$base_url, "v1/cohort/fields_search", sep = "/")
   r <- httr::GET(url,
@@ -46,7 +51,7 @@ cb_search_phenotypic_filters <- function(term, cb_version = "v2") {
   return(filters_df_new)
 }
 
-.cb_search_phenotypic_filters_v2 <- function(term){
+.cb_search_phenotypes_v2 <- function(term){
   cloudos <- .check_and_load_all_cloudos_env_var()
   url <- paste(cloudos$base_url, "v2/cohort/fields_search", sep = "/")
   r <- httr::GET(url,
@@ -69,34 +74,33 @@ cb_search_phenotypic_filters <- function(term, cb_version = "v2") {
 }
 
 
-#' @title Filter a cohort samples
+#' @title Get distribution of a phenotype in a cohort
 #'
-#' @description This filters cohort samples based on particular phenotypic filter. 
-#' This will return number of samples after phenotype filter applied to a cohort.
+#' @description Retrieve a data frame containing the distirbution data for a specific phenotype within a cohort.
 #'
 #' @param cohort A cohort object. (Required)
 #' See constructor function \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}
-#' @param filter_id A filter ID. (Required)
+#' @param pheno_id A phenotype ID. (Required)
 #'
-#' @return A data frame with filters applied.
+#' @return A data frame holding distribution data.
 #' 
 #' @example
 #' \dontrun{
 #' my_cohort <- cb_load_cohort(cohort_id = "5f9af3793dd2dc6091cd17cd")
-#' all_cancer_filters <- cb_search_phenotypic_filters(term = "cancer")
-#' my_filter <- all_cancer_filters[,3]
+#' all_cancer_phenos <- cb_search_phenotypes(term = "cancer")
+#' my_pheno <- all_cancer_phenos[,3]
 #' 
-#' cohort_with_filters <- cb_get_filter_statistics(my_cohort, filter_id = my_filter$id)
-#' cohort_with_filters %>% head(n=10)
+#' my_pheno_data <- cb_get_phenotype_statistics(my_cohort, pheno_id = my_pheno$id)
+#' my_pheno_data %>% head(n=10)
 #' }
 #'
 #' @export
-cb_get_filter_statistics <- function(cohort, filter_id ) {
+cb_get_phenotype_statistics <- function(cohort, pheno_id ) {
   if (cohort@cb_version == "v1") {
-    return(.cb_get_filter_statistics_v1(cohort, filter_id))
+    return(.cb_get_phenotype_statistics_v1(cohort, pheno_id))
     
   } else if (cohort@cb_version == "v2") {
-    return(.cb_get_filter_statistics_v2(cohort, filter_id))
+    return(.cb_get_phenotype_statistics_v2(cohort, pheno_id))
     
   } else {
     stop('Unknown cohort browser version string ("cb_version"). Choose either "v1" or "v2".')
@@ -104,7 +108,7 @@ cb_get_filter_statistics <- function(cohort, filter_id ) {
 }
 
 
-.cb_get_filter_statistics_v1 <- function(cohort, filter_id) {
+.cb_get_phenotype_statistics_v1 <- function(cohort, pheno_id) {
 
   # make more_filters from cohort@query
   more_filters = list() 
@@ -122,7 +126,7 @@ cb_get_filter_statistics <- function(cohort, filter_id ) {
                  )
   cloudos <- .check_and_load_all_cloudos_env_var()
   # make request
-  url <- paste(cloudos$base_url, "v1/cohort/filter", filter_id, "data", sep = "/")
+  url <- paste(cloudos$base_url, "v1/cohort/filter", pheno_id, "data", sep = "/")
   r <- httr::POST(url,
                   .get_httr_headers(cloudos$token),
                   query = list("teamId" = cloudos$team_id),
@@ -138,7 +142,7 @@ cb_get_filter_statistics <- function(cohort, filter_id ) {
 }
 
 
-.cb_get_filter_statistics_v2 <- function(cohort, filter_id) {
+.cb_get_phenotype_statistics_v2 <- function(cohort, pheno_id) {
   # empty moreFilters returns all the filter values associated with a cohort for a filter
   r_body <- list("criteria" = list("cohortId" = cohort@id),
                  "filter" = list("instance" = list("0")),
@@ -146,7 +150,7 @@ cb_get_filter_statistics <- function(cohort, filter_id ) {
                  )
   cloudos <- .check_and_load_all_cloudos_env_var()
   # make request
-  url <- paste(cloudos$base_url, "v2/cohort/filter", filter_id, "data", sep = "/")
+  url <- paste(cloudos$base_url, "v2/cohort/filter", pheno_id, "data", sep = "/")
   r <- httr::POST(url,
                   .get_httr_headers(cloudos$token),
                   query = list("teamId" = cloudos$team_id),
@@ -161,29 +165,30 @@ cb_get_filter_statistics <- function(cohort, filter_id ) {
   return(res_df)
 }
 
-#' @title Get cohort filters
+#' @title Get data for phenotypes associated with a cohort
 #'
-#' @description Get a list of all the filters associated with a cohort. 
+#' @description Get a dataframe with distirbution data for each phenotype associated with a cohort.
+#'   Associated phenotypes are those found in the "Overview" section of the Cohort Browser Web UI.
 #'
 #' @param cohort A cohort object. (Required)
 #' See constructor function \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}
 #'
-#' @return A list of data frame.
+#' @return A list of data frames.
 #'
 #' @example
 #' \dontrun{
 #' my_cohort <- cb_load_cohort(cohort_id = "5f9af3793dd2dc6091cd17cd")
-#' cb_get_cohort_filters(my_cohort)
+#' cb_get_cohort_phenotypes(my_cohort)
 #' }
 #'
 #' @export
-cb_get_cohort_filters <- function(cohort){
+cb_get_cohort_phenotypes <- function(cohort){
   # get all the filters dataframe in a single list
   filter_list <- list()
   for(filter in cohort@phenoptype_filters){
     field_id <- filter$field$id
-    filter_list[[as.character(field_id)]] <- cb_get_filter_statistics(cohort = cohort,
-                                                            filter_id = field_id)
+    filter_list[[as.character(field_id)]] <- cb_get_phenotype_statistics(cohort = cohort,
+                                                            pheno_id = field_id)
     # compare with applied filters from cohort and modify the dataframe
     # if(names(cohort@more_fields[[i]][3]) == "value"){
     #   
@@ -199,13 +204,13 @@ cb_get_cohort_filters <- function(cohort){
 ##################################################################################################
 #' @title Participant Count
 #'
-#' @description This sums up all the filters and return number participants after applied filter.
+#' @description Returns the number of participants in a cohort if the supplied query were to be applied.
 #'
 #' @param cohort A cohort object. (Required)
 #' See constructor function \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}
-#' @param simple_query Phenotypic filter query. 
-#' @param adv_query Advanced phenotypic filter query (can include logical operators).
-#' @param keep_existing_filter Apply newly specified query on top of exisiting query (Default: TRUE)
+#' @param simple_query A phenotype query using the "simple query" list structure (see \code{\link{cb_apply_query}}).
+#' @param adv_query A phenotype query using the "advanced query" nested list structure (see \code{\link{cb_apply_query}}).
+#' @param keep_query Apply newly specified query on top of exisiting query (Default: TRUE)
 #'
 #' @return A list with count of participants in the cohort and the total no. of participants in the dataset.
 #' 
@@ -219,19 +224,19 @@ cb_get_cohort_filters <- function(cohort){
 cb_participant_count <-function(cohort,
                                 simple_query,
                                 adv_query,
-                                keep_existing_filter = TRUE) {
+                                keep_query = TRUE) {
 
   if (cohort@cb_version == "v1"){
     if (!missing(adv_query)) stop("Advanced queries are not compatible with Cohort Browser v1.")
     return(.cb_participant_count_v1(cohort = cohort,
                                simple_query =  simple_query,
-                               keep_existing_filter = keep_existing_filter))
+                               keep_query = keep_query))
     
   } else if (cohort@cb_version == "v2") {
     return(.cb_participant_count_v2(cohort = cohort,
                                simple_query =  simple_query,
                                adv_query = adv_query,
-                               keep_existing_filter = keep_existing_filter))
+                               keep_query = keep_query))
         
   } else {
     stop('Unknown cohort browser version string ("cb_version"). Choose either "v1" or "v2".')
@@ -241,10 +246,10 @@ cb_participant_count <-function(cohort,
 
 .cb_participant_count_v1 <-function(cohort,
                                     simple_query,
-                                    keep_existing_filter = TRUE) {
+                                    keep_query = TRUE) {
 
   all_filters <- list()
-  if(keep_existing_filter){
+  if(keep_query){
     existing_filters <- .existing_query_body_v1(cohort)
     all_filters <- c(all_filters, existing_filters)
   }
@@ -279,7 +284,7 @@ cb_participant_count <-function(cohort,
 .cb_participant_count_v2 <-function(cohort,
                                     simple_query,
                                     adv_query,
-                                    keep_existing_filter = TRUE) {
+                                    keep_query = TRUE) {
 
   if (!missing(adv_query) & !missing(simple_query)) stop("Cannot use advanced and simple queries at the same time.")
 
@@ -292,7 +297,7 @@ cb_participant_count <-function(cohort,
     new_query <- list()
   }
   
-  if (keep_existing_filter) {
+  if (keep_query) {
     existing_query <- .existing_query_body_v2(cohort)
   } else {
     existing_query <- list()
@@ -338,39 +343,39 @@ cb_participant_count <-function(cohort,
 
 
 #####################################################################################################
-#' @title Filter metadata
+#' @title Phenotype metadata
 #'
-#' @description Filter metadata of a cohort filter
+#' @description Get the metadata of a phenotype in the cohort browser
 #'
-#' @param filter_id A filter ID. (Required)
-#' @param cb_version cohort browser version. (Default: "v2") [ "v1" | "v2" ]
+#' @param pheno_id A phenotype ID. (Required)
+#' @param cb_version cohort browser version. (Default: "v2") \[ "v1" | "v2" \]
 #'
 #' @return A data frame.
 #' 
 #' @example
 #' \dontrun{
-#' all_cancer_filters <- cb_search_phenotypic_filters(term = "cancer")
-#' my_filter <- all_cancer_filters[,3]
+#' all_cancer_phenos <- cb_search_phenotypes(term = "cancer")
+#' my_pheno <- all_cancer_phenos[,3]
 #' 
-#' cb_filter_metadata(my_filter$id)
+#' cb_get_phenotype_metadata(my_pheno$id)
 #' }
 #'
 #' @export
-cb_filter_metadata <- function(filter_id, cb_version = "v2") {
+cb_get_phenotype_metadata <- function(pheno_id, cb_version = "v2") {
     if (cb_version == "v1") {
-      return(.cb_filter_metadata_v1(filter_id))
+      return(.cb_get_phenotype_metadata_v1(pheno_id))
       
     } else if (cb_version == "v2") {
-      return(.cb_filter_metadata_v2(filter_id))
+      return(.cb_get_phenotype_metadata_v2(pheno_id))
       
     } else {
       stop('Unknown cohort browser version string ("cb_version"). Choose either "v1" or "v2".')
     }
 }
 
-.cb_filter_metadata_v1 <- function(filter_id) {
+.cb_get_phenotype_metadata_v1 <- function(pheno_id) {
   cloudos <- .check_and_load_all_cloudos_env_var()
-  url <- paste(cloudos$base_url, "v1/cohort/filter", filter_id, "metadata", sep = "/")
+  url <- paste(cloudos$base_url, "v1/cohort/filter", pheno_id, "metadata", sep = "/")
   r <- httr::GET(url,
                  .get_httr_headers(cloudos$token),
                  query = list("teamId" = cloudos$team_id)
@@ -384,9 +389,9 @@ cb_filter_metadata <- function(filter_id, cb_version = "v2") {
   return(res_df_new)
 }
 
-.cb_filter_metadata_v2 <- function(filter_id) {
+.cb_get_phenotype_metadata_v2 <- function(pheno_id) {
   cloudos <- .check_and_load_all_cloudos_env_var()
-  url <- paste(cloudos$base_url, "v2/cohort/filter", filter_id, "metadata", sep = "/")
+  url <- paste(cloudos$base_url, "v2/cohort/filter", pheno_id, "metadata", sep = "/")
   r <- httr::GET(url,
                  .get_httr_headers(cloudos$token),
                  query = list("teamId" = cloudos$team_id)

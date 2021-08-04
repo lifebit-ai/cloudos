@@ -4,10 +4,12 @@
 \alias{cb_list_cohorts}
 \title{List cohorts}
 \usage{
-cb_list_cohorts(size = 10)
+cb_list_cohorts(size = 10, cb_version = "v2")
 }
 \arguments{
 \item{size}{Number of cohort entries from database. (Optional) Default - 10}
+
+\item{cb_version}{cohort browser version. ["v1" | "v2"] (Optional) Default - "v2"}
 }
 \value{
 A data frame with available cohorts.
