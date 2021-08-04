@@ -2,7 +2,7 @@
 #'
 #' This class creates a cohort object, which holds the information related to a
 #' cohort: cohort ID, name, description, query, table columns. This class is used
-#' in functions which carry out operations related to specific functions.
+#' in functions which carry out operations related to specific cohorts.
 #' A cohort class object can be created using constructor functions
 #' \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}.
 #'
