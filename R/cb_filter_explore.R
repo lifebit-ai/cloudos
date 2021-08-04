@@ -113,7 +113,14 @@ cb_get_phenotype_statistics <- function(cohort, pheno_id ) {
   # make more_filters from cohort@query
   more_filters = list() 
   for (filter in .unnest_query(cohort@query)){
-    if (!is.null(filter$value)){
+    
+    if (!is.null(filter$value$from)){
+      # rename field to fieldId and value to range
+      names(filter)[names(filter) == "field"] <- "fieldId"
+      names(filter)[names(filter) == "value"] <- "range"
+      more_filters <- c(more_filters, list(filter))
+      
+    } else if (!is.null(filter$value)){
       # rename field to fieldId
       names(filter)[names(filter) == "field"] <- "fieldId"
       more_filters <- c(more_filters, list(filter))
