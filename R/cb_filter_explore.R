@@ -155,7 +155,7 @@ cb_get_phenotype_statistics <- function(cohort, pheno_id ) {
                  "filter" = list("instance" = list("0"))
                  )
   
-  if (length(cohort@query > 0)) r_body$query <- cohort@query
+  if (length(cohort@query) > 0) r_body$query <- cohort@query
   
   cloudos <- .check_and_load_all_cloudos_env_var()
   # make request

@@ -216,7 +216,7 @@ cb_get_participants_table <- function(cohort,
                                    "cohortId" = cohort@id),
                  "columns" = columns)
   
-  if (length(cohort@query > 0)) r_body$query <- cohort@query
+  if (length(cohort@query) > 0) r_body$query <- cohort@query
   
   cloudos <- .check_and_load_all_cloudos_env_var()
   # make request
