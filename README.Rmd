@@ -22,20 +22,23 @@ knitr::opts_chunk$set(
 [![R build status](https://github.com/lifebit-ai/cloudos/workflows/R-CMD-check/badge.svg)](https://github.com/lifebit-ai/cloudos/actions)
 <!-- badges: end -->
 
-**cloudos** R package makes it easy to interact with Lifebit's CloudOS <https://cloudos.lifebit.ai/> platform in the R environment.
+**cloudos** R package makes it easy to interact with Lifebit's CloudOS <https://cloudos.lifebit.ai/> platform in an R environment.
 
 ## Installation
 
-You can install the released version of **cloudos** from [GitHub](https://github.com/lifebit-ai/cloudos/) at this moment. (Will be listed on  [CRAN](https://CRAN.R-project.org) as well)
+You can install the latest release of **cloudos** from [GitHub](https://github.com/lifebit-ai/cloudos/).
 
 ```{r, eval=FALSE}
 if (!require(remotes)) { install.packages("remotes") }
   remotes::install_github("lifebit-ai/cloudos")
 ```
 
+We are currently working towards making the package available through [CRAN](https://CRAN.R-project.org).
+
+
 ## Usage
 
-Bellow are given the demonstration of how the **cloudos** package can be used.
+Below is a demonstration of how the **cloudos** package can be used.
 
 ### Load the library
 
@@ -44,6 +47,7 @@ library(cloudos)
 library(knitr) # For better visualization of wide dataframes in this README examples
 library(magrittr) # For pipe
 ```
+
 
 ### Configure CloudOS
 
@@ -58,12 +62,13 @@ Three ways to set cloudos environment variables
 
 1. Add them to `~/.Renviron`, which will load the environment variables on beginning of the R-session
 2. Add them using `Sys.setenv(ENV_VAR = "env_var_value")`
-2. Use the function `cloudos_configure()`, which will create a `~/.cloudos/config` (Recommended way if you using multiple cloudos clients)
+2. Use the function `cloudos_configure()`, which will create a `~/.cloudos/config` (Recommended way if you are using multiple cloudos clients)
 
 
 ## Application - Cohort Browser
 
-Cohort Browser is part of Lifebit's cloudos offering. Lets explore how to interact with this in R environment.
+Cohort Browser is part of Lifebit's CloudOS offering. Lets explore how to interact with this in R environment.
+
 
 ### List Cohorts
 
@@ -74,206 +79,203 @@ cohorts <- cb_list_cohorts()
 cohorts %>% head(n=5) %>% kable()
 ```
 
+
 ### Create a cohort
 
 To create a new cohort. 
 
-```{r, eval=F}
+```{r}
 my_cohort <- cb_create_cohort(cohort_name = "Cohort-R",
                              cohort_desc = "This cohort is for testing purpose, created from R.")
 my_cohort
 ```
+
 
 ### Get a cohort
 
 Get a available cohort in to a cohort R object. This cohort object can be used in many different other functions.
 
 ```{r}
-my_cohort <- cb_load_cohort(cohort_id = "5f9af3793dd2dc6091cd17cd")
-my_cohort
+other_cohort <- cb_load_cohort(cohort_id = "610ac00edb7c7a1d9d0c309f")
+other_cohort
 ```
 
-### Get samples table
 
-Get all the samples (participants) table for a cohort with phenotypic filters applied.
+### Explore available phenotypes
+
+#### Search phenotypes
+
+Search for phenotypes based on a term. Searching with `term = ""` will return all the available phenotypes.
 
 ```{r}
-cohort_samples <- cb_get_samples_table(cohort = my_cohort)
-cohort_samples %>% head(n=5) %>% kable()
+disease_phenotypes <- cb_search_phenotypes(term = "disease")
+disease_phenotypes %>% head(n=5) %>% kable()
 ```
+Let's choose a phenotype from the above table. The "id" is the most important part as it will allow us
+to use this phenotype for cohort queries and other functions.
+
+```{r}
+# get the first row/phenotype in the table
+my_phenotype <- disease_phenotypes[5,]
+my_phenotype %>% kable()
+```
+
+#### Get distribution of cohort participants for a phenotype
+
+Let's check the numbers of participants across the categories of this phenotype.
+
+```{r}
+# phenotype
+my_pheno_data <- cb_get_phenotype_statistics(cohort = my_cohort, 
+                                     pheno_id = my_phenotype$id)
+my_pheno_data %>% head(n=10) %>% kable()
+```
+
+
+### Update a cohort with a new query
+
+A query defines what particpants are included in a cohort based on phenotypes.
+
+Phenotypes can be continuous - in which case a selected range needs to be specified, or they can be categorical - in which case selected categories need to be specified.
+
+#### Continuous phenotype
+
+For phenotype "Year of birth" (with id = 8)
+
+```{r}
+# cb_get_phenotype_metadata(8)$name
+# "Year of birth"
+cb_get_phenotype_statistics(cohort = my_cohort, pheno_id = 8)
+```
+
+#### Categorical phenotype
+
+For phenotype "Total full brothers" (with id = 48).
+
+```{r}
+# cb_get_phenotype_metadata(48)$name
+# "Total full brothers"
+cb_get_phenotype_statistics(cohort = my_cohort, pheno_id = 48)
+
+```
+
+#### Simple query
+
+Now let's restrict our cohort to a set of participants based on the phenotypes we explored above.
+
+Simple queries allow us to create a cohort query that combines a list of phenotype criteria according to a logical AND. Let's define a simple query using the following named list-based format (note the phenotype id is quoted):
+```{r}
+# year of birth: 1965 - 1995 ; AND total full brothers: 1 or 2
+simple_query = list("8" = list("from" = 1965, "to" = 1995),
+                    "48" = c(1, 2))
+```
+
+Let's check how many participants would be in the cohort if we applied this query, but without actually applying it.
+
+```{r}
+cb_participant_count(cohort = my_cohort, simple_query = simple_query, keep_query = F)
+```
+
+If we're happy that this is a sensible query to apply, we can apply the query to the cohort, making sure to override the previous query by setting `keep_query` to `FALSE`. If we wanted to keep the criteria from the pre-exisitng query and add our new phenotype-based criteria to them we would leave `keep_query` set to the defualt value of `TRUE`.
+
+```{r}
+# apply the query
+cb_apply_query(cohort = my_cohort, simple_query = simple_query, keep_query = F)
+
+# update the local cohort object with info from the changed version on the server
+my_cohort <- cb_load_cohort(my_cohort@id)
+
+# double check that the cohort has th number of participants we expected
+cb_participant_count(cohort = my_cohort)
+```
+
+We could now further restrict our cohort to include only females (phenotype "Participant phenotypic sex", id = 10) by using `keep_query = TRUE`. In other words, this argument applies a query that looks like "old query AND new query".
+
+```{r}
+# apply the query
+cb_apply_query(cohort = my_cohort, simple_query = list("10" = "Female"), keep_query = T)
+
+# update the local cohort object with info from the changed version on the server
+my_cohort <- cb_load_cohort(my_cohort@id)
+
+# check the number of participants
+cb_participant_count(my_cohort)
+
+```
+
+
+#### Advanced query
+
+We could adjust our previous filter to restrict participants to those who are born from 1965 to 1995 OR have 1 or 2 full brothers as well as being female (`( Total full brothers = 1, 2 OR 1965 < Year of birth < 1995 ) AND Participant phenotypic sex = Female`). We could achieve this with an advanced query which uses a more complicated (but more flexible) nested list format (note the phenotype id is not quoted):
+
+```{r}
+adv_query <- list(
+  "operator" = "AND",
+  "queries" = list(
+    list("id" = 10, "value" = "Female"),
+    list(
+      "operator" = "OR",
+      "queries" = list(
+        list("id" = 8, "value" = list("from" = 1965, "to" = 1995)),
+        list("id" = 48, "value" = c(1, 2))
+      )
+    )
+  )
+)
+```
+
+Available operators in advanced queries: `"AND"`, `"OR"`, `"NOT"`.
+
+Lets apply this query to our cohort and inspect the distribution of our phenotype of interest in the cohort.
+```{r}
+# apply the query
+cb_apply_query(cohort = my_cohort, adv_query = adv_query, keep_query = F)
+
+# update the local cohort object with info from the changed version on the server
+my_cohort <- cb_load_cohort(my_cohort@id)
+
+# view the distribution of disease groups in our cohort
+cb_get_phenotype_statistics(cohort = my_cohort, pheno_id = 206)
+
+```
+
+
+### Retreive the participant table
+
+Now lets get a participant phenotype table with the columns of interest for our cohort.
+
+First we have to update the cohort on the cohort browser server to set what columns will be in the table. Currently the best way to do this is to use (counterintuitively) `cb_apply_query` to add the IDs of the phenotypes of interest as columns.
+
+```{r}
+cb_apply_query(my_cohort, column_ids = c(208, 10, 8, 48), keep_columns = T)
+my_cohort <- cb_load_cohort(my_cohort@id)
+
+```
+
+Now we can fetch the participant phenotype table which includes these columns.
+```{r}
+pheno_df <- cb_get_participants_table(cohort = my_cohort,
+                                      page_size = cb_participant_count(my_cohort)$count)
+
+pheno_df %>% head(n=10) %>% kable()
+```
+
 
 ### Get genotypic table
 
-Get all the genotypic table for a cohort.
+Get the genotypic table for a cohort (currently only cohort browser version 1 is supported).
 
-```{r}
-#cohort_genotype <- cb_get_genotypic_table(my_cohort)
+```{r, eval=F}
 cohort_genotype <- cb_get_genotypic_table(cohort = my_cohort)
-cohort_genotype %>% head(n=5) %>% kable()
+cohort_genotype %>% head(n=2) %>% kable()
 ```
 
-### Explore Filters
-
-#### Search phenotypic filters
-
-Search for phenotypic filters based on a term.
-
-```{r}
-all_filters <- cb_search_phenotypic_filters(term = "cancer")
-all_filters %>% head(n=5) %>% kable()
-```
-Lets choose one filter from above table
-
-```{r}
-# apply this first row filter
-my_phenotypic_filter <- all_filters[1,]
-my_phenotypic_filter %>% kable()
-```
-
-#### Apply phenotypic filter
-
-We can get statistic of sample numbers in a cohort for which a filter is applied.
-
-```{r}
-# phenotype filter
-cohort_with_filters <- cb_get_filter_statistics(cohort = my_cohort, 
-                                     filter_id = my_phenotypic_filter$id)
-cohort_with_filters %>% head(n=10) %>% kable()
-```
-
-We can get number of total participants after applying a filter.
-
-```{r}
-# filter participants
-total_participants_with_filter <- cb_filter_participants(cohort = my_cohort, 
-                                                filter_id = my_phenotypic_filter$id)
- 
-total_participants_with_filter
-```
-
-### Apply and Save a filter
-
-Save a filter into the database.
-
-For this a `filter_query` is required.
-
-`filter_query` is a list of different **phenotypic filter** quires.
-
-Steps to find phenotypic filters - 
-
-- Use `cb_search_phenotypic_filters()` to find a filter based on a term.
-- At this time you will be having phenotypic filter id of your choice.
-- Check the available filter values/range using `cb_get_filter_statistics()`
-- Now use this information to make your `filter_query`
-
-There are two possible type of `filter_query`
-
-- Range based
-- Value based
-
-**Range based**
-
-For filter_id = 22
-
-```{r, eval = F}
-# A tibble: 1,880 x 3
-   `_id`      number total
-   <chr>       <int> <int>
- 1 1938-12-25      1 44660
- 2 1998-07-07      1 44660
- 3 2000-12-04      1 44660
- 4 2003-12-24      1 44660
- 5 2004-07-20      1 44660
- 6 2004-10-21      1 44660
- 7 2004-11-01      1 44660
- 8 2004-11-03      1 44660
- 9 2005-01-07      1 44660
-10 2005-02-27      1 44660
-# … with 1,870 more rows
-```
-
-To make a range based query - `filter_query = list("22" = list("from" = "2015-05-13", "to" = "2016-04-29")`
-
-Here `"22"` is the filter_id and you need to provide the range as a list with `from` and `to`.
-
-**Value based**
-
-For filter_id = 50
-
-```{r, eval = F}
-# A tibble: 25 x 3
-   `_id`                             number total
-   <chr>                              <int> <int>
- 1 Daughter                             135 19187
- 2 Father                              6864 19187
- 3 First Cousin Once Removed             11 19187
- 4 Full Sibling                        1876 19187
- 5 Half Sibling with a shared Father      4 19187
- 6 Half Sibling with a shared Mother     79 19187
- 7 Maternal Aunt                         49 19187
- 8 Maternal Cousin Brother               12 19187
- 9 Maternal Cousin Sister                34 19187
-10 Maternal Grandfather                  36 19187
-11 Maternal Grandmother                  68 19187
-12 Maternal Uncle                        27 19187
-13 Mother                              9649 19187
-14 Other                                114 19187
-```
-
-To make a value based query <- `filter_query = list("50" = c("Father", "Mother"))`
-
-Here `"50"` is filter_id and `c("Father", "Mother")` is a vector of values. 
-
-If you have multiple `filter_query` you can combine them with separated by a coma `,` inside the list. Such as `filter_query = list(filter_query_1, filter_query_2)`
-
-Check the bellow example for the complete function call.
-
-```{r, eval=F}
-cb_apply_filter(cohort = my_cohort,
-                filter_query = list("22" = list("from" = "2015-05-13", "to" = "2016-04-29"),
-                                    "50" = c("Father", "Mother")))
-
-```
-
-### Get sample filters plot (experimental)
-
-Get ggplots for all the applied phenotypic filters for a cohort. 
-
-As this based on ggplot objects, this can be customised further. 
-
-```{r}
-plot_list <- cb_plot_filters(cohort = my_cohort)
-library(ggpubr)
-ggpubr::ggarrange(plotlist = plot_list)
-```
-
-Individual plots
-
-```{r}
-plot_list[[1]]
-```
-
-```{r}
-plot_list[[2]]
-```
-
-Covert ggplot objects to plotly elements (just for demonstration purpose, in markdown plotly don't support.)
-
-```{r, eval=F}
-p1 <- plotly::ggplotly(plot_list$filter_id_34)
-p1
-```
-
-```{r, eval=F}
-p2 <- plotly::ggplotly(plot_list$filter_id_2345)
-p2
-```
 
 ## Additional notes
 
-This package is under activate development. If you found any issues, Please reach out here - https://github.com/lifebit-ai/cloudos/issues 
+This package is under activate development. If you find any issues, please reach out here - https://github.com/lifebit-ai/cloudos/issues 
 
-For Documentation visit - http://lifebit-ai.github.io/cloudos 
+For documentation visit - http://lifebit-ai.github.io/cloudos 
 
 ## License
 
