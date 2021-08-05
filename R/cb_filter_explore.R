@@ -152,9 +152,11 @@ cb_get_phenotype_statistics <- function(cohort, pheno_id ) {
 .cb_get_phenotype_statistics_v2 <- function(cohort, pheno_id) {
   # empty moreFilters returns all the filter values associated with a cohort for a filter
   r_body <- list("criteria" = list("cohortId" = cohort@id),
-                 "filter" = list("instance" = list("0")),
-                 "query" = cohort@query
+                 "filter" = list("instance" = list("0"))
                  )
+  
+  if (length(cohort@query) > 0) r_body$query <- cohort@query
+  
   cloudos <- .check_and_load_all_cloudos_env_var()
   # make request
   url <- paste(cloudos$base_url, "v2/cohort/filter", pheno_id, "data", sep = "/")
