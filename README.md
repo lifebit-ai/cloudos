@@ -36,7 +36,7 @@ Below is a demonstration of how the **cloudos** package can be used.
 library(cloudos)
 #> 
 #> Welcome to Lifebit's CloudOS R client 
-#> For Documentation visit - http://lifebit-ai.github.io/cloudos 
+#> For Documentation visit - https://lifebit-ai.github.io/cloudos/ 
 #> This package is under activate development. If you found any issues, 
 #> Please reach out here - https://github.com/lifebit-ai/cloudos/issues
 library(knitr) # For better visualization of wide dataframes in this README examples
@@ -407,7 +407,7 @@ cohort_genotype %>% head(n=2) %>% kable()
 This package is under activate development. If you find any issues,
 please reach out here - <https://github.com/lifebit-ai/cloudos/issues>
 
-For documentation visit - <http://lifebit-ai.github.io/cloudos>
+For documentation visit - <https://lifebit-ai.github.io/cloudos/>
 
 ## License
 
