@@ -210,19 +210,21 @@ cb_get_participants_table <- function(cohort,
   }else{
     columns <- .get_column_json(cohort)
   }
+  
+  r_body <- list("criteria" = list("pagination" = list("pageNumber" = page_number,
+                                                       "pageSize" = page_size),
+                                   "cohortId" = cohort@id),
+                 "columns" = columns)
+  
+  if (length(cohort@query > 0)) r_body$query <- cohort@query
+  
   cloudos <- .check_and_load_all_cloudos_env_var()
   # make request
   url <- paste(cloudos$base_url, "v2/cohort/participants/search", sep = "/")
   r <- httr::POST(url,
                   .get_httr_headers(cloudos$token),
                   query = list("teamId" = cloudos$team_id),
-                  body = jsonlite::toJSON(
-                    list("criteria" = list("pagination" = list("pageNumber" = page_number,
-                                                               "pageSize" = page_size),
-                                           "cohortId" = cohort@id),
-                         "query" = cohort@query,
-                         "columns" = columns),
-                    auto_unbox = T),
+                  body = jsonlite::toJSON(r_body, auto_unbox = T),
                   encode = "raw")
   
   httr::stop_for_status(r, task = NULL)
