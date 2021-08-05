@@ -94,7 +94,7 @@ my_cohort <- cb_create_cohort(cohort_name = "Cohort-R",
                              cohort_desc = "This cohort is for testing purpose, created from R.")
 #> Cohort created successfully.
 my_cohort
-#> Cohort ID:  610c1326597aa12e251abdef 
+#> Cohort ID:  610c14ca597aa12e251abdf0 
 #> Cohort Name:  Cohort-R 
 #> Cohort Description:  This cohort is for testing purpose, created from R. 
 #> Number of phenotypes in query:  1 
@@ -165,16 +165,16 @@ my_pheno_data %>% head(n=10) %>% kable()
 
 | \_id                                            | number | total |
 |:------------------------------------------------|-------:|------:|
-| Respiratory disorders                           |     37 |  5090 |
-| Rheumatological disorders                       |     40 |  5090 |
-| Growth disorders                                |     37 |  5090 |
-| Dermatological disorders                        |     68 |  5090 |
-| skeletal disorders                              |      2 |  5090 |
-| dysmorphic and congenital abnormality syndromes |      3 |  5090 |
+| Metabolic disorders                             |    125 |  5090 |
+| Ultra-rare disorders                            |    272 |  5090 |
 | Skeletal disorders                              |    109 |  5090 |
-| Ophthalmological disorders                      |    474 |  5090 |
-| neurology and neurodevelopmental disorders      |     14 |  5090 |
+| dysmorphic and congenital abnormality syndromes |      3 |  5090 |
+| Endocrine disorders                             |    121 |  5090 |
+| Respiratory disorders                           |     37 |  5090 |
+| Dermatological disorders                        |     68 |  5090 |
+| Psychiatric disorders                           |      5 |  5090 |
 | Tumour syndromes                                |    228 |  5090 |
+| tumour syndromes                                |      3 |  5090 |
 
 ### Update a cohort with a new query
 
@@ -192,22 +192,107 @@ For phenotype “Year of birth” (with id = 8)
 ``` r
 # cb_get_phenotype_metadata(8)$name
 # "Year of birth"
-cb_get_phenotype_statistics(cohort = my_cohort, pheno_id = 8)
-#> # A tibble: 96 x 3
-#>    `_id` number total
-#>    <int>  <int> <int>
-#>  1  1923      3 44667
-#>  2  1924      9 44667
-#>  3  1925      8 44667
-#>  4  1926      4 44667
-#>  5  1927     16 44667
-#>  6  1928     36 44667
-#>  7  1929     47 44667
-#>  8  1930     60 44667
-#>  9  1931     81 44667
-#> 10  1932    105 44667
-#> # … with 86 more rows
+cb_get_phenotype_statistics(cohort = my_cohort, pheno_id = 8) %>% kable()
 ```
+
+| \_id | number | total |
+|-----:|-------:|------:|
+| 1923 |      3 | 44667 |
+| 1924 |      9 | 44667 |
+| 1925 |      8 | 44667 |
+| 1926 |      4 | 44667 |
+| 1927 |     16 | 44667 |
+| 1928 |     36 | 44667 |
+| 1929 |     47 | 44667 |
+| 1930 |     60 | 44667 |
+| 1931 |     81 | 44667 |
+| 1932 |    105 | 44667 |
+| 1933 |     90 | 44667 |
+| 1934 |    158 | 44667 |
+| 1935 |    160 | 44667 |
+| 1936 |    139 | 44667 |
+| 1937 |    220 | 44667 |
+| 1938 |    222 | 44667 |
+| 1939 |    325 | 44667 |
+| 1940 |    256 | 44667 |
+| 1941 |    288 | 44667 |
+| 1942 |    337 | 44667 |
+| 1943 |    389 | 44667 |
+| 1944 |    461 | 44667 |
+| 1945 |    478 | 44667 |
+| 1946 |    552 | 44667 |
+| 1947 |    640 | 44667 |
+| 1948 |    451 | 44667 |
+| 1949 |    522 | 44667 |
+| 1950 |    525 | 44667 |
+| 1951 |    466 | 44667 |
+| 1952 |    524 | 44667 |
+| 1953 |    506 | 44667 |
+| 1954 |    517 | 44667 |
+| 1955 |    502 | 44667 |
+| 1956 |    498 | 44667 |
+| 1957 |    541 | 44667 |
+| 1958 |    535 | 44667 |
+| 1959 |    518 | 44667 |
+| 1960 |    614 | 44667 |
+| 1961 |    607 | 44667 |
+| 1962 |    642 | 44667 |
+| 1963 |    637 | 44667 |
+| 1964 |    678 | 44667 |
+| 1965 |    749 | 44667 |
+| 1966 |    769 | 44667 |
+| 1967 |    683 | 44667 |
+| 1968 |    736 | 44667 |
+| 1969 |    791 | 44667 |
+| 1970 |    749 | 44667 |
+| 1971 |    825 | 44667 |
+| 1972 |    814 | 44667 |
+| 1973 |    759 | 44667 |
+| 1974 |    772 | 44667 |
+| 1975 |    822 | 44667 |
+| 1976 |    899 | 44667 |
+| 1977 |    836 | 44667 |
+| 1978 |    766 | 44667 |
+| 1979 |    827 | 44667 |
+| 1980 |    845 | 44667 |
+| 1981 |    838 | 44667 |
+| 1982 |    897 | 44667 |
+| 1983 |    874 | 44667 |
+| 1984 |    665 | 44667 |
+| 1985 |    670 | 44667 |
+| 1986 |    593 | 44667 |
+| 1987 |    588 | 44667 |
+| 1988 |    611 | 44667 |
+| 1989 |    467 | 44667 |
+| 1990 |    438 | 44667 |
+| 1991 |    347 | 44667 |
+| 1992 |    333 | 44667 |
+| 1993 |    283 | 44667 |
+| 1994 |    305 | 44667 |
+| 1995 |    227 | 44667 |
+| 1996 |    219 | 44667 |
+| 1997 |    228 | 44667 |
+| 1998 |    248 | 44667 |
+| 1999 |    285 | 44667 |
+| 2000 |    291 | 44667 |
+| 2001 |    186 | 44667 |
+| 2002 |    318 | 44667 |
+| 2003 |    379 | 44667 |
+| 2004 |    396 | 44667 |
+| 2005 |    391 | 44667 |
+| 2006 |    420 | 44667 |
+| 2007 |    521 | 44667 |
+| 2008 |    517 | 44667 |
+| 2009 |    538 | 44667 |
+| 2010 |    609 | 44667 |
+| 2011 |    665 | 44667 |
+| 2012 |    727 | 44667 |
+| 2013 |    632 | 44667 |
+| 2014 |    638 | 44667 |
+| 2015 |    660 | 44667 |
+| 2016 |    404 | 44667 |
+| 2017 |    196 | 44667 |
+| 2018 |     54 | 44667 |
 
 #### Categorical phenotype
 
@@ -216,14 +301,14 @@ For phenotype “Total full brothers” (with id = 48).
 ``` r
 # cb_get_phenotype_metadata(48)$name
 # "Total full brothers"
-cb_get_phenotype_statistics(cohort = my_cohort, pheno_id = 48)
-#> # A tibble: 3 x 3
-#>   `_id` number total
-#>   <int>  <int> <int>
-#> 1     0   4248 13276
-#> 2     1   7791 13276
-#> 3     2   1237 13276
+cb_get_phenotype_statistics(cohort = my_cohort, pheno_id = 48) %>% kable()
 ```
+
+| \_id | number | total |
+|-----:|-------:|------:|
+|    0 |   4248 | 13276 |
+|    1 |   7791 | 13276 |
+|    2 |   1237 | 13276 |
 
 #### Simple query
 
@@ -338,22 +423,36 @@ cb_apply_query(cohort = my_cohort, adv_query = adv_query, keep_query = F)
 my_cohort <- cb_load_cohort(my_cohort@id)
 
 # view the distribution of disease groups in our cohort
-cb_get_phenotype_statistics(cohort = my_cohort, pheno_id = 206)
-#> # A tibble: 25 x 3
-#>    `_id`                                           number total
-#>    <chr>                                            <int> <int>
-#>  1 Metabolic disorders                                 44  1731
-#>  2 Ultra-rare disorders                                95  1731
-#>  3 Skeletal disorders                                  37  1731
-#>  4 dysmorphic and congenital abnormality syndromes      2  1731
-#>  5 Endocrine disorders                                 34  1731
-#>  6 Respiratory disorders                                8  1731
-#>  7 Dermatological disorders                            31  1731
-#>  8 Psychiatric disorders                                1  1731
-#>  9 Tumour syndromes                                    76  1731
-#> 10 tumour syndromes                                     1  1731
-#> # … with 15 more rows
+cb_get_phenotype_statistics(cohort = my_cohort, pheno_id = 206) %>% kable()
 ```
+
+| \_id                                            | number | total |
+|:------------------------------------------------|-------:|------:|
+| Haematological and immunological disorders      |     28 |  1731 |
+| Gastroenterological disorders                   |      5 |  1731 |
+| Tumour syndromes                                |     76 |  1731 |
+| Psychiatric disorders                           |      1 |  1731 |
+| Ophthalmological disorders                      |    148 |  1731 |
+| neurology and neurodevelopmental disorders      |      4 |  1731 |
+| tumour syndromes                                |      1 |  1731 |
+| Skeletal disorders                              |     37 |  1731 |
+| Dermatological disorders                        |     31 |  1731 |
+| Respiratory disorders                           |      8 |  1731 |
+| Endocrine disorders                             |     34 |  1731 |
+| Growth disorders                                |     14 |  1731 |
+| Haematological disorders                        |     11 |  1731 |
+| Cardiovascular disorders                        |    191 |  1731 |
+| Rheumatological disorders                       |     11 |  1731 |
+| Hearing and ear disorders                       |     33 |  1731 |
+| Metabolic disorders                             |     44 |  1731 |
+| Ciliopathies                                    |     10 |  1731 |
+| Neurology and neurodevelopmental disorders      |    705 |  1731 |
+| Dysmorphic and congenital abnormality syndromes |     42 |  1731 |
+| Ultra-rare disorders                            |     95 |  1731 |
+| Renal and urinary tract disorders               |    197 |  1731 |
+| dysmorphic and congenital abnormality syndromes |      2 |  1731 |
+| Genomic medicine service indications            |      2 |  1731 |
+| skeletal disorders                              |      1 |  1731 |
 
 ### Retreive the participant table
 
