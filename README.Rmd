@@ -145,7 +145,7 @@ For phenotype "Year of birth" (with id = 8)
 ```{r}
 # cb_get_phenotype_metadata(8)$name
 # "Year of birth"
-cb_get_phenotype_statistics(cohort = my_cohort, pheno_id = 8) %>% kable()
+cb_get_phenotype_statistics(cohort = my_cohort, pheno_id = 8) %>% head(n=10) %>% kable()
 ```
 
 #### Categorical phenotype
@@ -235,7 +235,7 @@ cb_apply_query(cohort = my_cohort, adv_query = adv_query, keep_query = F)
 my_cohort <- cb_load_cohort(my_cohort@id)
 
 # view the distribution of disease groups in our cohort
-cb_get_phenotype_statistics(cohort = my_cohort, pheno_id = 206) %>% kable()
+cb_get_phenotype_statistics(cohort = my_cohort, pheno_id = 206) %>% head(n=10) %>% kable()
 
 ```
 
