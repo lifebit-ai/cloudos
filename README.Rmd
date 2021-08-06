@@ -51,23 +51,42 @@ library(magrittr) # For pipe
 
 ### Configure CloudOS
 
-The cloudos functions will be need set of cloudos configurations for able to connect to API. Lets see different ways of R package will try to find those configurations.
+This package is primarily a means of communicating with a CloudOS instance using it's API. Before it can  communicate with the CloudOS instance, the package must be configured with some key information:
+- The CloudOS base URL. This is the URL in your browser when you navigate to the Cohort Browser in CloudOS. Often of the form `https://my_instance.lifebit.ai/app/cohort-browser`.
+- The CloudOS token. Navigate to settings page in CloudOS to generate an API key you can use as your token (see image below).
+- The CloudOS team ID. Also found in the settings page in CloudOS labelled as the "Workspace ID" (see image below).
 
-1. From Environment variable
-2. From cloudos configuration file
+![CloudOS settings page](man/figures/settings_page.png)
 
-First thing this R-package will look for environment variables - `CLOUDOS_BASEURL`, `CLOUDOS_TOKEN`, `CLOUDOS_TEAMID` and if not found it will try to read from `~/.cloudos/config`.
+The package will look for this information in the following locations in this order:
+1. From environment variables `CLOUDOS_BASEURL`, `CLOUDOS_TOKEN`, and `CLOUDOS_TEAMID`.
+2. From a cloudos configuration file.
 
-Three ways to set cloudos environment variables
+There are three ways to configure the package:
 
-1. Add them to `~/.Renviron`, which will load the environment variables on beginning of the R-session
-2. Add them using `Sys.setenv(ENV_VAR = "env_var_value")`
-2. Use the function `cloudos_configure()`, which will create a `~/.cloudos/config` (Recommended way if you are using multiple cloudos clients)
+1. Add them to `~/.Renviron` in the following way, which will load the environment variables on beginning of the R-session
+```{r, eval=FALSE}
+CLOUDOS_BASEURL="xxx"
+CLOUDOS_TOKEN="xxx"
+CLOUDOS_TEAMID="xxx"
+```
+2. Add them during an R session using `Sys.setenv(ENV_VAR = "env_var_value")`
+```{r, eval=FALSE}
+Sys.setenv(CLOUDOS_BASEURL = "xxx")
+Sys.setenv(CLOUDOS_TOKEN = "xxx")
+Sys.setenv(CLOUDOS_TEAMID = "xxx")
+```
+3. Use the function `cloudos_configure()`, which will create a `~/.cloudos/config` that will persist between R sessions and be read from each time (Recommended way if you are using multiple cloudos clients).
+```{r, eval=FALSE}
+cloudos_configure(base_url = "xxx",
+                  token = "xxx",
+                  team_id = "xxx")
+```
 
 
 ## Application - Cohort Browser
 
-Cohort Browser is part of Lifebit's CloudOS offering. Lets explore how to interact with this in R environment.
+Cohort Browser is part of Lifebit's CloudOS offering. Let's explore how to interact with this in R environment.
 
 
 ### List Cohorts

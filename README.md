@@ -45,29 +45,58 @@ library(magrittr) # For pipe
 
 ### Configure CloudOS
 
-The cloudos functions will be need set of cloudos configurations for
-able to connect to API. Lets see different ways of R package will try to
-find those configurations.
+This package is primarily a means of communicating with a CloudOS
+instance using it’s API. Before it can communicate with the CloudOS
+instance, the package must be configured with some key information: -
+The CloudOS base URL. This is the URL in your browser when you navigate
+to the Cohort Browser in CloudOS. Often of the form
+`https://my_instance.lifebit.ai/app/cohort-browser`. - The CloudOS
+token. Navigate to settings page in CloudOS to generate an API key you
+can use as your token (see image below). - The CloudOS team ID. Also
+found in the settings page in CloudOS labelled as the “Workspace ID”
+(see image below).
 
-1.  From Environment variable
-2.  From cloudos configuration file
+![CloudOS settings page](man/figures/settings_page.png)
 
-First thing this R-package will look for environment variables -
-`CLOUDOS_BASEURL`, `CLOUDOS_TOKEN`, `CLOUDOS_TEAMID` and if not found it
-will try to read from `~/.cloudos/config`.
+The package will look for this information in the following locations in
+this order: 1. From environment variables `CLOUDOS_BASEURL`,
+`CLOUDOS_TOKEN`, and `CLOUDOS_TEAMID`. 2. From a cloudos configuration
+file.
 
-Three ways to set cloudos environment variables
+There are three ways to configure the package:
 
-1.  Add them to `~/.Renviron`, which will load the environment variables
-    on beginning of the R-session
-2.  Add them using `Sys.setenv(ENV_VAR = "env_var_value")`
+1.  Add them to `~/.Renviron` in the following way, which will load the
+    environment variables on beginning of the R-session
+
+``` r
+CLOUDOS_BASEURL="xxx"
+CLOUDOS_TOKEN="xxx"
+CLOUDOS_TEAMID="xxx"
+```
+
+2.  Add them during an R session using
+    `Sys.setenv(ENV_VAR = "env_var_value")`
+
+``` r
+Sys.setenv(CLOUDOS_BASEURL = "xxx")
+Sys.setenv(CLOUDOS_TOKEN = "xxx")
+Sys.setenv(CLOUDOS_TEAMID = "xxx")
+```
+
 3.  Use the function `cloudos_configure()`, which will create a
-    `~/.cloudos/config` (Recommended way if you are using multiple
-    cloudos clients)
+    `~/.cloudos/config` that will persist between R sessions and be read
+    from each time (Recommended way if you are using multiple cloudos
+    clients).
+
+``` r
+cloudos_configure(base_url = "xxx",
+                  token = "xxx",
+                  team_id = "xxx")
+```
 
 ## Application - Cohort Browser
 
-Cohort Browser is part of Lifebit’s CloudOS offering. Lets explore how
+Cohort Browser is part of Lifebit’s CloudOS offering. Let’s explore how
 to interact with this in R environment.
 
 ### List Cohorts
@@ -76,14 +105,15 @@ To check list of available cohorts in a workspace.
 
 ``` r
 cohorts <- cb_list_cohorts()
-#> Total number of cohorts found: 2. Showing 10 by default. Change 'size' parameter to return more.
+#> Total number of cohorts found: 3. Showing 10 by default. Change 'size' parameter to return more.
 cohorts %>% head(n=5) %>% kable()
 ```
 
-| id                       | name       | number\_of\_participants | number\_of\_filters | created\_at              | updated\_at              |
-|:-------------------------|:-----------|-------------------------:|--------------------:|:-------------------------|:-------------------------|
-| 610ac00edb7c7a1d9d0c309f | il\_test01 |                      415 |                   2 | 2021-08-04T16:27:58.708Z | 2021-08-04T16:30:06.253Z |
-| 60feab0767a6666b8bf9e11b | Manos Test |                      530 |                   0 | 2021-07-26T12:31:03.458Z | 2021-08-04T13:02:46.731Z |
+| id                       | name       | description                                         | number\_of\_participants | number\_of\_filters | created\_at              | updated\_at              |
+|:-------------------------|:-----------|:----------------------------------------------------|-------------------------:|--------------------:|:-------------------------|:-------------------------|
+| 610d3004597aa12e251abdf2 | cohort-hms | This cohort is for testing purpose, created from R. |                    20778 |                   0 | 2021-08-06T12:50:12.242Z | 2021-08-06T13:25:00.192Z |
+| 610ac00edb7c7a1d9d0c309f | il\_test01 | NA                                                  |                      415 |                   2 | 2021-08-04T16:27:58.708Z | 2021-08-04T16:30:06.253Z |
+| 60feab0767a6666b8bf9e11b | Manos Test | NA                                                  |                      530 |                   0 | 2021-07-26T12:31:03.458Z | 2021-08-04T13:02:46.731Z |
 
 ### Create a cohort
 
@@ -94,7 +124,7 @@ my_cohort <- cb_create_cohort(cohort_name = "Cohort-R",
                              cohort_desc = "This cohort is for testing purpose, created from R.")
 #> Cohort created successfully.
 my_cohort
-#> Cohort ID:  610c15dc597aa12e251abdf1 
+#> Cohort ID:  610d46d7597aa12e251abdf3 
 #> Cohort Name:  Cohort-R 
 #> Cohort Description:  This cohort is for testing purpose, created from R. 
 #> Number of phenotypes in query:  1 
@@ -163,18 +193,18 @@ my_pheno_data <- cb_get_phenotype_statistics(cohort = my_cohort,
 my_pheno_data %>% head(n=10) %>% kable()
 ```
 
-| \_id                                            | number | total |
-|:------------------------------------------------|-------:|------:|
-| Metabolic disorders                             |    125 |  5090 |
-| Ultra-rare disorders                            |    272 |  5090 |
-| Skeletal disorders                              |    109 |  5090 |
-| dysmorphic and congenital abnormality syndromes |      3 |  5090 |
-| Endocrine disorders                             |    121 |  5090 |
-| Respiratory disorders                           |     37 |  5090 |
-| Dermatological disorders                        |     68 |  5090 |
-| Psychiatric disorders                           |      5 |  5090 |
-| Tumour syndromes                                |    228 |  5090 |
-| tumour syndromes                                |      3 |  5090 |
+| \_id                                       | number | total |
+|:-------------------------------------------|-------:|------:|
+| Cardiovascular disorders                   |    523 |  5090 |
+| Endocrine disorders                        |    121 |  5090 |
+| Rheumatological disorders                  |     40 |  5090 |
+| Hearing and ear disorders                  |    124 |  5090 |
+| Ciliopathies                               |     43 |  5090 |
+| Neurology and neurodevelopmental disorders |   2059 |  5090 |
+| Ultra-rare disorders                       |    272 |  5090 |
+| Metabolic disorders                        |    125 |  5090 |
+| Renal and urinary tract disorders          |    566 |  5090 |
+| Growth disorders                           |     37 |  5090 |
 
 ### Update a cohort with a new query
 
@@ -342,16 +372,16 @@ cb_get_phenotype_statistics(cohort = my_cohort, pheno_id = 206) %>% head(n=10) %
 
 | \_id                                       | number | total |
 |:-------------------------------------------|-------:|------:|
-| Rheumatological disorders                  |     11 |  1731 |
-| Dermatological disorders                   |     31 |  1731 |
-| Hearing and ear disorders                  |     33 |  1731 |
-| Growth disorders                           |     14 |  1731 |
-| Neurology and neurodevelopmental disorders |    705 |  1731 |
+| Metabolic disorders                        |     44 |  1731 |
+| Skeletal disorders                         |     37 |  1731 |
 | Ultra-rare disorders                       |     95 |  1731 |
 | Ciliopathies                               |     10 |  1731 |
-| Metabolic disorders                        |     44 |  1731 |
+| Growth disorders                           |     14 |  1731 |
+| Rheumatological disorders                  |     11 |  1731 |
+| Cardiovascular disorders                   |    191 |  1731 |
+| Hearing and ear disorders                  |     33 |  1731 |
 | skeletal disorders                         |      1 |  1731 |
-| Renal and urinary tract disorders          |    197 |  1731 |
+| Haematological and immunological disorders |     28 |  1731 |
 
 ### Retreive the participant table
 
