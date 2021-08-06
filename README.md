@@ -59,9 +59,11 @@ found in the settings page in CloudOS labelled as the “Workspace ID”
 ![CloudOS settings page](man/figures/settings_page.png)
 
 The package will look for this information in the following locations in
-this order: 1. From environment variables `CLOUDOS_BASEURL`,
-`CLOUDOS_TOKEN`, and `CLOUDOS_TEAMID`. 2. From a cloudos configuration
-file.
+this order:
+
+1.  From environment variables `CLOUDOS_BASEURL`, `CLOUDOS_TOKEN`, and
+    `CLOUDOS_TEAMID`.
+2.  From a cloudos configuration file.
 
 There are three ways to configure the package:
 
@@ -124,7 +126,7 @@ my_cohort <- cb_create_cohort(cohort_name = "Cohort-R",
                              cohort_desc = "This cohort is for testing purpose, created from R.")
 #> Cohort created successfully.
 my_cohort
-#> Cohort ID:  610d46d7597aa12e251abdf3 
+#> Cohort ID:  610d47d7597aa12e251abdf4 
 #> Cohort Name:  Cohort-R 
 #> Cohort Description:  This cohort is for testing purpose, created from R. 
 #> Number of phenotypes in query:  1 
@@ -193,18 +195,18 @@ my_pheno_data <- cb_get_phenotype_statistics(cohort = my_cohort,
 my_pheno_data %>% head(n=10) %>% kable()
 ```
 
-| \_id                                       | number | total |
-|:-------------------------------------------|-------:|------:|
-| Cardiovascular disorders                   |    523 |  5090 |
-| Endocrine disorders                        |    121 |  5090 |
-| Rheumatological disorders                  |     40 |  5090 |
-| Hearing and ear disorders                  |    124 |  5090 |
-| Ciliopathies                               |     43 |  5090 |
-| Neurology and neurodevelopmental disorders |   2059 |  5090 |
-| Ultra-rare disorders                       |    272 |  5090 |
-| Metabolic disorders                        |    125 |  5090 |
-| Renal and urinary tract disorders          |    566 |  5090 |
-| Growth disorders                           |     37 |  5090 |
+| \_id                                            | number | total |
+|:------------------------------------------------|-------:|------:|
+| Metabolic disorders                             |    125 |  5090 |
+| Ultra-rare disorders                            |    272 |  5090 |
+| dysmorphic and congenital abnormality syndromes |      3 |  5090 |
+| Skeletal disorders                              |    109 |  5090 |
+| Respiratory disorders                           |     37 |  5090 |
+| Endocrine disorders                             |    121 |  5090 |
+| Dermatological disorders                        |     68 |  5090 |
+| Tumour syndromes                                |    228 |  5090 |
+| tumour syndromes                                |      3 |  5090 |
+| Psychiatric disorders                           |      5 |  5090 |
 
 ### Update a cohort with a new query
 
@@ -370,18 +372,18 @@ my_cohort <- cb_load_cohort(my_cohort@id)
 cb_get_phenotype_statistics(cohort = my_cohort, pheno_id = 206) %>% head(n=10) %>% kable()
 ```
 
-| \_id                                       | number | total |
-|:-------------------------------------------|-------:|------:|
-| Metabolic disorders                        |     44 |  1731 |
-| Skeletal disorders                         |     37 |  1731 |
-| Ultra-rare disorders                       |     95 |  1731 |
-| Ciliopathies                               |     10 |  1731 |
-| Growth disorders                           |     14 |  1731 |
-| Rheumatological disorders                  |     11 |  1731 |
-| Cardiovascular disorders                   |    191 |  1731 |
-| Hearing and ear disorders                  |     33 |  1731 |
-| skeletal disorders                         |      1 |  1731 |
-| Haematological and immunological disorders |     28 |  1731 |
+| \_id                                            | number | total |
+|:------------------------------------------------|-------:|------:|
+| Hearing and ear disorders                       |     33 |  1731 |
+| Growth disorders                                |     14 |  1731 |
+| Endocrine disorders                             |     34 |  1731 |
+| Dermatological disorders                        |     31 |  1731 |
+| Respiratory disorders                           |      8 |  1731 |
+| dysmorphic and congenital abnormality syndromes |      2 |  1731 |
+| Skeletal disorders                              |     37 |  1731 |
+| Ophthalmological disorders                      |    148 |  1731 |
+| neurology and neurodevelopmental disorders      |      4 |  1731 |
+| Tumour syndromes                                |     76 |  1731 |
 
 ### Retreive the participant table
 

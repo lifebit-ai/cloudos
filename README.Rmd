@@ -59,6 +59,7 @@ This package is primarily a means of communicating with a CloudOS instance using
 ![CloudOS settings page](man/figures/settings_page.png)
 
 The package will look for this information in the following locations in this order:
+
 1. From environment variables `CLOUDOS_BASEURL`, `CLOUDOS_TOKEN`, and `CLOUDOS_TEAMID`.
 2. From a cloudos configuration file.
 
