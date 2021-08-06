@@ -1,4 +1,10 @@
-# cloudos 0.01
+# cloudos 0.2.0
+
+* Adds compatibility for cohort browser v2 API.
+* Renames a number of functions with more consistent naming scheme. #58
+* Minor package structure adjustments to conform to CRAN guidelines.
+
+# cloudos 0.1.0 (v0.01)
 
 * Phenotypic plot improvement and bug fixes #9
 * Adds phenotypic filter discovery, query and apply. `cb_search_phenotypic_filters()`, `cb_filter_metadata()`, `cb_get_filter_statistics()`, `cb_apply_filter()` and also support for multiple phenotypic filter apply. #13

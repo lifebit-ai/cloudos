@@ -1,6 +1,6 @@
 Package: cloudos
 Title: R Client Library for CloudOS
-Version: 0.01
+Version: 0.2.0
 Authors@R: c(
     person(given = "Sangram Keshari",
            family = "Sahu",
@@ -15,8 +15,6 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-VignetteBuilder: 
-    knitr
 RoxygenNote: 7.1.1
 Imports: 
     httr,
