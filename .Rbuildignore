@@ -12,3 +12,4 @@ README*
 ^cran-comments\.md$
 ^README\.Rmd$
 ^Makefile$
+^CONTRIBUTING\.md$
