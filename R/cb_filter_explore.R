@@ -109,7 +109,7 @@ cb_get_phenotype_statistics <- function(cohort, pheno_id ) {
 
 
 .cb_get_phenotype_statistics_v1 <- function(cohort, pheno_id) {
-
+  
   # make more_filters from cohort@query
   more_filters = list() 
   for (filter in .unnest_query(cohort@query)){
@@ -130,7 +130,7 @@ cb_get_phenotype_statistics <- function(cohort, pheno_id ) {
   r_body <- list("filter" = list("instances" = list("0")),
                  "moreFilters" = more_filters,
                  "cohortId" = cohort@id
-                 )
+  )
   cloudos <- .check_and_load_all_cloudos_env_var()
   # make request
   url <- paste(cloudos$base_url, "v1/cohort/filter", pheno_id, "data", sep = "/")
@@ -153,7 +153,7 @@ cb_get_phenotype_statistics <- function(cohort, pheno_id ) {
   # empty moreFilters returns all the filter values associated with a cohort for a filter
   r_body <- list("criteria" = list("cohortId" = cohort@id),
                  "filter" = list("instance" = list("0"))
-                 )
+  )
   
   if (length(cohort@query) > 0) r_body$query <- cohort@query
   
@@ -197,7 +197,7 @@ cb_get_cohort_phenotypes <- function(cohort){
   for(filter in cohort@phenoptype_filters){
     field_id <- filter$field$id
     filter_list[[as.character(field_id)]] <- cb_get_phenotype_statistics(cohort = cohort,
-                                                            pheno_id = field_id)
+                                                                         pheno_id = field_id)
     # compare with applied filters from cohort and modify the dataframe
     # if(names(cohort@more_fields[[i]][3]) == "value"){
     #   
@@ -231,22 +231,20 @@ cb_get_cohort_phenotypes <- function(cohort){
 #'
 #' @export
 cb_participant_count <-function(cohort,
-                                simple_query,
-                                adv_query,
+                                query = list(),
                                 keep_query = TRUE) {
-
+  
   if (cohort@cb_version == "v1"){
-    if (!missing(adv_query)) stop("Advanced queries are not compatible with Cohort Browser v1.")
+    .check_operators(query)
     return(.cb_participant_count_v1(cohort = cohort,
-                               simple_query =  simple_query,
-                               keep_query = keep_query))
+                                    query = query,
+                                    keep_query = keep_query))
     
   } else if (cohort@cb_version == "v2") {
     return(.cb_participant_count_v2(cohort = cohort,
-                               simple_query =  simple_query,
-                               adv_query = adv_query,
-                               keep_query = keep_query))
-        
+                                    query = query,
+                                    keep_query = keep_query))
+    
   } else {
     stop('Unknown cohort browser version string ("cb_version"). Choose either "v1" or "v2".')
   }
@@ -254,20 +252,24 @@ cb_participant_count <-function(cohort,
 
 
 .cb_participant_count_v1 <-function(cohort,
-                                    simple_query,
+                                    query,
                                     keep_query = TRUE) {
-
-  all_filters <- list()
-  if(keep_query){
-    existing_filters <- .existing_query_body_v1(cohort)
-    all_filters <- c(all_filters, existing_filters)
+  
+  if (!identical(query, list())) {
+    if (is.null(query$operator)){ 
+      query <- list(operator = "AND", queries = list(query))
+    }
+    if (keep_query & !identical(cohort@query, list())) {
+      query <- query & structure(cohort@query, class = "cbQuery")
+    }
+  } 
+  else if (keep_query) {
+    query <- structure(cohort@query, class = "cbQuery")
   }
   
-  if(!missing(simple_query)){
-    simple_q_filters <- .simple_query_body_v1(simple_query)
-    all_filters <- c(all_filters, simple_q_filters)
-  }
-
+  all_filters <- .extract_single_nodes(query) %>%
+    .query_body_to_v1
+  
   # prepare request body
   r_body <- list("cohortId" = cohort@id,
                  "moreFilters" = all_filters)
@@ -291,48 +293,25 @@ cb_participant_count <-function(cohort,
 
 
 .cb_participant_count_v2 <-function(cohort,
-                                    simple_query,
-                                    adv_query,
+                                    query,
                                     keep_query = TRUE) {
-
-  if (!missing(adv_query) & !missing(simple_query)) stop("Cannot use advanced and simple queries at the same time.")
-
-  # get new query to apply
-  if (!missing(simple_query)) {
-    new_query <- .simple_query_body_v2(simple_query)
-  } else if (!missing(adv_query)) {
-    new_query <- .adv_query_body_v2(adv_query)
-  } else {
-    new_query <- list()
+  
+  if (!identical(query, list())) {
+    if (is.null(query$operator)){ 
+      query <- list(operator = "AND", queries = list(query))
+    }
+    if (keep_query & !identical(cohort@query, list())) {
+      query <- query & structure(cohort@query, class = "cbQuery")
+    }
+  } 
+  else if (keep_query) {
+    query <- structure(cohort@query, class = "cbQuery")
   }
   
-  if (keep_query) {
-    existing_query <- .existing_query_body_v2(cohort)
-  } else {
-    existing_query <- list()
-  }
+  query <- .extract_single_nodes(query)
   
-  # combine queries depending on whether they are empty or not
-  qs <- list(existing_query, new_query)
-  qs <- qs[lapply(qs, length) > 0]
+  r_body <- jsonlite::toJSON(list(query = query), auto_unbox = T)
   
-  # add query to r_body if appropriate
-  if (length(qs) == 2) {
-    r_body <- list("query" = list("operator" = "AND",
-                                  "queries" = qs))
-    r_body$query <- .extract_single_nodes(r_body$query)
-    r_body <- jsonlite::toJSON(r_body, auto_unbox = T)
-    
-  } else if (length(qs) == 1) {
-    r_body <- list("query" = qs[[1]])
-    r_body$query <- .extract_single_nodes(r_body$query)
-    r_body <- jsonlite::toJSON(r_body, auto_unbox = T)
-    
-  } else {
-    r_body <- NULL
-  }
-  
-
   cloudos <- .check_and_load_all_cloudos_env_var()
   # make request
   url <- paste(cloudos$base_url, "v2/cohort", cohort@id, "filter/participants", sep = "/")
@@ -371,15 +350,15 @@ cb_participant_count <-function(cohort,
 #'
 #' @export
 cb_get_phenotype_metadata <- function(pheno_id, cb_version = "v2") {
-    if (cb_version == "v1") {
-      return(.cb_get_phenotype_metadata_v1(pheno_id))
-      
-    } else if (cb_version == "v2") {
-      return(.cb_get_phenotype_metadata_v2(pheno_id))
-      
-    } else {
-      stop('Unknown cohort browser version string ("cb_version"). Choose either "v1" or "v2".')
-    }
+  if (cb_version == "v1") {
+    return(.cb_get_phenotype_metadata_v1(pheno_id))
+    
+  } else if (cb_version == "v2") {
+    return(.cb_get_phenotype_metadata_v2(pheno_id))
+    
+  } else {
+    stop('Unknown cohort browser version string ("cb_version"). Choose either "v1" or "v2".')
+  }
 }
 
 .cb_get_phenotype_metadata_v1 <- function(pheno_id) {
