@@ -129,7 +129,7 @@
 #' @export
 cb_apply_query <- function(cohort, 
                            query = list(),
-                           column_ids,
+                           column_ids = list(),
                            keep_query = TRUE,
                            keep_columns = TRUE){
   
@@ -170,11 +170,7 @@ cb_apply_query <- function(cohort,
     existing_columns <- .build_column_body(existing_ids)
     all_columns <- c(existing_columns, all_columns)
   }
-  
-  if(identical(all_columns, NULL)){
-    all_columns <- list()
-  }
-  
+
   if (!identical(query, list())) {
     if (is.null(query$operator)){ 
       query <- list(operator = "AND", queries = list(query))
