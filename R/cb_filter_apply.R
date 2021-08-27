@@ -128,8 +128,8 @@
 #'
 #' @export
 cb_apply_query <- function(cohort, 
-                           query = list(),
-                           column_ids = list(),
+                           query,
+                           column_ids,
                            keep_query = TRUE,
                            keep_columns = TRUE){
   
@@ -170,6 +170,8 @@ cb_apply_query <- function(cohort,
     existing_columns <- .build_column_body(existing_ids)
     all_columns <- c(existing_columns, all_columns)
   }
+  
+  if(is.null(all_columns)) all_columns <- list()
 
   if (!identical(query, list())) {
     if (is.null(query$operator)){ 
@@ -222,6 +224,8 @@ cb_apply_query <- function(cohort,
     existing_columns <- .build_column_body(existing_ids)
     all_columns <- c(existing_columns, all_columns)
   }
+
+  if(is.null(all_columns)) all_columns <- list()
   
   if (!identical(query, list())) {
     if (is.null(query$operator)){ 
