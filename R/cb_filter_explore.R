@@ -232,7 +232,22 @@ cb_get_cohort_phenotypes <- function(cohort){
 #' @export
 cb_participant_count <-function(cohort,
                                 query = list(),
+                                simple_query,
+                                adv_query,
                                 keep_query = TRUE) {
+  
+  if(sum(!c(missing(simple_query), missing(adv_query), missing(query))) != 1)
+    stop("Use exactly one of query, simple_query, adv_query")
+  
+  if(!missing(simple_query)){
+    warning("argument simple_query deprecated")
+    query <- .simple_query_body_v2(simple_query)
+  }
+  
+  if(!missing(adv_query)){
+    warning("argument adv_query deprecated")
+    query <- .adv_query_body_v2(adv_query)
+  }
   
   if (cohort@cb_version == "v1"){
     .check_operators(query)
@@ -255,16 +270,18 @@ cb_participant_count <-function(cohort,
                                     query,
                                     keep_query = TRUE) {
   
+  ### Logic to combine queries
   if (!identical(query, list())) {
-    if (is.null(query$operator)){ 
-      query <- list(operator = "AND", queries = list(query))
-    }
-    if (keep_query & !identical(cohort@query, list())) {
-      query <- query & structure(cohort@query, class = "cbQuery")
-    }
+    
+    if (is.null(query$operator)) query <- list(operator = "AND", queries = list(query))
+    
+    if (keep_query & !identical(cohort@query, list())) query <- query & structure(cohort@query, class = "cbQuery")
+    
   } 
   else if (keep_query) {
+    
     query <- structure(cohort@query, class = "cbQuery")
+    
   }
   
   all_filters <- .extract_single_nodes(query) %>%
@@ -296,16 +313,18 @@ cb_participant_count <-function(cohort,
                                     query,
                                     keep_query = TRUE) {
   
+  ### Logic to combine queries
   if (!identical(query, list())) {
-    if (is.null(query$operator)){ 
-      query <- list(operator = "AND", queries = list(query))
-    }
-    if (keep_query & !identical(cohort@query, list())) {
-      query <- query & structure(cohort@query, class = "cbQuery")
-    }
+    
+    if (is.null(query$operator)) query <- list(operator = "AND", queries = list(query))
+    
+    if (keep_query & !identical(cohort@query, list())) query <- query & structure(cohort@query, class = "cbQuery")
+    
   } 
   else if (keep_query) {
+    
     query <- structure(cohort@query, class = "cbQuery")
+    
   }
   
   query <- .extract_single_nodes(query)
