@@ -337,9 +337,10 @@ cb_apply_query <- function(cohort,
   r_body <- list(name = cohort@name,
                  description = cohort@desc,
                  columns = all_columns,
-                 query = query,
                  type = "advanced",
                  numberOfParticipants = no_participants$count)
+  
+  if(!identical(query, list())) r_body$query <- query
   
   cloudos <- .check_and_load_all_cloudos_env_var()
   # make request
