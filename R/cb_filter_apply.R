@@ -202,8 +202,8 @@ cb_apply_query <- function(cohort,
                            keep_query = TRUE,
                            keep_columns = TRUE){
   
-  if(sum(!c(missing(simple_query), missing(adv_query), missing(query))) != 1)
-    stop("Use exactly one of query, simple_query, adv_query")
+  if(sum(!c(missing(simple_query), missing(adv_query), missing(query))) > 1)
+    stop("Use at most one of query, simple_query, adv_query")
   
   if(!missing(simple_query)){
     warning("argument simple_query deprecated")
@@ -214,6 +214,8 @@ cb_apply_query <- function(cohort,
     warning("argument adv_query deprecated")
     query <- .adv_query_body_v2(adv_query)
   }
+  
+  if(missing(query)) query <- list()
   
   if (cohort@cb_version == "v1"){
     .check_operators(query)

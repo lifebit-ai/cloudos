@@ -236,8 +236,8 @@ cb_participant_count <-function(cohort,
                                 adv_query,
                                 keep_query = TRUE) {
   
-  if(sum(!c(missing(simple_query), missing(adv_query), missing(query))) != 1)
-    stop("Use exactly one of query, simple_query, adv_query")
+  if(sum(!c(missing(simple_query), missing(adv_query), missing(query))) > 1)
+    stop("Use at most one of query, simple_query, adv_query")
   
   if(!missing(simple_query)){
     warning("argument simple_query deprecated")
@@ -248,6 +248,8 @@ cb_participant_count <-function(cohort,
     warning("argument adv_query deprecated")
     query <- .adv_query_body_v2(adv_query)
   }
+  
+  if(missing(query)) query <- list()
   
   if (cohort@cb_version == "v1"){
     .check_operators(query)
@@ -329,7 +331,10 @@ cb_participant_count <-function(cohort,
   
   query <- .extract_single_nodes(query)
   
-  r_body <- jsonlite::toJSON(list(query = query), auto_unbox = T)
+  if(identical(query, list())) 
+    r_body <- NULL
+  else 
+    r_body <- jsonlite::toJSON(list(query = query), auto_unbox = T)
   
   cloudos <- .check_and_load_all_cloudos_env_var()
   # make request
