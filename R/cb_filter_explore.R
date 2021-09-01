@@ -234,6 +234,10 @@ cb_participant_count <-function(cohort,
                                 simple_query,
                                 adv_query,
                                 keep_query = TRUE) {
+  
+  if(!missing(adv_query)){
+    if(is.null(adv_query$operator)) adv_query <- list(operator = "AND", queries = list(adv_query))
+  }
 
   if (cohort@cb_version == "v1"){
     if (!missing(adv_query)) stop("Advanced queries are not compatible with Cohort Browser v1.")
