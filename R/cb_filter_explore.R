@@ -234,10 +234,6 @@ cb_participant_count <-function(cohort,
                                 simple_query,
                                 adv_query,
                                 keep_query = TRUE) {
-  
-  if(!missing(adv_query)){
-    if(is.null(adv_query$operator)) adv_query <- list(operator = "AND", queries = list(adv_query))
-  }
 
   if (cohort@cb_version == "v1"){
     if (!missing(adv_query)) stop("Advanced queries are not compatible with Cohort Browser v1.")
@@ -301,6 +297,10 @@ cb_participant_count <-function(cohort,
 
   if (!missing(adv_query) & !missing(simple_query)) stop("Cannot use advanced and simple queries at the same time.")
 
+  if(!missing(adv_query)){
+    if(is.null(adv_query$operator)) adv_query <- list(operator = "AND", queries = list(adv_query))
+  }
+  
   # get new query to apply
   if (!missing(simple_query)) {
     new_query <- .simple_query_body_v2(simple_query)
