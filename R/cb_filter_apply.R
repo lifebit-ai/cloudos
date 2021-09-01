@@ -32,73 +32,6 @@
 }
 
 
-# converts a simple query into CBv2 style query JSON
-# conversion is achieved by creating a nested series of AND nodes (similar to .v1_query_to_v2())
-.simple_query_body_v2 <- function(simple_query) {
-  andop <- list("operator" = "AND",
-                "queries" = list())
-  
-  l <- length(simple_query)
-  query <- list()
-  
-  if (l > 0){
-    query <- andop
-    query$queries <- list(list("field" = as.numeric(names(simple_query)[l]),
-                               "instance" = list("0"),
-                               "value" = c(list(), simple_query[[l]])))
-  }
-  
-  if (l > 1){
-    query$queries <- list(list("field" = as.numeric(names(simple_query)[l-1]),
-                               "instance" = list("0"),
-                               "value" = c(list(), simple_query[[l-1]])),
-                          query$queries[[1]])
-  }
-  
-  if (l > 2){
-    for (i in (l-2):1){
-      new_query <- andop
-      new_query$queries <- list(list("field" = as.numeric(names(simple_query)[i]),
-                                     "instance" = list("0"),
-                                     "value" = c(list(), simple_query[[i]])),
-                                query)
-      query <- new_query
-    }
-  }
-  
-  return(query)
-}
-
-
-# converts an advanced query into CBv2 style query JSON
-.adv_query_body_v2 <- function(adv_query) {
-  # recursive function to reformat adv_query list into an api compliant query
-  reformat <- function(filter){
-    # TODO add error checking for operator type
-    if (is.null(filter$queries)){
-      filter <- list("field" = filter$id,
-                     "instance" = list("0"),
-                     "value" = c(list(), filter$value))
-      return(filter)
-      
-    } else {
-      filter$queries <- lapply(filter$queries, reformat)
-      return(filter)
-      
-    }
-  }
-  
-  query <- reformat(adv_query)
-  return(query)
-}
-
-
-# created as a function for consistency 
-.existing_query_body_v2 <- function(cohort) {
-  return(cohort@query)
-}
-
-
 # takes a single int ID or a vector of int IDs and builds 
 # a JSON array for use in cb_apply_query()
 .build_column_body <- function(column_ids) {
@@ -196,26 +129,9 @@
 #' @export
 cb_apply_query <- function(cohort, 
                            query,
-                           simple_query,
-                           adv_query,
                            column_ids,
                            keep_query = TRUE,
                            keep_columns = TRUE){
-  
-  if(sum(!c(missing(simple_query), missing(adv_query), missing(query))) > 1)
-    stop("Use at most one of query, simple_query, adv_query")
-  
-  if(!missing(simple_query)){
-    warning("argument simple_query deprecated")
-    query <- .simple_query_body_v2(simple_query)
-  }
-  
-  if(!missing(adv_query)){
-    warning("argument adv_query deprecated")
-    query <- .adv_query_body_v2(adv_query)
-  }
-  
-  if(missing(query)) query <- list()
   
   if (cohort@cb_version == "v1"){
     .check_operators(query)
@@ -257,18 +173,16 @@ cb_apply_query <- function(cohort,
   
   if(is.null(all_columns)) all_columns <- list()
 
-  ### Logic to combine queries
   if (!identical(query, list())) {
-    
-    if (is.null(query$operator)) query <- list(operator = "AND", queries = list(query))
-    
-    if (keep_query & !identical(cohort@query, list())) query <- query & structure(cohort@query, class = "cbQuery")
-    
+    if (is.null(query$operator)){ 
+      query <- list(operator = "AND", queries = list(query))
+    }
+    if (keep_query & !identical(cohort@query, list())) {
+      query <- query & structure(cohort@query, class = "cbQuery")
+    }
   } 
   else if (keep_query) {
-    
     query <- structure(cohort@query, class = "cbQuery")
-    
   }
   
   all_filters <- .extract_single_nodes(query) %>%
@@ -313,18 +227,16 @@ cb_apply_query <- function(cohort,
 
   if(is.null(all_columns)) all_columns <- list()
   
-  ### Logic to combine queries
   if (!identical(query, list())) {
-    
-    if (is.null(query$operator)) query <- list(operator = "AND", queries = list(query))
-    
-    if (keep_query & !identical(cohort@query, list())) query <- query & structure(cohort@query, class = "cbQuery")
-    
+    if (is.null(query$operator)){ 
+      query <- list(operator = "AND", queries = list(query))
+    }
+    if (keep_query & !identical(cohort@query, list())) {
+      query <- query & structure(cohort@query, class = "cbQuery")
+    }
   } 
   else if (keep_query) {
-    
     query <- structure(cohort@query, class = "cbQuery")
-    
   }
   
   query <- .extract_single_nodes(query)
@@ -337,10 +249,9 @@ cb_apply_query <- function(cohort,
   r_body <- list(name = cohort@name,
                  description = cohort@desc,
                  columns = all_columns,
+                 query = query,
                  type = "advanced",
                  numberOfParticipants = no_participants$count)
-  
-  if(!identical(query, list())) r_body$query <- query
   
   cloudos <- .check_and_load_all_cloudos_env_var()
   # make request
