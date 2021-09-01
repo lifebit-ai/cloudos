@@ -38,11 +38,14 @@
 
 #' @title Define new phenotype
 #' @export
-phenotype <- function(id, value, instance = list("0"), ...){
-  
-  if(!is.list(value) | !is.list(instance)){ stop ("Error: Value and instance must be a list")}
-  
-  tmp <- append(list(field = id, instance = instance, value = value), list(...))
+phenotype <- function(id, value, from, to, instance = "0"){
+
+  if((!missing(from) | !missing(to)) & !missing(value)) stop("Error: Phenotype value can be defined using 'value' or 'from/to', but not both")
+  if(missing(from) & !missing(to)) stop("Error: Phenotype missing 'to' value")
+  if(!missing(from) & missing(to)) stop("Error: Phenotype missing 'from' value")
+
+  if(!missing(value))   tmp <- list(field = id, instance = list(instance), value = list(value))
+  if(missing(value))  tmp <- list(field = id, instance = list(instance), value = list(from = from, to = to))
   
   structure(tmp, class = "cbQuery")
   
