@@ -133,6 +133,8 @@ cb_apply_query <- function(cohort,
                            keep_query = TRUE,
                            keep_columns = TRUE){
   
+  if(missing(query)) query <- list()
+  
   if (cohort@cb_version == "v1"){
     .check_operators(query)
     return(.cb_apply_query_v1(cohort = cohort,
@@ -249,9 +251,10 @@ cb_apply_query <- function(cohort,
   r_body <- list(name = cohort@name,
                  description = cohort@desc,
                  columns = all_columns,
-                 query = query,
                  type = "advanced",
                  numberOfParticipants = no_participants$count)
+  
+  if(!identical(query, list())) r_body$query <- query
   
   cloudos <- .check_and_load_all_cloudos_env_var()
   # make request

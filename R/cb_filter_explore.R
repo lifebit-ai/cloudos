@@ -234,6 +234,8 @@ cb_participant_count <-function(cohort,
                                 query = list(),
                                 keep_query = TRUE) {
   
+  if(missing(query)) query <- list()
+  
   if (cohort@cb_version == "v1"){
     .check_operators(query)
     return(.cb_participant_count_v1(cohort = cohort,
@@ -310,7 +312,10 @@ cb_participant_count <-function(cohort,
   
   query <- .extract_single_nodes(query)
   
-  r_body <- jsonlite::toJSON(list(query = query), auto_unbox = T)
+  if(identical(query, list())) 
+    r_body <- NULL
+  else 
+    r_body <- jsonlite::toJSON(list(query = query), auto_unbox = T)
   
   cloudos <- .check_and_load_all_cloudos_env_var()
   # make request
@@ -321,6 +326,7 @@ cb_participant_count <-function(cohort,
                   body = r_body,
                   encode = "raw"
   )
+  
   httr::stop_for_status(r, task = NULL)
   # parse the content
   res <- httr::content(r)
