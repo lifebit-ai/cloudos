@@ -135,20 +135,20 @@ cb_apply_query <- function(cohort,
   
   if(missing(query)) query <- list()
   
+  query <- .create_final_query(cohort = cohort, query = query, keep_query = keep_query)
+  
+  columns <- .create_all_columns(cohort = cohort, column_ids = column_ids, keep_columns = keep_columns)
+  
   if (cohort@cb_version == "v1"){
     .check_operators(query)
     return(.cb_apply_query_v1(cohort = cohort,
                               query = query,
-                              column_ids = column_ids,
-                              keep_query = keep_query,
-                              keep_columns = keep_columns))
+                              all_columns = columns))
     
   } else if (cohort@cb_version == "v2") {
     return(.cb_apply_query_v2(cohort = cohort,
                               query = query,
-                              column_ids = column_ids,
-                              keep_query = keep_query,
-                              keep_columns = keep_columns))
+                              all_columns = columns))
     
   } else {
     stop('Unknown cohort browser version string ("cb_version"). Choose either "v1" or "v2".')
@@ -158,37 +158,9 @@ cb_apply_query <- function(cohort,
 
 .cb_apply_query_v1 <- function(cohort, 
                                query,
-                               column_ids,
-                               keep_query = TRUE,
-                               keep_columns = TRUE) {
-  
-  # cohort columns
-  all_columns <- c()
-  if (!missing(column_ids)) {
-    all_columns <- .build_column_body(column_ids)
-  }
-  if (keep_columns) {
-    existing_ids <- sapply(cohort@columns, function(col){col$field$id})
-    existing_columns <- .build_column_body(existing_ids)
-    all_columns <- c(existing_columns, all_columns)
-  }
-  
-  if(is.null(all_columns)) all_columns <- list()
+                               all_columns) {
 
-  if (!identical(query, list())) {
-    if (is.null(query$operator)){ 
-      query <- list(operator = "AND", queries = list(query))
-    }
-    if (keep_query & !identical(cohort@query, list())) {
-      query <- query & structure(cohort@query, class = "cbQuery")
-    }
-  } 
-  else if (keep_query) {
-    query <- structure(cohort@query, class = "cbQuery")
-  }
-  
-  all_filters <- .extract_single_nodes(query) %>%
-    .query_body_to_v1
+  all_filters <- .query_body_to_v1(query) 
   
   # prepare request body
   r_body <- list("columns" = all_columns,
@@ -212,37 +184,8 @@ cb_apply_query <- function(cohort,
 
 .cb_apply_query_v2 <- function(cohort, 
                                query,
-                               column_ids,
-                               keep_query = TRUE,
-                               keep_columns = TRUE) {
-  
-  # cohort columns
-  all_columns <- c()
-  if (!missing(column_ids)) {
-    all_columns <- .build_column_body(column_ids)
-  }
-  if (keep_columns) {
-    existing_ids <- sapply(cohort@columns, function(col){col$field$id})
-    existing_columns <- .build_column_body(existing_ids)
-    all_columns <- c(existing_columns, all_columns)
-  }
+                               all_columns) {
 
-  if(is.null(all_columns)) all_columns <- list()
-  
-  if (!identical(query, list())) {
-    if (is.null(query$operator)){ 
-      query <- list(operator = "AND", queries = list(query))
-    }
-    if (keep_query & !identical(cohort@query, list())) {
-      query <- query & structure(cohort@query, class = "cbQuery")
-    }
-  } 
-  else if (keep_query) {
-    query <- structure(cohort@query, class = "cbQuery")
-  }
-  
-  query <- .extract_single_nodes(query)
-  
   # get count of particpants if query is applied
   no_participants <- cb_participant_count(cohort,
                                           query = query)
@@ -269,6 +212,46 @@ cb_apply_query <- function(cohort,
   # parse the content
   res <- httr::content(r)
   return(message("Query applied sucessfully."))
+}
+
+.create_all_columns <- function(cohort, 
+                                column_ids, 
+                                keep_columns){
+  
+  all_columns <- c()
+  if (!missing(column_ids)) {
+    all_columns <- .build_column_body(column_ids)
+  }
+  if (keep_columns) {
+    existing_ids <- sapply(cohort@columns, function(col){col$field$id})
+    existing_columns <- .build_column_body(existing_ids)
+    all_columns <- c(existing_columns, all_columns)
+  }
+  
+  if(is.null(all_columns)) all_columns <- list()
+  
+  return(all_columns)
+  
+}
+
+.create_final_query <- function(cohort, 
+                                query, 
+                                keep_query){
+  
+  if (!identical(query, list())) {
+    if (is.null(query$operator)){ 
+      query <- list(operator = "AND", queries = list(query))
+    }
+    if (keep_query & !identical(cohort@query, list())) {
+      query <- query & structure(cohort@query, class = "cbQuery")
+    }
+  } 
+  else if (keep_query) {
+    query <- structure(cohort@query, class = "cbQuery")
+  }
+  
+  return(.extract_single_nodes(query))
+  
 }
 
 

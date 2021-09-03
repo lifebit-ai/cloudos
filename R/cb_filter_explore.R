@@ -236,16 +236,16 @@ cb_participant_count <-function(cohort,
   
   if(missing(query)) query <- list()
   
+  query <- .create_final_query(cohort = cohort, query = query, keep_query = keep_query)
+
   if (cohort@cb_version == "v1"){
     .check_operators(query)
     return(.cb_participant_count_v1(cohort = cohort,
-                                    query = query,
-                                    keep_query = keep_query))
+                                    query = query))
     
   } else if (cohort@cb_version == "v2") {
     return(.cb_participant_count_v2(cohort = cohort,
-                                    query = query,
-                                    keep_query = keep_query))
+                                    query = query))
     
   } else {
     stop('Unknown cohort browser version string ("cb_version"). Choose either "v1" or "v2".')
@@ -254,24 +254,10 @@ cb_participant_count <-function(cohort,
 
 
 .cb_participant_count_v1 <-function(cohort,
-                                    query,
-                                    keep_query = TRUE) {
+                                    query) {
   
-  if (!identical(query, list())) {
-    if (is.null(query$operator)){ 
-      query <- list(operator = "AND", queries = list(query))
-    }
-    if (keep_query & !identical(cohort@query, list())) {
-      query <- query & structure(cohort@query, class = "cbQuery")
-    }
-  } 
-  else if (keep_query) {
-    query <- structure(cohort@query, class = "cbQuery")
-  }
-  
-  all_filters <- .extract_single_nodes(query) %>%
-    .query_body_to_v1
-  
+  all_filters <- .query_body_to_v1(query)
+    
   # prepare request body
   r_body <- list("cohortId" = cohort@id,
                  "moreFilters" = all_filters)
@@ -295,22 +281,7 @@ cb_participant_count <-function(cohort,
 
 
 .cb_participant_count_v2 <-function(cohort,
-                                    query,
-                                    keep_query = TRUE) {
-  
-  if (!identical(query, list())) {
-    if (is.null(query$operator)){ 
-      query <- list(operator = "AND", queries = list(query))
-    }
-    if (keep_query & !identical(cohort@query, list())) {
-      query <- query & structure(cohort@query, class = "cbQuery")
-    }
-  } 
-  else if (keep_query) {
-    query <- structure(cohort@query, class = "cbQuery")
-  }
-  
-  query <- .extract_single_nodes(query)
+                                    query) {
   
   if(identical(query, list())) 
     r_body <- NULL
