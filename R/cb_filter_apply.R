@@ -87,7 +87,7 @@
 #'
 #' @param cohort A cohort object. (Required)
 #' See constructor function \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}
-#' @param query A phenotype query defined using the code{\link{phenotype}} function and logic operators (see example below)
+#' @param query A phenotype query defined using the \code{\link{phenotype}} function and logic operators (see example below)
 #' @param column_ids Phenotype IDs to be added as columns in the participant table.
 #' @param keep_query If True, combines the newly supplied query with the pre-existing query.
 #'   Otherwise, pre-existing query is overwritten. (Default: TRUE)
@@ -106,6 +106,8 @@
 #' my_cohort <- cb_load_cohort(cohort_id = "612f37a57673ed0ddeaf1333", cb_version = "v2")
 #' 
 #' cloudos::cb_apply_query(my_cohort, query = A_not_B, keep_query = F, keep_columns = F)
+#' }
+#' 
 #' @export
 cb_apply_query <- function(cohort, 
                            query,

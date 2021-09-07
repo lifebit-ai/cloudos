@@ -16,7 +16,7 @@ cb_apply_query(
 \item{cohort}{A cohort object. (Required)
 See constructor function \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}}
 
-\item{query}{A phenotype query defined using the code{\link{phenotype}} function and logic operators (see example below)}
+\item{query}{A phenotype query defined using the \code{\link{phenotype}} function and logic operators (see example below)}
 
 \item{column_ids}{Phenotype IDs to be added as columns in the participant table.}
 
@@ -31,4 +31,17 @@ A confirmation string.
 }
 \description{
 Updates a cohort by applying a new query.
+}
+\examples{
+\dontrun{
+A <- phenotype(id = 13, from = "2016-01-21", to = "2017-02-13")
+B <- phenotype(id = 4, value = "Cancer")
+
+A_not_B <- A & !B
+
+my_cohort <- cb_load_cohort(cohort_id = "612f37a57673ed0ddeaf1333", cb_version = "v2")
+
+cloudos::cb_apply_query(my_cohort, query = A_not_B, keep_query = F, keep_columns = F)
+}
+
 }
