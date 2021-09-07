@@ -210,25 +210,25 @@ cb_get_cohort_phenotypes <- function(cohort){
   return(filter_list)
 }
 
-##################################################################################################
 #' @title Participant Count
 #'
 #' @description Returns the number of participants in a cohort if the supplied query were to be applied.
 #'
 #' @param cohort A cohort object. (Required)
 #' See constructor function \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}
-#' @param simple_query A phenotype query using the "simple query" list structure (see \code{\link{cb_apply_query}}).
-#' @param adv_query A phenotype query using the "advanced query" nested list structure (see \code{\link{cb_apply_query}}).
+#' @param query A phenotype query defined using the code{\link{phenotype}} function and logic operators (see example below)
 #' @param keep_query Apply newly specified query on top of exisiting query (Default: TRUE)
 #'
 #' @return A list with count of participants in the cohort and the total no. of participants in the dataset.
 #' 
 #' @example
 #' \dontrun{
+#' A <- phenotype(id = 13, from = "2016-01-21", to = "2017-02-13")
+#' 
 #' my_cohort <- cb_load_cohort(cohort_id = "5f9af3793dd2dc6091cd17cd")
-#' cb_participant_count(my_cohort, simple_query = list("4"="Male"))
-#' }
 #'
+#' cb_participant_count(my_cohort, query = A, keep_query = T)
+#' }
 #' @export
 cb_participant_count <-function(cohort,
                                 query = list(),
@@ -251,7 +251,6 @@ cb_participant_count <-function(cohort,
     stop('Unknown cohort browser version string ("cb_version"). Choose either "v1" or "v2".')
   }
 }
-
 
 .cb_participant_count_v1 <-function(cohort,
                                     query) {
@@ -278,7 +277,6 @@ cb_participant_count <-function(cohort,
   #res_df <- do.call(rbind, res)
   return(res)
 }
-
 
 .cb_participant_count_v2 <-function(cohort,
                                     query) {

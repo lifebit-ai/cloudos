@@ -36,7 +36,18 @@
   
 }
 
-#' @title Define new phenotype
+#' @description Define a single phenotype
+#'
+#' @param id A single phenotype id. Possible phenotyoes can be explored using the code{\link{cb_search_phenotypes}} function 
+#' @param value The categorical value of the phenotype id defined
+#' @param from For continuous phenotypes, the lower bound of the desired value range
+#' @param to For continuous phenotypes, the upper bound of the desired value phenotype 
+#' @return A single phenotypes definition that cam be combined using &,| and ! operators
+#' 
+#' @examples
+#' \dontrun{
+#' continuous_phenotype <- phenotype(id = 13, from = "2016-01-21", to = "2017-02-13")
+#' categorical_phenotype <- phenotype(id = 4, value = "Cancer")
 #' @export
 phenotype <- function(id, value, from, to, instance = "0"){
 

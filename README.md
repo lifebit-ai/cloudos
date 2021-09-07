@@ -256,34 +256,46 @@ cb_get_phenotype_statistics(cohort = my_cohort, pheno_id = 48) %>% kable()
 |    1 |   7791 | 13276 |
 |    2 |   1237 | 13276 |
 
-#### Simple query
+#### Filtering cohorts using queries
 
 Now let’s restrict our cohort to a set of participants based on the
 phenotypes we explored above.
 
-Simple queries allow us to create a cohort query that combines a list of
-phenotype criteria according to a logical AND. Let’s define a simple
-query using the following named list-based format (note the phenotype id
-is quoted):
+A single phenotype query can be defined using the `phenotype` function.
 
 ``` r
-# year of birth: 1965 - 1995 ; AND total full brothers: 1 or 2
-simple_query = list("8" = list("from" = 1965, "to" = 1995),
-                    "48" = c(1, 2))
+# total full brothers: 1
+categorical_query <- phenotype(id = 48, value = 1)
+# year of birth: 1965 - 1995
+continuous_query <- phenotype(id = 8, from = 1965, to = 1995)
 ```
 
-Let’s check how many participants would be in the cohort if we applied
-this query, but without actually applying it.
+To combine single phenotype queries, you can use `&`, `|` and `!` operators. 
 
 ``` r
-cb_participant_count(cohort = my_cohort, simple_query = simple_query, keep_query = F)
+query <- categorical_query & continuous_query
+cb_participant_count(cohort = my_cohort, query = query, keep_query = F)
+#> $total
+#> [1] 44667
+#> 
+#> $count
+#> [1] 2524
+```
+
+Any number of single phenotypes can be combined using any combination of operators.
+The order in which logic is resolved follows the usual rules and can be controlled using brackets.
+
+``` r
+categorical_query_2 <- phenotype(id = 48, value = 2)
+
+query <- (categorical_query | categorical_query_2) & continuous_query
+cb_participant_count(cohort = my_cohort, query = query, keep_query = F)
 #> $total
 #> [1] 44667
 #> 
 #> $count
 #> [1] 2883
 ```
-
 If we’re happy that this is a sensible query to apply, we can apply the
 query to the cohort, making sure to override the previous query by
 setting `keep_query` to `FALSE`. If we wanted to keep the criteria from
@@ -292,7 +304,7 @@ we would leave `keep_query` set to the defualt value of `TRUE`.
 
 ``` r
 # apply the query
-cb_apply_query(cohort = my_cohort, simple_query = simple_query, keep_query = F)
+cb_apply_query(cohort = my_cohort, query = query, keep_query = F)
 #> Query applied sucessfully.
 
 # update the local cohort object with info from the changed version on the server
@@ -313,8 +325,9 @@ We could now further restrict our cohort to include only females
 looks like “old query AND new query”.
 
 ``` r
+new_query <- phenotype(id = 10, value = "Female")
 # apply the query
-cb_apply_query(cohort = my_cohort, simple_query = list("10" = "Female"), keep_query = T)
+cb_apply_query(cohort = my_cohort, query = new_query, keep_query = T)
 #> Query applied sucessfully.
 
 # update the local cohort object with info from the changed version on the server
@@ -329,45 +342,10 @@ cb_participant_count(my_cohort)
 #> [1] 1457
 ```
 
-#### Advanced query
-
-We could adjust our previous filter to restrict participants to those
-who are born from 1965 to 1995 OR have 1 or 2 full brothers as well as
-being female
-(`( Total full brothers = 1, 2 OR 1965 < Year of birth < 1995 ) AND Participant phenotypic sex = Female`).
-We could achieve this with an advanced query which uses a more
-complicated (but more flexible) nested list format (note the phenotype
-id is not quoted):
-
-``` r
-adv_query <- list(
-  "operator" = "AND",
-  "queries" = list(
-    list("id" = 10, "value" = "Female"),
-    list(
-      "operator" = "OR",
-      "queries" = list(
-        list("id" = 8, "value" = list("from" = 1965, "to" = 1995)),
-        list("id" = 48, "value" = c(1, 2))
-      )
-    )
-  )
-)
-```
-
-Available operators in advanced queries: `"AND"`, `"OR"`, `"NOT"`.
-
-Lets apply this query to our cohort and inspect the distribution of our
+Now that the query has been applied to our cohort, let's inspect the distribution of our
 phenotype of interest in the cohort.
 
 ``` r
-# apply the query
-cb_apply_query(cohort = my_cohort, adv_query = adv_query, keep_query = F)
-#> Query applied sucessfully.
-
-# update the local cohort object with info from the changed version on the server
-my_cohort <- cb_load_cohort(my_cohort@id)
-
 # view the distribution of disease groups in our cohort
 cb_get_phenotype_statistics(cohort = my_cohort, pheno_id = 206) %>% head(n=10) %>% kable()
 ```
