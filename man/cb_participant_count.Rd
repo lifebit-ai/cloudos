@@ -4,15 +4,13 @@
 \alias{cb_participant_count}
 \title{Participant Count}
 \usage{
-cb_participant_count(cohort, simple_query, adv_query, keep_query = TRUE)
+cb_participant_count(cohort, query = list(), keep_query = TRUE)
 }
 \arguments{
 \item{cohort}{A cohort object. (Required)
 See constructor function \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}}
 
-\item{simple_query}{A phenotype query using the "simple query" list structure (see \code{\link{cb_apply_query}}).}
-
-\item{adv_query}{A phenotype query using the "advanced query" nested list structure (see \code{\link{cb_apply_query}}).}
+\item{query}{A phenotype query defined using the code{\link{phenotype}} function and logic operators (see example below)}
 
 \item{keep_query}{Apply newly specified query on top of exisiting query (Default: TRUE)}
 }
