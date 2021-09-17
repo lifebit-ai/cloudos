@@ -49,7 +49,7 @@
 # AND/OR operator is applied to a single condition and removes the operator. 
 # When calling this function, starting_depth should be left as default (0). Its
 # value is updated during recursion
-.extract_single_nodes <- function(x, starting_depth = 0){
+.remove_single_nodes <- function(x, starting_depth = 0){
   
   starting_depth <- starting_depth + 1
   
@@ -60,9 +60,9 @@
     !is.null(x$operator) & 
     !identical(x$operator, "NOT") & 
     length(x$queries) == 1
-  ) return(.extract_single_nodes(x$queries[[1]], starting_depth))
+  ) return(.remove_single_nodes(x$queries[[1]], starting_depth))
   
-  lapply(x, .extract_single_nodes, starting_depth)
+  lapply(x, .remove_single_nodes, starting_depth)
   
 }
 
@@ -229,7 +229,7 @@ cb_apply_query <- function(cohort,
     query <- structure(cohort@query, class = "cbQuery")
   }
   
-  return(.extract_single_nodes(query))
+  return(.remove_single_nodes(query))
   
 }
 
