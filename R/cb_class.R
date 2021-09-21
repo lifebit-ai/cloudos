@@ -178,7 +178,7 @@ setMethod("show", "cohort",
 )
 
 # register methods
-S3method("!",cbQuery)
-S3method("&",cbQuery)
-S3method("|",cbQuery)
+.S3method("!","cbQuery")
+.S3method("&","cbQuery")
+.S3method("|","cbQuery")
 
