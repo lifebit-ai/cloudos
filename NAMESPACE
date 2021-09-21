@@ -23,7 +23,3 @@ exportClasses(cohort)
 
 import(dplyr)
 import(ggplot2)
-
-S3method(`&`, 'cbQuery')
-S3method(`!`, 'cbQuery')
-S3method(`|`, 'cbQuery')
