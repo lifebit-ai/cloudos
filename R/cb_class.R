@@ -176,9 +176,3 @@ setMethod("show", "cohort",
             cat("Cohort Browser version: ", object@cb_version, "\n")
           }
 )
-
-# register methods
-.S3method("!","cbQuery")
-.S3method("&","cbQuery")
-.S3method("|","cbQuery")
-
