@@ -17,5 +17,10 @@ export(cloudos_configure)
 export(cloudos_whoami)
 export(phenotype)
 exportClasses(cohort)
+
 import(dplyr)
 import(ggplot2)
+
+S3method(`&`, 'cbQuery')
+S3method(`!`, 'cbQuery')
+S3method(`|`, 'cbQuery')
