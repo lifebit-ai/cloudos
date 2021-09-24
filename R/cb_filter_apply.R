@@ -115,7 +115,7 @@ cb_apply_query <- function(cohort,
                            keep_query = TRUE,
                            keep_columns = TRUE){
   
-  if(missing(query)) query <- list()
+  if(missing(query))  stop("Error: query argument must be specified")
   
   query <- .create_final_query(cohort = cohort, query = query, keep_query = keep_query)
   
