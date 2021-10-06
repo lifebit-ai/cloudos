@@ -13,3 +13,4 @@ README*
 ^README\.Rmd$
 ^Makefile$
 ^CONTRIBUTING\.md$
+^example-notebooks
