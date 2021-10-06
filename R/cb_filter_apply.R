@@ -1,44 +1,12 @@
-# 5 helper functions below. Each converts the different structures of 
-# query data into either CBv1 or CBv2 query JSONs for use in cb_apply_query()
-
-# converts a simple query into CBv1 style query JSON
-.simple_query_body_v1 <- function(simple_query) {
-  filter_list <- list()
-  
-  for(n in seq_len(length(simple_query))){
-    
-    filter <- simple_query[[n]]
-    filter_id <- as.numeric(names(simple_query)[n])
-    
-    if(is.list(filter)){
-      # # filter has a range
-      f <- list("fieldId" = filter_id,
-                "instance" = list("0"),
-                "range" = list(
-                  "from" = filter$from,
-                  "to" = filter$to
-                ))
-      filter_list <- c(filter_list, list(f))
-      
-    } else {
-      # filter has values not range
-      f <- list("fieldId" = filter_id,
-                "instance" = list("0"),
-                "value" =  c(list(),filter))
-      filter_list <- c(filter_list, list(f))
-    }
-  }
-  
-  return(filter_list)
-}
-
-
 # converts the CBv2 style cohort@query data into CBv1 style query JSON
 # this is very similar but not quite the same as .get_search_json()
-.existing_query_body_v1 <- function(cohort) {
+.query_body_to_v1 <- function(query) {
+  
+  invisible(.check_operators(query))
+  
   filter_list <- list()
   
-  unnested <- .unnest_query(cohort@query)
+  unnested <- .unnest_query(query)
   for (filter in unnested){
     
     if (!is.null(filter$value$from)){
@@ -63,74 +31,6 @@
   return(filter_list)
 }
 
-
-# converts a simple query into CBv2 style query JSON
-# conversion is achieved by creating a nested series of AND nodes (similar to .v1_query_to_v2())
-.simple_query_body_v2 <- function(simple_query) {
-  andop <- list("operator" = "AND",
-                "queries" = list())
-  
-  l <- length(simple_query)
-  query <- list()
-  
-  if (l > 0){
-    query <- andop
-    query$queries <- list(list("field" = as.numeric(names(simple_query)[l]),
-                               "instance" = list("0"),
-                               "value" = c(list(), simple_query[[l]])))
-  }
-  
-  if (l > 1){
-    query$queries <- list(list("field" = as.numeric(names(simple_query)[l-1]),
-                               "instance" = list("0"),
-                               "value" = c(list(), simple_query[[l-1]])),
-                          query$queries[[1]])
-  }
-  
-  if (l > 2){
-    for (i in (l-2):1){
-      new_query <- andop
-      new_query$queries <- list(list("field" = as.numeric(names(simple_query)[i]),
-                                     "instance" = list("0"),
-                                     "value" = c(list(), simple_query[[i]])),
-                                query)
-      query <- new_query
-    }
-  }
-  
-  return(query)
-}
-
-
-# converts an advanced query into CBv2 style query JSON
-.adv_query_body_v2 <- function(adv_query) {
-  # recursive function to reformat adv_query list into an api compliant query
-  reformat <- function(filter){
-    # TODO add error checking for operator type
-    if (is.null(filter$queries)){
-    filter <- list("field" = filter$id,
-              "instance" = list("0"),
-              "value" = c(list(), filter$value))
-    return(filter)
-    
-    } else {
-    filter$queries <- lapply(filter$queries, reformat)
-    return(filter)
-    
-    }
-  }
-  
-  query <- reformat(adv_query)
-  return(query)
-}
-
-
-# created as a function for consistency 
-.existing_query_body_v2 <- function(cohort) {
-  return(cohort@query)
-}
-
-
 # takes a single int ID or a vector of int IDs and builds 
 # a JSON array for use in cb_apply_query()
 .build_column_body <- function(column_ids) {
@@ -149,7 +49,7 @@
 # AND/OR operator is applied to a single condition and removes the operator. 
 # When calling this function, starting_depth should be left as default (0). Its
 # value is updated during recursion
-.extract_single_nodes <- function(x, starting_depth = 0){
+.remove_single_nodes <- function(x, starting_depth = 0){
   
   starting_depth <- starting_depth + 1
   
@@ -160,9 +60,24 @@
     !is.null(x$operator) & 
     !identical(x$operator, "NOT") & 
     length(x$queries) == 1
-  ) return(.extract_single_nodes(x$queries[[1]], starting_depth))
+  ) return(.remove_single_nodes(x$queries[[1]], starting_depth))
   
-  lapply(x, .extract_single_nodes, starting_depth)
+  lapply(x, .remove_single_nodes, starting_depth)
+  
+}
+
+
+#### find non-AND operators
+.check_operators <- function(x){
+  
+  if(!is.list(x)){return(NULL)}
+  
+  if(
+    !is.null(x$operator) &
+    !identical(x$operator, "AND")
+  ) {stop("Only AND operators are allowed in CB v1")}
+  
+  lapply(x, .check_operators)
   
 }
 
@@ -172,9 +87,7 @@
 #'
 #' @param cohort A cohort object. (Required)
 #' See constructor function \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}
-#' @param simple_query A phenotype query using the "simple query" list structure (see example).
-#' @param adv_query A phenotype query using the "advanced query" nested list structure (see example). 
-#'   Advanced queries can include logical operators: 'AND', 'OR', 'NOT'.
+#' @param query A phenotype query defined using the \code{\link{phenotype}} function and logic operators (see example below)
 #' @param column_ids Phenotype IDs to be added as columns in the participant table.
 #' @param keep_query If True, combines the newly supplied query with the pre-existing query.
 #'   Otherwise, pre-existing query is overwritten. (Default: TRUE)
@@ -185,100 +98,63 @@
 #' 
 #' @examples
 #' \dontrun{
-#' my_cohort <- cb_load_cohort(cohort_id = "5f9af3793dd2dc6091cd17cd", cb_version = "v1")
-#' cb_apply_query(my_cohort,
-#'                 simple_query = list("22" = list("from" = "2015-05-13", "to" = "2016-04-29"),
-#'                                     "50" = c("Father", "Mother")) )
+#' A <- phenotype(id = 13, from = "2016-01-21", to = "2017-02-13")
+#' B <- phenotype(id = 4, value = "Cancer")
 #' 
-#' my_cohort <- cb_load_cohort(cohort_id = "5f9af3793dd2dc6091cd17cd", cb_version = "v2")
-#' adv_query <- list(
-#'   "operator" = "AND",
-#'   "queries" = list(
-#'     list( "id" = 22, "value" = list("from"="2015-05-13", "to"="2016-04-29")),
-#'     list(
-#'       "operator" = "OR",
-#'       "queries" = list(
-#'         list("id" = 32, "value" = c("Cancer", "Rare Diseases")),
-#'         list("id" = 14, "value" = "Yes")
-#'       )
-#'     )
-#'   )
-#' )
-#' cb_apply_query(my_cohort, adv_query = adv_query)
+#' A_not_B <- A & !B
 #' 
-#'}
-#'
+#' my_cohort <- cb_load_cohort(cohort_id = "612f37a57673ed0ddeaf1333", cb_version = "v2")
+#' 
+#' cloudos::cb_apply_query(my_cohort, query = A_not_B, keep_query = F, keep_columns = F)
+#' }
+#' 
 #' @export
 cb_apply_query <- function(cohort, 
-                            simple_query,
-                            adv_query,
-                            column_ids,
-                            keep_query = TRUE,
-                            keep_columns = TRUE){
+                           query,
+                           column_ids,
+                           keep_query = TRUE,
+                           keep_columns = TRUE){
+  
+  if(missing(query))  stop("Error: query argument must be specified")
+  
+  query <- .create_final_query(cohort = cohort, query = query, keep_query = keep_query)
+  
+  columns <- .create_all_columns(cohort = cohort, column_ids = column_ids, keep_columns = keep_columns)
   
   if (cohort@cb_version == "v1"){
-    if (!missing(adv_query)) stop("Advanced queries are not compatible with Cohort Browser v1.")
+    .check_operators(query)
     return(.cb_apply_query_v1(cohort = cohort,
-                               simple_query =  simple_query,
-                               column_ids = column_ids,
-                               keep_query = keep_query,
-                               keep_columns = keep_columns))
+                              query = query,
+                              all_columns = columns))
     
   } else if (cohort@cb_version == "v2") {
     return(.cb_apply_query_v2(cohort = cohort,
-                               simple_query =  simple_query,
-                               adv_query = adv_query,
-                               column_ids = column_ids,
-                               keep_query = keep_query,
-                               keep_columns = keep_columns))
-        
+                              query = query,
+                              all_columns = columns))
+    
   } else {
     stop('Unknown cohort browser version string ("cb_version"). Choose either "v1" or "v2".')
   }
 }
 
-
 .cb_apply_query_v1 <- function(cohort, 
-                            simple_query,
-                            column_ids,
-                            keep_query = TRUE,
-                            keep_columns = TRUE) {
-  
-  # cohort columns
-  all_columns <- list()
-  if(!missing(column_ids)){
-    all_columns <- .build_column_body(column_ids)
-  }
-  if(keep_columns){
-    existing_ids <- sapply(cohort@columns, function(col){col$field$id})
-    existing_columns <- .build_column_body(existing_ids)
-    all_columns <- c(existing_columns, all_columns)
-  }
-  
-  # cohort filters
-  all_filters <- list()
-  if(keep_query){
-    existing_filters <- .existing_query_body_v1(cohort)
-    all_filters <- c(all_filters, existing_filters)
-  }
-  
-  if(!missing(simple_query)){
-    simple_q_filters <- .simple_query_body_v1(simple_query)
-    all_filters <- c(all_filters, simple_q_filters)
-  }
+                               query,
+                               all_columns) {
+
+  all_filters <- .query_body_to_v1(query) 
   
   # prepare request body
   r_body <- list("columns" = all_columns,
                  "moreFilters" = all_filters)
-
+  
   cloudos <- .check_and_load_all_cloudos_env_var()
   # make request
   url <- paste(cloudos$base_url, "v1/cohort", cohort@id, "filters", sep = "/")
   r <- httr::PUT(url,
-                  .get_httr_headers(cloudos$token),
-                  query = list("teamId" = cloudos$team_id),
-                  body = jsonlite::toJSON(r_body, auto_unbox = T),
-                  encode = "raw"
+                 .get_httr_headers(cloudos$token),
+                 query = list("teamId" = cloudos$team_id),
+                 body = jsonlite::toJSON(r_body, auto_unbox = T),
+                 encode = "raw"
   )
   httr::stop_for_status(r, task = NULL)
   # parse the content
@@ -286,17 +162,41 @@ cb_apply_query <- function(cohort,
   return(message("Query applied sucessfully, Current number of Participants - ", res$numberOfParticipants))
 }
 
-
 .cb_apply_query_v2 <- function(cohort, 
-                            simple_query,
-                            adv_query,
-                            column_ids,
-                            keep_query = TRUE,
-                            keep_columns = TRUE) {
+                               query,
+                               all_columns) {
+
+  # get count of particpants if query is applied
+  no_participants <- cb_participant_count(cohort, query = query, keep_query = F)
   
-  if (!missing(adv_query) & !missing(simple_query)) stop("Cannot use advanced and simple queries at the same time.")
+  # prepare request body
+  r_body <- list(name = cohort@name,
+                 description = cohort@desc,
+                 columns = all_columns,
+                 type = "advanced",
+                 numberOfParticipants = no_participants$count)
   
-  # cohort columns
+  if(!identical(query, list())) r_body$query <- query
+  
+  cloudos <- .check_and_load_all_cloudos_env_var()
+  # make request
+  url <- paste(cloudos$base_url, "v2/cohort", cohort@id, sep = "/")
+  r <- httr::PUT(url,
+                 .get_httr_headers(cloudos$token),
+                 query = list("teamId" = cloudos$team_id),
+                 body = jsonlite::toJSON(r_body, auto_unbox = T),
+                 encode = "raw"
+  )
+  httr::stop_for_status(r, task = NULL)
+  # parse the content
+  res <- httr::content(r)
+  return(message("Query applied sucessfully."))
+}
+
+.create_all_columns <- function(cohort, 
+                                column_ids, 
+                                keep_columns){
+  
   all_columns <- c()
   if (!missing(column_ids)) {
     all_columns <- .build_column_body(column_ids)
@@ -307,69 +207,31 @@ cb_apply_query <- function(cohort,
     all_columns <- c(existing_columns, all_columns)
   }
   
+  if(is.null(all_columns)) all_columns <- list()
   
-  # prepare request body
-  r_body <- list("name" = cohort@name,
-                 "description" = cohort@desc,
-                 "columns" = all_columns)
+  return(all_columns)
   
-  # get count of particpants if query is applied
-  no_participants <- cb_participant_count(cohort,
-                                          simple_query = simple_query,
-                                          adv_query = adv_query,
-                                          keep_query = keep_query)
-  r_body$numberOfParticipants <- no_participants$count
-  
-  # cohort query
-  
-  # get new query to apply
-  if (!missing(simple_query)) {
-    new_query <- .simple_query_body_v2(simple_query)
-    r_body$type <- "advanced"
-  } else if (!missing(adv_query)) {
-    new_query <- .adv_query_body_v2(adv_query)
-    r_body$type <- "advanced"
-  } else {
-    new_query <- list()
-  }
-  
-  if (keep_query) {
-    existing_query <- .existing_query_body_v2(cohort)
-  } else {
-    existing_query <- list()
-  }
-  
-  # combine queries depending on whether they are empty or not
-  qs <- list(existing_query, new_query)
-  qs <- qs[lapply(qs, length) > 0]
-  
-  # add query to r_body if appropriate
-  if (length(qs) == 2) {
-    r_body$query <- list("operator" = "AND",
-                         "queries" = qs)
-      
-  } else if (length(qs) == 1) {
-    r_body$query <- qs[[1]]
-      
-  }
-  
-  r_body$query <- .extract_single_nodes(r_body$query)
-
-  cloudos <- .check_and_load_all_cloudos_env_var()
-  # make request
-  url <- paste(cloudos$base_url, "v2/cohort", cohort@id, sep = "/")
-  r <- httr::PUT(url,
-                  .get_httr_headers(cloudos$token),
-                  query = list("teamId" = cloudos$team_id),
-                  body = jsonlite::toJSON(r_body, auto_unbox = T),
-                  encode = "raw"
-  )
-  httr::stop_for_status(r, task = NULL)
-  # parse the content
-  res <- httr::content(r)
-  return(message("Query applied sucessfully."))
 }
 
+.create_final_query <- function(cohort, 
+                                query, 
+                                keep_query){
+  
+  if (!identical(query, list())) {
+    if (is.null(query$operator)){ 
+      query <- list(operator = "AND", queries = list(query))
+    }
+    if (keep_query & !identical(cohort@query, list())) {
+      query <- query & structure(cohort@query, class = "cbQuery")
+    }
+  } 
+  else if (keep_query) {
+    query <- structure(cohort@query, class = "cbQuery")
+  }
+  
+  return(.remove_single_nodes(query))
+  
+}
 
 
 #' @title Dry run for \code{\link{cb_apply_query}}
@@ -392,18 +254,18 @@ cb_apply_query <- function(cohort,
 #'
 #' @export
 cb_apply_filter_dry_run <- function(cohort, simple_query) {
-
+  
   .Deprecated("cb_participant_count")
-
+  
   if (cohort@cb_version != "v1") stop("This function is only compatible with Cohort Browser version v1 cohorts.")
-
+  
   # prepare request body
   r_body <- list("moreFilters" = .simple_query_body_v1(simple_query))
-
+  
   # add additional content
   r_body[["ids"]] = list()
   r_body[["cohortId"]] = cohort@id
-
+  
   cloudos <- .check_and_load_all_cloudos_env_var()
   # make request
   url <- paste(cloudos$base_url, "v1/cohort/genotypic-save", sep = "/")
