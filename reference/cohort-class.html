@@ -42,13 +42,11 @@
   
 
 <meta property="og:title" content="cohort class — cohort-class" />
-<meta property="og:description" content="This class create a cohort object, which will
-hold many information related to a cohort
-including cohort ID, name, description, filters, tables.
-Use of this object will simplify calling every
-other functions which requires a cohort.
-This can be created using constructor function
-cb_create_cohort or cb_load_cohort" />
+<meta property="og:description" content="This class creates a cohort object, which holds the information related to a
+cohort: cohort ID, name, description, query, table columns. This class is used
+in functions which carry out operations related to specific cohorts.
+A cohort class object can be created using constructor functions
+cb_create_cohort or cb_load_cohort." />
 
 
 
@@ -80,7 +78,7 @@ cb_create_cohort or cb_load_cohort" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cloudos</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.01</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -125,13 +123,11 @@ cb_create_cohort or cb_load_cohort" />
     </div>
 
     <div class="ref-description">
-    <p>This class create a cohort object, which will
-hold many information related to a cohort
-including cohort ID, name, description, filters, tables.
-Use of this object will simplify calling every
-other functions which requires a cohort.
-This can be created using constructor function
-<code><a href='cb_create_cohort.html'>cb_create_cohort</a></code> or <code><a href='cb_load_cohort.html'>cb_load_cohort</a></code></p>
+    <p>This class creates a cohort object, which holds the information related to a
+cohort: cohort ID, name, description, query, table columns. This class is used
+in functions which carry out operations related to specific cohorts.
+A cohort class object can be created using constructor functions
+<code><a href='cb_create_cohort.html'>cb_create_cohort</a></code> or <code><a href='cb_load_cohort.html'>cb_load_cohort</a></code>.</p>
     </div>
 
 
@@ -147,11 +143,13 @@ This can be created using constructor function
 
 <dt><code>desc</code></dt><dd><p>cohort description.</p></dd>
 
-<dt><code>fields</code></dt><dd><p>Filters.</p></dd>
+<dt><code>phenoptype_filters</code></dt><dd><p>phenotypes displayed in the cohort overview.</p></dd>
 
-<dt><code>more_fields</code></dt><dd><p>Filter related information.</p></dd>
+<dt><code>query</code></dt><dd><p>applied query.</p></dd>
 
 <dt><code>columns</code></dt><dd><p>All the columns</p></dd>
+
+<dt><code>cb_version</code></dt><dd><p>chort browser version</p></dd>
 
 </dl>
 

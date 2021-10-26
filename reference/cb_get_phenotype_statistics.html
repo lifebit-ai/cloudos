@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get cohort information — cb_load_cohort • cloudos</title>
+<title>Get distribution of a phenotype in a cohort — cb_get_phenotype_statistics • cloudos</title>
 
 
 <!-- jquery -->
@@ -41,9 +41,8 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Get cohort information — cb_load_cohort" />
-<meta property="og:description" content="Get all the details about a cohort including
-applied query." />
+<meta property="og:title" content="Get distribution of a phenotype in a cohort — cb_get_phenotype_statistics" />
+<meta property="og:description" content="Retrieve a data frame containing the distirbution data for a specific phenotype within a cohort." />
 
 
 
@@ -114,37 +113,34 @@ applied query." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get cohort information</h1>
-    <small class="dont-index">Source: <a href='https://github.com/lifebit-ai/cloudos/blob/master/R/cb_class.R'><code>R/cb_class.R</code></a></small>
-    <div class="hidden name"><code>cb_load_cohort.Rd</code></div>
+    <h1>Get distribution of a phenotype in a cohort</h1>
+    <small class="dont-index">Source: <a href='https://github.com/lifebit-ai/cloudos/blob/master/R/cb_filter_explore.R'><code>R/cb_filter_explore.R</code></a></small>
+    <div class="hidden name"><code>cb_get_phenotype_statistics.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get all the details about a cohort including
-applied query.</p>
+    <p>Retrieve a data frame containing the distirbution data for a specific phenotype within a cohort.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>cb_load_cohort</span><span class='op'>(</span><span class='va'>cohort_id</span>, cb_version <span class='op'>=</span> <span class='st'>"v2"</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>cb_get_phenotype_statistics</span><span class='op'>(</span><span class='va'>cohort</span>, <span class='va'>pheno_id</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>cohort_id</th>
-      <td><p>Cohort id (Required)</p></td>
+      <th>cohort</th>
+      <td><p>A cohort object. (Required)
+See constructor function <code><a href='cb_create_cohort.html'>cb_create_cohort</a></code> or <code><a href='cb_load_cohort.html'>cb_load_cohort</a></code></p></td>
     </tr>
     <tr>
-      <th>cb_version</th>
-      <td><p>cohort browser version (Optional) [ "v1" | "v2" ]</p></td>
+      <th>pheno_id</th>
+      <td><p>A phenotype ID. (Required)</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <a href='cohort-class.html'>cohort</a> object.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><code><a href='cb_create_cohort.html'>cb_create_cohort</a></code> for creating a new cohort.</p></div>
+    <p>A data frame holding distribution data.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

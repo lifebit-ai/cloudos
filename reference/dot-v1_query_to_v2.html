@@ -6,7 +6,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get cohort information — cb_load_cohort • cloudos</title>
+<title>Convert a v1 style query (moreFields) to v2 style (query).
+v2 queries are a superset of v1 queries. A list of v1 phenotype queries are equivalent to a
+set of nested v2 AND operators containing those phenotypes. This function builds the nested
+AND query from the flat list of v1 phenotypes. — .v1_query_to_v2 • cloudos</title>
 
 
 <!-- jquery -->
@@ -41,9 +44,14 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Get cohort information — cb_load_cohort" />
-<meta property="og:description" content="Get all the details about a cohort including
-applied query." />
+<meta property="og:title" content="Convert a v1 style query (moreFields) to v2 style (query).
+v2 queries are a superset of v1 queries. A list of v1 phenotype queries are equivalent to a
+set of nested v2 AND operators containing those phenotypes. This function builds the nested
+AND query from the flat list of v1 phenotypes. — .v1_query_to_v2" />
+<meta property="og:description" content="Convert a v1 style query (moreFields) to v2 style (query).
+v2 queries are a superset of v1 queries. A list of v1 phenotype queries are equivalent to a
+set of nested v2 AND operators containing those phenotypes. This function builds the nested
+AND query from the flat list of v1 phenotypes." />
 
 
 
@@ -114,37 +122,32 @@ applied query." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get cohort information</h1>
+    <h1>Convert a v1 style query (moreFields) to v2 style (query).
+v2 queries are a superset of v1 queries. A list of v1 phenotype queries are equivalent to a
+set of nested v2 AND operators containing those phenotypes. This function builds the nested
+AND query from the flat list of v1 phenotypes.</h1>
     <small class="dont-index">Source: <a href='https://github.com/lifebit-ai/cloudos/blob/master/R/cb_class.R'><code>R/cb_class.R</code></a></small>
-    <div class="hidden name"><code>cb_load_cohort.Rd</code></div>
+    <div class="hidden name"><code>dot-v1_query_to_v2.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get all the details about a cohort including
-applied query.</p>
+    <p>Convert a v1 style query (moreFields) to v2 style (query).
+v2 queries are a superset of v1 queries. A list of v1 phenotype queries are equivalent to a
+set of nested v2 AND operators containing those phenotypes. This function builds the nested
+AND query from the flat list of v1 phenotypes.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>cb_load_cohort</span><span class='op'>(</span><span class='va'>cohort_id</span>, cb_version <span class='op'>=</span> <span class='st'>"v2"</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>.v1_query_to_v2</span><span class='op'>(</span><span class='va'>cohort_more_fields</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>cohort_id</th>
-      <td><p>Cohort id (Required)</p></td>
-    </tr>
-    <tr>
-      <th>cb_version</th>
-      <td><p>cohort browser version (Optional) [ "v1" | "v2" ]</p></td>
+      <th>cohort_more_fields</th>
+      <td><p>query information ('moreFields') from .get_cohort_info(cohort_id, cb_version="v1)</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>A <a href='cohort-class.html'>cohort</a> object.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><code><a href='cb_create_cohort.html'>cb_create_cohort</a></code> for creating a new cohort.</p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

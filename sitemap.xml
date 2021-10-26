@@ -4,10 +4,10 @@
     <loc>https://lifebit-ai.github.io/cloudos//index.html</loc>
   </url>
   <url>
-    <loc>https://lifebit-ai.github.io/cloudos//reference/cb_apply_filter.html</loc>
+    <loc>https://lifebit-ai.github.io/cloudos//reference/cb_apply_filter_dry_run.html</loc>
   </url>
   <url>
-    <loc>https://lifebit-ai.github.io/cloudos//reference/cb_apply_filter_dry_run.html</loc>
+    <loc>https://lifebit-ai.github.io/cloudos//reference/cb_apply_query.html</loc>
   </url>
   <url>
     <loc>https://lifebit-ai.github.io/cloudos//reference/cb_create_cohort.html</loc>
@@ -16,22 +16,19 @@
     <loc>https://lifebit-ai.github.io/cloudos//reference/cb_extract_samples.html</loc>
   </url>
   <url>
-    <loc>https://lifebit-ai.github.io/cloudos//reference/cb_filter_metadata.html</loc>
-  </url>
-  <url>
-    <loc>https://lifebit-ai.github.io/cloudos//reference/cb_filter_participants.html</loc>
-  </url>
-  <url>
-    <loc>https://lifebit-ai.github.io/cloudos//reference/cb_get_cohort_filters.html</loc>
-  </url>
-  <url>
-    <loc>https://lifebit-ai.github.io/cloudos//reference/cb_get_filter_statistics.html</loc>
+    <loc>https://lifebit-ai.github.io/cloudos//reference/cb_get_cohort_phenotypes.html</loc>
   </url>
   <url>
     <loc>https://lifebit-ai.github.io/cloudos//reference/cb_get_genotypic_table.html</loc>
   </url>
   <url>
-    <loc>https://lifebit-ai.github.io/cloudos//reference/cb_get_samples_table.html</loc>
+    <loc>https://lifebit-ai.github.io/cloudos//reference/cb_get_participants_table.html</loc>
+  </url>
+  <url>
+    <loc>https://lifebit-ai.github.io/cloudos//reference/cb_get_phenotype_metadata.html</loc>
+  </url>
+  <url>
+    <loc>https://lifebit-ai.github.io/cloudos//reference/cb_get_phenotype_statistics.html</loc>
   </url>
   <url>
     <loc>https://lifebit-ai.github.io/cloudos//reference/cb_list_cohorts.html</loc>
@@ -40,10 +37,13 @@
     <loc>https://lifebit-ai.github.io/cloudos//reference/cb_load_cohort.html</loc>
   </url>
   <url>
+    <loc>https://lifebit-ai.github.io/cloudos//reference/cb_participant_count.html</loc>
+  </url>
+  <url>
     <loc>https://lifebit-ai.github.io/cloudos//reference/cb_plot_filters.html</loc>
   </url>
   <url>
-    <loc>https://lifebit-ai.github.io/cloudos//reference/cb_search_phenotypic_filters.html</loc>
+    <loc>https://lifebit-ai.github.io/cloudos//reference/cb_search_phenotypes.html</loc>
   </url>
   <url>
     <loc>https://lifebit-ai.github.io/cloudos//reference/cloudos_configure.html</loc>
@@ -53,5 +53,11 @@
   </url>
   <url>
     <loc>https://lifebit-ai.github.io/cloudos//reference/cohort-class.html</loc>
+  </url>
+  <url>
+    <loc>https://lifebit-ai.github.io/cloudos//reference/dot-get_search_json.html</loc>
+  </url>
+  <url>
+    <loc>https://lifebit-ai.github.io/cloudos//reference/dot-v1_query_to_v2.html</loc>
   </url>
 </urlset>

@@ -74,7 +74,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">cloudos</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.01</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -138,6 +138,18 @@ See constructor function <code><a href='cb_create_cohort.html'>cb_create_cohort<
 
     <p>A list of ggplot objects</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>my_cohort</span> <span class='op'>&lt;-</span> <span class='fu'><a href='cb_load_cohort.html'>cb_load_cohort</a></span><span class='op'>(</span>cohort_id <span class='op'>=</span> <span class='st'>"5f9af3793dd2dc6091cd17cd"</span><span class='op'>)</span>
+<span class='va'>plot_list</span> <span class='op'>&lt;-</span> <span class='fu'>cb_plot_filters</span><span class='op'>(</span>cohort <span class='op'>=</span> <span class='va'>my_cohort</span><span class='op'>)</span>
+
+<span class='va'>plot_list</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
+
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://rpkgs.datanovia.com/ggpubr/'>ggpubr</a></span><span class='op'>)</span>
+<span class='fu'>ggpubr</span><span class='fu'>::</span><span class='fu'><a href='https://rpkgs.datanovia.com/ggpubr/reference/ggarrange.html'>ggarrange</a></span><span class='op'>(</span>plotlist <span class='op'>=</span> <span class='va'>plot_list</span><span class='op'>)</span>
+<span class='op'>}</span>
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
