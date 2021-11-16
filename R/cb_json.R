@@ -86,7 +86,8 @@
 .make_column_json <- function(col_ids){
   cohort_columns = list()
   for(col_id in col_ids){
-    if (cb_get_phenotype_metadata(col_id)$array[[1]] > 1) {
+    array_size <- as.numeric(as.character(cb_get_phenotype_metadata(col_id)$array[[1]]))
+    if ( array_size > 1) {
       array <- list("type" = "all", "value" = 0)
     } else {
       array <- list("type" = "exact", "value" = 0)
