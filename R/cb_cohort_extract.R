@@ -359,9 +359,11 @@ cb_get_participants_table_long <- function(cohort,
       datagroups[[col$field$Original_dataset]] <- c(datagroups[[col$field$Original_dataset]], long_id)
     }
     
-    if (col$field$valuelype == 'Integer') {
+    if (is.null(col$field$valueType)) {
+      col_types[[long_id]] <- as.character
+    } else if (col$field$valueType == 'Integer') {
       col_types[[long_id]] <- as.numeric
-    } else if (col$field$valuelype == 'Continuous') {
+    } else if (col$field$valueType == 'Continuous') {
       col_types[[long_id]] <- as.numeric
     } else {
       col_types[[long_id]] <- as.character
