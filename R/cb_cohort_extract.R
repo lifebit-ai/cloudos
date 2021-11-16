@@ -335,7 +335,7 @@ cb_get_participants_table_long <- function(cohort,
   res <- httr::content(r)
   
   # check for request error
-  try(message(res$message), silent = T)
+  if (!is.null(res$message)) message(res$message)
   httr::stop_for_status(r, task = "Retrieve participant table")
   
   
