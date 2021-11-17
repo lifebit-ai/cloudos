@@ -165,7 +165,7 @@ cb_get_genotypic_table <- function(cohort,
 cb_get_participants_table <- function(cohort,
                                       cols,
                                       page_number = 0,
-                                      page_size = 10) {
+                                      page_size = 100) {
   
   if (cohort@cb_version == "v1") {
     if (!missing(cols)) stop("'cols' argument is not supported for CB v1")
@@ -181,7 +181,7 @@ cb_get_participants_table <- function(cohort,
 
 .cb_get_participants_table_v1 <- function(cohort,
                               page_number = 0,
-                              page_size = 10) {
+                              page_size = 100) {
 
   if(page_size == 0) stop("page_size can't be 0")
   # make json body
@@ -257,7 +257,7 @@ cb_get_participants_table <- function(cohort,
 .cb_get_participants_table_v2 <- function(cohort,
                                           cols,
                                           page_number = 0,
-                                          page_size = 10) {
+                                          page_size = 100) {
 
   if(page_size == 0) stop("page_size can't be 0")
   if(page_number != 'all' && !is.numeric(page_number)) stop("page_number must be integer or 'all'")
@@ -356,7 +356,7 @@ cb_get_participants_table_long <- function(cohort,
                                            cols,
                                            broadcast = TRUE,
                                            page_number = 0,
-                                           page_size = 10) {
+                                           page_size = 100) {
   
   if(page_size == 0) stop("page_size can't be 0")
   if(cohort@cb_version != "v2") stop("cb_version must be 'v2")
