@@ -149,7 +149,9 @@ cb_get_genotypic_table <- function(cohort,
 #'
 #' @param cohort A cohort object. (Required)
 #' See constructor functions \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}
-#' @param page_number Number of page. (Optional) Default - 0
+#' @param cols Vector of phenotype IDs to fetch as columns in the dataframe. If omitted, columns saved
+#' in the cohort are fetched.
+#' @param page_number Number of page (can be 'all' to fetch all data) . (Optional) Default - 0
 #' @param page_size Number of entries in a page. (Optional) Default - 10
 #'
 #' @return A dataframe.
@@ -334,11 +336,12 @@ cb_get_participants_table <- function(cohort,
 #'
 #' @param cohort A cohort object. (Required)
 #' See constructor functions \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}
-#' @param columns Vector of phenotype IDs to fetch as columns in the dataframe.
+#' @param cols Vector of phenotype IDs to fetch as columns in the dataframe. If omitted, columns saved
+#' in the cohort are fetched.
 #' @param broadcast Whether to broadcast single value phenotypes across rows. (Optional)
 #' Can be TRUE, FALSE or a vector of phenotype IDs to specify which phenotypes to broadcast. 
 #' Default - TRUE
-#' @param page_number Number of page. (Optional) Default - 0
+#' @param page_number Number of page (can be 'all' to fetch all data) . (Optional) Default - 0
 #' @param page_size Number of entries in a page. (Optional) Default - 10
 #' 
 #'
