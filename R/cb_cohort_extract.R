@@ -375,22 +375,11 @@ cb_get_participants_table_long <- function(cohort,
   
   if (length(cohort@query) > 0) r_body$query <- cohort@query
   
-  cloudos <- .check_and_load_all_cloudos_env_var()
-  # make request
-  url <- paste(cloudos$base_url, "v2/cohort/participants/search", sep = "/")
-  r <- httr::POST(url,
-                  .get_httr_headers(cloudos$token),
-                  query = list("teamId" = cloudos$team_id),
-                  body = jsonlite::toJSON(r_body, auto_unbox = T),
-                  encode = "raw")
-
-  # parse the content
-  res <- httr::content(r)
-  
-  # check for request error
-  if (!is.null(res$message)) message(res$message)
-  httr::stop_for_status(r, task = "Retrieve participant table")
-  
+  if (page_number == "all") {
+    res <- .fetch_table_v2(r_body, iter_all = TRUE)
+  } else {
+    res <- .fetch_table_v2(r_body, iter_all = FALSE)
+  }
   
   # get metadata for each column
   col_names <- list("_id" = "_id", "i" = "EID")
@@ -455,13 +444,13 @@ cb_get_participants_table_long <- function(cohort,
   }
   datagroups_df <- dplyr::bind_rows(df_list)
   
-  # Start final_df using i column & any cols to broadcast
+  # Start final_df using i column & any cols to broadcast
   final_df <- select(res_df, c("i", all_of(broadcast_cols))) %>% tidyr::unnest(cols = everything())
   for (colname in colnames(final_df)){
     final_df[[colname]] <- col_types[[colname]](final_df[[colname]])
   }
   
-  # join the datagroups dataframe to the broadcast columns
+  # join the datagroups dataframe to the broadcast columns
   final_df <- dplyr::left_join(final_df, datagroups_df, by = 'i')
   
   # rename the dataframe with column names
