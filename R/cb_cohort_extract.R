@@ -90,15 +90,15 @@ cb_get_genotypic_table <- function(cohort,
 
 
 
-.fetch_table_iter <- function(req_body, page_size = 100) {
+.fetch_table_v2 <- function(req_body, iter_all = FALSE) {
+  
+  page_size <- req_body$criteria$pagination$pageSize
+  page_number <- req_body$criteria$pagination$pageNumber
+  if (page_number == 'all') req_body$criteria$pagination$pageNumber <- 0
   
   cloudos <- .check_and_load_all_cloudos_env_var()
-  # make request
   url <- paste(cloudos$base_url, "v2/cohort/participants/search", sep = "/")
   
-  # get just the header and pagination info
-  req_body$criteria$pagination$pageNumber <- 0
-  req_body$criteria$pagination$pageSize <- 1
   r <- httr::POST(url,
                   .get_httr_headers(cloudos$token),
                   query = list("teamId" = cloudos$team_id),
@@ -111,12 +111,13 @@ cb_get_genotypic_table <- function(cohort,
   httr::stop_for_status(r, task = "Retrieve participant table")
   
   header <- res$header
-  data <- list()
+  data <- res$data
   total <- res$total
-  iters <- ceiling(total/page_size)
   
+  if (iter_all) {
+    iters <- ceiling(total/page_size) - 1  # we have already fetched page 0
   for (i in seq_len(iters)) {
-    req_body$criteria$pagination$pageNumber <- i-1
+      req_body$criteria$pagination$pageNumber <- i
     req_body$criteria$pagination$pageSize <- page_size
     r <- httr::POST(url,
                     .get_httr_headers(cloudos$token),
@@ -131,6 +132,8 @@ cb_get_genotypic_table <- function(cohort,
     
     data <- c(data, res$data)
   }
+  }
+  
   result <- list("total" = total, "header"= header, "data" = data)
   return(result)
   
