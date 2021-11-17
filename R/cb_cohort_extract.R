@@ -116,22 +116,22 @@ cb_get_genotypic_table <- function(cohort,
   
   if (iter_all) {
     iters <- ceiling(total/page_size) - 1  # we have already fetched page 0
-  for (i in seq_len(iters)) {
+    for (i in seq_len(iters)) {
       req_body$criteria$pagination$pageNumber <- i
-    req_body$criteria$pagination$pageSize <- page_size
-    r <- httr::POST(url,
-                    .get_httr_headers(cloudos$token),
-                    query = list("teamId" = cloudos$team_id),
-                    body = jsonlite::toJSON(req_body, auto_unbox = T),
-                    encode = "raw")
-    res <- httr::content(r)
-    
-    # check for request error
-    if (!is.null(res$message)) message(res$message)
-    httr::stop_for_status(r, task = "Retrieve participant table")
-    
-    data <- c(data, res$data)
-  }
+      req_body$criteria$pagination$pageSize <- page_size
+      r <- httr::POST(url,
+                      .get_httr_headers(cloudos$token),
+                      query = list("teamId" = cloudos$team_id),
+                      body = jsonlite::toJSON(req_body, auto_unbox = T),
+                      encode = "raw")
+      res <- httr::content(r)
+      
+      # check for request error
+      if (!is.null(res$message)) message(res$message)
+      httr::stop_for_status(r, task = "Retrieve participant table")
+      
+      data <- c(data, res$data)
+    }
   }
   
   result <- list("total" = total, "header"= header, "data" = data)
@@ -163,14 +163,16 @@ cb_get_genotypic_table <- function(cohort,
 #' 
 #' @export
 cb_get_participants_table <- function(cohort,
-                              page_number = 0,
-                              page_size = 10) {
+                                      cols,
+                                      page_number = 0,
+                                      page_size = 10) {
   
   if (cohort@cb_version == "v1") {
+    if (!missing(cols)) stop("'cols' argument is not supported for CB v1")
     return(.cb_get_participants_table_v1(cohort, page_number = page_number, page_size = page_size))
     
   } else if (cohort@cb_version == "v2") {
-    return(.cb_get_participants_table_v2(cohort, page_number = page_number, page_size = page_size))
+    return(.cb_get_participants_table_v2(cohort, cols = cols, page_number = page_number, page_size = page_size))
     
   } else {
     stop('Unknown cohort browser version string ("cb_version"). Choose either "v1" or "v2".')
@@ -253,15 +255,18 @@ cb_get_participants_table <- function(cohort,
 
 
 .cb_get_participants_table_v2 <- function(cohort,
-                              page_number = 0,
-                              page_size = 10) {
+                                          cols,
+                                          page_number = 0,
+                                          page_size = 10) {
 
   if(page_size == 0) stop("page_size can't be 0")
+  if(page_number != 'all' && !is.numeric(page_number)) stop("page_number must be integer or 'all'")
+
   # make json body
-  if(missing(cohort)){
-    columns = list()
-  }else{
+  if(missing(cols)){
     columns <- .get_column_json(cohort)
+  } else {
+    columns <- .make_column_json(cols)
   }
   
   r_body <- list("criteria" = list("pagination" = list("pageNumber" = page_number,
@@ -271,23 +276,20 @@ cb_get_participants_table <- function(cohort,
   
   if (length(cohort@query) > 0) r_body$query <- cohort@query
   
-  cloudos <- .check_and_load_all_cloudos_env_var()
-  # make request
-  url <- paste(cloudos$base_url, "v2/cohort/participants/search", sep = "/")
-  r <- httr::POST(url,
-                  .get_httr_headers(cloudos$token),
-                  query = list("teamId" = cloudos$team_id),
-                  body = jsonlite::toJSON(r_body, auto_unbox = T),
-                  encode = "raw")
-  
-  httr::stop_for_status(r, task = NULL)
-  # parse the content
-  res <- httr::content(r)
+  if (page_number == "all") {
+    res <- .fetch_table_v2(r_body, iter_all = TRUE)
+  } else {
+    res <- .fetch_table_v2(r_body, iter_all = FALSE)
+  }
   
   # get col names and construct col ids
   col_names <- list("_id" = "_id", "i" = "EID")
   for (col in res$header){
-    long_id <- paste0("f", col$id, "i", col$instance, "a", col$array$value)
+    if (col$array$type == "exact") {
+      long_id <- paste0("f", col$id, "i", col$instance, "a", col$array$value)
+    } else {
+      long_id <- paste0("f", col$id, "i", col$instance, "a", "all")
+    }
     col_names[[long_id]] <- col$field$name
   }
   
@@ -297,8 +299,9 @@ cb_get_participants_table <- function(cohort,
   colnames(emptyrow) <- names(col_names)
   
   df_list <- list(emptyrow) 
-    for (n in res$data) {
-    dta <- rbind(n)
+  for (n in res$data) {
+    # important to change NULL to NA using .null_to_na_nested
+    dta <- rbind(.null_to_na_nested(n))
     df_list <- c(df_list, list(as.data.frame(dta)))
   }
   res_df <- dplyr::bind_rows(df_list)[-1,] # combine and remove empty first row
@@ -310,13 +313,10 @@ cb_get_participants_table <- function(cohort,
   }
   
   # rename the dataframe with column names
-  colnames(res_df) <- col_names
+  res_df <- dplyr::rename_with(res_df, .fn = function(x) unlist(col_names[x], use.names=F))
 
   # remove mongodb _id column
   res_df <- subset(res_df, select = -c(`_id`))
-  
-  # replace NULL values with NA
-  res_df[res_df == 'NULL'] <- NA  # see .get_samples_table_v1 for explanation
 
   # reset row names
   rownames(res_df) <- NULL
