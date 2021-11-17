@@ -88,6 +88,56 @@ cb_get_genotypic_table <- function(cohort,
   }
 }
 
+
+
+.fetch_table_iter <- function(req_body, page_size = 100) {
+  
+  cloudos <- .check_and_load_all_cloudos_env_var()
+  # make request
+  url <- paste(cloudos$base_url, "v2/cohort/participants/search", sep = "/")
+  
+  # get just the header and pagination info
+  req_body$criteria$pagination$pageNumber <- 0
+  req_body$criteria$pagination$pageSize <- 1
+  r <- httr::POST(url,
+                  .get_httr_headers(cloudos$token),
+                  query = list("teamId" = cloudos$team_id),
+                  body = jsonlite::toJSON(req_body, auto_unbox = T),
+                  encode = "raw")
+  res <- httr::content(r)
+  
+  # check for request error
+  if (!is.null(res$message)) message(res$message)
+  httr::stop_for_status(r, task = "Retrieve participant table")
+  
+  header <- res$header
+  data <- list()
+  total <- res$total
+  iters <- ceiling(total/page_size)
+  
+  for (i in seq_len(iters)) {
+    req_body$criteria$pagination$pageNumber <- i-1
+    req_body$criteria$pagination$pageSize <- page_size
+    r <- httr::POST(url,
+                    .get_httr_headers(cloudos$token),
+                    query = list("teamId" = cloudos$team_id),
+                    body = jsonlite::toJSON(req_body, auto_unbox = T),
+                    encode = "raw")
+    res <- httr::content(r)
+    
+    # check for request error
+    if (!is.null(res$message)) message(res$message)
+    httr::stop_for_status(r, task = "Retrieve participant table")
+    
+    data <- c(data, res$data)
+  }
+  result <- list("total" = total, "header"= header, "data" = data)
+  return(result)
+  
+}
+
+
+
 ####################################################################
 
 #' @title Get participant data table
