@@ -36,7 +36,12 @@ cb_list_cohorts <- function(size = 10, cb_version = "v2") {
                  query = list("teamId" = cloudos$team_id,
                               "pageNumber" = 0,
                               "pageSize" = size))
+  res <- httr::content(r)
+  
+  # check for request error
+  if (!is.null(res$message)) message(res$message)
   httr::stop_for_status(r, task = "list cohorts")
+
   # parse the content
   res <- httr::content(r, simplifyDataFrame = T)
   if(size == 10){
@@ -64,7 +69,12 @@ cb_list_cohorts <- function(size = 10, cb_version = "v2") {
                  query = list("teamId" = cloudos$team_id,
                               "pageNumber" = 0,
                               "pageSize" = size))
+  res <- httr::content(r)
+  
+  # check for request error
+  if (!is.null(res$message)) message(res$message)
   httr::stop_for_status(r, task = "list cohorts")
+  
   # parse the content
   res <- httr::content(r, simplifyDataFrame = TRUE)
   

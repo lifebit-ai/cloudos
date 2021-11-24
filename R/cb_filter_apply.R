@@ -156,9 +156,12 @@ cb_apply_query <- function(cohort,
                  body = jsonlite::toJSON(r_body, auto_unbox = T),
                  encode = "raw"
   )
-  httr::stop_for_status(r, task = NULL)
-  # parse the content
   res <- httr::content(r)
+  
+  # check for request error
+  if (!is.null(res$message)) message(res$message)
+  httr::stop_for_status(r, task = "apply query")
+  
   return(message("Query applied sucessfully, Current number of Participants - ", res$numberOfParticipants))
 }
 
@@ -187,9 +190,12 @@ cb_apply_query <- function(cohort,
                  body = jsonlite::toJSON(r_body, auto_unbox = T),
                  encode = "raw"
   )
-  httr::stop_for_status(r, task = NULL)
-  # parse the content
   res <- httr::content(r)
+  
+  # check for request error
+  if (!is.null(res$message)) message(res$message)
+  httr::stop_for_status(r, task = "apply query")
+  
   return(message("Query applied sucessfully."))
 }
 
