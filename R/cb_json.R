@@ -15,6 +15,17 @@
 }
 
 
+# recursive function to convert NULL values to NA values in nested lists
+# useful for dealing with objects derived from JSON data
+.null_to_na_nested <- function(obj) {
+  if (is.list(obj)) {
+    obj <- lapply(obj, function(l) { l[ lengths(l) == 0 ] <- NA_character_; l; })
+    obj <- lapply(obj, .null_to_na_nested)
+  }
+  return(obj)
+}
+
+
 #' only used for v1 endpoint - creates v1 search json using the v2 style query
 #' @param my_cohort A cohort object
 .get_search_json <- function(my_cohort){
@@ -49,6 +60,7 @@
   return(search)
 }
 
+
 ############################################################################################
 # Column JOSN
 # TODO work on column - At this point NO end-point that returns this information, there are cards
@@ -64,6 +76,25 @@
     col_temp = list("id" = col$field$id,
                     "instance" = col$instance,
                     "array" = col$array # make sure toJSON(auto_unbox = T)
+    )
+    cohort_columns = c(cohort_columns, list(col_temp))
+  }
+  
+  return(cohort_columns)
+}
+
+.make_column_json <- function(col_ids){
+  cohort_columns = list()
+  for(col_id in col_ids){
+    array_size <- as.numeric(as.character(cb_get_phenotype_metadata(col_id)$array[[1]]))
+    if ( array_size > 1) {
+      array <- list("type" = "all", "value" = 0)
+    } else {
+      array <- list("type" = "exact", "value" = 0)
+    }
+    col_temp = list("id" = col_id,
+                    "instance" = "0",
+                    "array" = array
     )
     cohort_columns = c(cohort_columns, list(col_temp))
   }

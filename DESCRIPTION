@@ -21,6 +21,7 @@ Imports:
     utils,
     methods,
     dplyr (>= 1.0.0),
+    tidyr,
     jsonlite,
     rappdirs,
     ggplot2,
