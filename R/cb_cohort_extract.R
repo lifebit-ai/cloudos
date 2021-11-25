@@ -46,9 +46,13 @@ cb_get_genotypic_table <- function(cohort,
                   body = jsonlite::toJSON(r_body),
                   encode = "raw"
   )
-  httr::stop_for_status(r, task = NULL)
-  # parse the content
   res <- httr::content(r)
+  
+  # check for request error
+  if (!is.null(res$message)) message(res$message)
+  httr::stop_for_status(r, task = NULL)
+  
+  # parse the content
   .total_row_size_message(res)
   df_list <- res$participants
   # https://www.r-bloggers.com/r-combining-vectors-or-data-frames-of-unequal-length-into-one-data-frame/
@@ -108,7 +112,7 @@ cb_get_genotypic_table <- function(cohort,
   
   # check for request error
   if (!is.null(res$message)) message(res$message)
-  httr::stop_for_status(r, task = "Retrieve participant table")
+  httr::stop_for_status(r, task = "get participant table data")
   
   header <- res$header
   data <- res$data
@@ -209,9 +213,11 @@ cb_get_participants_table <- function(cohort,
                     auto_unbox = T),
                   encode = "raw"
   )
-  httr::stop_for_status(r, task = NULL)
-  # parse the content
   res <- httr::content(r)
+  
+  # check for request error
+  if (!is.null(res$message)) message(res$message)
+  httr::stop_for_status(r, task = "get participant table data")
   
   # get col names and construct col ids
   col_names <- list("_id" = "_id", "i" = "EID")
