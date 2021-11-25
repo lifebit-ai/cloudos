@@ -47,9 +47,12 @@ setClass("cohort",
                  .get_httr_headers(cloudos$token),
                  query = list("teamId" = cloudos$team_id)
   )
-  httr::stop_for_status(r, task = NULL)
-  # parse the content
   res <- httr::content(r)
+  
+  # check for request error
+  if (!is.null(res$message)) message(res$message)
+  httr::stop_for_status(r, task = "get cohort info")
+
   return(res)
 }
 
@@ -61,9 +64,12 @@ setClass("cohort",
                  .get_httr_headers(cloudos$token),
                  query = list("teamId" = cloudos$team_id)
   )
-  httr::stop_for_status(r, task = NULL)
-  # parse the content
   res <- httr::content(r)
+  
+  # check for request error
+  if (!is.null(res$message)) message(res$message)
+  httr::stop_for_status(r, task = "get cohort info")
+  
   return(res)
 }
 

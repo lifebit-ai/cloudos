@@ -37,8 +37,12 @@ cb_search_phenotypes <- function(term, cb_version = "v2") {
                  .get_httr_headers(cloudos$token),
                  query = list("teamId" = cloudos$team_id,
                               "term" = term))
-  httr::stop_for_status(r, task = NULL)
   res <- httr::content(r, simplifyVector = TRUE, simplifyDataFrame = TRUE)
+  
+  # check for request error
+  if (!is.null(res$message)) message(res$message)
+  httr::stop_for_status(r, task = "search phenotypes")
+
   filters <- tibble::as_tibble(res$filters)
   
   if(nrow(filters) == 0) stop(message("No phenotypic filters found with - ", term ))
@@ -58,8 +62,12 @@ cb_search_phenotypes <- function(term, cb_version = "v2") {
                  .get_httr_headers(cloudos$token),
                  query = list("teamId" = cloudos$team_id,
                               "term" = term))
-  httr::stop_for_status(r, task = NULL)
   res <- httr::content(r, simplifyVector = TRUE, simplifyDataFrame = TRUE)
+  
+  # check for request error
+  if (!is.null(res$message)) message(res$message)
+  httr::stop_for_status(r, task = "search phenotypes")
+
   filters <- tibble::as_tibble(res$filters)
   
   if(nrow(filters) == 0) stop(message("No phenotypic filters found with - ", term ))
@@ -140,9 +148,12 @@ cb_get_phenotype_statistics <- function(cohort, pheno_id ) {
                   body = jsonlite::toJSON(r_body, auto_unbox = T),
                   encode = "raw"
   )
-  httr::stop_for_status(r, task = NULL)
-  # parse the content
   res <- httr::content(r)
+  
+  # check for request error
+  if (!is.null(res$message)) message(res$message)
+  httr::stop_for_status(r, task = "get count table for phenotype")
+  
   # into a dataframe
   res_df <- dplyr::bind_rows(res)
   return(res_df)
@@ -166,9 +177,12 @@ cb_get_phenotype_statistics <- function(cohort, pheno_id ) {
                   body = jsonlite::toJSON(r_body, auto_unbox = T),
                   encode = "raw"
   )
-  httr::stop_for_status(r, task = NULL)
-  # parse the content
   res <- httr::content(r)
+  
+  # check for request error
+  if (!is.null(res$message)) message(res$message)
+  httr::stop_for_status(r, task = "get count table for phenotype")
+
   # into a dataframe
   res_df <- dplyr::bind_rows(res)
   return(res_df)
@@ -270,11 +284,12 @@ cb_participant_count <-function(cohort,
                   body = jsonlite::toJSON(r_body, auto_unbox = T),
                   encode = "raw"
   )
-  httr::stop_for_status(r, task = NULL)
-  # parse the content
   res <- httr::content(r)
-  # into a dataframe
-  #res_df <- do.call(rbind, res)
+  
+  # check for request error
+  if (!is.null(res$message)) message(res$message)
+  httr::stop_for_status(r, task = "get count of participants")
+  
   return(res)
 }
 
@@ -295,12 +310,12 @@ cb_participant_count <-function(cohort,
                   body = r_body,
                   encode = "raw"
   )
-  
-  httr::stop_for_status(r, task = NULL)
-  # parse the content
   res <- httr::content(r)
-  # into a dataframe
-  #res_df <- do.call(rbind, res)
+  
+  # check for request error
+  if (!is.null(res$message)) message(res$message)
+  httr::stop_for_status(r, task = "get count of participants")
+  
   return(res)
 }
 
@@ -343,10 +358,14 @@ cb_get_phenotype_metadata <- function(pheno_id, cb_version = "v2") {
                  .get_httr_headers(cloudos$token),
                  query = list("teamId" = cloudos$team_id)
   )
-  httr::stop_for_status(r, task = NULL)
-  # parse the content
   res <- httr::content(r)
+  
+  # check for request error
+  if (!is.null(res$message)) message(res$message)
+  httr::stop_for_status(r, task = "get phenotype metadata")
+
   res_df <- as.data.frame(do.call(cbind, res))
+
   # remove mongodb _id column
   res_df_new <- subset(res_df, select = (c(-`_id`)))
   return(res_df_new)
@@ -359,9 +378,12 @@ cb_get_phenotype_metadata <- function(pheno_id, cb_version = "v2") {
                  .get_httr_headers(cloudos$token),
                  query = list("teamId" = cloudos$team_id)
   )
-  httr::stop_for_status(r, task = NULL)
-  # parse the content
   res <- httr::content(r)
+  
+  # check for request error
+  if (!is.null(res$message)) message(res$message)
+  httr::stop_for_status(r, task = "get phenotype metadata")
+
   res_df <- as.data.frame(do.call(cbind, res))
   # remove mongodb _id column
   res_df_new <- subset(res_df, select = (c(-`_id`)))
