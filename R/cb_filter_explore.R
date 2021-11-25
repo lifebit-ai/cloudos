@@ -37,13 +37,12 @@ cb_search_phenotypes <- function(term, cb_version = "v2") {
                  .get_httr_headers(cloudos$token),
                  query = list("teamId" = cloudos$team_id,
                               "term" = term))
-  res <- httr::content(r)
+  res <- httr::content(r, simplifyVector = TRUE, simplifyDataFrame = TRUE)
   
   # check for request error
   if (!is.null(res$message)) message(res$message)
   httr::stop_for_status(r, task = "search phenotypes")
 
-  res <- httr::content(r, simplifyVector = TRUE, simplifyDataFrame = TRUE)
   filters <- tibble::as_tibble(res$filters)
   
   if(nrow(filters) == 0) stop(message("No phenotypic filters found with - ", term ))
@@ -63,13 +62,12 @@ cb_search_phenotypes <- function(term, cb_version = "v2") {
                  .get_httr_headers(cloudos$token),
                  query = list("teamId" = cloudos$team_id,
                               "term" = term))
-  res <- httr::content(r)
+  res <- httr::content(r, simplifyVector = TRUE, simplifyDataFrame = TRUE)
   
   # check for request error
   if (!is.null(res$message)) message(res$message)
   httr::stop_for_status(r, task = "search phenotypes")
 
-  res <- httr::content(r, simplifyVector = TRUE, simplifyDataFrame = TRUE)
   filters <- tibble::as_tibble(res$filters)
   
   if(nrow(filters) == 0) stop(message("No phenotypic filters found with - ", term ))

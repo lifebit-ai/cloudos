@@ -36,14 +36,13 @@ cb_list_cohorts <- function(size = 10, cb_version = "v2") {
                  query = list("teamId" = cloudos$team_id,
                               "pageNumber" = 0,
                               "pageSize" = size))
-  res <- httr::content(r)
+  res <- httr::content(r, simplifyDataFrame = T)
   
   # check for request error
   if (!is.null(res$message)) message(res$message)
   httr::stop_for_status(r, task = "list cohorts")
 
   # parse the content
-  res <- httr::content(r, simplifyDataFrame = T)
   if(size == 10){
     message("Total number of cohorts found-", res$total, 
             ". But here shows-",  size," as default. For more, change size = ", res$total, " to get all.") 
@@ -69,15 +68,13 @@ cb_list_cohorts <- function(size = 10, cb_version = "v2") {
                  query = list("teamId" = cloudos$team_id,
                               "pageNumber" = 0,
                               "pageSize" = size))
-  res <- httr::content(r)
+  res <- httr::content(r, simplifyDataFrame = TRUE)
   
   # check for request error
   if (!is.null(res$message)) message(res$message)
   httr::stop_for_status(r, task = "list cohorts")
   
   # parse the content
-  res <- httr::content(r, simplifyDataFrame = TRUE)
-  
   if(size == 10){
     message("Total number of cohorts found: ", res$total, 
             ". Showing ",  size," by default. Change 'size' parameter to return more.") 
