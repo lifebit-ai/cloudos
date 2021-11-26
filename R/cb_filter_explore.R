@@ -81,6 +81,59 @@ cb_search_phenotypes <- function(term, cb_version = "v2") {
   
 }
 
+.fetch_stats_table_v2 <- function(req_body, pheno_id, iter_all = FALSE) {
+  
+  page_size <- req_body$criteria$pageSize
+  page_number <- req_body$criteria$pageNumber
+  if (page_number == 'all') req_body$criteria$pageNumber <- 0
+  
+  cloudos <- .check_and_load_all_cloudos_env_var()
+  url <- paste(cloudos$base_url, "v2/cohort/filter", pheno_id, "data", sep = "/")
+  r <- httr::POST(url,
+                  .get_httr_headers(cloudos$token),
+                  query = list("teamId" = cloudos$team_id),
+                  body = jsonlite::toJSON(req_body, auto_unbox = T),
+                  encode = "raw")
+  res <- httr::content(r, simplifyDataFrame = T)
+  
+  # check for request error
+  if (!is.null(res$message)) message(res$message)
+  httr::stop_for_status(r, task = "get count table for phenotype")
+  
+  if (is.null(res$data)) {
+    # not a paged result
+    paged <- FALSE
+    res_df <- res
+  } else {
+    # is a paged result
+    paged <- TRUE
+    total <- res$total
+    res_df <- res$data
+  }
+  
+  if (iter_all & paged) {
+    iters <- ceiling(total/page_size) - 1  # we have already fetched page 0
+    for (i in seq_len(iters)) {
+      req_body$criteria$pageNumber <- i
+      req_body$criteria$pageSize <- page_size
+      r <- httr::POST(url,
+                      .get_httr_headers(cloudos$token),
+                      query = list("teamId" = cloudos$team_id),
+                      body = jsonlite::toJSON(req_body, auto_unbox = T),
+                      encode = "raw")
+      res <- httr::content(r, simplifyDataFrame = T)
+      
+      # check for request error
+      if (!is.null(res$message)) message(res$message)
+      httr::stop_for_status(r, task = "get count table for phenotype")
+      
+      res_df <- dplyr::bind_rows(res_df, res$data)
+    }
+  }
+  
+  return(res_df)
+}
+
 
 #' @title Get distribution of a phenotype in a cohort
 #'
@@ -89,6 +142,8 @@ cb_search_phenotypes <- function(term, cb_version = "v2") {
 #' @param cohort A cohort object. (Required)
 #' See constructor function \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}
 #' @param pheno_id A phenotype ID. (Required)
+#' @param page_number For internal use.
+#' @param page_size For internal use.
 #'
 #' @return A data frame holding distribution data.
 #' 
@@ -103,12 +158,12 @@ cb_search_phenotypes <- function(term, cb_version = "v2") {
 #' }
 #'
 #' @export
-cb_get_phenotype_statistics <- function(cohort, pheno_id ) {
+cb_get_phenotype_statistics <- function(cohort, pheno_id, page_number = 'all', page_size = 1000 ) {
   if (cohort@cb_version == "v1") {
     return(.cb_get_phenotype_statistics_v1(cohort, pheno_id))
     
   } else if (cohort@cb_version == "v2") {
-    return(.cb_get_phenotype_statistics_v2(cohort, pheno_id))
+    return(.cb_get_phenotype_statistics_v2(cohort, pheno_id, page_number = page_number, page_size = page_size))
     
   } else {
     stop('Unknown cohort browser version string ("cb_version"). Choose either "v1" or "v2".')
@@ -160,33 +215,25 @@ cb_get_phenotype_statistics <- function(cohort, pheno_id ) {
 }
 
 
-.cb_get_phenotype_statistics_v2 <- function(cohort, pheno_id) {
-  # empty moreFilters returns all the filter values associated with a cohort for a filter
-  r_body <- list("criteria" = list("cohortId" = cohort@id),
+.cb_get_phenotype_statistics_v2 <- function(cohort, pheno_id, page_number = 'all', page_size = 1000) {
+  r_body <- list("criteria" = list("cohortId" = cohort@id,
+                                   "pageSize" = page_size,
+                                   "pageNumber" = page_number),
                  "filter" = list("instance" = list("0"))
   )
   
   if (length(cohort@query) > 0) r_body$query <- cohort@query
   
-  cloudos <- .check_and_load_all_cloudos_env_var()
-  # make request
-  url <- paste(cloudos$base_url, "v2/cohort/filter", pheno_id, "data", sep = "/")
-  r <- httr::POST(url,
-                  .get_httr_headers(cloudos$token),
-                  query = list("teamId" = cloudos$team_id),
-                  body = jsonlite::toJSON(r_body, auto_unbox = T),
-                  encode = "raw"
-  )
-  res <- httr::content(r)
-  
-  # check for request error
-  if (!is.null(res$message)) message(res$message)
-  httr::stop_for_status(r, task = "get count table for phenotype")
+  if (page_number == "all") {
+    res_df <- .fetch_stats_table_v2(r_body, pheno_id, iter_all = TRUE)
+  } else {
+    res_df <- .fetch_stats_table_v2(r_body, pheno_id, iter_all = FALSE)
+  }
 
-  # into a dataframe
-  res_df <- dplyr::bind_rows(res)
+  res_df <- dplyr::rename(res_df, value = `_id`, count = number) %>% select(c('value', 'count'))
   return(res_df)
 }
+
 
 #' @title Get data for phenotypes associated with a cohort
 #'
