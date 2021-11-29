@@ -7,6 +7,7 @@
 cb_get_phenotype_statistics(
   cohort,
   pheno_id,
+  max_depth = Inf,
   page_number = "all",
   page_size = 1000
 )
@@ -16,6 +17,8 @@ cb_get_phenotype_statistics(
 See constructor function \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}}
 
 \item{pheno_id}{A phenotype ID. (Required)}
+
+\item{max_depth}{The maximum depth to descend in a 'nested list' phenotype. (Default: Inf)}
 
 \item{page_number}{For internal use.}
 
