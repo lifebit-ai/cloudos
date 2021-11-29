@@ -94,7 +94,7 @@ cb_search_phenotypes <- function(term, cb_version = "v2") {
                   query = list("teamId" = cloudos$team_id),
                   body = jsonlite::toJSON(req_body, auto_unbox = T),
                   encode = "raw")
-  res <- httr::content(r, simplifyDataFrame = T)
+  res <- httr::content(r)
   
   # check for request error
   if (!is.null(res$message)) message(res$message)
@@ -103,12 +103,12 @@ cb_search_phenotypes <- function(term, cb_version = "v2") {
   if (is.null(res$data)) {
     # not a paged result
     paged <- FALSE
-    res_df <- res
+    res_data <- res
   } else {
     # is a paged result
     paged <- TRUE
     total <- res$total
-    res_df <- res$data
+    res_data <- res$data
   }
   
   if (iter_all & paged) {
@@ -121,17 +121,37 @@ cb_search_phenotypes <- function(term, cb_version = "v2") {
                       query = list("teamId" = cloudos$team_id),
                       body = jsonlite::toJSON(req_body, auto_unbox = T),
                       encode = "raw")
-      res <- httr::content(r, simplifyDataFrame = T)
+      res <- httr::content(r)
       
       # check for request error
       if (!is.null(res$message)) message(res$message)
       httr::stop_for_status(r, task = "get count table for phenotype")
       
-      res_df <- dplyr::bind_rows(res_df, res$data)
+      res_data <- c(res_data, res$data)
     }
   }
   
-  return(res_df)
+  return(res_data)
+}
+
+
+.flatten_nested_phenotype <- function(items, max_depth = Inf, path = list()){
+  flat_list <- list()
+  for (item in items) {
+    full_path <- c(path, item$coding)
+    depth <- length(full_path)
+    item_l <- list("full_path" = full_path,
+                   "id" = item$coding,
+                   "value" = item$label,
+                   "count" = item$count)
+    flat_list <- c(flat_list, list(item_l))
+    
+    if (length(item$children) > 0 & depth < max_depth) {
+      l <- .flatten_nested_phenotype(item$children, max_depth = max_depth, path = full_path)
+      flat_list <- c(flat_list, l)
+    }
+  }
+  return(flat_list)
 }
 
 
@@ -142,6 +162,7 @@ cb_search_phenotypes <- function(term, cb_version = "v2") {
 #' @param cohort A cohort object. (Required)
 #' See constructor function \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}
 #' @param pheno_id A phenotype ID. (Required)
+#' @param max_depth The maximum depth to descend in a 'nested list' phenotype. (Default: Inf)
 #' @param page_number For internal use.
 #' @param page_size For internal use.
 #'
@@ -158,12 +179,12 @@ cb_search_phenotypes <- function(term, cb_version = "v2") {
 #' }
 #'
 #' @export
-cb_get_phenotype_statistics <- function(cohort, pheno_id, page_number = 'all', page_size = 1000 ) {
+cb_get_phenotype_statistics <- function(cohort, pheno_id, max_depth = Inf, page_number = 'all', page_size = 1000 ) {
   if (cohort@cb_version == "v1") {
     return(.cb_get_phenotype_statistics_v1(cohort, pheno_id))
     
   } else if (cohort@cb_version == "v2") {
-    return(.cb_get_phenotype_statistics_v2(cohort, pheno_id, page_number = page_number, page_size = page_size))
+    return(.cb_get_phenotype_statistics_v2(cohort, pheno_id, max_depth = max_depth, page_number = page_number, page_size = page_size))
     
   } else {
     stop('Unknown cohort browser version string ("cb_version"). Choose either "v1" or "v2".')
@@ -215,7 +236,7 @@ cb_get_phenotype_statistics <- function(cohort, pheno_id, page_number = 'all', p
 }
 
 
-.cb_get_phenotype_statistics_v2 <- function(cohort, pheno_id, page_number = 'all', page_size = 1000) {
+.cb_get_phenotype_statistics_v2 <- function(cohort, pheno_id, max_depth = Inf, page_number = 'all', page_size = 1000) {
   r_body <- list("criteria" = list("cohortId" = cohort@id,
                                    "pageSize" = page_size,
                                    "pageNumber" = page_number),
@@ -225,12 +246,22 @@ cb_get_phenotype_statistics <- function(cohort, pheno_id, page_number = 'all', p
   if (length(cohort@query) > 0) r_body$query <- cohort@query
   
   if (page_number == "all") {
-    res_df <- .fetch_stats_table_v2(r_body, pheno_id, iter_all = TRUE)
+    res_data <- .fetch_stats_table_v2(r_body, pheno_id, iter_all = TRUE)
   } else {
-    res_df <- .fetch_stats_table_v2(r_body, pheno_id, iter_all = FALSE)
+    res_data <- .fetch_stats_table_v2(r_body, pheno_id, iter_all = FALSE)
+  }
+  
+  if (is.null(res$data[[1]]$children)) {
+    # not nested phenotype
+    res_df <- dplyr::bind_rows(res_data)
+    res_df <- dplyr::rename(res_df, value = `_id`, count = number) %>% select(c('value', 'count'))
+  } else {
+    # nested phenotype
+    flat <- .flatten_nested_phenotype(res_data, max_depth = max_depth)
+    res_df <- dplyr::bind_rows(lapply(flat, function(x) x[2:4]))
+    res_df$full_path <- lapply(flat, function(x) x$full_path)
   }
 
-  res_df <- dplyr::rename(res_df, value = `_id`, count = number) %>% select(c('value', 'count'))
   return(res_df)
 }
 
