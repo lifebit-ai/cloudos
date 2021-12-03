@@ -1,3 +1,5 @@
+#' @method & cbQuery
+#' @export
 `&.cbQuery` <- function(e1, e2){
   
   tmp <- list(operator = "AND",
@@ -8,6 +10,8 @@
   tmp
 }
 
+#' @method | cbQuery
+#' @export
 `|.cbQuery` <- function(e1, e2){
   
   tmp <- list(operator = "OR",
@@ -19,6 +23,8 @@
   tmp
 }
 
+#' @method ! cbQuery
+#' @export
 `!.cbQuery` <- function(e1){
   tmp <- list(operator = "NOT",
               queries = list(unclass(e1))
