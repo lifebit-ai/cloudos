@@ -253,6 +253,7 @@ cb_get_phenotype_statistics <- function(cohort, pheno_id, max_depth = Inf, page_
   
   if (is.null(res_data[[1]]$children)) {
     # not nested phenotype
+    res_data <- lapply(res_data, function(x){x$`_id` <- as.character(x$`_id`); x})
     res_df <- dplyr::bind_rows(res_data)
     res_df <- dplyr::rename(res_df, value = `_id`, count = number) %>% select(c('value', 'count'))
   } else {
