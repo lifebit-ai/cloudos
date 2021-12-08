@@ -332,7 +332,7 @@ cb_get_participants_table <- function(cohort,
       }
     }
     dta <- tibble::as_tibble_row(dta)
-    df_list <- c(data_list, list(dta))
+    df_list <- c(df_list, list(dta))
   }
   res_df <- dplyr::bind_rows(df_list)[-1,] # combine and remove empty first row
 
