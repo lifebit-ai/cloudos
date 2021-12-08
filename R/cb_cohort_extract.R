@@ -347,7 +347,7 @@ cb_get_participants_table <- function(cohort,
 
   # set column types based on header info
   for (colname in colnames(res_df)){
-    if (is.list(res_df[[colname]])) res_df[[colname]] <- col_types[[colname]](res_df[[colname]])
+    if (!is.list(res_df[[colname]])) res_df[[colname]] <- col_types[[colname]](res_df[[colname]])
   }
 
   # rename the dataframe with column names
