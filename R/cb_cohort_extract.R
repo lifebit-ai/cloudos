@@ -327,7 +327,7 @@ cb_get_participants_table <- function(cohort,
     # change types within lists according to col_type
     for (name in names(dta)) {
       if (is.list(dta[[name]])){
-        type_func <- col_types[[colname]]
+        type_func <- col_types[[name]]
         dta[[name]] <- list(type_func(dta[[name]]))
       }
     }
