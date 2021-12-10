@@ -291,26 +291,48 @@ cb_get_participants_table <- function(cohort,
   }
   
   # get col names and construct col ids
+  # create an empty row with all the columns based on header info
+  #     - this ensures the df has all columns even if a column is empty in all rows
+  # get col types
+
   col_names <- list("_id" = "_id", "i" = "EID")
+  emptyrow <- list("_id" = NA_character_, "i" = NA_character_)
+  col_types <- list("_id"= as.character, "i"= as.character)
   for (col in res$header){
     if (col$array$type == "exact") {
       long_id <- paste0("f", col$id, "i", col$instance, "a", col$array$value)
+      empty_val <- NA_character_
     } else {
       long_id <- paste0("f", col$id, "i", col$instance, "a", "all")
+      empty_val <- list()
     }
     col_names[[long_id]] <- col$field$name
+    emptyrow[[long_id]] <- empty_val
+
+    if (is.null(col$field$valueType)) {
+      col_types[[long_id]] <- as.character
+    } else if (col$field$valueType == 'Integer') {
+      col_types[[long_id]] <- as.numeric
+    } else if (col$field$valueType == 'Continuous') {
+      col_types[[long_id]] <- as.numeric
+    } else {
+      col_types[[long_id]] <- as.character
+    }
   }
   
-  # create an empty row with all the columns based on header info
-  # - this ensures the df has all columns even if a column is empty in all rows
-  emptyrow <- data.frame(rbind(rep(NA, length(col_names))))
-  colnames(emptyrow) <- names(col_names)
-  
-  df_list <- list(emptyrow) 
-  for (n in res$data) {
+  df_list <- list()
+  for (n in c(list(emptyrow), res$data)) {
     # important to change NULL to NA using .null_to_na_nested
-    dta <- rbind(.null_to_na_nested(n))
-    df_list <- c(df_list, list(as.data.frame(dta)))
+    dta <- .null_to_na_nested(n)
+    # change types within lists according to col_type
+    for (name in names(dta)) {
+      if (is.list(dta[[name]])){
+        type_func <- col_types[[name]]
+        dta[[name]] <- list(type_func(dta[[name]]))
+      }
+    }
+    dta <- tibble::as_tibble_row(dta)
+    df_list <- c(df_list, list(dta))
   }
   res_df <- dplyr::bind_rows(df_list)[-1,] # combine and remove empty first row
 
@@ -319,12 +341,17 @@ cb_get_participants_table <- function(cohort,
   if(length(res_df) == 0){
     stop("Unable to retrive the dataframe, something may be wrong with the cohort query.")
   }
-  
-  # rename the dataframe with column names
-  res_df <- dplyr::rename_with(res_df, .fn = function(x) unlist(col_names[x], use.names=F))
 
   # remove mongodb _id column
   res_df <- subset(res_df, select = -c(`_id`))
+
+  # set column types based on header info
+  for (colname in colnames(res_df)){
+    if (!is.list(res_df[[colname]])) res_df[[colname]] <- col_types[[colname]](res_df[[colname]])
+  }
+
+  # rename the dataframe with column names
+  res_df <- dplyr::rename_with(res_df, .fn = function(x) unlist(col_names[x], use.names=F))
 
   # reset row names
   rownames(res_df) <- NULL
