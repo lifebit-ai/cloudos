@@ -24,8 +24,12 @@ A cohort class object can be created using constructor functions
 
 \item{\code{query}}{applied query.}
 
-\item{\code{columns}}{All the columns}
+\item{\code{query_phenotype_ids}}{IDs of phenotypes used in the query.}
 
-\item{\code{cb_version}}{chort browser version}
+\item{\code{columns}}{All the columns.}
+
+\item{\code{num_participants}}{number of participants in the cohort.}
+
+\item{\code{cb_version}}{chort browser version.}
 }}
 
