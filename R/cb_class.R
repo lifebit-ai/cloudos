@@ -12,6 +12,7 @@
 #' @slot phenoptype_filters phenotypes displayed in the cohort overview.
 #' @slot query applied query.
 #' @slot columns All the columns
+#' @slot num_participants number of participants in the cohort.
 #' @slot cb_version chort browser version
 #'
 #' @name cohort-class
@@ -24,6 +25,7 @@ setClass("cohort",
                       phenoptype_filters = "list", # renamed from 'fields' to match v2 naming
                       query = "list",   # replaces v1 more_fields / moreFields with more flexible v2 structure
                       columns = "list", # v1 and v2 are structured differently
+                      num_participants = "numeric",
                       cb_version = "character")
          )
 
@@ -168,7 +170,15 @@ cb_load_cohort <- function(cohort_id, cb_version = "v2"){
                                    phenoptype_filters = my_cohort$phenotypeFilters,
                                    query = my_cohort$query,
                                    columns = my_cohort$columns,
+                                   num_participants = NA_integer_,
                                    cb_version = cb_version)
+
+  if (cb_version == "v1") {
+    cohort_class_obj@num_participants <- cb_participant_count(cohort_class_obj)$count
+  } else if (cb_version == "v2") {
+    cohort_class_obj@num_participants <- my_cohort$numberOfParticipants
+  }
+
   return(cohort_class_obj)
 }
 
