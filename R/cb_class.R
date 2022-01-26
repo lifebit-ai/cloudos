@@ -11,9 +11,10 @@
 #' @slot desc cohort description.
 #' @slot phenoptype_filters phenotypes displayed in the cohort overview.
 #' @slot query applied query.
-#' @slot columns All the columns
+#' @slot query_phenotype_ids IDs of phenotypes used in the query.
+#' @slot columns All the columns.
 #' @slot num_participants number of participants in the cohort.
-#' @slot cb_version chort browser version
+#' @slot cb_version chort browser version.
 #'
 #' @name cohort-class
 #' @rdname cohort-class
@@ -24,6 +25,7 @@ setClass("cohort",
                       desc = "character",
                       phenoptype_filters = "list", # renamed from 'fields' to match v2 naming
                       query = "list",   # replaces v1 more_fields / moreFields with more flexible v2 structure
+                      query_phenotype_ids = "integer",
                       columns = "list", # v1 and v2 are structured differently
                       num_participants = "numeric",
                       cb_version = "character")
@@ -163,12 +165,20 @@ cb_load_cohort <- function(cohort_id, cb_version = "v2"){
   if(is.null(my_cohort$description)) my_cohort$description = "" # change everything to ""
   if(is.null(my_cohort$query)) my_cohort$query = list()
   
+  flat_query <- .unnest_query(my_cohort$query)
+  if (identical(flat_query, list(list()))) {
+    query_phenotype_ids <- integer()
+  } else {
+    query_phenotype_ids = sapply(flat_query, function(p){p$field})
+  }
+  
   cohort_class_obj <- methods::new("cohort",
                                    id = cohort_id,
                                    name = my_cohort$name,
                                    desc = my_cohort$description,
                                    phenoptype_filters = my_cohort$phenotypeFilters,
                                    query = my_cohort$query,
+                                   query_phenotype_ids = query_phenotype_ids,
                                    columns = my_cohort$columns,
                                    num_participants = NA_integer_,
                                    cb_version = cb_version)
@@ -188,7 +198,7 @@ setMethod("show", "cohort",
             cat("Cohort ID: ", object@id, "\n")
             cat("Cohort Name: ", object@name, "\n")
             cat("Cohort Description: ", object@desc, "\n")
-            cat("Number of phenotypes in query: ", length(.unnest_query(object@query)), "\n")
+            cat("Number of phenotypes in query: ", length(object@query_phenotype_ids), "\n")
             cat("Cohort Browser version: ", object@cb_version, "\n")
           }
 )
