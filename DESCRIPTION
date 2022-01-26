@@ -1,6 +1,6 @@
 Package: cloudos
 Title: R Client Library for CloudOS
-Version: 0.2.0.9003
+Version: 0.2.0.9005
 Authors@R: c(
     person(given = "Sangram Keshari",
            family = "Sahu",
