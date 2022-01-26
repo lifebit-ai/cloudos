@@ -1,10 +1,30 @@
+.create_all_columns <- function(cohort, 
+                                column_ids, 
+                                keep_columns){
+  
+  all_columns <- c()
+  if (!missing(column_ids)) {
+    all_columns <- .build_column_body(column_ids)
+  }
+  if (keep_columns) {
+    existing_ids <- sapply(cohort@columns, function(col){col$field$id})
+    existing_columns <- .build_column_body(existing_ids)
+    all_columns <- c(existing_columns, all_columns)
+  }
+  
+  if(is.null(all_columns)) all_columns <- list()
+  
+  return(all_columns)
+  
+}
+
 #' @title Set the columns in a cohort
 #'
 #' @description Updates a cohort by applying a new query.
 #'
 #' @param cohort A cohort object. (Required)
 #' See constructor function \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}
-#' @param column_ids Phenotype IDs to be added as columns in the participant table.
+#' @param column_ids Vector of phenotype IDs to be added as columns in the participant table.
 #' @param keep_columns If True, pre-existing columns are retained and newly supplied columns are added.
 #'   Otherwise, pre-exisitng columns are overwritten. (Default: TRUE)
 #' 
