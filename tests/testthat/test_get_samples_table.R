@@ -11,7 +11,7 @@ with_mock_api({
     # set a cohort object
     my_cohort <- cb_load_cohort(cohort_id = "01", cb_version = "v1")
     
-    sample_table <- cb_get_participants_table(my_cohort, page_size = 10)
+    sample_table <- cb_get_participants_table(my_cohort, page_size = 10, page_number = 0)
     expect_s3_class(sample_table, "data.frame")
   })
 })
