@@ -4,13 +4,7 @@
 \alias{cb_apply_query}
 \title{Apply a query to a cohort}
 \usage{
-cb_apply_query(
-  cohort,
-  query,
-  column_ids,
-  keep_query = TRUE,
-  keep_columns = TRUE
-)
+cb_apply_query(cohort, query, keep_query = TRUE)
 }
 \arguments{
 \item{cohort}{A cohort object. (Required)
@@ -18,16 +12,11 @@ See constructor function \code{\link{cb_create_cohort}} or \code{\link{cb_load_c
 
 \item{query}{A phenotype query defined using the \code{\link{phenotype}} function and logic operators (see example below)}
 
-\item{column_ids}{Phenotype IDs to be added as columns in the participant table.}
-
 \item{keep_query}{If True, combines the newly supplied query with the pre-existing query.
 Otherwise, pre-existing query is overwritten. (Default: TRUE)}
-
-\item{keep_columns}{If True, pre-existing columns are retained and newly supplied columns are added.
-Otherwise, pre-exisitng columns are overwritten. (Default: TRUE)}
 }
 \value{
-A confirmation string.
+The updated cohort object.
 }
 \description{
 Updates a cohort by applying a new query.
@@ -41,7 +30,7 @@ A_not_B <- A & !B
 
 my_cohort <- cb_load_cohort(cohort_id = "612f37a57673ed0ddeaf1333", cb_version = "v2")
 
-cloudos::cb_apply_query(my_cohort, query = A_not_B, keep_query = F, keep_columns = F)
+my_cohort <- cb_apply_query(my_cohort, query = A_not_B, keep_query = F)
 }
 
 }
