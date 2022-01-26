@@ -4,7 +4,7 @@
 \alias{cb_get_participants_table}
 \title{Get participant data table}
 \usage{
-cb_get_participants_table(cohort, cols, page_number = 0, page_size = 100)
+cb_get_participants_table(cohort, cols, page_number = "all", page_size = 5000)
 }
 \arguments{
 \item{cohort}{A cohort object. (Required)
@@ -13,9 +13,9 @@ See constructor functions \code{\link{cb_create_cohort}} or \code{\link{cb_load_
 \item{cols}{Vector of phenotype IDs to fetch as columns in the dataframe. If omitted, columns saved
 in the cohort are fetched.}
 
-\item{page_number}{Number of page (can be 'all' to fetch all data) . (Optional) Default - 0}
+\item{page_number}{Number of page as integer or 'all' to fetch all data. (Optional) Default - 'all'}
 
-\item{page_size}{Number of entries in a page. (Optional) Default - 10}
+\item{page_size}{Number of entries in a page. (Optional) Default - 5000}
 }
 \value{
 A dataframe.
