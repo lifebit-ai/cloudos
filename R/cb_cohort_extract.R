@@ -155,8 +155,8 @@ cb_get_genotypic_table <- function(cohort,
 #' See constructor functions \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}
 #' @param cols Vector of phenotype IDs to fetch as columns in the dataframe. If omitted, columns saved
 #' in the cohort are fetched.
-#' @param page_number Number of page (can be 'all' to fetch all data) . (Optional) Default - 0
-#' @param page_size Number of entries in a page. (Optional) Default - 10
+#' @param page_number Number of page as integer or 'all' to fetch all data. (Optional) Default - 'all'
+#' @param page_size Number of entries in a page. (Optional) Default - 5000
 #'
 #' @return A dataframe.
 #'
@@ -170,8 +170,8 @@ cb_get_genotypic_table <- function(cohort,
 #' @export
 cb_get_participants_table <- function(cohort,
                                       cols,
-                                      page_number = 0,
-                                      page_size = 100) {
+                                      page_number = 'all',
+                                      page_size = 5000) {
   
   if (cohort@cb_version == "v1") {
     if (!missing(cols)) stop("'cols' argument is not supported for CB v1")
