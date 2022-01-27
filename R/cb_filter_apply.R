@@ -66,6 +66,26 @@
   
 }
 
+.create_final_query <- function(cohort, 
+                                query, 
+                                keep_query){
+  
+  if (!identical(query, list())) {
+    if (is.null(query$operator)){ 
+      query <- list(operator = "AND", queries = list(query))
+    }
+    if (keep_query & !identical(cohort@query, list())) {
+      query <- query & structure(cohort@query, class = "cbQuery")
+    }
+  } 
+  else if (keep_query) {
+    query <- structure(cohort@query, class = "cbQuery")
+  }
+  
+  return(.remove_single_nodes(query))
+  
+}
+
 
 #### find non-AND operators
 .check_operators <- function(x){
@@ -88,13 +108,10 @@
 #' @param cohort A cohort object. (Required)
 #' See constructor function \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}
 #' @param query A phenotype query defined using the \code{\link{phenotype}} function and logic operators (see example below)
-#' @param column_ids Phenotype IDs to be added as columns in the participant table.
 #' @param keep_query If True, combines the newly supplied query with the pre-existing query.
 #'   Otherwise, pre-existing query is overwritten. (Default: TRUE)
-#' @param keep_columns If True, pre-existing columns are retained and newly supplied columns are added.
-#'   Otherwise, pre-exisitng columns are overwritten. (Default: TRUE)
 #' 
-#' @return A confirmation string.
+#' @return The updated cohort object.
 #' 
 #' @examples
 #' \dontrun{
@@ -105,32 +122,26 @@
 #' 
 #' my_cohort <- cb_load_cohort(cohort_id = "612f37a57673ed0ddeaf1333", cb_version = "v2")
 #' 
-#' cloudos::cb_apply_query(my_cohort, query = A_not_B, keep_query = F, keep_columns = F)
+#' my_cohort <- cb_apply_query(my_cohort, query = A_not_B, keep_query = F)
 #' }
 #' 
 #' @export
 cb_apply_query <- function(cohort, 
                            query,
-                           column_ids,
-                           keep_query = TRUE,
-                           keep_columns = TRUE){
+                           keep_query = TRUE){
   
   if(missing(query))  stop("Error: query argument must be specified")
-  
-  query <- .create_final_query(cohort = cohort, query = query, keep_query = keep_query)
-  
-  columns <- .create_all_columns(cohort = cohort, column_ids = column_ids, keep_columns = keep_columns)
-  
+      
   if (cohort@cb_version == "v1"){
     .check_operators(query)
     return(.cb_apply_query_v1(cohort = cohort,
                               query = query,
-                              all_columns = columns))
+                              keep_query = keep_query))
     
   } else if (cohort@cb_version == "v2") {
     return(.cb_apply_query_v2(cohort = cohort,
                               query = query,
-                              all_columns = columns))
+                              keep_query = keep_query))
     
   } else {
     stop('Unknown cohort browser version string ("cb_version"). Choose either "v1" or "v2".')
@@ -139,12 +150,16 @@ cb_apply_query <- function(cohort,
 
 .cb_apply_query_v1 <- function(cohort, 
                                query,
-                               all_columns) {
+                               keep_query = TRUE) {
 
+  query <- .create_final_query(cohort = cohort, query = query, keep_query = keep_query)
   all_filters <- .query_body_to_v1(query) 
   
+  col_ids <- sapply(cohort@columns, function(col){col$field$id})
+  columns <- .build_column_body(col_ids)
+
   # prepare request body
-  r_body <- list("columns" = all_columns,
+  r_body <- list("columns" = columns,
                  "moreFilters" = all_filters)
   
   cloudos <- .check_and_load_all_cloudos_env_var()
@@ -162,20 +177,27 @@ cb_apply_query <- function(cohort,
   if (!is.null(res$message)) message(res$message)
   httr::stop_for_status(r, task = "apply query")
   
-  return(message("Query applied sucessfully, Current number of Participants - ", res$numberOfParticipants))
+  message("Query applied sucessfully, Current number of Participants - ", res$numberOfParticipants)
+
+  return(cb_load_cohort(cohort@id, cb_version = cohort@cb_version))
 }
 
 .cb_apply_query_v2 <- function(cohort, 
                                query,
-                               all_columns) {
+                               keep_query = TRUE) {
+
+  query <- .create_final_query(cohort = cohort, query = query, keep_query = keep_query)
 
   # get count of particpants if query is applied
   no_participants <- cb_participant_count(cohort, query = query, keep_query = F)
   
+  col_ids <- sapply(cohort@columns, function(col){col$field$id})
+  columns <- .build_column_body(col_ids)
+
   # prepare request body
   r_body <- list(name = cohort@name,
                  description = cohort@desc,
-                 columns = all_columns,
+                 columns = columns,
                  type = "advanced",
                  numberOfParticipants = no_participants$count)
   
@@ -196,47 +218,9 @@ cb_apply_query <- function(cohort,
   if (!is.null(res$message)) message(res$message)
   httr::stop_for_status(r, task = "apply query")
   
-  return(message("Query applied sucessfully."))
-}
-
-.create_all_columns <- function(cohort, 
-                                column_ids, 
-                                keep_columns){
+  message("Query applied sucessfully. Current number of Participants - ", no_participants$count)
   
-  all_columns <- c()
-  if (!missing(column_ids)) {
-    all_columns <- .build_column_body(column_ids)
-  }
-  if (keep_columns) {
-    existing_ids <- sapply(cohort@columns, function(col){col$field$id})
-    existing_columns <- .build_column_body(existing_ids)
-    all_columns <- c(existing_columns, all_columns)
-  }
-  
-  if(is.null(all_columns)) all_columns <- list()
-  
-  return(all_columns)
-  
-}
-
-.create_final_query <- function(cohort, 
-                                query, 
-                                keep_query){
-  
-  if (!identical(query, list())) {
-    if (is.null(query$operator)){ 
-      query <- list(operator = "AND", queries = list(query))
-    }
-    if (keep_query & !identical(cohort@query, list())) {
-      query <- query & structure(cohort@query, class = "cbQuery")
-    }
-  } 
-  else if (keep_query) {
-    query <- structure(cohort@query, class = "cbQuery")
-  }
-  
-  return(.remove_single_nodes(query))
-  
+  return(cb_load_cohort(cohort@id, cb_version = cohort@cb_version))
 }
 
 
