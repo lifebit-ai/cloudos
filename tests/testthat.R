@@ -13,8 +13,4 @@ test_check("cloudos")
 #   with capture_requests({ ... }).
 # + This will create a directory structure that matches the server url you used.
 # + Now copy the 'v1' or 'v2' directory nested in that structure into tests/testthat/api/
-# + Check to see if any of the .json or .R files generated in that structure have the cohort id
-#   that was used in the code as part of their filename.
-# + If so, change that part of the filename to f.e.g. "05" and edit the unit test code to use
-#   this new short cohort id.
 # + Add your new unit test code in the tests/testthat directory.

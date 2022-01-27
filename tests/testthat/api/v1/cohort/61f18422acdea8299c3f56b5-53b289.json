@@ -1,0 +1,441 @@
+{
+    "_id": "61f18422acdea8299c3f56b5",
+    "name": "cb_test_r",
+    "columns": [
+        {
+            "id": 4,
+            "instance": 0,
+            "array": {
+                "type": "exact",
+                "value": 0
+            },
+            "field": {
+                "_id": "61b70f90bfd0268465ac3dff",
+                "display": "dropdown",
+                "possibleValues": [
+                    {
+                        "key": "Male",
+                        "label": "Male"
+                    },
+                    {
+                        "key": "Female",
+                        "label": "Female"
+                    },
+                    {
+                        "key": "Prefer not to say",
+                        "label": "Prefer not to say"
+                    }
+                ],
+                "clinicalForm": "MainForm",
+                "group": "Baseline data",
+                "recruiterDescription": "This is the sex of the patient",
+                "bucket500": false,
+                "bucket1000": false,
+                "bucket2500": false,
+                "bucket5000": false,
+                "bucket300": false,
+                "bucket10000": false,
+                "categoryPathLevel1": "Main form data",
+                "id": 4,
+                "instances": 1,
+                "name": "Sex",
+                "type": "bars",
+                "Sorting": "",
+                "valueType": "Categorical multiple",
+                "units": "",
+                "coding": "",
+                "description": "",
+                "descriptionParticipantsNo": "Not provided",
+                "link": "",
+                "array": 1,
+                "descriptionCategoryID": "",
+                "descriptionItemType": "",
+                "descriptionStrata": "",
+                "descriptionSexed": "",
+                "orderPhenotype": "",
+                "instance0Name": "",
+                "instance1Name": "",
+                "instance2Name": "",
+                "instance3Name": "",
+                "instance4Name": "",
+                "instance5Name": "",
+                "instance6Name": "",
+                "instance7Name": "",
+                "instance8Name": "",
+                "instance9Name": "",
+                "instance10Name": "",
+                "instance11Name": "",
+                "instance12Name": "",
+                "instance13Name": "",
+                "instance14Name": "",
+                "instance15Name": "",
+                "instance16Name": ""
+            }
+        },
+        {
+            "id": 6,
+            "instance": 0,
+            "array": {
+                "type": "exact",
+                "value": 0
+            },
+            "field": {
+                "_id": "61b70f90bfd0268465ac3e01",
+                "display": "integer",
+                "possibleValues": [
+
+                ],
+                "recruiterDescription": "This is the age of the patient's mother during pregnancy (in years)",
+                "min": 15,
+                "max": 60,
+                "group": "Perinatal history",
+                "clinicalForm": "udForm",
+                "bucket500": false,
+                "bucket1000": false,
+                "bucket2500": false,
+                "bucket5000": false,
+                "bucket300": false,
+                "bucket10000": false,
+                "categoryPathLevel1": "Undiagnosed disease form",
+                "categoryPathLevel2": "Perinatal history",
+                "id": 6,
+                "instances": 1,
+                "name": "Maternal age during pregnancy (years)",
+                "type": "histogram",
+                "Sorting": "",
+                "valueType": "Integer",
+                "units": "years",
+                "coding": "",
+                "description": "",
+                "descriptionParticipantsNo": "Not provided",
+                "link": "",
+                "array": 1,
+                "descriptionCategoryID": "",
+                "descriptionItemType": "",
+                "descriptionStrata": "",
+                "descriptionSexed": "",
+                "orderPhenotype": "",
+                "instance0Name": "",
+                "instance1Name": "",
+                "instance2Name": "",
+                "instance3Name": "",
+                "instance4Name": "",
+                "instance5Name": "",
+                "instance6Name": "",
+                "instance7Name": "",
+                "instance8Name": "",
+                "instance9Name": "",
+                "instance10Name": "",
+                "instance11Name": "",
+                "instance12Name": "",
+                "instance13Name": "",
+                "instance14Name": "",
+                "instance15Name": "",
+                "instance16Name": ""
+            }
+        },
+        {
+            "id": 8,
+            "instance": 0,
+            "array": {
+                "type": "exact",
+                "value": 0
+            },
+            "field": {
+                "_id": "61b70f90bfd0268465ac3e06",
+                "display": "checkBox",
+                "possibleValues": [
+                    {
+                        "key": "Abnormal NIPT",
+                        "label": "Abnormal NIPT",
+                        "array": 0
+                    },
+                    {
+                        "key": "MRI",
+                        "label": "MRI",
+                        "array": 1
+                    },
+                    {
+                        "key": "Other genetic testing",
+                        "label": "Other genetic testing",
+                        "array": 2
+                    },
+                    {
+                        "key": "Ultrasound",
+                        "label": "Ultrasound",
+                        "array": 3
+                    }
+                ],
+                "recruiterDescription": "",
+                "clinicalForm": "udForm",
+                "group": "Perinatal history",
+                "bucket500": false,
+                "bucket1000": false,
+                "bucket2500": false,
+                "bucket5000": false,
+                "bucket300": false,
+                "bucket10000": false,
+                "categoryPathLevel1": "Undiagnosed disease form",
+                "id": 8,
+                "instances": 1,
+                "name": "Abnormal antenatal findings",
+                "type": "bars",
+                "Sorting": "",
+                "valueType": "Categorical multiple",
+                "units": "",
+                "coding": "",
+                "description": "",
+                "descriptionParticipantsNo": "Not provided",
+                "link": "",
+                "array": 100,
+                "descriptionCategoryID": "",
+                "descriptionItemType": "",
+                "descriptionStrata": "",
+                "descriptionSexed": "",
+                "orderPhenotype": "",
+                "instance0Name": "",
+                "instance1Name": "",
+                "instance2Name": "",
+                "instance3Name": "",
+                "instance4Name": "",
+                "instance5Name": "",
+                "instance6Name": "",
+                "instance7Name": "",
+                "instance8Name": "",
+                "instance9Name": "",
+                "instance10Name": "",
+                "instance11Name": "",
+                "instance12Name": "",
+                "instance13Name": "",
+                "instance14Name": "",
+                "instance15Name": "",
+                "instance16Name": ""
+            }
+        },
+        {
+            "id": 9,
+            "instance": 0,
+            "array": {
+                "type": "exact",
+                "value": 0
+            },
+            "field": {
+                "_id": "61b70f90bfd0268465ac3e09",
+                "display": "checkBox",
+                "possibleValues": [
+                    {
+                        "key": "Alcohol",
+                        "label": "Alcohol",
+                        "array": 0
+                    },
+                    {
+                        "key": "Drugs/teratogens",
+                        "label": "Drugs/teratogens",
+                        "array": 1
+                    },
+                    {
+                        "key": "Maternal chronic illness",
+                        "label": "Maternal chronic illness",
+                        "array": 2
+                    },
+                    {
+                        "key": "Maternal infection",
+                        "label": "Maternal infection",
+                        "array": 3
+                    },
+                    {
+                        "key": "Smoking",
+                        "label": "Smoking",
+                        "array": 4
+                    }
+                ],
+                "recruiterDescription": "Whether the mather of the patient smoked or consumed alcohol during pregnancy",
+                "clinicalForm": "udForm",
+                "group": "Perinatal history",
+                "bucket500": false,
+                "bucket1000": false,
+                "bucket2500": false,
+                "bucket5000": false,
+                "bucket300": false,
+                "bucket10000": false,
+                "categoryPathLevel1": "Undiagnosed disease form",
+                "categoryPathLevel2": "Perinatal history",
+                "id": 9,
+                "instances": 1,
+                "name": "During pregnancy",
+                "type": "bars",
+                "Sorting": "",
+                "valueType": "Categorical multiple",
+                "units": "",
+                "coding": "",
+                "description": "",
+                "descriptionParticipantsNo": "Not provided",
+                "link": "",
+                "array": 100,
+                "descriptionCategoryID": "",
+                "descriptionItemType": "",
+                "descriptionStrata": "",
+                "descriptionSexed": "",
+                "orderPhenotype": "",
+                "instance0Name": "",
+                "instance1Name": "",
+                "instance2Name": "",
+                "instance3Name": "",
+                "instance4Name": "",
+                "instance5Name": "",
+                "instance6Name": "",
+                "instance7Name": "",
+                "instance8Name": "",
+                "instance9Name": "",
+                "instance10Name": "",
+                "instance11Name": "",
+                "instance12Name": "",
+                "instance13Name": "",
+                "instance14Name": "",
+                "instance15Name": "",
+                "instance16Name": ""
+            }
+        }
+    ],
+    "moreFields": [
+        {
+            "fieldId": 13,
+            "instance": [
+                0
+            ],
+            "range": {
+                "from": "2014-12-12",
+                "to": "2017-05-07"
+            },
+            "finished": true
+        },
+        {
+            "fieldId": 203,
+            "instance": [
+                0
+            ],
+            "value": [
+                "Left"
+            ],
+            "finished": true
+        }
+    ],
+    "fields": [
+        {
+            "field": {
+                "_id": "61b70f90bfd0268465ac3e16",
+                "display": "integer",
+                "possibleValues": [
+
+                ],
+                "clinicalForm": "MainForm",
+                "recruiterDescription": "Height of the patient in centimeter",
+                "min": 130,
+                "max": 250,
+                "group": "Physical Information",
+                "bucket500": false,
+                "bucket1000": false,
+                "bucket2500": false,
+                "bucket5000": false,
+                "bucket300": false,
+                "bucket10000": false,
+                "categoryPathLevel1": "Main form data",
+                "id": 13,
+                "instances": 1,
+                "name": "Height (cm)",
+                "type": "histogram",
+                "Sorting": "",
+                "valueType": "Integer",
+                "units": "cm",
+                "coding": "",
+                "description": "",
+                "descriptionParticipantsNo": "Not provided",
+                "link": "",
+                "array": 100,
+                "descriptionCategoryID": "",
+                "descriptionItemType": "",
+                "descriptionStrata": "",
+                "descriptionSexed": "",
+                "orderPhenotype": "",
+                "instance0Name": "",
+                "instance1Name": "",
+                "instance2Name": "",
+                "instance3Name": "",
+                "instance4Name": "",
+                "instance5Name": "",
+                "instance6Name": "",
+                "instance7Name": "",
+                "instance8Name": "",
+                "instance9Name": "",
+                "instance10Name": "",
+                "instance11Name": "",
+                "instance12Name": "",
+                "instance13Name": "",
+                "instance14Name": "",
+                "instance15Name": "",
+                "instance16Name": ""
+            },
+            "instances": [
+                0
+            ],
+            "createAt": 1643275803938,
+            "updatedAt": 1643275803938
+        },
+        {
+            "field": {
+                "_id": "61b70f90bfd0268465ac3e8d",
+                "display": "text",
+                "possibleValues": "",
+                "group": "clinicalFeatures",
+                "clinicalForm": "udForm",
+                "bucket500": false,
+                "bucket1000": false,
+                "bucket2500": false,
+                "bucket5000": false,
+                "bucket300": false,
+                "bucket10000": false,
+                "categoryPathLevel1": "Cancer form",
+                "categoryPathLevel2": "Clinical Summary",
+                "id": 203,
+                "instances": 1,
+                "name": "Clinical summary",
+                "type": "text_search",
+                "Sorting": "",
+                "valueType": "Categorical single",
+                "units": "",
+                "coding": "",
+                "description": "",
+                "descriptionParticipantsNo": "Not provided",
+                "link": "",
+                "array": 100,
+                "descriptionCategoryID": "",
+                "descriptionItemType": "",
+                "descriptionStrata": "",
+                "descriptionSexed": "",
+                "orderPhenotype": "",
+                "instance0Name": "",
+                "instance1Name": "",
+                "instance2Name": "",
+                "instance3Name": "",
+                "instance4Name": "",
+                "instance5Name": "",
+                "instance6Name": "",
+                "instance7Name": "",
+                "instance8Name": "",
+                "instance9Name": "",
+                "instance10Name": "",
+                "instance11Name": "",
+                "instance12Name": "",
+                "instance13Name": "",
+                "instance14Name": "",
+                "instance15Name": "",
+                "instance16Name": ""
+            },
+            "instances": [
+                0
+            ],
+            "createAt": 1643275803938,
+            "updatedAt": 1643275803938
+        }
+    ]
+}
