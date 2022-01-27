@@ -199,6 +199,7 @@ setMethod("show", "cohort",
             cat("Cohort Name: ", object@name, "\n")
             cat("Cohort Description: ", object@desc, "\n")
             cat("Number of phenotypes in query: ", length(object@query_phenotype_ids), "\n")
+            cat("Number of participants in cohort: ", object@num_participants, "\n")
             cat("Cohort Browser version: ", object@cb_version, "\n")
           }
 )
