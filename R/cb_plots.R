@@ -21,14 +21,16 @@
 #'
 #' @import ggplot2
 #' @import dplyr
-#'
-#' @export
 cb_plot_filters <- function(cohort){
   # get cohort information so this can be used to get names
   # and applied filters
   my_cohort_info <- .get_cohort_info(cohort_id = cohort@id)
   # get filter dataframe list, this is independent of cohort info
-  filter_df_list <- cb_get_cohort_phenotypes(cohort)
+  filter_df_list <- list()
+  for(field_id in cohort@query_phenotype_ids){
+  filter_df_list[[as.character(field_id)]] <- cb_get_phenotype_statistics(cohort = cohort,
+                                                                        pheno_id = field_id)
+  }
   # empty ggplot list
   plot_list <- list()
   # run though all the filters in the cohort

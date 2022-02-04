@@ -8,11 +8,11 @@ Authors@R: c(
            email = "sangram@lifebit.ai"),
     person(given = "Ilya",
            family = "Levantis",
-           role = c("aut", "cre"),
+           role = "aut",
            email = "ilya@lifebit.ai"),
     person(given = "Henry",
            family = "Stewart",
-           role = c("aut", "cre"),
+           role = "aut",
            email = "henry@lifebit.ai"),
     person(given = "Lifebit Biotech Ltd.",
            role = "cph")
@@ -23,7 +23,7 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Imports: 
     httr,
     utils,
