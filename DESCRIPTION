@@ -1,11 +1,19 @@
 Package: cloudos
 Title: R Client Library for CloudOS
-Version: 0.2.0.9006
+Version: 0.3.0
 Authors@R: c(
     person(given = "Sangram Keshari",
            family = "Sahu",
            role = c("aut", "cre"),
            email = "sangram@lifebit.ai"),
+    person(given = "Ilya",
+           family = "Levantis",
+           role = "aut",
+           email = "ilya@lifebit.ai"),
+    person(given = "Henry",
+           family = "Stewart",
+           role = "aut",
+           email = "henry@lifebit.ai"),
     person(given = "Lifebit Biotech Ltd.",
            role = "cph")
     )
@@ -15,7 +23,7 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Imports: 
     httr,
     utils,

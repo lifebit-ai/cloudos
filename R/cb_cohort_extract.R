@@ -497,29 +497,3 @@ cb_get_participants_table_long <- function(cohort,
   
   return(final_df)
 }
-
-#######################################################################
-
-#' @title Extract participants - WIP
-#'
-#' @description Extracts selected participants.
-#'
-#' @param raw_data A JSON string for selected participants. (Required)
-#'
-#' @return A dataframe.
-#'
-cb_extract_samples <- function(raw_data) {
-  cloudos <- .check_and_load_all_cloudos_env_var()
-  url <- paste(cloudos$base_url, "v1/cohort/participants/export", sep = "/")
-  # TODO work on raw_data - Find an end point that returns this and make a json in R
-  r <- httr::POST(url,
-                  .get_httr_headers(cloudos$token),
-                  body = raw_data,
-                  encode = "json"
-  )
-  httr::stop_for_status(r, task = NULL)
-  # parse the content
-  res <- httr::content(r, as = "text")
-  df <- utils::read.csv(textConnection(res))
-  return(df)
-}
