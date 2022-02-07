@@ -14,3 +14,4 @@ reference:
   contents:
   - '`cohort-class`'
   - starts_with("cb_")
+  - phenotype

@@ -26,8 +26,8 @@
 }
 
 
-#' only used for v1 endpoint - creates v1 search json using the v2 style query
-#' @param my_cohort A cohort object
+# only used for v1 endpoint - creates v1 search json using the v2 style query
+# @param my_cohort A cohort object
 .get_search_json <- function(my_cohort){
 
   search = list()

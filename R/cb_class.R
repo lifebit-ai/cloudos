@@ -87,11 +87,11 @@ setClass("cohort",
 }
 
 
-#' Convert a v1 style query (moreFields) to v2 style (query).
-#' v2 queries are a superset of v1 queries. A list of v1 phenotype queries are equivalent to a 
-#' set of nested v2 AND operators containing those phenotypes. This function builds the nested 
-#' AND query from the flat list of v1 phenotypes.
-#' @param cohort_more_fields query information ('moreFields') from .get_cohort_info(cohort_id, cb_version="v1)
+# Convert a v1 style query (moreFields) to v2 style (query).
+# v2 queries are a superset of v1 queries. A list of v1 phenotype queries are equivalent to a 
+# set of nested v2 AND operators containing those phenotypes. This function builds the nested 
+# AND query from the flat list of v1 phenotypes.
+# @param cohort_more_fields query information ('moreFields') from .get_cohort_info(cohort_id, cb_version="v1)
 .v1_query_to_v2 <- function(cohort_more_fields){
   andop <- list("operator" = "AND",
                 "queries" = list())
