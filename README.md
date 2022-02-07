@@ -4,8 +4,8 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- badges: start -->
 
-[![Lifecycle:
-experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![Lifecycle: 
+stable](https://img.shields.io/badge/lifecycle-stable-green.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![R build
 status](https://github.com/lifebit-ai/cloudos/workflows/R-CMD-check/badge.svg)](https://github.com/lifebit-ai/cloudos/actions)
 <!-- badges: end -->
@@ -15,16 +15,32 @@ status](https://github.com/lifebit-ai/cloudos/workflows/R-CMD-check/badge.svg)](
 
 ## Installation
 
-You can install the latest release of **cloudos** from
-[GitHub](https://github.com/lifebit-ai/cloudos/).
+You can install the latest release of **cloudos** from:
 
++ [CRAN](https://cran.r-project.org/package=cloudos):
+``` r
+install.packages("cloudos")
+```
+
++ [conda-forge](https://anaconda.org/conda-forge/r-cloudos):
+
+``` shell
+ conda install -c conda-forge r-cloudos
+```
+
++ [GitHub](https://github.com/lifebit-ai/cloudos/):
 ``` r
 if (!require(remotes)) { install.packages("remotes") }
   remotes::install_github("lifebit-ai/cloudos")
 ```
 
-We are currently working towards making the package available through
-[CRAN](https://CRAN.R-project.org).
+Alternatively, you can install the latest development version of **cloudos**:
+``` shell
+git clone https://github.com/lifebit-ai/cloudos
+cd cloudos
+git checkout origin/devel
+Rscript -e 'devtools::install(".")'
+```
 
 ## Usage
 
@@ -97,6 +113,9 @@ cloudos_configure(base_url = "xxx",
 ```
 
 ## Application - Cohort Browser
+
+**Below information is out of date, please refer to the [latest function docs](https://lifebit-ai.github.io/cloudos/reference/index.html)**.
+
 
 Cohort Browser is part of Lifebit’s CloudOS offering. Let’s explore how
 to interact with this in R environment.

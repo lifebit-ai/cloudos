@@ -1,3 +1,11 @@
+# cloudos 0.3.0
+
+* Overhaul of the cohort query system. Query syntax is now much easier to use.
+* Neater and more consistent tabular outputs for many functions.
+* Split cb_apply_query into seperate functions for applying query (cb_apply_query) and setting columns (cb_set_columns).
+* Better error messaging.
+* Many bug fixes.
+
 # cloudos 0.2.0
 
 * Adds compatibility for cohort browser v2 API.

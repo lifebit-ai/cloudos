@@ -267,41 +267,6 @@ cb_get_phenotype_statistics <- function(cohort, pheno_id, max_depth = Inf, page_
 }
 
 
-#' @title Get data for phenotypes associated with a cohort
-#'
-#' @description Get a dataframe with distirbution data for each phenotype associated with a cohort.
-#'   Associated phenotypes are those found in the "Overview" section of the Cohort Browser Web UI.
-#'
-#' @param cohort A cohort object. (Required)
-#' See constructor function \code{\link{cb_create_cohort}} or \code{\link{cb_load_cohort}}
-#'
-#' @return A list of data frames.
-#'
-#' @example
-#' \dontrun{
-#' my_cohort <- cb_load_cohort(cohort_id = "5f9af3793dd2dc6091cd17cd")
-#' cb_get_cohort_phenotypes(my_cohort)
-#' }
-#'
-#' @export
-cb_get_cohort_phenotypes <- function(cohort){
-  # get all the filters dataframe in a single list
-  filter_list <- list()
-  for(filter in cohort@phenoptype_filters){
-    field_id <- filter$field$id
-    filter_list[[as.character(field_id)]] <- cb_get_phenotype_statistics(cohort = cohort,
-                                                                         pheno_id = field_id)
-    # compare with applied filters from cohort and modify the dataframe
-    # if(names(cohort@more_fields[[i]][3]) == "value"){
-    #   
-    # }else if (names(cohort@more_fields[[i]][3]) == "range"){
-    #  
-    # }else{
-    #   stop("Unknown filter type. Accepts 'range' and 'value' only.")
-    # }
-  }
-  return(filter_list)
-}
 
 #' @title Participant Count
 #'
