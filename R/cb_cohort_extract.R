@@ -82,7 +82,7 @@ cb_get_genotypic_table <- function(cohort,
   return(genotypic_filters_list)
 }
 
-#' @param res The res <- httr::content(r) content
+# @param res The res <- httr::content(r) content
 .total_row_size_message <-  function(res){
   if(res$total){
     message(paste("Total number of rows found", res$total, 
