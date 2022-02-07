@@ -21,6 +21,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -33,18 +35,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">cloudos</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
@@ -54,7 +50,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/lifebit-ai/cloudos/">
+  <a href="https://github.com/lifebit-ai/cloudos/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -71,87 +67,108 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="cloudos-" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#cloudos-" class="anchor"></a>cloudos <img src="reference/figures/logo/hexlogo.png" align="right" height="140/">
+<div class="section level1">
+<div class="page-header"><h1 id="cloudos-">cloudos <img src="reference/figures/logo/hexlogo.png" align="right" height="140/"><a class="anchor" aria-label="anchor" href="#cloudos-"></a>
 </h1></div>
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- badges: start -->
 
-<p><strong>cloudos</strong> R package makes it easy to interact with Lifebit’s CloudOS <a href="https://cloudos.lifebit.ai/" class="uri">https://cloudos.lifebit.ai/</a> platform in an R environment.</p>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
-<p>You can install the latest release of <strong>cloudos</strong> from <a href="https://github.com/lifebit-ai/cloudos/">GitHub</a>.</p>
+<p><strong>cloudos</strong> R package makes it easy to interact with Lifebit’s CloudOS <a href="https://cloudos.lifebit.ai/" class="external-link uri">https://cloudos.lifebit.ai/</a> platform in an R environment.</p>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p>You can install the latest release of <strong>cloudos</strong> from:</p>
+<ul>
+<li>
+<a href="https://cran.r-project.org/package=cloudos" class="external-link">CRAN</a>:</li>
+</ul>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="https://remotes.r-lib.org">remotes</a></span><span class="op">)</span><span class="op">)</span> <span class="op">{</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span> <span class="op">}</span>
-  <span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"lifebit-ai/cloudos"</span><span class="op">)</span></code></pre></div>
-<p>We are currently working towards making the package available through <a href="https://CRAN.R-project.org">CRAN</a>.</p>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"cloudos"</span><span class="op">)</span></code></pre></div>
+<ul>
+<li>
+<a href="https://anaconda.org/conda-forge/r-cloudos" class="external-link">conda-forge</a>:</li>
+</ul>
+<pre class="shell"><code> conda install -c conda-forge r-cloudos</code></pre>
+<ul>
+<li>
+<a href="https://github.com/lifebit-ai/cloudos/" class="external-link">GitHub</a>:</li>
+</ul>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://remotes.r-lib.org" class="external-link">remotes</a></span><span class="op">)</span><span class="op">)</span> <span class="op">{</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span> <span class="op">}</span>
+  <span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"lifebit-ai/cloudos"</span><span class="op">)</span></code></pre></div>
+<p>Alternatively, you can install the latest development version of <strong>cloudos</strong>:</p>
+<pre class="shell"><code>git clone https://github.com/lifebit-ai/cloudos
+cd cloudos
+git checkout origin/devel
+Rscript -e 'devtools::install(".")'</code></pre>
 </div>
-<div id="usage" class="section level2">
-<h2 class="hasAnchor">
-<a href="#usage" class="anchor"></a>Usage</h2>
+<div class="section level2">
+<h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
+</h2>
 <p>Below is a demonstration of how the <strong>cloudos</strong> package can be used.</p>
-<div id="load-the-library" class="section level3">
-<h3 class="hasAnchor">
-<a href="#load-the-library" class="anchor"></a>Load the library</h3>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/lifebit-ai/cloudos">cloudos</a></span><span class="op">)</span>
+<div class="section level3">
+<h3 id="load-the-library">Load the library<a class="anchor" aria-label="anchor" href="#load-the-library"></a>
+</h3>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/lifebit-ai/cloudos" class="external-link">cloudos</a></span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Welcome to Lifebit's CloudOS R client </span>
 <span class="co">#&gt; For Documentation visit - https://lifebit-ai.github.io/cloudos/ </span>
 <span class="co">#&gt; This package is under activate development. If you found any issues, </span>
 <span class="co">#&gt; Please reach out here - https://github.com/lifebit-ai/cloudos/issues</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://yihui.org/knitr/">knitr</a></span><span class="op">)</span> <span class="co"># For better visualization of wide dataframes in this README examples</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org">magrittr</a></span><span class="op">)</span> <span class="co"># For pipe</span></code></pre></div>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://yihui.org/knitr/" class="external-link">knitr</a></span><span class="op">)</span> <span class="co"># For better visualization of wide dataframes in this README examples</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org" class="external-link">magrittr</a></span><span class="op">)</span> <span class="co"># For pipe</span></code></pre></div>
 </div>
-<div id="configure-cloudos" class="section level3">
-<h3 class="hasAnchor">
-<a href="#configure-cloudos" class="anchor"></a>Configure CloudOS</h3>
+<div class="section level3">
+<h3 id="configure-cloudos">Configure CloudOS<a class="anchor" aria-label="anchor" href="#configure-cloudos"></a>
+</h3>
 <p>This package is primarily a means of communicating with a CloudOS instance using it’s API. Before it can communicate with the CloudOS instance, the package must be configured with some key information: - The CloudOS base URL. This is the URL in your browser when you navigate to the Cohort Browser in CloudOS. Often of the form <code>https://my_instance.lifebit.ai/app/cohort-browser</code>. - The CloudOS token. Navigate to settings page in CloudOS to generate an API key you can use as your token (see image below). - The CloudOS team ID. Also found in the settings page in CloudOS labelled as the “Workspace ID” (see image below).</p>
-<p><img src="reference/figures/settings_page.png" alt="CloudOS settings page"></p>
+<div class="figure">
+<img src="reference/figures/settings_page.png" alt=""><p class="caption">CloudOS settings page</p>
+</div>
 <p>The package will look for this information in the following locations in this order:</p>
-<ol>
+<ol style="list-style-type: decimal">
 <li>From environment variables <code>CLOUDOS_BASEURL</code>, <code>CLOUDOS_TOKEN</code>, and <code>CLOUDOS_TEAMID</code>.</li>
 <li>From a cloudos configuration file.</li>
 </ol>
 <p>There are three ways to configure the package:</p>
-<ol>
+<ol style="list-style-type: decimal">
 <li>Add them to <code>~/.Renviron</code> in the following way, which will load the environment variables on beginning of the R-session</li>
 </ol>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">CLOUDOS_BASEURL</span><span class="op">=</span><span class="st">"xxx"</span>
 <span class="va">CLOUDOS_TOKEN</span><span class="op">=</span><span class="st">"xxx"</span>
 <span class="va">CLOUDOS_TEAMID</span><span class="op">=</span><span class="st">"xxx"</span></code></pre></div>
-<ol>
-<li>Add them during an R session using <code><a href="https://rdrr.io/r/base/Sys.setenv.html">Sys.setenv(ENV_VAR = "env_var_value")</a></code>
+<ol start="2" style="list-style-type: decimal">
+<li>Add them during an R session using <code>Sys.setenv(ENV_VAR = "env_var_value")</code>
 </li>
 </ol>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html">Sys.setenv</a></span><span class="op">(</span>CLOUDOS_BASEURL <span class="op">=</span> <span class="st">"xxx"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html">Sys.setenv</a></span><span class="op">(</span>CLOUDOS_TOKEN <span class="op">=</span> <span class="st">"xxx"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html">Sys.setenv</a></span><span class="op">(</span>CLOUDOS_TEAMID <span class="op">=</span> <span class="st">"xxx"</span><span class="op">)</span></code></pre></div>
-<ol>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html" class="external-link">Sys.setenv</a></span><span class="op">(</span>CLOUDOS_BASEURL <span class="op">=</span> <span class="st">"xxx"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html" class="external-link">Sys.setenv</a></span><span class="op">(</span>CLOUDOS_TOKEN <span class="op">=</span> <span class="st">"xxx"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html" class="external-link">Sys.setenv</a></span><span class="op">(</span>CLOUDOS_TEAMID <span class="op">=</span> <span class="st">"xxx"</span><span class="op">)</span></code></pre></div>
+<ol start="3" style="list-style-type: decimal">
 <li>Use the function <code><a href="reference/cloudos_configure.html">cloudos_configure()</a></code>, which will create a <code>~/.cloudos/config</code> that will persist between R sessions and be read from each time (Recommended way if you are using multiple cloudos clients).</li>
 </ol>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/cloudos_configure.html">cloudos_configure</a></span><span class="op">(</span>base_url <span class="op">=</span> <span class="st">"xxx"</span>,
                   token <span class="op">=</span> <span class="st">"xxx"</span>,
                   team_id <span class="op">=</span> <span class="st">"xxx"</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
-<div id="application---cohort-browser" class="section level2">
-<h2 class="hasAnchor">
-<a href="#application---cohort-browser" class="anchor"></a>Application - Cohort Browser</h2>
+<div class="section level2">
+<h2 id="application---cohort-browser">Application - Cohort Browser<a class="anchor" aria-label="anchor" href="#application---cohort-browser"></a>
+</h2>
+<p><strong>Below information is out of date, please refer to the <a href="https://lifebit-ai.github.io/cloudos/reference/index.html">latest function docs</a></strong>.</p>
 <p>Cohort Browser is part of Lifebit’s CloudOS offering. Let’s explore how to interact with this in R environment.</p>
-<div id="list-cohorts" class="section level3">
-<h3 class="hasAnchor">
-<a href="#list-cohorts" class="anchor"></a>List Cohorts</h3>
+<div class="section level3">
+<h3 id="list-cohorts">List Cohorts<a class="anchor" aria-label="anchor" href="#list-cohorts"></a>
+</h3>
 <p>To check list of available cohorts in a workspace.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">cohorts</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cb_list_cohorts.html">cb_list_cohorts</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; Total number of cohorts found: 3. Showing 10 by default. Change 'size' parameter to return more.</span>
-<span class="va">cohorts</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">5</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<span class="va">cohorts</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">5</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <colgroup>
 <col width="13%">
@@ -202,11 +219,11 @@
 </tbody>
 </table>
 </div>
-<div id="create-a-cohort" class="section level3">
-<h3 class="hasAnchor">
-<a href="#create-a-cohort" class="anchor"></a>Create a cohort</h3>
+<div class="section level3">
+<h3 id="create-a-cohort">Create a cohort<a class="anchor" aria-label="anchor" href="#create-a-cohort"></a>
+</h3>
 <p>To create a new cohort.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">my_cohort</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cb_create_cohort.html">cb_create_cohort</a></span><span class="op">(</span>cohort_name <span class="op">=</span> <span class="st">"Cohort-R"</span>,
                              cohort_desc <span class="op">=</span> <span class="st">"This cohort is for testing purpose, created from R."</span><span class="op">)</span>
 <span class="co">#&gt; Cohort created successfully.</span>
@@ -217,11 +234,11 @@
 <span class="co">#&gt; Number of phenotypes in query:  1 </span>
 <span class="co">#&gt; Cohort Browser version:  v2</span></code></pre></div>
 </div>
-<div id="get-a-cohort" class="section level3">
-<h3 class="hasAnchor">
-<a href="#get-a-cohort" class="anchor"></a>Get a cohort</h3>
+<div class="section level3">
+<h3 id="get-a-cohort">Get a cohort<a class="anchor" aria-label="anchor" href="#get-a-cohort"></a>
+</h3>
 <p>Get a available cohort in to a cohort R object. This cohort object can be used in many different other functions.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">other_cohort</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cb_load_cohort.html">cb_load_cohort</a></span><span class="op">(</span>cohort_id <span class="op">=</span> <span class="st">"610ac00edb7c7a1d9d0c309f"</span><span class="op">)</span>
 <span class="va">other_cohort</span>
 <span class="co">#&gt; Cohort ID:  610ac00edb7c7a1d9d0c309f </span>
@@ -230,18 +247,18 @@
 <span class="co">#&gt; Number of phenotypes in query:  2 </span>
 <span class="co">#&gt; Cohort Browser version:  v2</span></code></pre></div>
 </div>
-<div id="explore-available-phenotypes" class="section level3">
-<h3 class="hasAnchor">
-<a href="#explore-available-phenotypes" class="anchor"></a>Explore available phenotypes</h3>
-<div id="search-phenotypes" class="section level4">
-<h4 class="hasAnchor">
-<a href="#search-phenotypes" class="anchor"></a>Search phenotypes</h4>
+<div class="section level3">
+<h3 id="explore-available-phenotypes">Explore available phenotypes<a class="anchor" aria-label="anchor" href="#explore-available-phenotypes"></a>
+</h3>
+<div class="section level4">
+<h4 id="search-phenotypes">Search phenotypes<a class="anchor" aria-label="anchor" href="#search-phenotypes"></a>
+</h4>
 <p>Search for phenotypes based on a term. Searching with <code>term = ""</code> will return all the available phenotypes.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">disease_phenotypes</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cb_search_phenotypes.html">cb_search_phenotypes</a></span><span class="op">(</span>term <span class="op">=</span> <span class="st">"disease"</span><span class="op">)</span>
 <span class="co">#&gt; Total number of phenotypic filters found - 18</span>
-<span class="va">disease_phenotypes</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">5</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<table class="table">
+<span class="va">disease_phenotypes</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">5</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<table style="width:100%;" class="table">
 <colgroup>
 <col width="0%">
 <col width="3%">
@@ -353,7 +370,7 @@
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">89132</td>
-<td align="left"><a href="https://cnfl.extge.co.uk/pages/viewpage.action?pageId=147659370" class="uri">https://cnfl.extge.co.uk/pages/viewpage.action?pageId=147659370</a></td>
+<td align="left"><a href="https://cnfl.extge.co.uk/pages/viewpage.action?pageId=147659370" class="external-link uri">https://cnfl.extge.co.uk/pages/viewpage.action?pageId=147659370</a></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -398,7 +415,7 @@
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">89132</td>
-<td align="left"><a href="https://cnfl.extge.co.uk/pages/viewpage.action?pageId=147659370" class="uri">https://cnfl.extge.co.uk/pages/viewpage.action?pageId=147659370</a></td>
+<td align="left"><a href="https://cnfl.extge.co.uk/pages/viewpage.action?pageId=147659370" class="external-link uri">https://cnfl.extge.co.uk/pages/viewpage.action?pageId=147659370</a></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -443,7 +460,7 @@
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">17404</td>
-<td align="left"><a href="https://cnfl.extge.co.uk/pages/viewpage.action?pageId=147659370" class="uri">https://cnfl.extge.co.uk/pages/viewpage.action?pageId=147659370</a></td>
+<td align="left"><a href="https://cnfl.extge.co.uk/pages/viewpage.action?pageId=147659370" class="external-link uri">https://cnfl.extge.co.uk/pages/viewpage.action?pageId=147659370</a></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -488,7 +505,7 @@
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">17404</td>
-<td align="left"><a href="https://cnfl.extge.co.uk/pages/viewpage.action?pageId=147659370" class="uri">https://cnfl.extge.co.uk/pages/viewpage.action?pageId=147659370</a></td>
+<td align="left"><a href="https://cnfl.extge.co.uk/pages/viewpage.action?pageId=147659370" class="external-link uri">https://cnfl.extge.co.uk/pages/viewpage.action?pageId=147659370</a></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -533,7 +550,7 @@
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">39913</td>
-<td align="left"><a href="https://cnfl.extge.co.uk/pages/viewpage.action?pageId=147659370" class="uri">https://cnfl.extge.co.uk/pages/viewpage.action?pageId=147659370</a></td>
+<td align="left"><a href="https://cnfl.extge.co.uk/pages/viewpage.action?pageId=147659370" class="external-link uri">https://cnfl.extge.co.uk/pages/viewpage.action?pageId=147659370</a></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -561,11 +578,11 @@
 </tbody>
 </table>
 <p>Let’s choose a phenotype from the above table. The “id” is the most important part as it will allow us to use this phenotype for cohort queries and other functions.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># get the first row/phenotype in the table</span>
 <span class="va">my_phenotype</span> <span class="op">&lt;-</span> <span class="va">disease_phenotypes</span><span class="op">[</span><span class="fl">5</span>,<span class="op">]</span>
-<span class="va">my_phenotype</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<table class="table">
+<span class="va">my_phenotype</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<table style="width:100%;" class="table">
 <colgroup>
 <col width="0%">
 <col width="2%">
@@ -676,7 +693,7 @@
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">39913</td>
-<td align="left"><a href="https://cnfl.extge.co.uk/pages/viewpage.action?pageId=147659370" class="uri">https://cnfl.extge.co.uk/pages/viewpage.action?pageId=147659370</a></td>
+<td align="left"><a href="https://cnfl.extge.co.uk/pages/viewpage.action?pageId=147659370" class="external-link uri">https://cnfl.extge.co.uk/pages/viewpage.action?pageId=147659370</a></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -703,15 +720,15 @@
 </tr></tbody>
 </table>
 </div>
-<div id="get-distribution-of-cohort-participants-for-a-phenotype" class="section level4">
-<h4 class="hasAnchor">
-<a href="#get-distribution-of-cohort-participants-for-a-phenotype" class="anchor"></a>Get distribution of cohort participants for a phenotype</h4>
+<div class="section level4">
+<h4 id="get-distribution-of-cohort-participants-for-a-phenotype">Get distribution of cohort participants for a phenotype<a class="anchor" aria-label="anchor" href="#get-distribution-of-cohort-participants-for-a-phenotype"></a>
+</h4>
 <p>Let’s check the numbers of participants across the categories of this phenotype.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># phenotype</span>
 <span class="va">my_pheno_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cb_get_phenotype_statistics.html">cb_get_phenotype_statistics</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="va">my_cohort</span>, 
                                      pheno_id <span class="op">=</span> <span class="va">my_phenotype</span><span class="op">$</span><span class="va">id</span><span class="op">)</span>
-<span class="va">my_pheno_data</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">10</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<span class="va">my_pheno_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">10</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">_id</th>
@@ -773,19 +790,19 @@
 </table>
 </div>
 </div>
-<div id="update-a-cohort-with-a-new-query" class="section level3">
-<h3 class="hasAnchor">
-<a href="#update-a-cohort-with-a-new-query" class="anchor"></a>Update a cohort with a new query</h3>
+<div class="section level3">
+<h3 id="update-a-cohort-with-a-new-query">Update a cohort with a new query<a class="anchor" aria-label="anchor" href="#update-a-cohort-with-a-new-query"></a>
+</h3>
 <p>A query defines what particpants are included in a cohort based on phenotypes.</p>
 <p>Phenotypes can be continuous - in which case a selected range needs to be specified, or they can be categorical - in which case selected categories need to be specified.</p>
-<div id="continuous-phenotype" class="section level4">
-<h4 class="hasAnchor">
-<a href="#continuous-phenotype" class="anchor"></a>Continuous phenotype</h4>
+<div class="section level4">
+<h4 id="continuous-phenotype">Continuous phenotype<a class="anchor" aria-label="anchor" href="#continuous-phenotype"></a>
+</h4>
 <p>For phenotype “Year of birth” (with id = 8)</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># cb_get_phenotype_metadata(8)$name</span>
 <span class="co"># "Year of birth"</span>
-<span class="fu"><a href="reference/cb_get_phenotype_statistics.html">cb_get_phenotype_statistics</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="va">my_cohort</span>, pheno_id <span class="op">=</span> <span class="fl">8</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">10</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="reference/cb_get_phenotype_statistics.html">cb_get_phenotype_statistics</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="va">my_cohort</span>, pheno_id <span class="op">=</span> <span class="fl">8</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">10</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="right">_id</th>
@@ -846,14 +863,14 @@
 </tbody>
 </table>
 </div>
-<div id="categorical-phenotype" class="section level4">
-<h4 class="hasAnchor">
-<a href="#categorical-phenotype" class="anchor"></a>Categorical phenotype</h4>
+<div class="section level4">
+<h4 id="categorical-phenotype">Categorical phenotype<a class="anchor" aria-label="anchor" href="#categorical-phenotype"></a>
+</h4>
 <p>For phenotype “Total full brothers” (with id = 48).</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># cb_get_phenotype_metadata(48)$name</span>
 <span class="co"># "Total full brothers"</span>
-<span class="fu"><a href="reference/cb_get_phenotype_statistics.html">cb_get_phenotype_statistics</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="va">my_cohort</span>, pheno_id <span class="op">=</span> <span class="fl">48</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="reference/cb_get_phenotype_statistics.html">cb_get_phenotype_statistics</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="va">my_cohort</span>, pheno_id <span class="op">=</span> <span class="fl">48</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="right">_id</th>
@@ -879,27 +896,40 @@
 </tbody>
 </table>
 </div>
-<div id="simple-query" class="section level4">
-<h4 class="hasAnchor">
-<a href="#simple-query" class="anchor"></a>Simple query</h4>
+<div class="section level4">
+<h4 id="filtering-cohorts-using-queries">Filtering cohorts using queries<a class="anchor" aria-label="anchor" href="#filtering-cohorts-using-queries"></a>
+</h4>
 <p>Now let’s restrict our cohort to a set of participants based on the phenotypes we explored above.</p>
-<p>Simple queries allow us to create a cohort query that combines a list of phenotype criteria according to a logical AND. Let’s define a simple query using the following named list-based format (note the phenotype id is quoted):</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># year of birth: 1965 - 1995 ; AND total full brothers: 1 or 2</span>
-<span class="va">simple_query</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"8"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"from"</span> <span class="op">=</span> <span class="fl">1965</span>, <span class="st">"to"</span> <span class="op">=</span> <span class="fl">1995</span><span class="op">)</span>,
-                    <span class="st">"48"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p>Let’s check how many participants would be in the cohort if we applied this query, but without actually applying it.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/cb_participant_count.html">cb_participant_count</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="va">my_cohort</span>, simple_query <span class="op">=</span> <span class="va">simple_query</span>, keep_query <span class="op">=</span> <span class="cn">F</span><span class="op">)</span>
+<p>A single phenotype query can be defined using the <code>phenotype</code> function.</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># total full brothers: 1</span>
+<span class="va">categorical_query</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/phenotype.html">phenotype</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fl">48</span>, value <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
+<span class="co"># year of birth: 1965 - 1995</span>
+<span class="va">continuous_query</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/phenotype.html">phenotype</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fl">8</span>, from <span class="op">=</span> <span class="fl">1965</span>, to <span class="op">=</span> <span class="fl">1995</span><span class="op">)</span></code></pre></div>
+<p>To combine single phenotype queries, you can use <code>&amp;</code>, <code>|</code> and <code>!</code> operators.</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">query</span> <span class="op">&lt;-</span> <span class="va">categorical_query</span> <span class="op">&amp;</span> <span class="va">continuous_query</span>
+<span class="fu"><a href="reference/cb_participant_count.html">cb_participant_count</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="va">my_cohort</span>, query <span class="op">=</span> <span class="va">query</span>, keep_query <span class="op">=</span> <span class="cn">F</span><span class="op">)</span>
+<span class="co">#&gt; $total</span>
+<span class="co">#&gt; [1] 44667</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $count</span>
+<span class="co">#&gt; [1] 2524</span></code></pre></div>
+<p>Any number of single phenotypes can be combined using any combination of operators. The order in which logic is resolved follows the usual rules and can be controlled using brackets.</p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">categorical_query_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/phenotype.html">phenotype</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fl">48</span>, value <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
+
+<span class="va">query</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">categorical_query</span> <span class="op">|</span> <span class="va">categorical_query_2</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">continuous_query</span>
+<span class="fu"><a href="reference/cb_participant_count.html">cb_participant_count</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="va">my_cohort</span>, query <span class="op">=</span> <span class="va">query</span>, keep_query <span class="op">=</span> <span class="cn">F</span><span class="op">)</span>
 <span class="co">#&gt; $total</span>
 <span class="co">#&gt; [1] 44667</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $count</span>
 <span class="co">#&gt; [1] 2883</span></code></pre></div>
 <p>If we’re happy that this is a sensible query to apply, we can apply the query to the cohort, making sure to override the previous query by setting <code>keep_query</code> to <code>FALSE</code>. If we wanted to keep the criteria from the pre-exisitng query and add our new phenotype-based criteria to them we would leave <code>keep_query</code> set to the defualt value of <code>TRUE</code>.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># apply the query</span>
-<span class="fu"><a href="reference/cb_apply_query.html">cb_apply_query</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="va">my_cohort</span>, simple_query <span class="op">=</span> <span class="va">simple_query</span>, keep_query <span class="op">=</span> <span class="cn">F</span><span class="op">)</span>
+<span class="fu"><a href="reference/cb_apply_query.html">cb_apply_query</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="va">my_cohort</span>, query <span class="op">=</span> <span class="va">query</span>, keep_query <span class="op">=</span> <span class="cn">F</span><span class="op">)</span>
 <span class="co">#&gt; Query applied sucessfully.</span>
 
 <span class="co"># update the local cohort object with info from the changed version on the server</span>
@@ -913,9 +943,10 @@
 <span class="co">#&gt; $count</span>
 <span class="co">#&gt; [1] 2883</span></code></pre></div>
 <p>We could now further restrict our cohort to include only females (phenotype “Participant phenotypic sex”, id = 10) by using <code>keep_query = TRUE</code>. In other words, this argument applies a query that looks like “old query AND new query”.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># apply the query</span>
-<span class="fu"><a href="reference/cb_apply_query.html">cb_apply_query</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="va">my_cohort</span>, simple_query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"10"</span> <span class="op">=</span> <span class="st">"Female"</span><span class="op">)</span>, keep_query <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">new_query</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/phenotype.html">phenotype</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fl">10</span>, value <span class="op">=</span> <span class="st">"Female"</span><span class="op">)</span>
+<span class="co"># apply the query</span>
+<span class="fu"><a href="reference/cb_apply_query.html">cb_apply_query</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="va">my_cohort</span>, query <span class="op">=</span> <span class="va">new_query</span>, keep_query <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>
 <span class="co">#&gt; Query applied sucessfully.</span>
 
 <span class="co"># update the local cohort object with info from the changed version on the server</span>
@@ -928,37 +959,10 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $count</span>
 <span class="co">#&gt; [1] 1457</span></code></pre></div>
-</div>
-<div id="advanced-query" class="section level4">
-<h4 class="hasAnchor">
-<a href="#advanced-query" class="anchor"></a>Advanced query</h4>
-<p>We could adjust our previous filter to restrict participants to those who are born from 1965 to 1995 OR have 1 or 2 full brothers as well as being female (<code>( Total full brothers = 1, 2 OR 1965 &lt; Year of birth &lt; 1995 ) AND Participant phenotypic sex = Female</code>). We could achieve this with an advanced query which uses a more complicated (but more flexible) nested list format (note the phenotype id is not quoted):</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">adv_query</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
-  <span class="st">"operator"</span> <span class="op">=</span> <span class="st">"AND"</span>,
-  <span class="st">"queries"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
-    <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"id"</span> <span class="op">=</span> <span class="fl">10</span>, <span class="st">"value"</span> <span class="op">=</span> <span class="st">"Female"</span><span class="op">)</span>,
-    <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
-      <span class="st">"operator"</span> <span class="op">=</span> <span class="st">"OR"</span>,
-      <span class="st">"queries"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
-        <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"id"</span> <span class="op">=</span> <span class="fl">8</span>, <span class="st">"value"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"from"</span> <span class="op">=</span> <span class="fl">1965</span>, <span class="st">"to"</span> <span class="op">=</span> <span class="fl">1995</span><span class="op">)</span><span class="op">)</span>,
-        <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"id"</span> <span class="op">=</span> <span class="fl">48</span>, <span class="st">"value"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span>
-      <span class="op">)</span>
-    <span class="op">)</span>
-  <span class="op">)</span>
-<span class="op">)</span></code></pre></div>
-<p>Available operators in advanced queries: <code>"AND"</code>, <code>"OR"</code>, <code>"NOT"</code>.</p>
-<p>Lets apply this query to our cohort and inspect the distribution of our phenotype of interest in the cohort.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># apply the query</span>
-<span class="fu"><a href="reference/cb_apply_query.html">cb_apply_query</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="va">my_cohort</span>, adv_query <span class="op">=</span> <span class="va">adv_query</span>, keep_query <span class="op">=</span> <span class="cn">F</span><span class="op">)</span>
-<span class="co">#&gt; Query applied sucessfully.</span>
-
-<span class="co"># update the local cohort object with info from the changed version on the server</span>
-<span class="va">my_cohort</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cb_load_cohort.html">cb_load_cohort</a></span><span class="op">(</span><span class="va">my_cohort</span><span class="op">@</span><span class="va">id</span><span class="op">)</span>
-
-<span class="co"># view the distribution of disease groups in our cohort</span>
-<span class="fu"><a href="reference/cb_get_phenotype_statistics.html">cb_get_phenotype_statistics</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="va">my_cohort</span>, pheno_id <span class="op">=</span> <span class="fl">206</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">10</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p>Now that the query has been applied to our cohort, let’s inspect the distribution of our phenotype of interest in the cohort.</p>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># view the distribution of disease groups in our cohort</span>
+<span class="fu"><a href="reference/cb_get_phenotype_statistics.html">cb_get_phenotype_statistics</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="va">my_cohort</span>, pheno_id <span class="op">=</span> <span class="fl">206</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">10</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">_id</th>
@@ -1020,21 +1024,21 @@
 </table>
 </div>
 </div>
-<div id="retreive-the-participant-table" class="section level3">
-<h3 class="hasAnchor">
-<a href="#retreive-the-participant-table" class="anchor"></a>Retreive the participant table</h3>
+<div class="section level3">
+<h3 id="retreive-the-participant-table">Retreive the participant table<a class="anchor" aria-label="anchor" href="#retreive-the-participant-table"></a>
+</h3>
 <p>Now lets get a participant phenotype table with the columns of interest for our cohort.</p>
 <p>First we have to update the cohort on the cohort browser server to set what columns will be in the table. Currently the best way to do this is to use (counterintuitively) <code>cb_apply_query</code> to add the IDs of the phenotypes of interest as columns.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/cb_apply_query.html">cb_apply_query</a></span><span class="op">(</span><span class="va">my_cohort</span>, column_ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">208</span>, <span class="fl">10</span>, <span class="fl">8</span>, <span class="fl">48</span><span class="op">)</span>, keep_columns <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/cb_apply_query.html">cb_apply_query</a></span><span class="op">(</span><span class="va">my_cohort</span>, column_ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">208</span>, <span class="fl">10</span>, <span class="fl">8</span>, <span class="fl">48</span><span class="op">)</span>, keep_columns <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>
 <span class="co">#&gt; Query applied sucessfully.</span>
 <span class="va">my_cohort</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cb_load_cohort.html">cb_load_cohort</a></span><span class="op">(</span><span class="va">my_cohort</span><span class="op">@</span><span class="va">id</span><span class="op">)</span></code></pre></div>
 <p>Now we can fetch the participant phenotype table which includes these columns.</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">pheno_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cb_get_participants_table.html">cb_get_participants_table</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="va">my_cohort</span>,
                                       page_size <span class="op">=</span> <span class="fu"><a href="reference/cb_participant_count.html">cb_participant_count</a></span><span class="op">(</span><span class="va">my_cohort</span><span class="op">)</span><span class="op">$</span><span class="va">count</span><span class="op">)</span>
 
-<span class="va">pheno_df</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">10</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<span class="va">pheno_df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">10</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <colgroup>
 <col width="4%">
@@ -1184,79 +1188,91 @@
 </tbody>
 </table>
 </div>
-<div id="get-genotypic-table" class="section level3">
-<h3 class="hasAnchor">
-<a href="#get-genotypic-table" class="anchor"></a>Get genotypic table</h3>
+<div class="section level3">
+<h3 id="get-genotypic-table">Get genotypic table<a class="anchor" aria-label="anchor" href="#get-genotypic-table"></a>
+</h3>
 <p>Get the genotypic table for a cohort (currently only cohort browser version 1 is supported).</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">cohort_genotype</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cb_get_genotypic_table.html">cb_get_genotypic_table</a></span><span class="op">(</span>cohort <span class="op">=</span> <span class="va">my_cohort</span><span class="op">)</span>
-<span class="va">cohort_genotype</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">2</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<span class="va">cohort_genotype</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">2</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
-<div id="additional-notes" class="section level2">
-<h2 class="hasAnchor">
-<a href="#additional-notes" class="anchor"></a>Additional notes</h2>
-<p>This package is under activate development. If you find any issues, please reach out here - <a href="https://github.com/lifebit-ai/cloudos/issues" class="uri">https://github.com/lifebit-ai/cloudos/issues</a></p>
+<div class="section level2">
+<h2 id="additional-notes">Additional notes<a class="anchor" aria-label="anchor" href="#additional-notes"></a>
+</h2>
+<p>This package is under activate development. If you find any issues, please reach out here - <a href="https://github.com/lifebit-ai/cloudos/issues" class="external-link uri">https://github.com/lifebit-ai/cloudos/issues</a></p>
 <p>For documentation visit - <a href="https://lifebit-ai.github.io/cloudos/" class="uri">https://lifebit-ai.github.io/cloudos/</a></p>
 </div>
-<div id="license" class="section level2">
-<h2 class="hasAnchor">
-<a href="#license" class="anchor"></a>License</h2>
-<p>MIT © <a href="https://lifebit.ai/">Lifebit</a></p>
+<div class="section level2">
+<h2 id="license">License<a class="anchor" aria-label="anchor" href="#license"></a>
+</h2>
+<p>MIT © <a href="https://lifebit.ai/" class="external-link">Lifebit</a></p>
 </div>
 </div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=cloudos">https://​cloud.r-project.org/​package=cloudos</a>
-</li>
-<li>Browse source code at <br><a href="https://github.com/lifebit-ai/cloudos/">https://​github.com/​lifebit-ai/​cloudos/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/lifebit-ai/cloudos/issues">https://​github.com/​lifebit-ai/​cloudos/​issues</a>
-</li>
+<li><a href="https://cloud.r-project.org/package=cloudos" class="external-link">View on CRAN</a></li>
+<li><a href="https://github.com/lifebit-ai/cloudos/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/lifebit-ai/cloudos/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
-<li><small><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
+<li><small><a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
 </ul>
 </div>
+
 <div class="community">
-<h2>Community</h2>
+<h2 data-toc-skip>Community</h2>
 <ul class="list-unstyled">
 <li><a href="CONTRIBUTING.html">Contributing guide</a></li>
 </ul>
 </div>
-<div class="developers">
-<h2>Developers</h2>
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li>Sangram Keshari Sahu <br><small class="roles"> Author, maintainer </small>  </li>
-<li><a href="authors.html">All authors...</a></li>
+<li><a href="authors.html#citation">Citing cloudos</a></li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="developers">
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
-<li><a href="https://github.com/lifebit-ai/cloudos/actions"><img src="https://github.com/lifebit-ai/cloudos/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
+<li>Sangram Keshari Sahu <br><small class="roles"> Author, maintainer </small>  </li>
+<li>Ilya Levantis <br><small class="roles"> Author </small>  </li>
+<li>Henry Stewart <br><small class="roles"> Author </small>  </li>
+<li><a href="authors.html">More about authors...</a></li>
 </ul>
 </div>
+
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://lifecycle.r-lib.org/articles/stages.html#stable" class="external-link"><img src="https://img.shields.io/badge/lifecycle-stable-green.svg" alt="Lifecycle: stable"></a></li>
+<li><a href="https://github.com/lifebit-ai/cloudos/actions" class="external-link"><img src="https://github.com/lifebit-ai/cloudos/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
+</ul>
 </div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Sangram Keshari Sahu.</p>
+  <p></p>
+<p>Developed by Sangram Keshari Sahu, Ilya Levantis, Henry Stewart.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer>
@@ -1264,6 +1280,8 @@
 
   
 
+
+  
 
   </body>
 </html>
