@@ -6,7 +6,7 @@ Pull requests should be performed against the `devel` branch and will be squashe
 
 `master` branch sits at the latest tagged release and will be moved up to date with the devel branch once it is in a stable state for the next release.
 
-# Instructions for creating a new release
+# Instructions for creating a new release and submitting to CRAN
 
 1. Create a pull request from `devel` into `master`.
 2. Ensure all the CI tests are passing.
