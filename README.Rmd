@@ -312,7 +312,7 @@ cohort_genotype %>% head(n=2) %>% kable()
 
 ## Additional notes
 
-This package is under activate development. If you find any issues, please reach out here - https://github.com/lifebit-ai/cloudos/issues 
+This package is under active development. If you find any issues, please reach out here - https://github.com/lifebit-ai/cloudos/issues 
 
 For documentation visit - https://lifebit-ai.github.io/cloudos/ 
 
