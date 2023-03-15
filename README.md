@@ -10,8 +10,7 @@ stable](https://img.shields.io/badge/lifecycle-stable-green.svg)](https://lifecy
 status](https://github.com/lifebit-ai/cloudos/workflows/R-CMD-check/badge.svg)](https://github.com/lifebit-ai/cloudos/actions)
 <!-- badges: end -->
 
-**cloudos** R package makes it easy to interact with Lifebit’s CloudOS
-<https://cloudos.lifebit.ai/> platform in an R environment.
+**cloudos** R package makes it easy to interact with Lifebit’s CloudOS platform in an R environment.
 
 ## Installation
 

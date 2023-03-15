@@ -18,7 +18,7 @@ Authors@R: c(
            role = "cph")
     )
 Description: The 'CloudOS' client library for R makes it easy to interact with 
-    CloudOS <https://cloudos.lifebit.ai/> in the R environment for analysis.
+    CloudOS in the R environment for analysis.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
