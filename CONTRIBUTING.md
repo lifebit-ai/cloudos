@@ -9,14 +9,15 @@ Pull requests should be performed against the `devel` branch and will be squashe
 # Instructions for creating a new release and submitting to CRAN
 
 1. Create a pull request from `devel` into `master`.
-2. Ensure all the CI tests are passing.
-3. **DO NOT USE GITHUB GUI TO MERGE.** The github "rebase merge" option does not use fast-forward and so will cause the master branch and devel branch to have copies of the same commits instead of the actual same commits (this is problematic). 
-4. Instead, using the CLI do the following:
+2. Ensure version is updated in DESCRIPTION file and the description NEWS.md
+3. Ensure all the CI tests are passing.
+4. **DO NOT USE GITHUB GUI TO MERGE.** The github "rebase merge" option does not use fast-forward and so will cause the master branch and devel branch to have copies of the same commits instead of the actual same commits (this is problematic). 
+5. Instead, using the CLI do the following:
     ```shell
     git merge origin/devel
     git push --force
     ```
     If things went correctly, this should have automatically closed the PR in github.
-5. Checkout this new version of master branch and run `devtools::build()`.
-6. [Draft a new release in github](https://github.com/lifebit-ai/cloudos/releases/new) and attach the `tar.gz` generated from `devtools::build()`.
-7. Submit the new version to CRAN using `devtools::release()`.
+6. Checkout this new version of master branch and run `devtools::build()`.
+7. [Draft a new release in github](https://github.com/lifebit-ai/cloudos/releases/new) and attach the `tar.gz` generated from `devtools::build()`.
+8. Submit the new version to CRAN using `devtools::release()`.
