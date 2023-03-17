@@ -68,7 +68,7 @@ cloudos_whoami <- function(){
 #' 
 #' @example
 #' \dontrun{
-#' cloudos_configure(base_url = "http://demo-cloudos.lifebit.ai/cohort-browser/",
+#' cloudos_configure(base_url = "<insert cloud base URL?",
 #'                   token = "Bearer <insert user token here>",
 #'                   team_id = "<insert workspace ID here>")
 #' }
