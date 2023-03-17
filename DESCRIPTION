@@ -28,7 +28,7 @@ Imports:
     httr,
     utils,
     methods,
-    dplyr (>= 1.0.0),
+    dplyr,
     tidyr,
     jsonlite,
     rappdirs,
@@ -38,8 +38,6 @@ Suggests:
     httptest,
     kableExtra,
     knitr,
-    lintr,
-    rmarkdown,
-    testthat
+    lintr
 URL: https://github.com/lifebit-ai/cloudos
 BugReports: https://github.com/lifebit-ai/cloudos/issues
