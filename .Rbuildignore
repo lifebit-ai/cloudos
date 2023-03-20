@@ -14,3 +14,4 @@ README*
 ^Makefile$
 ^CONTRIBUTING\.md$
 ^example-notebooks
+^CRAN-SUBMISSION$

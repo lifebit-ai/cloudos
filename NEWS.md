@@ -1,3 +1,8 @@
+# cloudos 0.4.0
+
+* Documentation is updated
+* For R version 3.4 support is removed
+
 # cloudos 0.3.0
 
 * Overhaul of the cohort query system. Query syntax is now much easier to use.

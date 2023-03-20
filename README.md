@@ -10,8 +10,7 @@ stable](https://img.shields.io/badge/lifecycle-stable-green.svg)](https://lifecy
 status](https://github.com/lifebit-ai/cloudos/workflows/R-CMD-check/badge.svg)](https://github.com/lifebit-ai/cloudos/actions)
 <!-- badges: end -->
 
-**cloudos** R package makes it easy to interact with Lifebit’s CloudOS
-<https://cloudos.lifebit.ai/> platform in an R environment.
+**cloudos** R package makes it easy to interact with Lifebit’s CloudOS platform in an R environment.
 
 ## Installation
 
@@ -53,7 +52,7 @@ library(cloudos)
 #> 
 #> Welcome to Lifebit's CloudOS R client 
 #> For Documentation visit - https://lifebit-ai.github.io/cloudos/ 
-#> This package is under activate development. If you found any issues, 
+#> This package is under active development. If you found any issues, 
 #> Please reach out here - https://github.com/lifebit-ai/cloudos/issues
 library(knitr) # For better visualization of wide dataframes in this README examples
 library(magrittr) # For pipe
@@ -433,7 +432,7 @@ cohort_genotype %>% head(n=2) %>% kable()
 
 ## Additional notes
 
-This package is under activate development. If you find any issues,
+This package is under active development. If you find any issues,
 please reach out here - <https://github.com/lifebit-ai/cloudos/issues>
 
 For documentation visit - <https://lifebit-ai.github.io/cloudos/>
